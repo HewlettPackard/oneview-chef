@@ -1,4 +1,4 @@
-# include OneviewHelper
+include OneviewHelper
 
 property :client, required: true
 property :name, [String, Symbol], required: true
