@@ -5,7 +5,7 @@ module OneviewHelper
     gem 'oneview-sdk', node['oneview']['ruby_sdk_version']
     require 'oneview-sdk'
     Chef::Log.info("Found gem oneview-sdk (version #{node['oneview']['ruby_sdk_version']})")
-  rescue LoadError => e
+  rescue LoadError
     Chef::Log.info("Did not find gem oneview-sdk (version #{node['oneview']['ruby_sdk_version']}). Installing now")
     chef_gem 'oneview-sdk' do
       version node['oneview']['ruby_sdk_version']
