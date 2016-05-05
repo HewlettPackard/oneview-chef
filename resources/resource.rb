@@ -6,7 +6,7 @@ property :options, Hash, default: {}
 property :type, [String, Symbol], required: true
 
 action :create do
-  load_sdk
+  load_sdk(self)
   klass = get_resource_named(type)
   c = build_client(client)
   item = klass.new(c, { name: name }.merge(options))
@@ -29,7 +29,7 @@ action :create do
 end
 
 action :create_only do
-  load_sdk
+  load_sdk(self)
   klass = get_resource_named(type)
   c = build_client(client)
   item = klass.new(c, { name: name }.merge(options))
@@ -44,7 +44,7 @@ action :create_only do
 end
 
 action :delete do
-  load_sdk
+  load_sdk(self)
   klass = get_resource_named(type)
   c = build_client(client)
   item = klass.new(c, { name: name }.merge(options))

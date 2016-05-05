@@ -7,5 +7,4 @@
 # All rights reserved - Do Not Redistribute
 #
 
-# default['oneview']['ruby_sdk_version'] = '~> 1.0'
-default['oneview']['ruby_sdk_version'] = '>= 0.1' # TODO: Replace with line above when sdk is released
+default['oneview']['ruby_sdk_version'] = '~> 1.0'

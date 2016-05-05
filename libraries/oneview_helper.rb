@@ -1,13 +1,13 @@
 # Helpers for Oneview Resources
 module OneviewHelper
   # Load (and install if necessary) the oneview-sdk
-  def load_sdk
+  def load_sdk(context)
     gem 'oneview-sdk', node['oneview']['ruby_sdk_version']
     require 'oneview-sdk'
-    Chef::Log.info("Found gem oneview-sdk (version #{node['oneview']['ruby_sdk_version']})")
+    Chef::Log.debug("Found gem oneview-sdk (version #{node['oneview']['ruby_sdk_version']})")
   rescue LoadError
     Chef::Log.info("Did not find gem oneview-sdk (version #{node['oneview']['ruby_sdk_version']}). Installing now")
-    chef_gem 'oneview-sdk' do # TODO: This method is not found
+    context.chef_gem 'oneview-sdk' do # TODO: This method is not found
       version node['oneview']['ruby_sdk_version']
       compile_time true if Chef::Resource::ChefGem.method_defined?(:compile_time)
     end
