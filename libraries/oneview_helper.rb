@@ -36,5 +36,20 @@ module Opscode
         raise "Invalid client #{client}. Must be a hash or OneviewSDK::Client"
       end
     end
+
+    # Save the data from a resource to a node attribute
+    # @param [TrueClass, FalseClass, Array] attributes Attributes to save (or true/false)
+    # @param [String, Symbol] name Resource name
+    # @param [Hash] data Data hash to save
+    def save_res_info(attributes, name, data)
+      case attributes
+      when Array
+        node.default['oneview']['resources'][name] = data.select { |k, _v| attributes.include?(k) }
+      when TrueClass # save all
+        node.default['oneview']['resources'][name] = data
+      end
+    rescue StandardError => e
+      Chef::Log.error "Failed to save resource data for '#{name}': #{e.message}"
+    end
   end
 end
