@@ -2,6 +2,10 @@
 
 Chef cookbook that provides resources for managing OneView.
 
+**NOTE:** This is a beta version that makes generic assumptions about all resources.
+You may find that particular resources don't support certain actions or have slightly different behaviors.
+See [RELEASE_NOTES.md](RELEASE_NOTES.md) for more details.
+
 ## Requirements
 
  - Chef 12 or higher
@@ -16,6 +20,16 @@ Use it by creating a new cookbook and specifying a dependency on this cookbook.
 ...
 depends 'oneview'
 ```
+
+## Attributes
+
+ - `node['oneview']['ruby_sdk_version']` - Set which version of the SDK to install and use. Defaults to `'~> 1.0'`
+ - `node['oneview']['save_resource_info']` - Save resource info to a node attribute? Defaults to `['uri']`. Possible values/types:
+   - `true` - Save all info (Merged hash of OneView info and Chef resource properties). Warning: Resource credentials will be saved if specified.
+   - `false` - Do not save any info
+   - `Array` - ie `['uri', 'status', 'created_at']` Save a subset of specified attributes
+
+See [attributes/default.rb](attributes/default.rb) for more info.
 
 ## Resources
 
@@ -39,6 +53,8 @@ end
    - `:create` - (Default) Ensure this resource exists and matches the options given.
    - `:create_only` - Ensure this resource exists, but don't ensure it is up to date on subsequent chef-client runs.
    - `:delete` - Delete this resource from OneView. For this, you only need to specify the resource name or uri in the options section.
+ - **save_resource_info**: (See the `node['oneview']['save_resource_info']` attribute above.) Defaults to `node['oneview']['save_resource_info']`. Doesn't apply to the `:delete` action
+   - Once the resource is created, you can access this data at `node['oneview']['resources'][<resource_name>]`. This can be useful to extract URIs from other resources, etc.
 
 ### Examples
 
@@ -55,9 +71,61 @@ end
   }
   
   oneview_resource 'Ethernet Network 1' do
-    client my_client
-    options eth_net_options
     type :EthernetNetwork
+    options eth_net_options
+    client my_client
+  end
+  ```
+ 
+ - **Add server hardware**
+  
+  ```ruby
+  # Notes:
+  #  - It can't be updated, so we use the :create_only action here
+  #  - Also, because the hostname is used as a name in OneView, we need to set the name to the hostname
+  oneview_resource '172.18.6.11' do
+    type :ServerHardware
+    options(
+      hostname: '172.18.6.11',
+      username: 'admin',
+      password: 'secret123', # Note: This should be read from a file or databag, not stored in clear text.
+      licensingIntent: 'OneView'
+    )
+    client c
+    action :create_only
+  end
+  ```
+ 
+ - **Add an enclosure group**
+  
+  ```ruby
+  # Notes:
+  #  - Since the script is at a seperate endpoint, we can't set that here
+  oneview_resource 'Enclosure-Group-1' do
+    type :EnclosureGroup
+    options(
+      stackingMode: 'Enclosure',
+      interconnectBayMappingCount: 8
+    )
+    client c
+    save_resource_info true # Save all properties to a node attribute
+  end
+  ```
+ 
+ - **Add an enclosure and associate it with the enclosure group added above**
+  
+  ```ruby
+  oneview_resource 'Enclosure-1' do
+    type :Enclosure
+    options lazy {{
+      hostname: '172.18.1.11',
+      username: 'admin',
+      password: 'secret123',
+      licensingIntent: 'OneView',
+      enclosureGroupUri: node['oneview']['resources']['Enclosure-Group-1']['uri']
+    }}
+    client c
+    save_resource_info ['uri'] # Only save this to the node attributes
   end
   ```
  
@@ -71,6 +139,9 @@ end
   end
   ```
 
+## License
+
+This project is licensed under the Apache 2.0 license. Please see [LICENSE](LICENSE) for more info.
 
 ## Authors
 
