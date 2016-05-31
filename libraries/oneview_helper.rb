@@ -23,7 +23,7 @@ module Opscode
     end
 
     # Makes it easy to build a Client object
-    # @param [Hash, OneviewSDK::Client] ilo Machine info or client object.
+    # @param [Hash, OneviewSDK::Client] client Machine info or client object.
     # @return [OneviewSDK::Client] Client object
     def build_client(client)
       case client
@@ -37,6 +37,9 @@ module Opscode
       end
     end
 
+    # Create a OneView resource or update it if exists
+    # @param [OneviewSDK::Resource] item OneView SDK resource to be created
+    # @return [TrueClass, FalseClass] Returns true if the resource was created, false if updated
     def create_or_update(item)
       temp = item.data.clone
       if item.exists?
@@ -46,11 +49,13 @@ module Opscode
         else
           Chef::Log.info "#{resource_name} '#{name}' Chef resource differs from OneView resource."
           Chef::Log.info "Update #{resource_name} '#{name}'"
-          item.update(temp) # Note: Assumes resources supports #update
+          item.update(temp)
+          false
         end
       else
         Chef::Log.info "Create #{resource_name} '#{name}'"
         item.create
+        true
       end
     end
 

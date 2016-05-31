@@ -12,7 +12,9 @@ action :create do
   c = build_client(client)
   item = OneviewSDK::FCNetwork.new(c, new_resource.data)
   item['name'] ||= new_resource.name
-  create_or_update(item)
+  converge_by "Create or Update #{resource_name} '#{name}'" do
+    create_or_update(item)
+  end
 end
 
 action :create_only do
@@ -20,14 +22,18 @@ action :create_only do
   c = build_client(client)
   item = OneviewSDK::FCNetwork.new(c, new_resource.data)
   item['name'] ||= new_resource.name
-  create_only(item)
+  converge_by "Create Only #{resource_name} '#{name}'" do
+    create_only(item)
+  end
 end
 
 action :delete do
   load_sdk
   c = build_client(client)
-  new_resource.data['name'] ||= new_resource.name
-  network = OneviewSDK::FCNetwork.new(c, new_resource.data)
-  network.retrieve!
-  network.delete
+  item = OneviewSDK::FCNetwork.new(c, new_resource.data)
+  item['name'] ||= new_resource.name
+  converge_by "Delete #{resource_name} '#{name}'" do
+    item.retrieve!
+    item.delete
+  end
 end
