@@ -9,8 +9,8 @@ property :data, [Hash]
 
 action :create do
   c = build_client(client)
-  new_resource.data['name'] ||= new_resource.name
   item = OneviewSDK::EthernetNetwork.new(c, new_resource.data)
+  item['name'] ||= new_resource.name
   create_or_update(item)
 end
 

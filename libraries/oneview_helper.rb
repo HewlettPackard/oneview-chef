@@ -54,6 +54,21 @@ module Opscode
       end
     end
 
+    # Create a OneView resource only if doesn't exists
+    # @param [OneviewSDK::Resource] item OneView SDK resource to be created
+    # @return [TrueClass, FalseClass] Returns true if the resource was created
+    def create_only(item)
+      if item.exists?
+        Chef::Log.info("'#{resource_name} #{name}' exists. Skipping")
+        item.retrieve!
+        false
+      else
+        Chef::Log.info "Create #{resource_name} '#{name}'"
+        item.create
+        true
+      end
+    end
+
     # Save the data from a resource to a node attribute
     # @param [TrueClass, FalseClass, Array] attributes Attributes to save (or true/false)
     # @param [String, Symbol] name Resource name
