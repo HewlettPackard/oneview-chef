@@ -37,6 +37,23 @@ module Opscode
       end
     end
 
+    def create_or_update(item)
+      temp = item.data.clone
+      if item.exists?
+        item.retrieve!
+        if item.like? temp
+          Chef::Log.info("#{resource_name} '#{name}' is up to date")
+        else
+          Chef::Log.info "#{resource_name} '#{name}' Chef resource differs from OneView resource."
+          Chef::Log.info "Update #{resource_name} '#{name}'"
+          item.update(temp) # Note: Assumes resources supports #update
+        end
+      else
+        Chef::Log.info "Create #{resource_name} '#{name}'"
+        item.create
+      end
+    end
+
     # Save the data from a resource to a node attribute
     # @param [TrueClass, FalseClass, Array] attributes Attributes to save (or true/false)
     # @param [String, Symbol] name Resource name
