@@ -16,7 +16,6 @@ end
 action :create_if_missing do
   item = load_resource
   create_if_missing(item)
-  load_sdk
 end
 
 action :delete do
