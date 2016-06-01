@@ -32,7 +32,7 @@ module Opscode
     # @return [Class] OneViewSDK resource class
     def get_resource_named(type)
       klass = OneviewSDK.resource_named(type)
-      fail "Invalid OneView Resource type '#{type}'" unless klass
+      raise "Invalid OneView Resource type '#{type}'" unless klass
       klass
     end
 
@@ -47,7 +47,7 @@ module Opscode
         log_level = client['log_level'] || client[:log_level] || Chef::Log.level
         return OneviewSDK::Client.new(client.merge(log_level: log_level))
       else
-        fail "Invalid client #{client}. Must be a hash or OneviewSDK::Client"
+        raise "Invalid client #{client}. Must be a hash or OneviewSDK::Client"
       end
     end
 
