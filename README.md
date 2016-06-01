@@ -2,8 +2,9 @@
 
 Chef cookbook that provides resources for managing OneView.
 
-**NOTE:** This is a beta version that makes generic assumptions about all resources.
-You may find that particular resources don't support certain actions or have slightly different behaviors.
+**NOTE:** This is a beta version that provides a single generic `oneview_resource` Chef resource.
+Additional Chef resources that are specific to individual OneView resources will be added in future releases, but the functionality of the generic resource will stay.
+With the generic model, you may find that particular OneView resources don't support certain actions or have slightly different behaviors.
 See [RELEASE_NOTES.md](RELEASE_NOTES.md) for more details.
 
 ## Requirements
@@ -13,7 +14,7 @@ See [RELEASE_NOTES.md](RELEASE_NOTES.md) for more details.
 ## Usage
 
 This cookbook is not intended to include any recipes.
-Use it by creating a new cookbook and specifying a dependency on this cookbook.
+Use it by creating a new cookbook and specifying a dependency on this cookbook in your metadata.
 
 ```ruby
 # my_cookbook/metadata.rb
@@ -142,6 +143,23 @@ end
 ## License
 
 This project is licensed under the Apache 2.0 license. Please see [LICENSE](LICENSE) for more info.
+
+## Contributing and feature requests
+
+**Contributing:** You know the drill. Fork it, branch it, change it, commit it, and pull-request it.
+We are passionate about improving this project, and glad to accept help to make it better. However, keep the following in mind:
+ 
+ - You must sign a Contributor License Agreement first. Contact one of the authors (from Hewlett Packard Enterprise) for details and the CLA.
+ - We reserve the right to reject changes that we feel do not fit the scope of this project, so for feature additions, please open an issue to discuss your ideas before doing the work.
+
+**Feature Requests:** If you have a need that is not met by the current implementation, please let us know (via a new issue).
+This feedback is crucial for us to deliver a useful product. Do not assume we have already thought of everything, because we assure you that is not the case.
+
+### Testing
+
+ - Rubocop: `$ bundle exec rubocop -D .`
+ - Foodcritic: `$ bundle exec foodcritic .`
+
 
 ## Authors
 
