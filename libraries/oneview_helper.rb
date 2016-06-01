@@ -15,7 +15,21 @@ module Opscode
       require 'oneview-sdk'
     end
 
+    # Builds client and resource instance
+    # @return [OneviewSDK::Resource] OneView resource instance with the specified data
+    def load_resource
+      load_sdk
+      c = build_client(client)
+      klass_name = resource_name.to_s.split('_').map(&:capitalize).join
+      klass = get_resource_named(klass_name)
+      item = klass.new(c, new_resource.data)
+      item['name'] ||= new_resource.name
+      item
+    end
+
     # Get the associated class of the given string or symbol
+    # @param [String] type OneViewSDK resource name
+    # @return [Class] OneViewSDK resource class
     def get_resource_named(type)
       klass = OneviewSDK.resource_named(type)
       raise "Invalid OneView Resource type '#{type}'" unless klass
@@ -23,7 +37,7 @@ module Opscode
     end
 
     # Makes it easy to build a Client object
-    # @param [Hash, OneviewSDK::Client] ilo Machine info or client object.
+    # @param [Hash, OneviewSDK::Client] client Machine info or client object.
     # @return [OneviewSDK::Client] Client object
     def build_client(client)
       case client

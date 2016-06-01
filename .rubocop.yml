@@ -1,11 +1,14 @@
 # See default at https://github.com/bbatsov/rubocop/blob/master/config/default.yml
-
 AllCops:
   Exclude:
     - 'recipes/*'
 
 Metrics/LineLength:
   Max: 150
+
+Metrics/MethodLength:
+  CountComments: false
+  Max: 25
 
 Metrics/AbcSize:
   Enabled: false
