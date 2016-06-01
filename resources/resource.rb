@@ -62,7 +62,7 @@ action :delete do
   klass = get_resource_named(type)
   c = build_client(client)
   item = klass.new(c, { name: name }.merge(options))
-  if item.retrieve!
+  if item.retrieve! # ~FC023
     converge_by "Delete #{type} '#{name}'" do
       item.delete
     end

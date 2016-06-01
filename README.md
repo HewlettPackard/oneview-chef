@@ -155,6 +155,11 @@ We are passionate about improving this project, and glad to accept help to make 
 **Feature Requests:** If you have a need that is not met by the current implementation, please let us know (via a new issue).
 This feedback is crucial for us to deliver a useful product. Do not assume we have already thought of everything, because we assure you that is not the case.
 
+### Testing
+
+ - Rubocop: `$ bundle exec rubocop -D .`
+ - Foodcritic: `$ bundle exec foodcritic .`
+
 
 ## Authors
 
