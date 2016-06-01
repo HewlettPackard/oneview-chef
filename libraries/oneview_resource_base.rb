@@ -1,7 +1,6 @@
 module Opscode
   #  Oneview Resources base actions
   module OneviewResourceBase
-
     # Create a OneView resource or update it if exists
     # @return [TrueClass, FalseClass] Returns true if the resource was created, false if updated
     def create_or_update

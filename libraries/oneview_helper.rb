@@ -20,11 +20,11 @@ module Opscode
     def load_resource
       load_sdk
       c = build_client(client)
-      klass_name = resource_name.to_s.split("_").map { |s| s.capitalize }.join
+      klass_name = resource_name.to_s.split('_').map(&:capitalize).join
       klass = get_resource_named(klass_name)
       item = klass.new(c, new_resource.data)
       item['name'] ||= new_resource.name
-      return item
+      item
     end
 
     # Get the associated class of the given string or symbol
@@ -32,7 +32,7 @@ module Opscode
     # @return [Class] OneViewSDK resource class
     def get_resource_named(type)
       klass = OneviewSDK.resource_named(type)
-      raise "Invalid OneView Resource type '#{type}'" unless klass
+      fail "Invalid OneView Resource type '#{type}'" unless klass
       klass
     end
 
@@ -47,7 +47,7 @@ module Opscode
         log_level = client['log_level'] || client[:log_level] || Chef::Log.level
         return OneviewSDK::Client.new(client.merge(log_level: log_level))
       else
-        raise "Invalid client #{client}. Must be a hash or OneviewSDK::Client"
+        fail "Invalid client #{client}. Must be a hash or OneviewSDK::Client"
       end
     end
 
