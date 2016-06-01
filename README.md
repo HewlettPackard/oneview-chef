@@ -2,8 +2,8 @@
 
 Chef cookbook that provides resources for managing OneView.
 
-**NOTE:** This is a beta version that provides a single generic `oneview_resource` Chef resource.
-Additional Chef resources that are specific to individual OneView resources will be added in future releases, but the functionality of the generic resource will stay.
+**NOTE:** This is a beta version that provides a few specific Chef resources and a generic `oneview_resource` Chef resource.
+Additional Chef resources will be added in future releases, but the functionality of the generic resource will stay.
 With the generic model, you may find that particular OneView resources don't support certain actions or have slightly different behaviors.
 See [RELEASE_NOTES.md](RELEASE_NOTES.md) for more details.
 
@@ -34,14 +34,17 @@ See [attributes/default.rb](attributes/default.rb) for more info.
 
 ## Resources
 
-This cookbook exposes a single `oneview_resource` provider for managing any OneView resource. The basic usage is as follows:
+#### oneview_resource
+
+This is a generic provider for managing any OneView resource.
+The basic usage is as follows:
 
 ```ruby
 oneview_resource '' do
   client <my_client>   # Hash or OneviewSDK::Client
   type <resource_type>
-  options <resource_options>
-  action [:create, :create_only, :delete]
+  data <resource_data>
+  action [:create, :create_if_missing, :delete]
 end
 ```
 
@@ -49,11 +52,11 @@ end
 
  - **client**: Hash or OneviewSDK::Client object that contains information about how to connect to the OneView instance. Required attributes are: `url`, `user`, and `password`.
  - **type**: String or Symbol corresponding to the name of the resource type. For example, `EthernetNetwork`, `Enclosure`, `Volume` etc. These should line up with the OneView SDK resource classes listed [here](https://github.hpe.com/Rainforest/oneview-sdk-ruby/tree/master/lib/oneview-sdk/resource).
- - **options**: Hash specifying options for this resource. Refer to the OneView API docs for what's available and/or required. If no name attribute is given, it will use the name given to the Chef resource.
+ - **data**: Hash specifying options for this resource. Refer to the OneView API docs for what's available and/or required. If no name attribute is given, it will use the name given to the Chef resource.
  - **action**: Symbol specifying what to do with this resource. Options:
-   - `:create` - (Default) Ensure this resource exists and matches the options given.
-   - `:create_only` - Ensure this resource exists, but don't ensure it is up to date on subsequent chef-client runs.
-   - `:delete` - Delete this resource from OneView. For this, you only need to specify the resource name or uri in the options section.
+   - `:create` - (Default) Ensure this resource exists and matches the data given.
+   - `:create_if_missing` - Ensure this resource exists, but don't ensure it is up to date on subsequent chef-client runs.
+   - `:delete` - Delete this resource from OneView. For this, you only need to specify the resource name or uri in the data section.
  - **save_resource_info**: (See the `node['oneview']['save_resource_info']` attribute above.) Defaults to `node['oneview']['save_resource_info']`. Doesn't apply to the `:delete` action
    - Once the resource is created, you can access this data at `node['oneview']['resources'][<resource_name>]`. This can be useful to extract URIs from other resources, etc.
 
@@ -64,7 +67,7 @@ end
   ```ruby
   my_client = { url: 'https://oneview.example.com', user: 'Administrator', password: 'secret123' }
 
-  eth_net_options = {
+  eth_net_data = {
     vlanId: 50,
     purpose: 'General',
     smartLink: false,
@@ -73,7 +76,7 @@ end
   
   oneview_resource 'Ethernet Network 1' do
     type :EthernetNetwork
-    options eth_net_options
+    data eth_net_data
     client my_client
   end
   ```
@@ -82,18 +85,18 @@ end
   
   ```ruby
   # Notes:
-  #  - It can't be updated, so we use the :create_only action here
+  #  - It can't be updated, so we use the :create_if_missing action here
   #  - Also, because the hostname is used as a name in OneView, we need to set the name to the hostname
   oneview_resource '172.18.6.11' do
     type :ServerHardware
-    options(
+    data(
       hostname: '172.18.6.11',
       username: 'admin',
       password: 'secret123', # Note: This should be read from a file or databag, not stored in clear text.
       licensingIntent: 'OneView'
     )
     client c
-    action :create_only
+    action :create_if_missing
   end
   ```
  
@@ -104,7 +107,7 @@ end
   #  - Since the script is at a seperate endpoint, we can't set that here
   oneview_resource 'Enclosure-Group-1' do
     type :EnclosureGroup
-    options(
+    data(
       stackingMode: 'Enclosure',
       interconnectBayMappingCount: 8
     )
@@ -118,7 +121,7 @@ end
   ```ruby
   oneview_resource 'Enclosure-1' do
     type :Enclosure
-    options lazy {{
+    data lazy {{
       hostname: '172.18.1.11',
       username: 'admin',
       password: 'secret123',
