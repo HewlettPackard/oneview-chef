@@ -48,10 +48,18 @@ oneview_resource '' do
 end
 ```
 
+#### oneview_ethernet_network
+
+TODO
+
+#### oneview_fc_network
+
+TODO
+
 ### Parameters
 
  - **client**: Hash or OneviewSDK::Client object that contains information about how to connect to the OneView instance. Required attributes are: `url`, `user`, and `password`.
- - **type**: String or Symbol corresponding to the name of the resource type. For example, `EthernetNetwork`, `Enclosure`, `Volume` etc. These should line up with the OneView SDK resource classes listed [here](https://github.hpe.com/Rainforest/oneview-sdk-ruby/tree/master/lib/oneview-sdk/resource).
+ - **type**: (For generic `oneview_resource` only) String or Symbol corresponding to the name of the resource type. For example, `EthernetNetwork`, `Enclosure`, `Volume` etc. These should line up with the OneView SDK resource classes listed [here](https://github.hpe.com/Rainforest/oneview-sdk-ruby/tree/master/lib/oneview-sdk/resource).
  - **data**: Hash specifying options for this resource. Refer to the OneView API docs for what's available and/or required. If no name attribute is given, it will use the name given to the Chef resource.
  - **action**: Symbol specifying what to do with this resource. Options:
    - `:create` - (Default) Ensure this resource exists and matches the data given.
@@ -95,7 +103,7 @@ end
       password: 'secret123', # Note: This should be read from a file or databag, not stored in clear text.
       licensingIntent: 'OneView'
     )
-    client c
+    client my_client
     action :create_if_missing
   end
   ```
@@ -111,7 +119,7 @@ end
       stackingMode: 'Enclosure',
       interconnectBayMappingCount: 8
     )
-    client c
+    client my_client
     save_resource_info true # Save all properties to a node attribute
   end
   ```
@@ -128,7 +136,7 @@ end
       licensingIntent: 'OneView',
       enclosureGroupUri: node['oneview']['resources']['Enclosure-Group-1']['uri']
     }}
-    client c
+    client my_client
     save_resource_info ['uri'] # Only save this to the node attributes
   end
   ```
@@ -160,9 +168,9 @@ This feedback is crucial for us to deliver a useful product. Do not assume we ha
 
 ### Testing
 
- - Rubocop: `$ bundle exec rubocop -D .`
- - Foodcritic: `$ bundle exec foodcritic .`
-
+ - Rubocop: `$ rake rubocop`
+ - Foodcritic: `$ rake foodcritic`
+ - Run all tests: `$ rake test`
 
 ## Authors
 

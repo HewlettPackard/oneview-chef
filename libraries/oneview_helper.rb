@@ -20,8 +20,13 @@ module Opscode
     def load_resource
       load_sdk
       c = build_client(client)
-      klass_name = resource_name.to_s.split('_').map(&:capitalize).join
-      klass = get_resource_named(klass_name)
+      if defined?(type) # For generic resource
+        klass = get_resource_named(type)
+      else # Determine type from resource
+        klass_name = resource_name.to_s.split('_').map(&:capitalize).join
+        klass_name.gsub!(/^Oneview/, '')
+        klass = get_resource_named(klass_name)
+      end
       item = klass.new(c, new_resource.data)
       item['name'] ||= new_resource.name
       item

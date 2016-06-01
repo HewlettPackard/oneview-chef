@@ -1,8 +1,6 @@
-resource_name :fc_network
+Opscode::OneviewResourceBaseProperties.load(self)
 
-property :name, [String]
-property :client, [Hash], required: true
-property :data, [Hash]
+default_action :create
 
 action_class do
   include Opscode::OneviewHelper
@@ -10,13 +8,16 @@ action_class do
 end
 
 action :create do
-  create_or_update
+  item = load_resource
+  create_or_update(item)
 end
 
 action :create_if_missing do
-  create_if_missing
+  item = load_resource
+  create_if_missing(item)
 end
 
 action :delete do
-  delete
+  item = load_resource
+  delete(item)
 end
