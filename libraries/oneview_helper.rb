@@ -15,7 +15,21 @@ module Opscode
       require 'oneview-sdk'
     end
 
+    # Builds client and resource instance
+    # @return [OneviewSDK::Resource] OneView resource instance with the specified data
+    def load_resource
+      load_sdk
+      c = build_client(client)
+      klass_name = resource_name.to_s.split("_").map { |s| s.capitalize }.join
+      klass = get_resource_named(klass_name)
+      item = klass.new(c, new_resource.data)
+      item['name'] ||= new_resource.name
+      return item
+    end
+
     # Get the associated class of the given string or symbol
+    # @param [String] type OneViewSDK resource name
+    # @return [Class] OneViewSDK resource class
     def get_resource_named(type)
       klass = OneviewSDK.resource_named(type)
       raise "Invalid OneView Resource type '#{type}'" unless klass
@@ -34,43 +48,6 @@ module Opscode
         return OneviewSDK::Client.new(client.merge(log_level: log_level))
       else
         raise "Invalid client #{client}. Must be a hash or OneviewSDK::Client"
-      end
-    end
-
-    # Create a OneView resource or update it if exists
-    # @param [OneviewSDK::Resource] item OneView SDK resource to be created
-    # @return [TrueClass, FalseClass] Returns true if the resource was created, false if updated
-    def create_or_update(item)
-      temp = item.data.clone
-      if item.exists?
-        item.retrieve!
-        if item.like? temp
-          Chef::Log.info("#{resource_name} '#{name}' is up to date")
-        else
-          Chef::Log.info "#{resource_name} '#{name}' Chef resource differs from OneView resource."
-          Chef::Log.info "Update #{resource_name} '#{name}'"
-          item.update(temp)
-          false
-        end
-      else
-        Chef::Log.info "Create #{resource_name} '#{name}'"
-        item.create
-        true
-      end
-    end
-
-    # Create a OneView resource only if doesn't exists
-    # @param [OneviewSDK::Resource] item OneView SDK resource to be created
-    # @return [TrueClass, FalseClass] Returns true if the resource was created
-    def create_only(item)
-      if item.exists?
-        Chef::Log.info("'#{resource_name} #{name}' exists. Skipping")
-        item.retrieve!
-        false
-      else
-        Chef::Log.info "Create #{resource_name} '#{name}'"
-        item.create
-        true
       end
     end
 
