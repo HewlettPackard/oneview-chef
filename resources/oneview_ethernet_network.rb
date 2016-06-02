@@ -1,5 +1,7 @@
 Opscode::OneviewResourceBaseProperties.load(self)
 
+resource_name :oneview_ethernet_network
+
 default_action :create
 
 action_class do
@@ -8,16 +10,13 @@ action_class do
 end
 
 action :create do
-  item = load_resource
-  create_or_update(item)
+  create_or_update
 end
 
 action :create_if_missing do
-  item = load_resource
-  create_if_missing(item)
+  create_if_missing
 end
 
 action :delete do
-  item = load_resource
-  delete(item)
+  delete
 end

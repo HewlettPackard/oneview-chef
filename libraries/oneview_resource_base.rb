@@ -14,7 +14,8 @@ module Opscode
   module OneviewResourceBase
     # Create a OneView resource or update it if exists
     # @return [TrueClass, FalseClass] Returns true if the resource was created, false if updated
-    def create_or_update(item)
+    def create_or_update(item = nil)
+      item ||= load_resource
       klass_name = 'OneView ' + item.class.name.split('::').last
       temp = item.data.clone
       if item.exists?
@@ -41,7 +42,8 @@ module Opscode
 
     # Create a OneView resource only if doesn't exists
     # @return [TrueClass, FalseClass] Returns true if the resource was created
-    def create_if_missing(item)
+    def create_if_missing(item = nil)
+      item ||= load_resource
       if item.exists?
         Chef::Log.info("'#{resource_name} #{name}' exists. Skipping")
         item.retrieve! if save_resource_info
@@ -57,10 +59,10 @@ module Opscode
     end
 
     # Delete a OneView resource
-    def delete(item)
+    def delete(item = nil)
+      item ||= load_resource
       return unless item.retrieve!
       converge_by "Delete #{resource_name} '#{name}'" do
-        item.retrieve!
         item.delete
       end
     end

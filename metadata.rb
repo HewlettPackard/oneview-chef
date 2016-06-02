@@ -1,4 +1,4 @@
-name             'oneview'
+name             'chef-oneview'
 maintainer       'Hewlett Packard Enterprise'
 maintainer_email 'jared.smartt@hpe.com'
 license          'Apache v2.0'
