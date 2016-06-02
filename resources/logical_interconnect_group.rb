@@ -3,8 +3,6 @@ Opscode::OneviewResourceBaseProperties.load(self)
 property :interconnects, [Array], default: []
 property :uplink_sets, [Array], default: []
 
-resource_name :oneview_logical_interconnect_group
-
 default_action :create
 
 action_class do
