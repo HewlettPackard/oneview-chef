@@ -24,40 +24,39 @@ default_action :create
 action_class do
   include Opscode::OneviewHelper
   include Opscode::OneviewResourceBase
+
+  def load_lig(item)
+    interconnects.each do |location|
+      item.add_interconnect(location[:bay], location[:type])
+    end
+    uplink_sets.each do |uplink_info|
+      up = OneviewSDK::LIGUplinkSet.new(item.client, uplink_info[:data])
+
+      uplink_info[:networks].each do |network_name|
+        net = case up[:networkType]
+              when 'Ethernet'
+                OneviewSDK::EthernetNetwork.new(item.client, name: network_name)
+              when 'FibreChannel'
+                OneviewSDK::FCNetwork.new(item.client, name: network_name)
+              else
+                raise "Type #{up[:networkType]} not supported"
+              end
+        raise "#{up[:networkType]} #{network_name} not found" unless net.retrieve!
+        up.add_network(net)
+      end
+      uplink_info[:connections].each { |link| up.add_uplink(link[:bay], link[:port]) }
+      item.add_uplink_set(up)
+    end
+    return item
+  end
 end
 
 action :create do
-  load_sdk
-  item = load_resource
-
-  interconnects.each do |location|
-    item.add_interconnect(location[:bay], location[:type])
-  end
-
-  uplink_sets.each do |uplink_info|
-    up = OneviewSDK::LIGUplinkSet.new(item.client, uplink_info[:data])
-
-    uplink_info[:networks].each do |network_name|
-      net = case up[:networkType]
-            when 'Ethernet'
-              OneviewSDK::EthernetNetwork.new(item.client, name: network_name)
-            when 'FibreChannel'
-              OneviewSDK::FCNetwork.new(item.client, name: network_name)
-            else
-              raise "Type #{up[:networkType]} not supported"
-            end
-      raise "#{up[:networkType]} #{network_name} not found" unless net.retrieve!
-      up.add_network(net)
-    end
-
-    uplink_info[:connections].each { |link| up.add_uplink(link[:bay], link[:port]) }
-    item.add_uplink_set(up)
-  end
-  create_or_update(item)
+  create_or_update(load_lig(load_resource))
 end
 
 action :create_if_missing do
-  create_if_missing
+  create_if_missing(load_lig(load_resource))
 end
 
 action :delete do
