@@ -1,3 +1,19 @@
+################################################################################
+# (C) Copyright 2016 Hewlett Packard Enterprise Development LP
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# You may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+################################################################################
+
 Opscode::OneviewResourceBaseProperties.load(self)
 
 property :interconnects, [Array], default: []
@@ -22,21 +38,19 @@ action :create do
     up = OneviewSDK::LIGUplinkSet.new(item.client, uplink_info[:data])
 
     uplink_info[:networks].each do |network_name|
-      net = nil
-      case up[:networkType]
-      when 'Ethernet'
-        net = OneviewSDK::EthernetNetwork.new(item.client, name: network_name)
-      when 'FibreChannel'
-        net = OneviewSDK::FCNetwork.new(item.client, name: network_name)
-      else
-        raise "Type #{up[:networkType]} not supported"
-      end
+      net = case up[:networkType]
+            when 'Ethernet'
+              OneviewSDK::EthernetNetwork.new(item.client, name: network_name)
+            when 'FibreChannel'
+              OneviewSDK::FCNetwork.new(item.client, name: network_name)
+            else
+              raise "Type #{up[:networkType]} not supported"
+            end
       raise "#{up[:networkType]} #{network_name} not found" unless net.retrieve!
       up.add_network(net)
     end
 
     uplink_info[:connections].each { |link| up.add_uplink(link[:bay], link[:port]) }
-
     item.add_uplink_set(up)
   end
   create_or_update(item)
