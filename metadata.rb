@@ -1,6 +1,6 @@
 name             'oneview'
 maintainer       'Hewlett Packard Enterprise'
-maintainer_email 'jared.smartt@hpe.com'
+maintainer_email 'jared.smartt@hpe.com, henrique.diomede@hpe.com, tmiotto@hpe.com'
 license          'Apache v2.0'
 description      'Provides OneView resources'
 long_description 'Provides OneView resources'

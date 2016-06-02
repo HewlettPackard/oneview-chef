@@ -1,10 +1,11 @@
-resource_name :logical_interconnect_group
+Opscode::OneviewResourceBaseProperties.load(self)
 
-property :name, [String]
-property :client, [Hash], required: true
-property :data, [Hash]
-property :interconnects, [Array]
-property :uplink_sets, [Array]
+property :interconnects, [Array], default: []
+property :uplink_sets, [Array], default: []
+
+resource_name :oneview_logical_interconnect_group
+
+default_action :create
 
 action_class do
   include Opscode::OneviewHelper
@@ -23,14 +24,16 @@ action :create do
     up = OneviewSDK::LIGUplinkSet.new(item.client, uplink_info[:data])
 
     uplink_info[:networks].each do |network_name|
-      net = case up[:networkType]
-            when 'EthernetNetwork'
-              OneviewSDK::EthernetNetwork.new(item.client, network_name)
-            when 'FibreChannel'
-              OneviewSDK::FCNetwork.new(item.client, network_name)
-            else
-              raise "Type #{up[:networkType]} not supported"
-            end
+      net = nil
+      case up[:networkType]
+      when 'Ethernet'
+        net = OneviewSDK::EthernetNetwork.new(item.client, name: network_name)
+      when 'FibreChannel'
+        net = OneviewSDK::FCNetwork.new(item.client, name: network_name)
+      else
+        raise "Type #{up[:networkType]} not supported"
+      end
+      raise "#{up[:networkType]} #{network_name} not found" unless net.retrieve!
       up.add_network(net)
     end
 
@@ -38,7 +41,7 @@ action :create do
 
     item.add_uplink_set(up)
   end
-  create_or_update
+  create_or_update(item)
 end
 
 action :create_if_missing do
