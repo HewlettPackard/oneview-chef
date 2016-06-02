@@ -80,8 +80,8 @@ end
 ```
 
 **interconnects:** Array containing a list of Hashes indicating whether the interconnects are and which type they correspond to. Each hash should contain the keys:
-  - :bay - It specifies the location (bay) where this interconnect is attached to. The value should range from 1 to 8.
-  - :type - The interconnect type name that is currently attached to your enclosure.
+  - `:bay` - It specifies the location (bay) where this interconnect is attached to. The value should range from 1 to 8.
+  - `:type` - The interconnect type name that is currently attached to your enclosure.
 
 ```ruby
 interconnects_data = [
@@ -91,10 +91,10 @@ interconnects_data = [
 ```
 
 **uplink_sets:** Array containing a list of Hashes describing each uplink set that should be present in the group. Each hash should contain the keys:
-  - :data - A Hash containing the name, type, and subtype if needed:
-    - :name - The name of the Uplink set.
-    - :networkType - The type of the Uplink set. The values supported are 'Ethernet' and 'FibreChannel'.
-    - :ethernetNetworkType - The type of the EthernetNetwork. It only should be used if :networkType is 'Ethernet'.
+  - `:data` - A Hash containing the name, type, and subtype if needed:
+    - `:name` - The name of the Uplink set.
+    - `:networkType` - The type of the Uplink set. The values supported are 'Ethernet' and 'FibreChannel'.
+    - `:ethernetNetworkType` - The type of the EthernetNetwork. It only should be used if `:networkType` is 'Ethernet'.
 
     ```ruby
     uplink_data = {
@@ -104,9 +104,9 @@ interconnects_data = [
     }
     ```
 
-  - :connections - An Array of Hashes containing the association of bay and the port name. The Hashes keys are:
-    - :bay - Number of the bay the interconnect is attached to identify in which interconnect the uplink will be created.
-    - :port - The name of the port of the interconnect. It may change depending on the interconnect type.
+  - `:connections` - An Array of Hashes containing the association of bay and the port name. The Hashes keys are:
+    - `:bay` - Number of the bay the interconnect is attached to identify in which interconnect the uplink will be created.
+    - `:port` - The name of the port of the interconnect. It may change depending on the interconnect type.
 
     ```ruby
     uplink_connections = [
@@ -115,7 +115,7 @@ interconnects_data = [
     ]
     ```
 
-  - :networks - An array containing the names of the networks with the associated Uplink set. The networks should be created prior to the execution of this resource. Remember to match Ethernet networks for Ethernet Uplink sets, and one FC Network for FibreChannel Uplink sets.
+  - `:networks` - An array containing the names of the networks with the associated Uplink set. The networks should be created prior to the execution of this resource. Remember to match Ethernet networks for Ethernet Uplink sets, and one FC Network for FibreChannel Uplink sets.
 
   At the end we may have an Hash like this to be used in the attribute:
 
