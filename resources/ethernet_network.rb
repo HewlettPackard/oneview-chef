@@ -1,7 +1,5 @@
 Opscode::OneviewResourceBaseProperties.load(self)
 
-resource_name :oneview_fc_network
-
 default_action :create
 
 action_class do

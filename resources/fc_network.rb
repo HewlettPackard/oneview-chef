@@ -1,7 +1,5 @@
 Opscode::OneviewResourceBaseProperties.load(self)
 
-resource_name :oneview_ethernet_network
-
 default_action :create
 
 action_class do

@@ -2,8 +2,6 @@ Opscode::OneviewResourceBaseProperties.load(self)
 
 property :enclosure_group
 
-resource_name :oneview_enclosure
-
 default_action :create
 
 action_class do
