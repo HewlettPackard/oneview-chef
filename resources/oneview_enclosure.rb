@@ -1,10 +1,10 @@
 Opscode::OneviewResourceBaseProperties.load(self)
 
+property :enclosure_group
+
 resource_name :oneview_enclosure
 
 default_action :create
-
-property :enclosure_group
 
 action_class do
   include Opscode::OneviewHelper
