@@ -48,6 +48,19 @@ oneview_resource '' do
 end
 ```
 
+#### enclosure_group
+
+Enclosure group resource for HPE OneView.
+
+```ruby
+oneview_enclosure_group 'EnclosureGroup_1' do
+  client <my_client>   # Hash or OneviewSDK::Client
+  data <resource_data>
+  action [:create, :delete]
+end
+```
+
+
 #### oneview_ethernet_network
 
 TODO
@@ -71,7 +84,7 @@ TODO
 ### Examples
 
  - **Create an ethernet network**
- 
+
   ```ruby
   my_client = { url: 'https://oneview.example.com', user: 'Administrator', password: 'secret123' }
 
@@ -81,16 +94,16 @@ TODO
     smartLink: false,
     privateNetwork: false
   }
-  
+
   oneview_resource 'Ethernet Network 1' do
     type :EthernetNetwork
     data eth_net_data
     client my_client
   end
   ```
- 
+
  - **Add server hardware**
-  
+
   ```ruby
   # Notes:
   #  - It can't be updated, so we use the :create_if_missing action here
@@ -107,9 +120,9 @@ TODO
     action :create_if_missing
   end
   ```
- 
+
  - **Add an enclosure group**
-  
+
   ```ruby
   # Notes:
   #  - Since the script is at a seperate endpoint, we can't set that here
@@ -123,9 +136,9 @@ TODO
     save_resource_info true # Save all properties to a node attribute
   end
   ```
- 
+
  - **Add an enclosure and associate it with the enclosure group added above**
-  
+
   ```ruby
   oneview_resource 'Enclosure-1' do
     type :Enclosure
@@ -140,9 +153,9 @@ TODO
     save_resource_info ['uri'] # Only save this to the node attributes
   end
   ```
- 
+
  - **Delete a fibre channel network**
- 
+
   ```ruby
   oneview_resource 'FC Network 1' do
     client my_client
@@ -159,7 +172,7 @@ This project is licensed under the Apache 2.0 license. Please see [LICENSE](LICE
 
 **Contributing:** You know the drill. Fork it, branch it, change it, commit it, and pull-request it.
 We are passionate about improving this project, and glad to accept help to make it better. However, keep the following in mind:
- 
+
  - You must sign a Contributor License Agreement first. Contact one of the authors (from Hewlett Packard Enterprise) for details and the CLA.
  - We reserve the right to reject changes that we feel do not fit the scope of this project, so for feature additions, please open an issue to discuss your ideas before doing the work.
 

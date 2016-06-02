@@ -2,6 +2,7 @@
 AllCops:
   Exclude:
     - 'recipes/*'
+    - 'examples/*'
 
 Metrics/LineLength:
   Max: 150
