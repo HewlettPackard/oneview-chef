@@ -53,7 +53,7 @@ end
 Enclosure group resource for HPE OneView.
 
 ```ruby
-enclosure_group 'EnclosureGroup_1' do
+oneview_enclosure_group 'EnclosureGroup_1' do
   client <my_client>   # Hash or OneviewSDK::Client
   data <resource_data>
   action [:create, :delete]
