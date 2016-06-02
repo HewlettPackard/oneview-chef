@@ -48,17 +48,6 @@ oneview_resource '' do
 end
 ```
 
-#### enclosure_group
-
-Enclosure group resource for HPE OneView.
-
-```ruby
-oneview_enclosure_group 'EnclosureGroup_1' do
-  client <my_client>   # Hash or OneviewSDK::Client
-  data <resource_data>
-  action [:create, :delete]
-end
-```
 
 
 #### oneview_ethernet_network
@@ -68,6 +57,87 @@ TODO
 #### oneview_fc_network
 
 TODO
+
+#### oneview_logical_interconnect_group
+
+Logical Interconnect Group resource for HPE OneView.
+
+It provides the creation in three different levels:
+ 1. The base one where you just specify the name and some configuration parameters.
+ 2. Next one where you specify the interconnect types with the corresponding bays.
+ 3. The most complete way, where you can also specify the uplink sets for your group. (It is also possible to add and edit them later using the `oneview_uplink_set` resource)
+
+The `:create` action will always update the Logical Interconnect Group if you use the creation modes 2 and 3. So if you want to avoid this, use the action `:create_if_missing`
+
+```ruby
+oneview_logical_interconnect_group 'LogicalInterconnectGroup_1' do
+  client <my_client>   # Hash or OneviewSDK::Client
+  data <resource_data>
+  interconnects <interconnect_map> # Array specifying the interconnects in the bays
+  uplink_sets <uplink_set_map> # Array containing information
+  action [:create, :create_if_missing, :delete]
+end
+```
+
+**interconnects:** Array containing a list of Hashes indicating whether the interconnects are and which type they correspond to. Each hash should contain the keys:
+  - :bay - It specifies the location (bay) where this interconnect is attached to. The value should range from 1 to 8.
+  - :type - The interconnect type name that is currently attached to your enclosure.
+
+```ruby
+interconnects_data = [
+  {bay: 1, type: 'HP VC FlexFabric 10Gb/24-Port Module'},
+  {bay: 2, type: 'HP VC FlexFabric 10Gb/24-Port Module'}
+]
+```
+
+**uplink_sets:** Array containing a list of Hashes describing each uplink set that should be present in the group. Each hash should contain the keys:
+  - :data - A Hash containing the name, type, and subtype if needed:
+    - :name - The name of the Uplink set.
+    - :networkType - The type of the Uplink set. The values supported are 'Ethernet' and 'FibreChannel'.
+    - :ethernetNetworkType - The type of the EthernetNetwork. It only should be used if :networkType is 'Ethernet'.
+
+    ```ruby
+    uplink_data = {
+      name: 'LogicalInterconnectGroup_1_UplinkSet_1',
+      networkType: 'Ethernet',
+      ethernetNetworkType: 'Tagged'
+    }
+    ```
+
+  - :connections - An Array of Hashes containing the association of bay and the port name. The Hashes keys are:
+    - :bay - Number of the bay the interconnect is attached to identify in which interconnect the uplink will be created.
+    - :port - The name of the port of the interconnect. It may change depending on the interconnect type.
+
+    ```ruby
+    uplink_connections = [
+      {bay: 1, port: 'X5'},
+      {bay: 2, port: 'X7'}
+    ]
+    ```
+
+  - :networks - An array containing the names of the networks with the associated Uplink set. The networks should be created prior to the execution of this resource. Remember to match Ethernet networks for Ethernet Uplink sets, and one FC Network for FibreChannel Uplink sets.
+
+  At the end we may have an Hash like this to be used in the attribute:
+
+  ```ruby
+  uplink_set_definitions = [
+    { data: uplink_data_1,  connections: connections_1, networks: ['Ethernet_1', 'Ethernet_2']},
+    { data: uplink_data_2,  connections: connections_2, networks: ['FC_1']}
+  ]
+  ```
+
+
+#### oneview_enclosure_group
+
+Enclosure Group resource for HPE OneView.
+
+```ruby
+oneview_enclosure_group 'EnclosureGroup_1' do
+  client <my_client>   # Hash or OneviewSDK::Client
+  data <resource_data>
+  action [:create, :delete]
+end
+```
 
 ### Parameters
 
