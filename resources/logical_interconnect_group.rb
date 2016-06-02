@@ -31,7 +31,6 @@ action_class do
     end
     uplink_sets.each do |uplink_info|
       up = OneviewSDK::LIGUplinkSet.new(item.client, uplink_info[:data])
-
       uplink_info[:networks].each do |network_name|
         net = case up[:networkType]
               when 'Ethernet'
@@ -47,8 +46,9 @@ action_class do
       uplink_info[:connections].each { |link| up.add_uplink(link[:bay], link[:port]) }
       item.add_uplink_set(up)
     end
-    return item
+    item
   end
+  
 end
 
 action :create do
