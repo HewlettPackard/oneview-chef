@@ -48,7 +48,6 @@ action_class do
     end
     item
   end
-  
 end
 
 action :create do
