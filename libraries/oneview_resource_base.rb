@@ -63,7 +63,6 @@ module Opscode
       item ||= load_resource
       return unless item.retrieve!
       converge_by "Delete #{resource_name} '#{name}'" do
-        item.retrieve!
         item.delete
       end
     end
