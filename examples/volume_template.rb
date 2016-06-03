@@ -14,31 +14,34 @@
 # limitations under the License.
 ################################################################################
 
+# NOTE: This recipe requires one Storage System with IP '172.18.11.11'
+# and one Storage Pool named 'CPG-SSD-AO' associated to this Storage System
+
 my_client = {
-  url: '',
-  user: '',
-  password: '',
+  url: 'https://XXX.XXX.XXX.XXX/',
+  user: 'USR',
+  password: 'PWD',
   ssl_enabled: false
 }
 
-volume_data_1 = {
-  description: 'Created from Storage Pool + Storage System',
-  provisioningParameters: {
+volume_template_data_1 = {
+  description: 'CHEF created Volume Template',
+  provisioning: {
     provisionType: 'Full',
     shareable: true,
-    requestedCapacity: 1024 * 1024 * 1024, # 1GB
+    capacity: 1024 * 1024 * 1024 # 1GB
   }
 }
 
-oneview_volume 'CHEF_VOL_01' do
+oneview_volume_template 'CHEF_VOL_TEMP_01' do
   client my_client
-  data volume_data_1
+  data volume_template_data_1
   storage_system_ip '172.18.11.11'
   storage_pool 'CPG-SSD-AO'
   action :create
 end
 
-oneview_volume 'CHEF_VOL_01' do
+oneview_volume_template 'CHEF_VOL_TEMP_01' do
   client my_client
   action :delete
 end
