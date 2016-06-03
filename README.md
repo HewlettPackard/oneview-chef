@@ -163,7 +163,7 @@ end
   - **volume_template**: Optional - Name of the Volume Template.
   - **snapshot_pool**: Optional - Name of the Storage Pool containing the snapshots.
 
-  :memo: **NOTE**: Only one of `storage_system_name` and `storage_system_ip` need to be provided. If both are specified at once, the `storage_system_ip` prevails, then ignoring `storage_system_name` value.
+:memo: **NOTE**: Only one of `storage_system_name` and `storage_system_ip` need to be provided. If both are specified at once, the `storage_system_ip` prevails, then ignoring `storage_system_name` value.
 
 #### oneview_volume_template
 
@@ -185,18 +185,18 @@ end
   - **storage_pool**: Optional - Name of the Storage Pool from the Storage System to associate the Volume.
   - **snapshot_pool**: Optional - Name of the Storage Pool containing the snapshots.
 
-  :memo: **NOTE**: Only one of `storage_system_name` and `storage_system_ip` need to be provided. If both are specified at once, the `storage_system_ip` prevails, then ignoring `storage_system_name` value.
+ :memo: **NOTE**: Only one of `storage_system_name` and `storage_system_ip` need to be provided. If both are specified at once, the `storage_system_ip` prevails, then ignoring `storage_system_name` value.
 
-  :warning: **WARNING**: The resources `oneview_volume` and `oneview_volume_template` appear to accept the same data, but they have two characteristics that differ:
-    1. `oneview_volume_template` does not accepts the property **volume_template**. In other means, you cannot create a Volume template from another Volume template.
+ :warning: **WARNING**: The resources `oneview_volume` and `oneview_volume_template` appear to accept the same data, but they have two characteristics that differ:
+ 1. `oneview_volume_template` does not accepts the property **volume_template**. In other means, you cannot create a Volume template from another Volume template.
+ 2. The provisioning data keys are different:
 
-    2. The provisioning data keys are different:
-        oneview_volume        |  oneview_volume_template
-    ------------------------- | -------------------------
-    :provisioningParameters   |       :provisioning
-      :requestedCapacity      |         :capacity
-          :shareable          |         :shareable
-        :provisionType        |       :provisionType
+oneview_volume        |  oneview_volume_template
+------------------------- | -------------------------
+:provisioningParameters   |       :provisioning
+:requestedCapacity      |         :capacity
+:shareable          |         :shareable
+:provisionType        |       :provisionType
 
 
 
