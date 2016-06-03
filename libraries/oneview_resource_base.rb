@@ -60,7 +60,6 @@ module Opscode
       end
     end
 
-
     # Create a OneView resource only if doesn't exists
     # @param [OneviewSDK::Resource] item item to be deleted
     # @return [TrueClass, FalseClass] Returns true if the resource was created
