@@ -8,13 +8,21 @@ action_class do
 end
 
 action :add do
-  create_if_missing
+  item = load_resource
+  item.data.delete('name')
+  create_if_missing(item)
 end
 
 action :edit do
-  update
+  item = load_resource
+  item.data.delete('name') if item['credentials'] && item['credentials'][:ip_hostname]
+  item.retrieve!
+  update(item)
 end
 
 action :remove do
-  delete
+  item = load_resource
+  item.data.delete('name') if item['credentials'] && item['credentials'][:ip_hostname]
+  item.retrieve!
+  delete(item)
 end

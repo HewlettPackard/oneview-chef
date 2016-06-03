@@ -126,9 +126,6 @@ interconnects_data = [
   ]
   ```
 
-
-
-
 #### oneview_enclosure_group
 
 Enclosure Group resource for HPE OneView.
@@ -145,7 +142,16 @@ end
 
 Storage system resource for HPE OneView.
 
+If you add ip_hostname to credentials you don't need to specify a name to
+handle storage systems
+
 ```ruby
+storage_system_credentials = {
+  ip_hostname: '<ip_hostname>',
+  username: 'user',
+  password: 'password'
+}
+
 oneview_storage_system 'ThreePAR7200-8147' do
   data ({
     credentials:storage_system_credentials,

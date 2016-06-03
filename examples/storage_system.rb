@@ -22,6 +22,10 @@ end
 
 oneview_storage_system 'ThreePAR7200-8147' do
   data ({
+    credentials: {
+      ip_hostname: '172.18.11.11',
+      username: 'dcs'
+    },
     refreshState: 'RefreshPending'
   })
   client client
