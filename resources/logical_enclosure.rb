@@ -25,6 +25,8 @@ end
 
 action :update_from_group do
   item = load_resource
-  item.retrieve!
-  item.update_from_group
+  converge_by "Update from group Logical enclosure '#{name}'" do
+    item.retrieve!
+    item.update_from_group
+  end
 end
