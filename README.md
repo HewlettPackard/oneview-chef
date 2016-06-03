@@ -126,7 +126,6 @@ interconnects_data = [
   ]
   ```
 
-
 #### oneview_enclosure_group
 
 Enclosure Group resource for HPE OneView.
@@ -138,6 +137,30 @@ oneview_enclosure_group 'EnclosureGroup_1' do
   action [:create, :delete]
 end
 ```
+
+#### oneview_volume
+
+Volume resource for HPE OneView.
+
+```ruby
+oneview_volume 'Volume_1' do
+  client <my_client>   # Hash or OneviewSDK::Client
+  data <resource_data>
+  storage_system_name <storage_system_name>
+  storage_system_ip <storage_system_ip>
+  storage_pool <storage_pool_name>
+  volume_template <volume_template_name>
+  snapshot_pool <snapshot_pool_name>
+  action [:create, :create_if_missing, :delete]
+end
+```
+  - **storage_system_name**: Optional - Name of the Storage System to associate the Volume.
+  - **storage_system_ip**: Optional - IP address or hostname of the Storage System to associate the Volume.
+  - **storage_pool**: Optional - Name of the Storage Pool from the Storage System to associate the Volume.
+  - **volume_template**: Optional - Name of the Volume Template.
+  - **snapshot_pool**: Optional - Name of the Storage Pool containing the snapshots.
+
+  :memo: **NOTE**: Only one of `storage_system_name` and `storage_system_ip` need to be provided. If both are specified at once, the `storage_system_ip` prevails, then ignoring `storage_system_name` value.
 
 ### Parameters
 
