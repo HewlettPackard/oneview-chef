@@ -162,6 +162,42 @@ end
 
   :memo: **NOTE**: Only one of `storage_system_name` and `storage_system_ip` need to be provided. If both are specified at once, the `storage_system_ip` prevails, then ignoring `storage_system_name` value.
 
+#### oneview_storage_system
+
+Storage system resource for HPE OneView.
+
+If you add ip_hostname to credentials you don't need to specify a name to
+handle storage systems
+
+```ruby
+storage_system_credentials = {
+  ip_hostname: '<ip_hostname>',
+  username: 'user',
+  password: 'password'
+}
+
+oneview_storage_system 'ThreePAR7200-8147' do
+  data ({
+    credentials:storage_system_credentials,
+    managedDomain: 'TestDomain'
+  })
+  client client
+  action [:add, :edit, :delete]
+end
+```
+
+
+#### oneview_logical_enclosure
+
+Logical enclosure resource for HPE OneView.
+
+```ruby
+oneview_logical_enclosure 'Encl1' do
+  client client
+  action :update_from_group
+end
+```
+
 ### Parameters
 
  - **client**: Hash or OneviewSDK::Client object that contains information about how to connect to the OneView instance. Required attributes are: `url`, `user`, and `password`.
