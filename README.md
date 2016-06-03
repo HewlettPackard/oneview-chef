@@ -127,6 +127,8 @@ interconnects_data = [
   ```
 
 
+
+
 #### oneview_enclosure_group
 
 Enclosure Group resource for HPE OneView.
@@ -136,6 +138,21 @@ oneview_enclosure_group 'EnclosureGroup_1' do
   client <my_client>   # Hash or OneviewSDK::Client
   data <resource_data>
   action [:create, :delete]
+end
+```
+
+#### oneview_storage_system
+
+Storage system resource for HPE OneView.
+
+```ruby
+oneview_storage_system 'ThreePAR7200-8147' do
+  data ({
+    credentials:storage_system_credentials,
+    managedDomain: 'TestDomain'
+  })
+  client client
+  action [:add, :edit, :delete]
 end
 ```
 
