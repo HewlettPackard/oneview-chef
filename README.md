@@ -79,6 +79,7 @@ oneview_logical_interconnect_group 'LogicalInterconnectGroup_1' do
 end
 ```
 
+
 **interconnects:** Array containing a list of Hashes indicating whether the interconnects are and which type they correspond to. Each hash should contain the keys:
   - `:bay` - It specifies the location (bay) where this interconnect is attached to. The value should range from 1 to 8.
   - `:type` - The interconnect type name that is currently attached to your enclosure.
@@ -126,6 +127,8 @@ interconnects_data = [
   ]
   ```
 
+
+
 #### oneview_enclosure_group
 
 Enclosure Group resource for HPE OneView.
@@ -162,6 +165,19 @@ end
 
   :memo: **NOTE**: Only one of `storage_system_name` and `storage_system_ip` need to be provided. If both are specified at once, the `storage_system_ip` prevails, then ignoring `storage_system_name` value.
 
+
+#### oneview_storage_pool
+
+Storage pool resource for HPE OneView.
+
+```ruby
+oneview_storage_pool 'CPG_FC-AO' do
+  client <my_client>   # Hash or OneviewSDK::Client
+  storage_system_name <storage_system_name>
+  action [:add, :remove]
+end
+```
+
 #### oneview_storage_system
 
 Storage system resource for HPE OneView.
@@ -185,7 +201,6 @@ oneview_storage_system 'ThreePAR7200-8147' do
   action [:add, :edit, :delete]
 end
 ```
-
 
 #### oneview_logical_enclosure
 
