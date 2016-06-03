@@ -162,6 +162,19 @@ oneview_storage_system 'ThreePAR7200-8147' do
 end
 ```
 
+
+#### oneview_logical_enclosure
+
+Logical enclosure resource for HPE OneView.
+
+```ruby
+oneview_logical_enclosure 'Encl1' do
+  client client
+  action :update_from_group
+end
+```
+
+
 ### Parameters
 
  - **client**: Hash or OneviewSDK::Client object that contains information about how to connect to the OneView instance. Required attributes are: `url`, `user`, and `password`.
