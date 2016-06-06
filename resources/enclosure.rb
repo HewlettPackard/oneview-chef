@@ -11,8 +11,10 @@ end
 
 action :add do
   item = load_resource
-  eg = OneviewSDK::EnclosureGroup.new(item.client, name: new_resource.enclosure_group)
-  item.set_enclosure_group(eg)
+  if new_resource.enclosure_group
+    eg = OneviewSDK::EnclosureGroup.new(item.client, name: new_resource.enclosure_group)
+    item.set_enclosure_group(eg)
+  end
   create_or_update(item)
 end
 
