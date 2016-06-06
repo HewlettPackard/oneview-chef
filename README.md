@@ -52,11 +52,27 @@ end
 
 #### oneview_ethernet_network
 
-TODO
+Ethernet network resource for HPE OneView.
+
+```Ruby
+oneview_ethernet_network 'Eth1' do
+  data <resource_data>
+  client <my_client>
+  action [:create, :delete]
+end
+```
 
 #### oneview_fc_network
 
-TODO
+FC network resource for HPE OneView.
+
+```Ruby
+oneview_fc_network 'Fc1' do
+  data <resource_data>
+  client <my_client>
+  action [:create, :delete]
+end
+```
 
 #### oneview_logical_interconnect_group
 
@@ -127,8 +143,6 @@ interconnects_data = [
   ]
   ```
 
-
-
 #### oneview_enclosure_group
 
 Enclosure Group resource for HPE OneView.
@@ -138,6 +152,19 @@ oneview_enclosure_group 'EnclosureGroup_1' do
   client <my_client>   # Hash or OneviewSDK::Client
   data <resource_data>
   action [:create, :delete]
+end
+```
+
+#### oneview_enclosure
+
+Enclosure resource for HPE OneView.
+
+```ruby
+oneview_enclosure 'Encl1' do
+  data <resource_data>
+  enclosure_group <enclosure_group_name>
+  client client
+  action [:add, :remove]
 end
 ```
 
