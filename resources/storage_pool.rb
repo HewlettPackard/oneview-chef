@@ -28,11 +28,11 @@ end
 
 action :add do
   item = load_resource
-  item['poolName'] = new_resource.name
-  if new_resource.storage_system_ip
-    storage_system = OneviewSDK::StorageSystem.new(item.client, credentials: { ip_hostname: new_resource.storage_system_ip })
-  elsif new_resource.storage_system_name
-    storage_system = OneviewSDK::StorageSystem.new(item.client, name: new_resource.storage_system_name)
+  item['poolName'] = name
+  if storage_system_ip
+    storage_system = OneviewSDK::StorageSystem.new(item.client, credentials: { ip_hostname: storage_system_ip })
+  elsif storage_system_name
+    storage_system = OneviewSDK::StorageSystem.new(item.client, name: storage_system_name)
   end
   storage_system.retrieve!
   item.set_storage_system(storage_system)
