@@ -58,7 +58,7 @@ Ethernet network resource for HPE OneView.
 oneview_ethernet_network 'Eth1' do
   data <resource_data>
   client <my_client>
-  action [:create, :delete]
+  action [:create, :create_if_missing, :delete]
 end
 ```
 
@@ -70,7 +70,7 @@ FC network resource for HPE OneView.
 oneview_fc_network 'Fc1' do
   data <resource_data>
   client <my_client>
-  action [:create, :delete]
+  action [:create, :create_if_missing, :delete]
 end
 ```
 
