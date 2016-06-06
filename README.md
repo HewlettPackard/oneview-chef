@@ -58,6 +58,20 @@ TODO
 
 TODO
 
+
+#### oneview_fc_network
+
+FCoE network resource for HPE OneView.
+
+```Ruby
+oneview_fcoe_network 'FCoE1' do
+  data <resource_data>
+  client <my_client>
+  action [:create, :create_if_missing, :delete]
+end
+```
+
+
 #### oneview_logical_interconnect_group
 
 Logical Interconnect Group resource for HPE OneView.
