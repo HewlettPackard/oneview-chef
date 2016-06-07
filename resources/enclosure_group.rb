@@ -27,8 +27,8 @@ end
 
 action :create do
   item = load_resource
-  if new_resource.logical_interconnect_group
-    lig = OneviewSDK::LogicalInterconnectGroup.new(item.client, name: new_resource.logical_interconnect_group)
+  if logical_interconnect_group
+    lig = OneviewSDK::LogicalInterconnectGroup.new(item.client, name: logical_interconnect_group)
     item.add_logical_interconnect_group(lig)
   end
   create_or_update(item)
