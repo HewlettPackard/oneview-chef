@@ -13,7 +13,7 @@ Opscode::OneviewResourceBaseProperties.load(self)
 
 property :enclosure_group
 
-default_action :create
+default_action :add
 
 action_class do
   include Opscode::OneviewHelper

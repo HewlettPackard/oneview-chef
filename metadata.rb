@@ -21,7 +21,7 @@ version          '0.1.0'
 source_url       'https://github.com/HewlettPackard/chef-oneview' if respond_to?(:source_url)
 issues_url       'https://github.com/HewlettPackard/chef-oneview/issues' if respond_to?(:issues_url)
 
-chef_version     '>= 12'
+chef_version     '>= 12' if respond_to?(:chef_version)
 depends          'compat_resource'
 
 gem              'oneview-sdk' if respond_to?(:gem)
