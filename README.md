@@ -34,7 +34,7 @@ See [attributes/default.rb](attributes/default.rb) for more info.
 
 ## Resources
 
-### Resource Parameters
+#### Resource Parameters
 
  - **client**: Hash or OneviewSDK::Client object that contains information about how to connect to the OneView instance. Required attributes are: `url`, `user`, and `password`.
  - **type**: (For generic `oneview_resource` only) String or Symbol corresponding to the name of the resource type. For example, `EthernetNetwork`, `Enclosure`, `Volume` etc. These should line up with the OneView SDK resource classes listed [here](https://github.hpe.com/Rainforest/oneview-sdk-ruby/tree/master/lib/oneview-sdk/resource).
@@ -245,12 +245,12 @@ end
  1. `oneview_volume_template` does not accepts the property **volume_template**. In other means, you cannot create a Volume template from another Volume template.
  2. The provisioning data keys are different:
 
-oneview_volume        |  oneview_volume_template
-------------------------- | -------------------------
-:provisioningParameters   |       :provisioning
-:requestedCapacity      |         :capacity
-:shareable          |         :shareable
-:provisionType        |       :provisionType
+    oneview_volume        |  oneview_volume_template
+    ------------------------- | -------------------------
+    :provisioningParameters   |       :provisioning
+    :requestedCapacity      |         :capacity
+    :shareable          |         :shareable
+    :provisionType        |       :provisionType
 
 
 
