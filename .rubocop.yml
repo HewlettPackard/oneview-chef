@@ -13,3 +13,10 @@ Metrics/MethodLength:
 
 Metrics/AbcSize:
   Enabled: false
+
+Style/EmptyLineBetweenDefs:
+  Exclude:
+    - 'libraries/matchers.rb'
+
+Style/WordArray:
+  Enabled: false

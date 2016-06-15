@@ -38,8 +38,8 @@ module OneviewCookbook
         klass_name.gsub!(/^Oneview/, '')
         klass = get_resource_named(klass_name)
       end
-      item = klass.new(c, new_resource.data)
-      item['name'] ||= new_resource.name
+      item = klass.new(c, data)
+      item['name'] ||= name
       item
     end
 

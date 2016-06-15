@@ -1,6 +1,7 @@
 require_relative './../../spec_helper'
+require 'chef/node'
 
-RSpec.describe 'OneviewHelper' do
+RSpec.describe OneviewCookbook::Helper do
   include_context 'shared context'
 
   let(:helper) do
@@ -30,11 +31,52 @@ RSpec.describe 'OneviewHelper' do
   end
 
   describe '#load_resource' do
-    # TODO
+    before :each do
+      allow(helper).to receive(:client).and_return @client
+      allow(helper).to receive(:resource_name).and_return 'oneview_ethernet_network'
+      allow(helper).to receive(:data).and_return(name: 'net')
+      allow(helper).to receive(:load_sdk).and_return true
+    end
+
+    it 'loads the sdk' do
+      expect(helper).to receive(:load_sdk).and_raise 'Called load_sdk'
+      expect { helper.load_resource }.to raise_error 'Called load_sdk'
+    end
+
+    it 'respects the type property' do
+      expect(helper).to receive(:type).and_return 'server_profile'
+      item = helper.load_resource
+      expect(item).to be_a OneviewSDK::ServerProfile
+    end
+
+    it 'infers the type from the resource_name' do
+      item = helper.load_resource
+      expect(item).to be_a OneviewSDK::EthernetNetwork
+    end
+
+    it 'sets the name if none is given in the data hash' do
+      allow(helper).to receive(:data).and_return({})
+      expect(helper).to receive(:name).and_return('other_net')
+      item = helper.load_resource
+      expect(item[:name]).to eq('other_net')
+    end
   end
 
   describe '#get_resource_named' do
-    # TODO
+    it 'returns a class from a valid snake_case name' do
+      r = helper.get_resource_named('server_profile')
+      expect(r).to be OneviewSDK::ServerProfile
+    end
+
+    it 'returns a class from a valid camelCase name' do
+      r = helper.get_resource_named('serverProfile')
+      expect(r).to be OneviewSDK::ServerProfile
+    end
+
+    it 'fails if an invalid name is given' do
+      expect { helper.get_resource_named('') }.to raise_error(/Invalid OneView Resource type/)
+      expect { helper.get_resource_named('invalid') }.to raise_error(/Invalid OneView Resource type/)
+    end
   end
 
   describe '#build_client' do
@@ -72,6 +114,31 @@ RSpec.describe 'OneviewHelper' do
   end
 
   describe '#save_res_info' do
-    # TODO
+    before :each do
+      @name = 'res1'
+      @data = { 'uri' => 'rest/fake', 'name' => @name, 'status' => 'OK' }
+      @node = Chef::Node.new
+      allow(helper).to receive(:node).and_return @node
+    end
+
+    it "saves everything when 'true' is passed in" do
+      helper.save_res_info(true, @name, @data)
+      expect(@node['oneview']['resources'][@name]).to eq(@data)
+    end
+
+    it 'can save a subset of values' do
+      helper.save_res_info(['uri', 'name'], @name, @data)
+      expect(@node['oneview']['resources'][@name]).to eq('uri' => 'rest/fake', 'name' => @name)
+    end
+
+    it "saves nothing when 'false' is passed in" do
+      helper.save_res_info(false, @name, @data)
+      expect(@node['oneview']).to be_nil
+    end
+
+    it 'prints to the Chef error log when it fails to save the data' do
+      expect(Chef::Log).to receive(:error).with(/Failed to save resource data/)
+      helper.save_res_info([], @name, nil)
+    end
   end
 end
