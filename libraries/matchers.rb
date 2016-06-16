@@ -10,16 +10,34 @@
 # specific language governing permissions and limitations under the License.
 
 if defined?(ChefSpec)
-  # oneview_resource
-  def create_oneview_resource(resource_name)
-    ChefSpec::Matchers::ResourceMatcher.new(:oneview_resource, :create, resource_name)
-  end
-  def create_oneview_resource_if_missing(resource_name)
-    ChefSpec::Matchers::ResourceMatcher.new(:oneview_resource, :create_if_missing, resource_name)
-  end
-  def delete_oneview_resource(resource_name)
-    ChefSpec::Matchers::ResourceMatcher.new(:oneview_resource, :delete, resource_name)
-  end
+  # Instead of defining each matcher method, we're going to save some time by doing some meta programming
+  # To see a full list of the actual matchers, see spec/unit/resources/matchers_spec.rb
+  standard_actions = [:create, :create_if_missing, :delete]
+  oneview_resources = {
+    oneview_resource:                   standard_actions,
+    oneview_enclosure:                  [:add, :remove],
+    oneview_enclosure_group:            [:create, :delete], # Why is this missing the :create_if_missing action?
+    oneview_ethernet_network:           standard_actions,
+    oneview_fc_network:                 standard_actions,
+    oneview_fcoe_network:               standard_actions,
+    oneview_logical_enclosure:          [:update_from_group],
+    oneview_logical_interconnect_group: standard_actions,
+    oneview_storage_pool:               [:add, :remove],
+    oneview_storage_system:             [:add, :update, :remove],
+    oneview_volume:                     standard_actions,
+    oneview_volume_template:            standard_actions
+  }
 
-  # TODO: other resources
+  oneview_resources.each do |resource_type, actions|
+    actions.each do |action|
+      method_name = case action
+                    when :create_if_missing then "create_#{resource_type}_if_missing"
+                    when :update_from_group then "update_#{resource_type}_from_group"
+                    else "#{action}_#{resource_type}"
+                    end
+      define_method(method_name) do |resource_name|
+        ChefSpec::Matchers::ResourceMatcher.new(resource_type, action, resource_name)
+      end
+    end
+  end
 end
