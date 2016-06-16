@@ -39,7 +39,7 @@ See [attributes/default.rb](attributes/default.rb) for more info.
  - **client**: Hash or OneviewSDK::Client object that contains information about how to connect to the OneView instance. Required attributes are: `url`, `user`, and `password`.
  - **type**: (For generic `oneview_resource` only) String or Symbol corresponding to the name of the resource type. For example, `EthernetNetwork`, `Enclosure`, `Volume` etc. These should line up with the OneView SDK resource classes listed [here](https://github.hpe.com/Rainforest/oneview-sdk-ruby/tree/master/lib/oneview-sdk/resource).
  - **data**: Hash specifying options for this resource. Refer to the OneView API docs for what's available and/or required. If no name attribute is given, it will use the name given to the Chef resource.
- - **action**: Symbol specifying what to do with this resource. Options:
+ - **action**: Symbol specifying what to do with this resource. Options for most resources (some may differ):
    - `:create` - (Default) Ensure this resource exists and matches the data given.
    - `:create_if_missing` - Ensure this resource exists, but don't ensure it is up to date on subsequent chef-client runs.
    - `:delete` - Delete this resource from OneView. For this, you only need to specify the resource name or uri in the data section.
@@ -275,18 +275,18 @@ handle storage systems
 
 ```ruby
 storage_system_credentials = {
-  ip_hostname: '<ip_hostname>',
-  username: 'user',
-  password: 'password'
+  'ip_hostname' => '<ip_hostname>',
+  'username' => 'user',
+  'password' => 'password'
 }
 
 oneview_storage_system 'ThreePAR7200-8147' do
-  data ({
-    credentials:storage_system_credentials,
+  data(
+    credentials: storage_system_credentials,
     managedDomain: 'TestDomain'
-  })
+  )
   client client
-  action [:add, :edit, :delete]
+  action [:add, :update, :delete]
 end
 ```
 

@@ -1,3 +1,7 @@
+#
+# Cookbook Name:: oneview_test
+# Recipe:: default
+#
 # (c) Copyright 2016 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -8,30 +12,4 @@
 # under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
-
-OneviewCookbook::ResourceBaseProperties.load(self)
-
-default_action :create
-
-action_class do
-  include OneviewCookbook::Helper
-  include OneviewCookbook::ResourceBase
-end
-
-action :add do
-  item = load_resource
-  item.data.delete('name')
-  create_if_missing(item)
-end
-
-action :update do
-  item = load_resource
-  item.data.delete('name') if item['credentials'] && item['credentials']['ip_hostname']
-  update(item)
-end
-
-action :remove do
-  item = load_resource
-  item.data.delete('name') if item['credentials'] && item['credentials'][:ip_hostname]
-  delete(item)
-end
+#

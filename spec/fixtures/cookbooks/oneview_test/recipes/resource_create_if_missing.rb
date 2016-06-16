@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: oneview_test
-# Recipe:: resource
+# Recipe:: resource_create_if_missing
 #
 # (c) Copyright 2016 Hewlett Packard Enterprise Development LP
 #
@@ -14,13 +14,14 @@
 # specific language governing permissions and limitations under the License.
 #
 
-oneview_resource 'EthernetNetwork1' do
+oneview_resource 'EthernetNetwork2' do
   client node['oneview_test']['client']
   type :EthernetNetwork
   data(
-    vlanId: 50,
+    vlanId: 51,
     purpose: 'General',
     smartLink: false,
     privateNetwork: false
   )
+  action :create_if_missing
 end
