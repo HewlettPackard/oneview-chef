@@ -61,6 +61,7 @@ Rakefile
 .travis.yml
 .foodcritic
 .codeclimate.yml
+coverage/*
 
 # SCM #
 #######

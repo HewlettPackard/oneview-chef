@@ -1,7 +1,7 @@
-# (C) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
-# You may not use this file except in compliance with the License.
+# you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software distributed
@@ -9,9 +9,9 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-module Opscode
+module OneviewCookbook
   # Define default properties for all resources
-  module OneviewResourceBaseProperties
+  module ResourceBaseProperties
     # Loads the default properties for all resources
     def self.load(context)
       context.property :client, required: true
@@ -22,7 +22,7 @@ module Opscode
   end
 
   #  Oneview Resources base actions
-  module OneviewResourceBase
+  module ResourceBase
     # Create a OneView resource or update it if exists
     # @param [OneviewSDK::Resource] item item to be created or updated
     # @return [TrueClass, FalseClass] Returns true if the resource was created, false if updated

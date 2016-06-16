@@ -9,29 +9,17 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-# NOTE: This recipe requires:
-# Enclosure group: Eg1
+if defined?(ChefSpec)
+  # oneview_resource
+  def create_oneview_resource(resource_name)
+    ChefSpec::Matchers::ResourceMatcher.new(:oneview_resource, :create, resource_name)
+  end
+  def create_oneview_resource_if_missing(resource_name)
+    ChefSpec::Matchers::ResourceMatcher.new(:oneview_resource, :create_if_missing, resource_name)
+  end
+  def delete_oneview_resource(resource_name)
+    ChefSpec::Matchers::ResourceMatcher.new(:oneview_resource, :delete, resource_name)
+  end
 
-client = {
-  url: '',
-  user: '',
-  password: '',
-  ssl_enabled: false
-}
-
-oneview_enclosure 'Encl1' do
-  data ({
-      hostname: '172.18.1.11',
-      username: 'dcs',
-      password: 'dcs',
-      licensingIntent: 'OneView'
-  })
-  enclosure_group 'Eg1'
-  client client
-  action :add
-end
-
-oneview_enclosure 'Encl1' do
-  client client
-  action :remove
+  # TODO: other resources
 end

@@ -11,7 +11,7 @@
 
 name             'oneview'
 maintainer       'Hewlett Packard Enterprise'
-maintainer_email 'oneview-chef@groups.ext.hpe.com'
+maintainer_email 'chef-cookbooks@groups.ext.hpe.com'
 license          'Apache v2.0'
 description      'Provides OneView resources'
 long_description 'Provides OneView resources'
