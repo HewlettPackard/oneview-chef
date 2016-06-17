@@ -11,8 +11,6 @@
 
 OneviewCookbook::ResourceBaseProperties.load(self)
 
-property :type, default: 'FCoENetwork'
-
 default_action :create
 
 action_class do

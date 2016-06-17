@@ -11,7 +11,7 @@
 
 OneviewCookbook::ResourceBaseProperties.load(self)
 
-property :logical_interconnect_group # TODO: Type?
+property :logical_interconnect_group, String # Name of LIG
 
 default_action :create
 

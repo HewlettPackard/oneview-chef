@@ -11,11 +11,11 @@
 
 OneviewCookbook::ResourceBaseProperties.load(self)
 
-property :storage_system_ip, [String]
-property :storage_system_name, [String]
-property :storage_pool, [String]
-property :volume_template, [String]
-property :snapshot_pool, [String]
+property :storage_system_ip, String
+property :storage_system_name, String
+property :storage_pool, String
+property :volume_template, String
+property :snapshot_pool, String
 
 default_action :create
 

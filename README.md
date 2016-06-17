@@ -57,9 +57,9 @@ The basic usage is as follows:
 ```ruby
 oneview_resource '' do
   client <my_client>   # Hash or OneviewSDK::Client
-  type <resource_type>
-  data <resource_data>
-  action [:create, :create_if_missing, :delete]
+  type <resource_type> # String or Symbol
+  data <resource_data> # Hash
+  action [:create, :create_if_missing, :delete] # (Choose only 1)
 end
 ```
 
@@ -69,8 +69,8 @@ Ethernet network resource for HPE OneView.
 
 ```Ruby
 oneview_ethernet_network 'Eth1' do
-  data <resource_data>
   client <my_client>
+  data <resource_data>
   action [:create, :create_if_missing, :delete]
 end
 ```
@@ -81,8 +81,8 @@ FC network resource for HPE OneView.
 
 ```Ruby
 oneview_fc_network 'Fc1' do
-  data <resource_data>
   client <my_client>
+  data <resource_data>
   action [:create, :create_if_missing, :delete]
 end
 ```
@@ -94,8 +94,8 @@ FCoE network resource for HPE OneView.
 
 ```Ruby
 oneview_fcoe_network 'FCoE1' do
-  data <resource_data>
   client <my_client>
+  data <resource_data>
   action [:create, :create_if_missing, :delete]
 end
 ```
@@ -114,7 +114,7 @@ The `:create` action will always update the Logical Interconnect Group if you us
 
 ```ruby
 oneview_logical_interconnect_group 'LogicalInterconnectGroup_1' do
-  client <my_client>   # Hash or OneviewSDK::Client
+  client <my_client>
   data <resource_data>
   interconnects <interconnect_map> # Array specifying the interconnects in the bays
   uplink_sets <uplink_set_map> # Array containing information
@@ -176,9 +176,10 @@ Enclosure Group resource for HPE OneView.
 
 ```ruby
 oneview_enclosure_group 'EnclosureGroup_1' do
-  client <my_client>   # Hash or OneviewSDK::Client
+  client <my_client>
   data <resource_data>
-  action [:create, :delete]
+  logical_interconnect_group <LIG_name>
+  action [:create, :create_if_missing, :delete]
 end
 ```
 
@@ -188,9 +189,9 @@ Enclosure resource for HPE OneView.
 
 ```ruby
 oneview_enclosure 'Encl1' do
+  client <my_client>
   data <resource_data>
-  enclosure_group <enclosure_group_name>
-  client client
+  enclosure_group <enclosure_group_name> # String - Optional. Can also set enclosureGroupUri in data
   action [:add, :remove]
 end
 ```
@@ -201,7 +202,7 @@ Volume resource for HPE OneView.
 
 ```ruby
 oneview_volume 'Volume_1' do
-  client <my_client>   # Hash or OneviewSDK::Client
+  client <my_client>
   data <resource_data>
   storage_system_name <storage_system_name>
   storage_system_ip <storage_system_ip>
@@ -211,11 +212,11 @@ oneview_volume 'Volume_1' do
   action [:create, :create_if_missing, :delete]
 end
 ```
-  - **storage_system_name**: Optional - Name of the Storage System to associate the Volume.
-  - **storage_system_ip**: Optional - IP address or hostname of the Storage System to associate the Volume.
-  - **storage_pool**: Optional - Name of the Storage Pool from the Storage System to associate the Volume.
-  - **volume_template**: Optional - Name of the Volume Template.
-  - **snapshot_pool**: Optional - Name of the Storage Pool containing the snapshots.
+  - **storage_system_name** (String) Optional - Name of the Storage System to associate the Volume.
+  - **storage_system_ip** (String) Optional - IP address or hostname of the Storage System to associate the Volume.
+  - **storage_pool** (String) Optional - Name of the Storage Pool from the Storage System to associate the Volume.
+  - **volume_template** (String) Optional - Name of the Volume Template.
+  - **snapshot_pool** (String) Optional - Name of the Storage Pool containing the snapshots.
 
 :memo: **NOTE**: Only one of `storage_system_name` and `storage_system_ip` need to be provided. If both are specified at once, the `storage_system_ip` prevails, then ignoring `storage_system_name` value.
 
@@ -225,7 +226,7 @@ Volume Template resource for HPE OneView.
 
 ```ruby
 oneview_volume_template 'VolumeTemplate_1' do
-  client <my_client>   # Hash or OneviewSDK::Client
+  client <my_client>
   data <resource_data>
   storage_system_name <storage_system_name>
   storage_system_ip <storage_system_ip>
@@ -234,10 +235,10 @@ oneview_volume_template 'VolumeTemplate_1' do
   action [:create, :create_if_missing, :delete]
 end
 ```
-  - **storage_system_name**: Optional - Name of the Storage System to associate the Volume.
-  - **storage_system_ip**: Optional - IP address or hostname of the Storage System to associate the Volume.
-  - **storage_pool**: Optional - Name of the Storage Pool from the Storage System to associate the Volume.
-  - **snapshot_pool**: Optional - Name of the Storage Pool containing the snapshots.
+  - **storage_system_name** (String) Optional - Name of the Storage System to associate the Volume.
+  - **storage_system_ip** (String) Optional - IP address or hostname of the Storage System to associate the Volume.
+  - **storage_pool** (String) Optional - Name of the Storage Pool from the Storage System to associate the Volume.
+  - **snapshot_pool** (String) Optional - Name of the Storage Pool containing the snapshots.
 
  :memo: **NOTE**: Only one of `storage_system_name` and `storage_system_ip` need to be provided. If both are specified at once, the `storage_system_ip` prevails, then ignoring `storage_system_name` value.
 
@@ -245,13 +246,12 @@ end
  1. `oneview_volume_template` does not accepts the property **volume_template**. In other means, you cannot create a Volume template from another Volume template.
  2. The provisioning data keys are different:
 
-    oneview_volume        |  oneview_volume_template
-    ------------------------- | -------------------------
-    :provisioningParameters   |       :provisioning
-    :requestedCapacity      |         :capacity
-    :shareable          |         :shareable
-    :provisionType        |       :provisionType
-
+    oneview_volume          | oneview_volume_template
+    ----------------------- | -------------------------
+    :provisioningParameters | :provisioning
+    :requestedCapacity      | :capacity
+    :shareable              | :shareable
+    :provisionType          | :provisionType
 
 
 #### oneview_storage_pool
@@ -260,8 +260,8 @@ Storage pool resource for HPE OneView.
 
 ```ruby
 oneview_storage_pool 'CPG_FC-AO' do
-  client <my_client>   # Hash or OneviewSDK::Client
-  storage_system_name <storage_system_name>
+  client <my_client>
+  storage_system_name <storage_system_name> # String
   action [:add, :remove]
 end
 ```
@@ -281,12 +281,12 @@ storage_system_credentials = {
 }
 
 oneview_storage_system 'ThreePAR7200-8147' do
+  client <my_client>
   data(
     credentials: storage_system_credentials,
     managedDomain: 'TestDomain'
   )
-  client client
-  action [:add, :update, :delete]
+  action [:add, :delete]
 end
 ```
 
@@ -371,6 +371,8 @@ end
   end
   ```
 
+  Note: The data hash is wrapped in a lazy block so that `node['oneview']['resources']['Enclosure-Group-1']['uri']` will be set before the resource parameters are parsed. However, the recommended way is to use the `enclosure_group` (name) parameter, where the uri will be fetched at runtime; this just shows how you can use `lazy` with the node attributes that are saved.
+
  - **Delete a fibre channel network**
 
   ```ruby
@@ -404,3 +406,5 @@ This feedback is crucial for us to deliver a useful product. Do not assume we ha
 ## Authors
 
  - Jared Smartt - [@jsmartt](https://github.com/jsmartt)
+ - Henrique Diomede - [@hdiomede](https://github.com/hdiomede)
+ - Thiago Miotto - [@tmiotto](https://github.com/tmiotto)

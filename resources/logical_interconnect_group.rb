@@ -11,8 +11,8 @@
 
 OneviewCookbook::ResourceBaseProperties.load(self)
 
-property :interconnects, [Array], default: []
-property :uplink_sets, [Array], default: []
+property :interconnects, Array, default: []
+property :uplink_sets, Array, default: []
 
 default_action :create
 
