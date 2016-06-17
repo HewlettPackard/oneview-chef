@@ -11,7 +11,7 @@
 
 OneviewCookbook::ResourceBaseProperties.load(self)
 
-property :logical_interconnect_group
+property :logical_interconnect_group # TODO: Type?
 
 default_action :create
 
@@ -27,6 +27,15 @@ action :create do
     item.add_logical_interconnect_group(lig)
   end
   create_or_update(item)
+end
+
+action :create_if_missing do
+  item = load_resource
+  if logical_interconnect_group
+    lig = OneviewSDK::LogicalInterconnectGroup.new(item.client, name: logical_interconnect_group)
+    item.add_logical_interconnect_group(lig)
+  end
+  create_if_missing(item)
 end
 
 action :delete do

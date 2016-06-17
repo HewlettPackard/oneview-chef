@@ -96,32 +96,6 @@ RSpec.describe OneviewCookbook::ResourceBase do
     end
   end
 
-  describe '#update' do
-    it 'accepts a resource as a parameter' do
-      expect(base).to_not receive(:load_resource)
-      expect(@resource).to receive(:exists?).and_raise 'Called exists?'
-      expect { base.update(@resource) }.to raise_error 'Called exists?'
-    end
-
-    it 'loads the resource if not passed in as a parameter' do
-      expect(base).to receive(:load_resource).and_raise 'Called load_resource'
-      expect { base.update }.to raise_error 'Called load_resource'
-    end
-
-    it 'updates the resource if it exists' do
-      expect(@resource).to receive(:exists?).and_return(true)
-      expect(@resource).to receive(:retrieve!).and_return(true)
-      expect(@resource).to receive(:update).and_return(true)
-      expect(base).to receive(:save_res_info).and_return(true)
-      expect(base.update(@resource)).to eq(true)
-    end
-
-    it 'returns false if the resource does not exist' do
-      expect(@resource).to receive(:exists?).and_return(false)
-      expect(base.update(@resource)).to eq(false)
-    end
-  end
-
   describe '#create_if_missing' do
     it 'accepts a resource as a parameter' do
       expect(base).to_not receive(:load_resource)

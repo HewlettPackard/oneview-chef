@@ -25,3 +25,19 @@ chef_version     '>= 12' if respond_to?(:chef_version)
 depends          'compat_resource'
 
 gem              'oneview-sdk' if respond_to?(:gem)
+
+supports         'amazon'
+supports         'arch'
+supports         'centos'
+supports         'debian'
+supports         'fedora'
+supports         'freebsd'
+supports         'mac_os_x'
+supports         'oracle'
+supports         'redhat'
+supports         'scientific'
+supports         'smartos'
+supports         'suse'
+supports         'ubuntu'
+supports         'windows'
+supports         'xenserver'

@@ -11,7 +11,7 @@
 
 OneviewCookbook::ResourceBaseProperties.load(self)
 
-property :enclosure_group
+property :enclosure_group # TODO: Type?
 
 default_action :add
 

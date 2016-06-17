@@ -11,8 +11,8 @@
 
 OneviewCookbook::ResourceBaseProperties.load(self)
 
-property :storage_system_ip
-property :storage_system_name
+property :storage_system_ip # TODO: Type?
+property :storage_system_name # TODO: Type?
 
 default_action :add
 

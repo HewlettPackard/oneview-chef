@@ -16,14 +16,14 @@ if defined?(ChefSpec)
   oneview_resources = {
     oneview_resource:                   standard_actions,
     oneview_enclosure:                  [:add, :remove],
-    oneview_enclosure_group:            [:create, :delete], # Why is this missing the :create_if_missing action?
+    oneview_enclosure_group:            standard_actions,
     oneview_ethernet_network:           standard_actions,
     oneview_fc_network:                 standard_actions,
     oneview_fcoe_network:               standard_actions,
     oneview_logical_enclosure:          [:update_from_group],
     oneview_logical_interconnect_group: standard_actions,
     oneview_storage_pool:               [:add, :remove],
-    oneview_storage_system:             [:add, :update, :remove],
+    oneview_storage_system:             [:add, :remove],
     oneview_volume:                     standard_actions,
     oneview_volume_template:            standard_actions
   }

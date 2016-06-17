@@ -21,7 +21,7 @@ module OneviewCookbook
     end
   end
 
-  #  Oneview Resources base actions
+  # Oneview Resources base actions
   module ResourceBase
     # Create a OneView resource or update it if exists
     # @param [OneviewSDK::Resource] item item to be created or updated
@@ -50,24 +50,6 @@ module OneviewCookbook
       end
       save_res_info(save_resource_info, name, item.data)
       ret_val
-    end
-
-    # Update a OneView resource if it exists
-    # @param [OneviewSDK::Resource] item item to be updated
-    # @return [TrueClass, FalseClass] Returns true if the resource was updated, false if not found
-    def update(item = nil)
-      item ||= load_resource
-      temp = item.data.clone
-      if item.exists?
-        item.retrieve!
-        converge_by "Update #{resource_name} '#{name}'" do
-          item.update(temp) # Note: Assumes resources supports #update
-        end
-        save_res_info(save_resource_info, name, item.data)
-        true
-      else
-        false
-      end
     end
 
     # Create a OneView resource only if it doesn't exist

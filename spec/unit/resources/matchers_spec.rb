@@ -19,6 +19,7 @@ describe 'oneview_test::default' do
 
     # oneview_enclosure_group
     expect(chef_run).to_not create_oneview_enclosure_group('')
+    expect(chef_run).to_not create_oneview_enclosure_group_if_missing('')
     expect(chef_run).to_not delete_oneview_enclosure_group('')
 
     # oneview_ethernet_network
@@ -50,7 +51,6 @@ describe 'oneview_test::default' do
 
     # oneview_storage_system
     expect(chef_run).to_not add_oneview_storage_system('')
-    expect(chef_run).to_not update_oneview_storage_system('')
     expect(chef_run).to_not remove_oneview_storage_system('')
 
     # oneview_volume
