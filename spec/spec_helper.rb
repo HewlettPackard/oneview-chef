@@ -6,8 +6,8 @@ SimpleCov.start do
   add_filter 'matchers.rb'
   add_group 'Libraries', 'libraries'
   add_group 'Resources', 'resources'
-  minimum_coverage 50 # TODO: bump up as we increase coverage. Goal: 95%
-  minimum_coverage_by_file 25 # TODO: bump up as we increase coverage. Goal: 90%
+  minimum_coverage 97
+  minimum_coverage_by_file 94
 end
 
 Dir[File.expand_path('../libraries/*.rb', File.dirname(__FILE__))].each { |file| require file }
@@ -36,11 +36,7 @@ RSpec.shared_context 'shared context', a: :b do
   before :each do
     @ov_options = { url: 'oneview.example.com', user: 'Administrator', password: 'secret123' }
     @client = OneviewSDK::Client.new(@ov_options)
-  end
-
-  let(:chef_run) do
-    runner = ChefSpec::ServerRunner.new
-    runner.converge(described_recipe)
+    @resource = OneviewSDK::Resource.new(@client)
   end
 end
 
@@ -49,5 +45,15 @@ RSpec.shared_context 'chef context', a: :b do
   let(:chef_run) do
     runner = ChefSpec::ServerRunner.new
     runner.converge(described_recipe)
+  end
+
+  let(:real_chef_run) do
+    # NOTE: Must define resource_name in each spec file
+    runner = ChefSpec::ServerRunner.new(step_into: ["oneview_#{resource_name}"])
+    runner.converge(described_recipe)
+  end
+
+  before :each do
+    allow_any_instance_of(OneviewSDK::Resource).to receive(:retrieve!).and_return(true)
   end
 end

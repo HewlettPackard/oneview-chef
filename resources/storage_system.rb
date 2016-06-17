@@ -11,7 +11,7 @@
 
 OneviewCookbook::ResourceBaseProperties.load(self)
 
-default_action :create
+default_action :add
 
 action_class do
   include OneviewCookbook::Helper
@@ -24,16 +24,8 @@ action :add do
   create_if_missing(item)
 end
 
-action :edit do
-  item = load_resource
-  item.data.delete('name') if item['credentials'] && item['credentials'][:ip_hostname]
-  item.retrieve!
-  update(item)
-end
-
 action :remove do
   item = load_resource
   item.data.delete('name') if item['credentials'] && item['credentials'][:ip_hostname]
-  item.retrieve!
   delete(item)
 end
