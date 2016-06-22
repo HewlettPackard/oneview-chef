@@ -23,7 +23,7 @@ end
 
 action :add do
   item = load_resource
-  item['poolName'] = name
+  item['poolName'] ||= name
   if storage_system_ip
     storage_system = OneviewSDK::StorageSystem.new(item.client, credentials: { ip_hostname: storage_system_ip })
   elsif storage_system_name
