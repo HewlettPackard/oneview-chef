@@ -20,8 +20,9 @@ end
 
 action :update_from_group do
   item = load_resource
-  converge_by "Update from group Logical enclosure '#{name}'" do
-    item.retrieve!
+  item.retrieve!
+  return if item['state'] == 'Consistent'
+  converge_by "Update LogicalEnclosure '#{name}' from group" do
     item.update_from_group
   end
 end
