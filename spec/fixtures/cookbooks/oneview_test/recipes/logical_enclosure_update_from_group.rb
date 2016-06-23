@@ -1,3 +1,7 @@
+#
+# Cookbook Name:: oneview_test
+# Recipe:: logical_enclosure_update_from_group
+#
 # (c) Copyright 2016 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -8,21 +12,9 @@
 # under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
+#
 
-OneviewCookbook::ResourceBaseProperties.load(self)
-
-default_action :update_from_group
-
-action_class do
-  include OneviewCookbook::Helper
-  include OneviewCookbook::ResourceBase
-end
-
-action :update_from_group do
-  item = load_resource
-  raise "LogicalEnclosure '#{name}' not found!" unless item.retrieve!
-  return if item['state'] == 'Consistent'
-  converge_by "Update LogicalEnclosure '#{name}' from group" do
-    item.update_from_group
-  end
+oneview_logical_enclosure 'LogicalEnclosure1' do
+  client node['oneview_test']['client']
+  action :update_from_group
 end
