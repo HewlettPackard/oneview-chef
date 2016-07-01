@@ -105,9 +105,22 @@ RSpec.describe OneviewCookbook::Helper do
       expect(ov.log_level).to eq(Chef::Log.level)
     end
 
-    it 'allows the log level to be overridden' do
+    it 'defaults to the Chef logger and log level' do
+      ov = helper.build_client(@ov_options)
+      expect(ov.logger).to eq(Chef::Log)
+      expect(ov.log_level).to eq(Chef::Log.level)
+    end
+
+    it "doesn't allow the log level to be overridden when no logger is specified" do
       level = Chef::Log.level == :warn ? :info : :warn
       ov = helper.build_client(@ov_options.merge(log_level: level))
+      expect(ov.log_level).to_not eq(level)
+      expect(ov.log_level).to eq(Chef::Log.level)
+    end
+
+    it 'allows the log level to be overridden if the logger is specified' do
+      level = Chef::Log.level == :warn ? :info : :warn
+      ov = helper.build_client(@ov_options.merge(logger: Logger.new(STDOUT), log_level: level))
       expect(ov.log_level).to eq(level)
       expect(ov.log_level).to_not eq(Chef::Log.level)
     end
@@ -117,22 +130,23 @@ RSpec.describe OneviewCookbook::Helper do
     before :each do
       @name = 'res1'
       @data = { 'uri' => 'rest/fake', 'name' => @name, 'status' => 'OK' }
+      @item = OneviewSDK::Resource.new(@client, @data)
       @node = Chef::Node.new
       allow(helper).to receive(:node).and_return @node
     end
 
     it "saves everything when 'true' is passed in" do
-      helper.save_res_info(true, @name, @data)
-      expect(@node['oneview']['resources'][@name]).to eq(@data)
+      helper.save_res_info(true, @name, @item)
+      expect(@node['oneview'][@client.url][@name]).to eq(@data)
     end
 
     it 'can save a subset of values' do
-      helper.save_res_info(['uri', 'name'], @name, @data)
-      expect(@node['oneview']['resources'][@name]).to eq('uri' => 'rest/fake', 'name' => @name)
+      helper.save_res_info(['uri', 'name'], @name, @item)
+      expect(@node['oneview'][@client.url][@name]).to eq('uri' => 'rest/fake', 'name' => @name)
     end
 
     it "saves nothing when 'false' is passed in" do
-      helper.save_res_info(false, @name, @data)
+      helper.save_res_info(false, @name, @item)
       expect(@node['oneview']).to be_nil
     end
 

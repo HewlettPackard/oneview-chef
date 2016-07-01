@@ -9,6 +9,8 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
+require 'logger'
+
 module OneviewCookbook
   # Helpers for Oneview Resources
   module Helper
@@ -60,8 +62,13 @@ module OneviewCookbook
       when OneviewSDK::Client
         return client
       when Hash
-        log_level = client['log_level'] || client[:log_level] || Chef::Log.level
-        return OneviewSDK::Client.new(client.merge(log_level: log_level))
+        options = Hash[client.map { |k, v| [k.to_sym, v] }] # Convert string keys to symbols
+        unless options[:logger] # Use the Chef logger
+          options[:logger] = Chef::Log
+          options[:log_level] = Chef::Log.level
+        end
+        options[:log_level] ||= Chef::Log.level
+        return OneviewSDK::Client.new(options)
       else
         raise "Invalid client #{client}. Must be a hash or OneviewSDK::Client"
       end
@@ -70,13 +77,14 @@ module OneviewCookbook
     # Save the data from a resource to a node attribute
     # @param [TrueClass, FalseClass, Array] attributes Attributes to save (or true/false)
     # @param [String, Symbol] name Resource name
-    # @param [Hash] data Data hash to save
-    def save_res_info(attributes, name, data)
+    # @param [OneviewSDK::Resource] item to save data for
+    def save_res_info(attributes, name, item)
+      ov_url = item.client.url.to_s
       case attributes
-      when Array
-        node.default['oneview']['resources'][name] = data.select { |k, _v| attributes.include?(k) }
+      when Array # save subset
+        node.default['oneview'][ov_url][name.to_s] = item.data.select { |k, _v| attributes.include?(k) }
       when TrueClass # save all
-        node.default['oneview']['resources'][name] = data
+        node.default['oneview'][ov_url][name.to_s] = item.data
       end
     rescue StandardError => e
       Chef::Log.error "Failed to save resource data for '#{name}': #{e.message}"
