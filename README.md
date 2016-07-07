@@ -39,6 +39,8 @@ See [attributes/default.rb](attributes/default.rb) for more info.
 
 ### Resource Parameters
 
+The following are the standard parameters available for all resources. Some resources have additional parameters or small differences; see their doc sections below for more details.
+
  - **client**: Hash or OneviewSDK::Client object that contains information about how to connect to the OneView instance. Required attributes are: `url`, `user`, and `password`. See [this](https://github.hpe.com/Rainforest/oneview-sdk-ruby#configuration) for more options.
  - **data**: Hash specifying options for this resource. Refer to the OneView API docs for what's available and/or required. If no name attribute is given, it will use the name given to the Chef resource.
  - **action**: Symbol specifying what to do with this resource. Options for most resources (some may differ):
@@ -47,7 +49,6 @@ See [attributes/default.rb](attributes/default.rb) for more info.
    - `:delete` - Delete this resource from OneView. For this, you only need to specify the resource name or uri in the data section.
  - **save_resource_info**: (See the `node['oneview']['save_resource_info']` attribute above.) Defaults to `node['oneview']['save_resource_info']`. Doesn't apply to the `:delete` action
    - Once the resource is created, you can access this data at `node['oneview'][<oneview_url>][<resource_name>]`. This can be useful to extract URIs from other resources, etc.
- - **type**: (For generic `oneview_resource` only) String or Symbol corresponding to the name of the resource type. For example, `EthernetNetwork`, `Enclosure`, `Volume` etc. These should line up with the OneView SDK resource classes listed [here](https://github.hpe.com/Rainforest/oneview-sdk-ruby/tree/master/lib/oneview-sdk/resource).
 
 ### oneview_resource
 
@@ -65,6 +66,8 @@ oneview_resource '' do
   action [:create, :create_if_missing, :delete] # (Choose only 1)
 end
 ```
+
+**type:** String or Symbol corresponding to the name of the resource type. For example, `EthernetNetwork`, `Enclosure`, `Volume` etc. These should line up with the OneView SDK resource classes listed [here](https://github.hpe.com/Rainforest/oneview-sdk-ruby/tree/master/lib/oneview-sdk/resource).
 
 ### oneview_ethernet_network
 
