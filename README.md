@@ -1,5 +1,7 @@
 # Cookbook for HPE OneView
 
+[![Cookbook Version](https://img.shields.io/cookbook/v/oneview.svg)](https://supermarket.chef.io/cookbooks/oneview)
+
 Chef cookbook that provides resources for managing OneView.
 
 **NOTE:** This is a beta version that provides a few specific Chef resources and a generic `oneview_resource` Chef resource.
@@ -22,6 +24,7 @@ Use it by creating a new cookbook and specifying a dependency on this cookbook i
 depends 'oneview'
 ```
 
+
 ## Attributes
 
  - `node['oneview']['ruby_sdk_version']` - Set which version of the SDK to install and use. Defaults to `'~> 1.0'`
@@ -34,19 +37,19 @@ See [attributes/default.rb](attributes/default.rb) for more info.
 
 ## Resources
 
-#### Resource Parameters
+### Resource Parameters
 
- - **client**: Hash or OneviewSDK::Client object that contains information about how to connect to the OneView instance. Required attributes are: `url`, `user`, and `password`.
- - **type**: (For generic `oneview_resource` only) String or Symbol corresponding to the name of the resource type. For example, `EthernetNetwork`, `Enclosure`, `Volume` etc. These should line up with the OneView SDK resource classes listed [here](https://github.hpe.com/Rainforest/oneview-sdk-ruby/tree/master/lib/oneview-sdk/resource).
+ - **client**: Hash or OneviewSDK::Client object that contains information about how to connect to the OneView instance. Required attributes are: `url`, `user`, and `password`. See [this](https://github.hpe.com/Rainforest/oneview-sdk-ruby#configuration) for more options.
  - **data**: Hash specifying options for this resource. Refer to the OneView API docs for what's available and/or required. If no name attribute is given, it will use the name given to the Chef resource.
  - **action**: Symbol specifying what to do with this resource. Options for most resources (some may differ):
    - `:create` - (Default) Ensure this resource exists and matches the data given.
    - `:create_if_missing` - Ensure this resource exists, but don't ensure it is up to date on subsequent chef-client runs.
    - `:delete` - Delete this resource from OneView. For this, you only need to specify the resource name or uri in the data section.
  - **save_resource_info**: (See the `node['oneview']['save_resource_info']` attribute above.) Defaults to `node['oneview']['save_resource_info']`. Doesn't apply to the `:delete` action
-   - Once the resource is created, you can access this data at `node['oneview']['resources'][<resource_name>]`. This can be useful to extract URIs from other resources, etc.
+   - Once the resource is created, you can access this data at `node['oneview'][<oneview_url>][<resource_name>]`. This can be useful to extract URIs from other resources, etc.
+ - **type**: (For generic `oneview_resource` only) String or Symbol corresponding to the name of the resource type. For example, `EthernetNetwork`, `Enclosure`, `Volume` etc. These should line up with the OneView SDK resource classes listed [here](https://github.hpe.com/Rainforest/oneview-sdk-ruby/tree/master/lib/oneview-sdk/resource).
 
-#### oneview_resource
+### oneview_resource
 
 This is a generic provider for managing any OneView resource.
 This really exists only for resources that don't have a specific provider; if a specific one exists, please use it instead
@@ -63,7 +66,7 @@ oneview_resource '' do
 end
 ```
 
-#### oneview_ethernet_network
+### oneview_ethernet_network
 
 Ethernet network resource for HPE OneView.
 
@@ -75,7 +78,7 @@ oneview_ethernet_network 'Eth1' do
 end
 ```
 
-#### oneview_fc_network
+### oneview_fc_network
 
 FC network resource for HPE OneView.
 
@@ -88,7 +91,7 @@ end
 ```
 
 
-#### oneview_fc_network
+### oneview_fc_network
 
 FCoE network resource for HPE OneView.
 
@@ -101,7 +104,7 @@ end
 ```
 
 
-#### oneview_logical_interconnect_group
+### oneview_logical_interconnect_group
 
 Logical Interconnect Group resource for HPE OneView.
 
@@ -170,7 +173,7 @@ interconnects_data = [
   ]
   ```
 
-#### oneview_enclosure_group
+### oneview_enclosure_group
 
 Enclosure Group resource for HPE OneView.
 
@@ -183,7 +186,7 @@ oneview_enclosure_group 'EnclosureGroup_1' do
 end
 ```
 
-#### oneview_enclosure
+### oneview_enclosure
 
 Enclosure resource for HPE OneView.
 
@@ -196,7 +199,7 @@ oneview_enclosure 'Encl1' do
 end
 ```
 
-#### oneview_volume
+### oneview_volume
 
 Volume resource for HPE OneView.
 
@@ -220,7 +223,7 @@ end
 
 :memo: **NOTE**: Only one of `storage_system_name` and `storage_system_ip` need to be provided. If both are specified at once, the `storage_system_ip` prevails, then ignoring `storage_system_name` value.
 
-#### oneview_volume_template
+### oneview_volume_template
 
 Volume Template resource for HPE OneView.
 
@@ -254,7 +257,7 @@ end
     :provisionType          | :provisionType
 
 
-#### oneview_storage_pool
+### oneview_storage_pool
 
 Storage pool resource for HPE OneView.
 
@@ -266,7 +269,7 @@ oneview_storage_pool 'CPG_FC-AO' do
 end
 ```
 
-#### oneview_storage_system
+### oneview_storage_system
 
 Storage system resource for HPE OneView.
 
@@ -290,7 +293,7 @@ oneview_storage_system 'ThreePAR7200-8147' do
 end
 ```
 
-#### oneview_logical_enclosure
+### oneview_logical_enclosure
 
 Logical enclosure resource for HPE OneView.
 
@@ -301,7 +304,7 @@ oneview_logical_enclosure 'Encl1' do
 end
 ```
 
-### Examples
+## Examples
 
  - **Create an ethernet network**
 
@@ -364,14 +367,14 @@ end
       username: 'admin',
       password: 'secret123',
       licensingIntent: 'OneView',
-      enclosureGroupUri: node['oneview']['resources']['Enclosure-Group-1']['uri']
+      enclosureGroupUri: node['oneview'][my_client.url]['Enclosure-Group-1']['uri']
     }}
     client my_client
     save_resource_info ['uri'] # Only save this to the node attributes
   end
   ```
 
-  Note: The data hash is wrapped in a lazy block so that `node['oneview']['resources']['Enclosure-Group-1']['uri']` will be set before the resource parameters are parsed. However, the recommended way is to use the `enclosure_group` (name) parameter, where the uri will be fetched at runtime; this just shows how you can use `lazy` with the node attributes that are saved.
+  Note: The data hash is wrapped in a lazy block so that `node['oneview'][my_client.url]['Enclosure-Group-1']['uri']` will be set before the resource parameters are parsed. However, the recommended way is to use the `enclosure_group` (name) parameter, where the uri will be fetched at runtime; this just shows how you can use `lazy` with the node attributes that are saved.
 
  - **Delete a fibre channel network**
 
@@ -397,7 +400,7 @@ We are passionate about improving this project, and glad to accept help to make 
 **Feature Requests:** If you have a need that is not met by the current implementation, please let us know (via a new issue).
 This feedback is crucial for us to deliver a useful product. Do not assume we have already thought of everything, because we assure you that is not the case.
 
-### Testing
+## Testing
 
  - Rubocop: `$ rake rubocop`
  - Foodcritic: `$ rake foodcritic`

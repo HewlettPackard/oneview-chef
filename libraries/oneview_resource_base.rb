@@ -48,7 +48,7 @@ module OneviewCookbook
         end
         ret_val = true
       end
-      save_res_info(save_resource_info, name, item.data)
+      save_res_info(save_resource_info, name, item)
       ret_val
     end
 
@@ -68,7 +68,7 @@ module OneviewCookbook
         end
         ret_val = true
       end
-      save_res_info(save_resource_info, name, item.data)
+      save_res_info(save_resource_info, name, item)
       ret_val
     end
 
