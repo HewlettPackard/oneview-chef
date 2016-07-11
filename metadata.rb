@@ -1,7 +1,7 @@
-# (C) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
-# You may not use this file except in compliance with the License.
+# you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software distributed
@@ -14,7 +14,7 @@ maintainer       'Hewlett Packard Enterprise'
 maintainer_email 'chef-cookbooks@groups.ext.hpe.com'
 license          'Apache v2.0'
 description      'Provides OneView resources'
-long_description 'Provides OneView resources'
+long_description 'Provides resources for configuring HPE OneView-managed devices'
 
 version          '0.1.0'
 

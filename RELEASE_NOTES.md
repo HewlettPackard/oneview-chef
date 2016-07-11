@@ -3,7 +3,7 @@
 ## v0.1.0
 
 In the future, there will be individual Chef resources for each OneView resource.
-However, at this beta stage, only a few specific resources and a generic `oneview_resource` is available.
+However, at this beta stage, only a subset of specific resources and a generic `oneview_resource` are available.
 (The generic one will continue to exist, so don't worry about having to rewrite everything when additional resources are added.)
 With the generic model, you may find that particular resources don't support certain actions or have slightly different behaviors.
 Here are some known specifics for different resource types:
