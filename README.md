@@ -41,7 +41,7 @@ See [attributes/default.rb](attributes/default.rb) for more info.
 
 The following are the standard parameters available for all resources. Some resources have additional parameters or small differences; see their doc sections below for more details.
 
- - **client**: Hash or OneviewSDK::Client object that contains information about how to connect to the OneView instance. Required attributes are: `url`, `user`, and `password`. See [this](https://github.hpe.com/Rainforest/oneview-sdk-ruby#configuration) for more options.
+ - **client**: Hash or OneviewSDK::Client object that contains information about how to connect to the OneView instance. Required attributes are: `url`, `user`, and `password`. See [this](https://github.com/HewlettPackard/oneview-sdk-ruby#configuration) for more options.
  - **data**: Hash specifying options for this resource. Refer to the OneView API docs for what's available and/or required. If no name attribute is given, it will use the name given to the Chef resource.
  - **action**: Symbol specifying what to do with this resource. Options for most resources (some may differ):
    - `:create` - (Default) Ensure this resource exists and matches the data given.
@@ -67,7 +67,7 @@ oneview_resource '' do
 end
 ```
 
-**type:** String or Symbol corresponding to the name of the resource type. For example, `EthernetNetwork`, `Enclosure`, `Volume` etc. These should line up with the OneView SDK resource classes listed [here](https://github.hpe.com/Rainforest/oneview-sdk-ruby/tree/master/lib/oneview-sdk/resource).
+**type:** String or Symbol corresponding to the name of the resource type. For example, `EthernetNetwork`, `Enclosure`, `Volume` etc. These should line up with the OneView SDK resource classes listed [here](https://github.com/HewlettPackard/oneview-sdk-ruby/tree/master/lib/oneview-sdk/resource).
 
 ### oneview_ethernet_network
 
@@ -405,8 +405,8 @@ This feedback is crucial for us to deliver a useful product. Do not assume we ha
 
 ## Testing
 
- - Rubocop: `$ rake rubocop`
- - Foodcritic: `$ rake foodcritic`
+ - Style (Rubocop & Foodcritic): `$ rake style`
+ - Unit: `$ rake unit`
  - Run all tests: `$ rake test`
 
 ## Authors
