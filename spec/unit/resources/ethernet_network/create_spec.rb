@@ -12,6 +12,7 @@ describe 'oneview_test::ethernet_network_create' do
 
   it 'updates it when it exists but not alike' do
     expect_any_instance_of(OneviewSDK::EthernetNetwork).to receive(:exists?).and_return(true)
+    expect_any_instance_of(OneviewSDK::EthernetNetwork).to receive(:retrieve!).and_return(true)
     expect_any_instance_of(OneviewSDK::EthernetNetwork).to receive(:like?).and_return(false)
     expect_any_instance_of(OneviewSDK::EthernetNetwork).to receive(:update).and_return(true)
     expect(real_chef_run).to create_oneview_ethernet_network('EthernetNetwork1')
@@ -19,6 +20,7 @@ describe 'oneview_test::ethernet_network_create' do
 
   it 'does nothing when it exists and is alike' do
     expect_any_instance_of(OneviewSDK::EthernetNetwork).to receive(:exists?).and_return(true)
+    expect_any_instance_of(OneviewSDK::EthernetNetwork).to receive(:retrieve!).and_return(true)
     expect_any_instance_of(OneviewSDK::EthernetNetwork).to receive(:like?).and_return(true)
     expect_any_instance_of(OneviewSDK::EthernetNetwork).to_not receive(:update)
     expect_any_instance_of(OneviewSDK::EthernetNetwork).to_not receive(:create)
