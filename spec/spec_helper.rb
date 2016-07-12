@@ -34,7 +34,7 @@ end
 # General context for unit testing:
 RSpec.shared_context 'shared context', a: :b do
   before :each do
-    @ov_options = { url: 'oneview.example.com', user: 'Administrator', password: 'secret123' }
+    @ov_options = { url: 'https://oneview.example.com', user: 'Administrator', password: 'secret123' }
     @client = OneviewSDK::Client.new(@ov_options)
     @resource = OneviewSDK::Resource.new(@client)
   end
@@ -43,17 +43,13 @@ end
 # Context for chefspec testing:
 RSpec.shared_context 'chef context', a: :b do
   let(:chef_run) do
-    runner = ChefSpec::ServerRunner.new
+    runner = ChefSpec::SoloRunner.new
     runner.converge(described_recipe)
   end
 
   let(:real_chef_run) do
     # NOTE: Must define resource_name in each spec file
-    runner = ChefSpec::ServerRunner.new(step_into: ["oneview_#{resource_name}"])
+    runner = ChefSpec::SoloRunner.new(step_into: ["oneview_#{resource_name}"])
     runner.converge(described_recipe)
-  end
-
-  before :each do
-    allow_any_instance_of(OneviewSDK::Resource).to receive(:retrieve!).and_return(true)
   end
 end

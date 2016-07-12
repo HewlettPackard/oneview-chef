@@ -14,4 +14,4 @@
 # specific language governing permissions and limitations under the License.
 #
 
-default['oneview_test']['client'] = { url: 'oneview.example.com', user: 'Administrator', password: 'secret123' }
+default['oneview_test']['client'] = { url: 'https://oneview.example.com', user: 'Administrator', password: 'secret123' }
