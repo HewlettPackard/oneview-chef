@@ -12,8 +12,7 @@
 client = {
   url: '',
   user: '',
-  password: '',
-  ssl_enabled: false
+  password: ''
 }
 
 storage_system_credentials = {

@@ -12,8 +12,7 @@
 client = {
   url: '',
   user: '',
-  password: '',
-  ssl_enabled: false
+  password: ''
 }
 
 oneview_ethernet_network 'Eth1' do

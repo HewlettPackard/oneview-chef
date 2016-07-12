@@ -12,11 +12,10 @@
 # NOTE: This recipe requires one Storage System with IP '172.18.11.11'
 # and one Storage Pool named 'CPG-SSD-AO' associated to this Storage System
 
-my_client = {
-  url: 'https://XXX.XXX.XXX.XXX/',
-  user: 'USR',
-  password: 'PWD',
-  ssl_enabled: false
+client = {
+  url: '',
+  user: '',
+  password: ''
 }
 
 volume_template_data_1 = {
@@ -29,7 +28,7 @@ volume_template_data_1 = {
 }
 
 oneview_volume_template 'CHEF_VOL_TEMP_01' do
-  client my_client
+  client client
   data volume_template_data_1
   storage_system_ip '172.18.11.11'
   storage_pool 'CPG-SSD-AO'
@@ -37,6 +36,6 @@ oneview_volume_template 'CHEF_VOL_TEMP_01' do
 end
 
 oneview_volume_template 'CHEF_VOL_TEMP_01' do
-  client my_client
+  client client
   action :delete
 end

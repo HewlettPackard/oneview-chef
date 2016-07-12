@@ -14,11 +14,10 @@
 # FC Network: CHEF_FC_NETWORK_01
 
 
-my_client = {
-  url: 'https://XXX.XXX.XXX.XXX/',
-  user: 'USR',
-  password: 'PWD',
-  ssl_enabled: false
+client = {
+  url: '',
+  user: '',
+  password: ''
 }
 
 # Simple Logical Interconnect group creation without interconnects and uplinks
@@ -28,14 +27,14 @@ lig_data = {
 }
 
 oneview_logical_interconnect_group 'CHEF_LIG_01' do
-  client my_client
+  client client
   data lig_data
   action :create
 end
 
 # Logical Interconnect group creation with interconnects but without uplinks
 oneview_logical_interconnect_group 'CHEF_LIG_02' do
-  client my_client
+  client client
   data lig_data
   interconnects [
     {bay: 1, type: 'HP VC FlexFabric 10Gb/24-Port Module'},
@@ -74,7 +73,7 @@ connections_02 = [
 networks_02 = ['CHEF_FC_NETWORK_01']
 
 oneview_logical_interconnect_group 'CHEF_LIG_03' do
-  client my_client
+  client client
   data lig_data
   interconnects [
       {bay: 1, type: 'HP VC FlexFabric 10Gb/24-Port Module'},
@@ -89,19 +88,19 @@ end
 
 
 oneview_logical_interconnect_group 'CHEF_LIG_01' do
-  client my_client
+  client client
   data ({})
   action :delete
 end
 
 oneview_logical_interconnect_group 'CHEF_LIG_02' do
-  client my_client
+  client client
   data ({})
   action :delete
 end
 
 oneview_logical_interconnect_group 'CHEF_LIG_03' do
-  client my_client
+  client client
   data ({})
   action :delete
 end

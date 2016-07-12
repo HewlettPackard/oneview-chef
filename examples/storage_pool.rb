@@ -12,8 +12,7 @@
 client = {
   url: '',
   user: '',
-  password: '',
-  ssl_enabled: false
+  password: ''
 }
 
 oneview_storage_pool 'CPG_FC-AO' do

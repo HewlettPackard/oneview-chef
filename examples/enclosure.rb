@@ -15,8 +15,7 @@
 client = {
   url: '',
   user: '',
-  password: '',
-  ssl_enabled: false
+  password: ''
 }
 
 oneview_enclosure 'Encl1' do

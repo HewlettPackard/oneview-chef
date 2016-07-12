@@ -12,8 +12,7 @@
 client = {
   url: '',
   user: '',
-  password: '',
-  ssl_enabled: false
+  password: ''
 }
 
 oneview_fc_network 'Fc1' do

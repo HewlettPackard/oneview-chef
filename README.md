@@ -4,7 +4,7 @@
 
 Chef cookbook that provides resources for managing OneView.
 
-**NOTE:** This is a beta version that provides a few specific Chef resources and a generic `oneview_resource` Chef resource.
+**NOTE:** This is a beta version that provides a subset of specific Chef resources and a generic `oneview_resource` Chef resource.
 Additional Chef resources will be added in future releases, but the functionality of the generic resource will stay.
 With the generic model, you may find that particular OneView resources don't support certain actions or have slightly different behaviors.
 See [RELEASE_NOTES.md](RELEASE_NOTES.md) for more details.

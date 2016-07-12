@@ -9,11 +9,10 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-my_client = {
+client = {
   url: '',
   user: '',
-  password: '',
-  ssl_enabled: false
+  password: ''
 }
 
 volume_data_1 = {
@@ -26,7 +25,7 @@ volume_data_1 = {
 }
 
 oneview_volume 'CHEF_VOL_01' do
-  client my_client
+  client client
   data volume_data_1
   storage_system_ip '172.18.11.11'
   storage_pool 'CPG-SSD-AO'
@@ -34,6 +33,6 @@ oneview_volume 'CHEF_VOL_01' do
 end
 
 oneview_volume 'CHEF_VOL_01' do
-  client my_client
+  client client
   action :delete
 end
