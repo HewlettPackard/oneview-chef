@@ -1,5 +1,6 @@
 # Cookbook for HPE OneView
 
+
 [![Cookbook Version](https://img.shields.io/cookbook/v/oneview.svg)](https://supermarket.chef.io/cookbooks/oneview)
 
 Chef cookbook that provides resources for managing OneView.
