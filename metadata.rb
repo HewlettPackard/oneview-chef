@@ -24,7 +24,7 @@ issues_url       'https://github.com/HewlettPackard/oneview-chef/issues' if resp
 chef_version     '>= 12' if respond_to?(:chef_version)
 depends          'compat_resource'
 
-gem              'oneview-sdk' if respond_to?(:gem)
+gem              'oneview-sdk', '=1.0.0' if respond_to?(:gem)
 
 supports         'amazon'
 supports         'arch'
