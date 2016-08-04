@@ -16,7 +16,7 @@ license          'Apache v2.0'
 description      'Provides OneView resources'
 long_description 'Provides resources for configuring HPE OneView-managed devices'
 
-version          '0.1.0'
+version          '0.2.0'
 
 source_url       'https://github.com/HewlettPackard/oneview-chef' if respond_to?(:source_url)
 issues_url       'https://github.com/HewlettPackard/oneview-chef/issues' if respond_to?(:issues_url)
@@ -24,7 +24,7 @@ issues_url       'https://github.com/HewlettPackard/oneview-chef/issues' if resp
 chef_version     '>= 12' if respond_to?(:chef_version)
 depends          'compat_resource'
 
-gem              'oneview-sdk', '=1.0.0' if respond_to?(:gem)
+gem              'oneview-sdk' if respond_to?(:gem)
 
 supports         'amazon'
 supports         'arch'
