@@ -1,5 +1,9 @@
 # Release Notes
 
+## v0.1.1
+This is basically the same initial version as before, but now as Ruby SDK released a new gem with some breaking changes, we are fixing the cookbook to use version `1.0.0` of the Ruby SDK.
+If desired, the version can be changed in the `/attributes/default.rb`, but doing this may result in failures in some actions for some resources.
+
 ## v0.1.0
 
 In the future, there will be individual Chef resources for each OneView resource.

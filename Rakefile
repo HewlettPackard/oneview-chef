@@ -14,6 +14,7 @@ require 'bundler/setup'
 require 'rspec/core/rake_task'
 require 'rubocop/rake_task'
 require 'foodcritic'
+require 'stove/rake_task'
 
 task default: :test
 
@@ -45,3 +46,6 @@ task style: [:rubocop, :foodcritic]
 
 desc 'Runs all style and unit tests'
 task test: [:style, :unit]
+
+# Stove publishing Rake Task
+Stove::RakeTask.new
