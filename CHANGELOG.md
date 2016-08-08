@@ -1,4 +1,4 @@
-### 1.0.0-dev
+### 1.0.0
   - Upgraded Ruby SDK version to 2.0.0
   - Fixed add/create, delete/remove for resources
 
