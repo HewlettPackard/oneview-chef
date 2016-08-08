@@ -23,10 +23,12 @@ module OneviewCookbook
 
   # Oneview Resources base actions
   module ResourceBase
-    # Create a OneView resource or update it if exists
+    # Creates an OneView resource or updates it if exists
     # @param [OneviewSDK::Resource] item item to be created or updated
+    # @param [Symbol] method_1 Create or add method
+    # @param [Symbol] method_2 Update or edit method
     # @return [TrueClass, FalseClass] Returns true if the resource was created, false if updated or unchanged
-    def create_or_update(item = nil)
+    def create_or_update(item = nil, method_1 = :create, method_2 = :update)
       ret_val = false
       item ||= load_resource
       temp = item.data.clone
@@ -36,15 +38,15 @@ module OneviewCookbook
           Chef::Log.info("#{resource_name} '#{name}' is up to date")
         else
           Chef::Log.debug "#{resource_name} '#{name}' Chef resource differs from OneView resource."
-          Chef::Log.info "Update #{resource_name} '#{name}'"
-          converge_by "Update #{resource_name} '#{name}'" do
-            item.update(temp) # Note: Assumes resources supports #update
+          Chef::Log.info "#{method_2.to_s.capitalize} #{resource_name} '#{name}'"
+          converge_by "#{method_2.to_s.capitalize} #{resource_name} '#{name}'" do
+            item.update(temp)
           end
         end
       else
-        Chef::Log.info "Create #{resource_name} '#{name}'"
-        converge_by "Create #{resource_name} '#{name}'" do
-          item.create
+        Chef::Log.info "#{method_1.to_s.capitalize} #{resource_name} '#{name}'"
+        converge_by "#{method_1.to_s.capitalize} #{resource_name} '#{name}'" do
+          item.send(method_1)
         end
         ret_val = true
       end
@@ -52,19 +54,27 @@ module OneviewCookbook
       ret_val
     end
 
-    # Create a OneView resource only if it doesn't exist
+    # Adds a resource to OneView or edits it if exists
+    # @param [OneviewSDK::Resource] item item to be added or edited
+    # @return [TrueClass, FalseClass] Returns true if the resource was added, false if edited or unchanged
+    def add_or_edit(item = nil)
+      create_or_update(item, :add, :edit)
+    end
+
+    # Creates a OneView resource only if it doesn't exist
     # @param [OneviewSDK::Resource] item item to be created
-    # @return [TrueClass, FalseClass] Returns true if the resource was created
-    def create_if_missing(item = nil)
+    # @param [Symbol] method Create or add method
+    # @return [TrueClass, FalseClass] Returns true if the resource was created/added
+    def create_if_missing(item = nil, method = :create)
       ret_val = false
       item ||= load_resource
       if item.exists?
         Chef::Log.info("'#{resource_name} #{name}' exists. Skipping")
         item.retrieve! if save_resource_info
       else
-        Chef::Log.info "Create #{resource_name} '#{name}'"
-        converge_by "Create #{resource_name} '#{name}'" do
-          item.create
+        Chef::Log.info "#{method.to_s.capitalize} #{resource_name} '#{name}'"
+        converge_by "#{method.to_s.capitalize} #{resource_name} '#{name}'" do
+          item.send(method)
         end
         ret_val = true
       end
@@ -72,16 +82,31 @@ module OneviewCookbook
       ret_val
     end
 
+    # Adds a resource to OneView only if it doesn't exist
+    # @param [OneviewSDK::Resource] item item to be added
+    # @return [TrueClass, FalseClass] Returns true if the resource was added
+    def add_if_missing(item = nil)
+      create_if_missing(item, :add)
+    end
+
     # Delete a OneView resource if it exists
-    # @param [OneviewSDK::Resource] item item to be deleted
-    # @return [TrueClass, FalseClass] Returns true if the resource was deleted
-    def delete(item = nil)
+    # @param [OneviewSDK::Resource] item Item to be deleted
+    # @param [Symbol] method Delete or remove method
+    # @return [TrueClass, FalseClass] Returns true if the resource was deleted/removed
+    def delete(item = nil, method = :delete)
       item ||= load_resource
       return false unless item.retrieve!
-      converge_by "Delete #{resource_name} '#{name}'" do
-        item.delete
+      converge_by "#{method.to_s.capitalize} #{resource_name} '#{name}'" do
+        item.send(method)
       end
       true
+    end
+
+    # Removes a resource from OneView if it exists
+    # @param [OneviewSDK::Resource] item item to be removed
+    # @return [TrueClass, FalseClass] Returns true if the resource was removed
+    def remove(item = nil)
+      delete(item, :remove)
     end
 
     # Let Chef know that the why-run flag is supported

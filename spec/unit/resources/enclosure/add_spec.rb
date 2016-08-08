@@ -6,7 +6,7 @@ describe 'oneview_test::enclosure_add' do
 
   it 'adds it when it does not exist' do
     expect_any_instance_of(OneviewSDK::Enclosure).to receive(:exists?).and_return(false)
-    expect_any_instance_of(OneviewSDK::Enclosure).to receive(:create).and_return(true)
+    expect_any_instance_of(OneviewSDK::Enclosure).to receive(:add).and_return(true)
     expect(real_chef_run).to add_oneview_enclosure('Enclosure1')
   end
 
@@ -23,7 +23,7 @@ describe 'oneview_test::enclosure_add' do
     expect_any_instance_of(OneviewSDK::Enclosure).to receive(:retrieve!).and_return(true)
     expect_any_instance_of(OneviewSDK::Enclosure).to receive(:like?).and_return(true)
     expect_any_instance_of(OneviewSDK::Enclosure).to_not receive(:update)
-    expect_any_instance_of(OneviewSDK::Enclosure).to_not receive(:create)
+    expect_any_instance_of(OneviewSDK::Enclosure).to_not receive(:add)
     expect(real_chef_run).to add_oneview_enclosure('Enclosure1')
   end
 end

@@ -6,7 +6,7 @@ describe 'oneview_test::storage_pool_add_with_ip' do
 
   before :each do
     allow_any_instance_of(OneviewSDK::StoragePool).to receive(:exists?).and_return(false)
-    allow_any_instance_of(OneviewSDK::StoragePool).to receive(:create).and_return(true)
+    allow_any_instance_of(OneviewSDK::StoragePool).to receive(:add).and_return(true)
     # rubocop:disable Style/RescueModifier
     allow_any_instance_of(OneviewSDK::StorageSystem).to receive(:retrieve!).and_call_original rescue nil # This is needed for some strange reason
     # rubocop:enable Style/RescueModifier
@@ -26,7 +26,7 @@ describe 'oneview_test::storage_pool_add_with_name' do
 
   before :each do
     allow_any_instance_of(OneviewSDK::StoragePool).to receive(:exists?).and_return(false)
-    allow_any_instance_of(OneviewSDK::StoragePool).to receive(:create).and_return(true)
+    allow_any_instance_of(OneviewSDK::StoragePool).to receive(:add).and_return(true)
     # rubocop:disable Style/RescueModifier
     allow_any_instance_of(OneviewSDK::StorageSystem).to receive(:retrieve!).and_call_original rescue nil # This is needed for some strange reason
     # rubocop:enable Style/RescueModifier
