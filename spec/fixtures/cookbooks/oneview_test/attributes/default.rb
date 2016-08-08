@@ -13,5 +13,5 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 #
-default['oneview']['ruby_sdk_version'] = '= 2.0.0'
+default['oneview']['ruby_sdk_version'] = '~> 2.0'
 default['oneview_test']['client'] = { url: 'https://oneview.example.com', user: 'Administrator', password: 'secret123' }
