@@ -12,7 +12,7 @@
 # Set which version of the SDK to install and use:
 # Warning: Changing the SDK version may cause issues within the Cookbook
 # Edit only if you know exactly what are you doing
-default['oneview']['ruby_sdk_version'] = '= 1.0.0'
+default['oneview']['ruby_sdk_version'] = '~> 2.0'
 
 # Save resource info to a node attribute? Possible values/types:
 #  - true  : Save all info (Merged hash of OneView info and Chef resource properties)

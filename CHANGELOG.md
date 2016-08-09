@@ -1,3 +1,7 @@
+### New
+  - Upgraded Ruby SDK version to 2.0.0
+  - Fixed add/create, delete/remove for resources
+
 ### 0.1.1
   - Fixed Ruby SDK version to 1.0.0
   - Added Stove support (using `rake`)

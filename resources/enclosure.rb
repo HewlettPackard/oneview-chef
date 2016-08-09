@@ -26,9 +26,9 @@ action :add do
     eg = OneviewSDK::EnclosureGroup.new(item.client, name: enclosure_group)
     item.set_enclosure_group(eg)
   end
-  create_or_update(item)
+  add_or_edit(item)
 end
 
 action :remove do
-  delete
+  remove
 end

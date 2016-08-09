@@ -9,7 +9,7 @@ RSpec.describe OneviewCookbook::Helper do
   end
 
   let(:sdk_version) do
-    '~> 1.0'
+    '~> 2.0'
   end
 
   describe '#load_sdk' do

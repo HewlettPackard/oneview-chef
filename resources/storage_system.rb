@@ -21,11 +21,11 @@ end
 action :add do
   item = load_resource
   item.data.delete('name')
-  create_if_missing(item)
+  add_if_missing(item)
 end
 
 action :remove do
   item = load_resource
   item.data.delete('name') if item['credentials'] && item['credentials'][:ip_hostname]
-  delete(item)
+  remove(item)
 end

@@ -31,9 +31,9 @@ action :add do
   end
   storage_system.retrieve!
   item.set_storage_system(storage_system)
-  create_or_update(item)
+  add_or_edit(item)
 end
 
 action :remove do
-  delete
+  remove
 end

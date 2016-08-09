@@ -96,6 +96,13 @@ RSpec.describe OneviewCookbook::ResourceBase do
     end
   end
 
+  describe '#add_or_edit' do
+    it 'provides add or edit support' do
+      expect(base).to receive(:create_or_update).with(nil, :add, :edit).and_return(true)
+      base.add_or_edit
+    end
+  end
+
   describe '#create_if_missing' do
     it 'accepts a resource as a parameter' do
       expect(base).to_not receive(:load_resource)
@@ -131,6 +138,13 @@ RSpec.describe OneviewCookbook::ResourceBase do
     end
   end
 
+  describe '#add_if_missing' do
+    it 'provides add if missing support' do
+      expect(base).to receive(:create_if_missing).with(nil, :add).and_return(true)
+      base.add_if_missing
+    end
+  end
+
   describe '#delete' do
     it 'accepts a resource as a parameter' do
       expect(@resource).to receive(:retrieve!).and_return(false)
@@ -152,6 +166,13 @@ RSpec.describe OneviewCookbook::ResourceBase do
     it 'returns false if the resource cannot be retrieved' do
       expect(@resource).to receive(:retrieve!).and_return(false)
       expect(base.delete(@resource)).to eq(false)
+    end
+  end
+
+  describe 'remove' do
+    it 'provides support for remove' do
+      expect(base).to receive(:delete).with(nil, :remove).and_return(true)
+      base.remove
     end
   end
 
