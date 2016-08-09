@@ -1,6 +1,7 @@
 ### New
   - Upgraded Ruby SDK version to 2.0.0
   - Fixed add/create, delete/remove for resources
+  - Enclosure group actions
 
 ### 0.1.1
   - Fixed Ruby SDK version to 1.0.0

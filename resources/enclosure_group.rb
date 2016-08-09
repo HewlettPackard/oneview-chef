@@ -11,6 +11,7 @@
 
 OneviewCookbook::ResourceBaseProperties.load(self)
 
+property :script, String
 property :logical_interconnect_group, String # Name of LIG
 
 default_action :create
@@ -40,4 +41,18 @@ end
 
 action :delete do
   delete
+end
+
+action :set_text_script do
+  item = load_resource
+  item.retrieve!
+
+  if item.get_script.eql? script
+    Chef::Log.info("#{resource_name} '#{name}' script is up to date")
+  else
+    Chef::Log.debug "#{resource_name} '#{name}' Chef resource differs from OneView resource."
+    converge_by "Updated script for #{resource_name} '#{name}'" do
+      item.set_script(script)
+    end
+  end
 end
