@@ -8,15 +8,15 @@
 # under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
-a = 2
-if a == 2
+
+if defined?(ChefSpec)
   # Instead of defining each matcher method, we're going to save some time by doing some meta programming
   # To see a full list of the actual matchers, see spec/unit/resources/matchers_spec.rb
   standard_actions = [:create, :create_if_missing, :delete]
   oneview_resources = {
     oneview_resource:                   standard_actions,
     oneview_enclosure:                  [:add, :remove],
-    oneview_enclosure_group:            [:create, :create_if_missing, :delete, :set_text_script],
+    oneview_enclosure_group:            [:create, :create_if_missing, :delete, :set_script],
     oneview_ethernet_network:           standard_actions,
     oneview_fc_network:                 standard_actions,
     oneview_fcoe_network:               standard_actions,
@@ -33,7 +33,7 @@ if a == 2
       method_name = case action
                     when :create_if_missing then "create_#{resource_type}_if_missing"
                     when :update_from_group then "update_#{resource_type}_from_group"
-                    when :set_text_script then "set_#{resource_type}_text_script"
+                    when :set_script then "set_#{resource_type}_script"
                     else "#{action}_#{resource_type}"
                     end
       define_method(method_name) do |resource_name|

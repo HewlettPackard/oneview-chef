@@ -43,7 +43,7 @@ action :delete do
   delete
 end
 
-action :set_text_script do
+action :set_script do
   item = load_resource
   item.retrieve!
 

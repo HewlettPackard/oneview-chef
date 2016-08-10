@@ -17,5 +17,5 @@
 oneview_enclosure_group 'EnclosureGroup3' do
   client node['oneview_test']['client']
   script 'hello, world!'
-  action :set_text_script
+  action :set_script
 end
