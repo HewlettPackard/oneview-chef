@@ -89,5 +89,17 @@ module OneviewCookbook
     rescue StandardError => e
       Chef::Log.error "Failed to save resource data for '#{name}': #{e.message}"
     end
+
+    # Utility method that converts Hash symbol to string keys
+    # @param [Hash] info Hash containing the dataset
+    # @param [Symbol] conversion_method Symbol representing the method to be called in the conversion
+    def convert_keys(info, conversion_method)
+      support = {}
+      info.each do |k, _|
+        convert_keys(info[k]) if info[k].class == Hash
+        support[k.public_send(conversion_method)] = info.delete(k)
+      end
+      support
+    end
   end
 end
