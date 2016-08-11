@@ -155,4 +155,42 @@ RSpec.describe OneviewCookbook::Helper do
       helper.save_res_info([], @name, nil)
     end
   end
+
+  describe '#convert_keys' do
+    it 'converts simple hash keys' do
+      simple_1 = { a: 1, b: 2, c: 3 }
+      helper.convert_keys(simple_1, :to_s).each { |k, _| expect(k).class == String }
+    end
+
+    it 'converts unary hash key' do
+      simple_2 = { a: 1 }
+      conv = helper.convert_keys(simple_2, :to_s)
+      expect(conv['a']).to eq(1)
+    end
+
+    it 'ignores empty hashes' do
+      expect { helper.convert_keys({}, :to_s) }.to_not raise_error
+    end
+
+    it 'converts nested hash keys' do
+      nested_1 = { a: 1, b: { a: 21, b: 22 }, c: 3 }
+      conv = helper.convert_keys(nested_1, :to_s)
+      conv.each { |k, _| expect(k).class == String }
+      expect(conv['b']['a']).to eq(21)
+    end
+
+    it 'converts double nested hash keys' do
+      nested_1 = { a: 1, b: { a: 21, b: { a: 221, b: 222 } }, c: 3 }
+      conv = helper.convert_keys(nested_1, :to_s)
+      conv.each { |k, _| expect(k).class == String }
+      conv['b'].each { |k, _| expect(k).class == String }
+      conv['b']['b'].each { |k, _| expect(k).class == String }
+    end
+
+    it 'converts empty nested hash keys' do
+      nested_1 = { a: 1, b: {}, c: 3 }
+      conv = helper.convert_keys(nested_1, :to_s)
+      conv.each { |k, _| expect(k).class == String }
+    end
+  end
 end

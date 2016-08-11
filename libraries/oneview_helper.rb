@@ -95,9 +95,9 @@ module OneviewCookbook
     # @param [Symbol] conversion_method Symbol representing the method to be called in the conversion
     def convert_keys(info, conversion_method)
       support = {}
-      info.each do |k, _|
-        convert_keys(info[k]) if info[k].class == Hash
-        support[k.public_send(conversion_method)] = info.delete(k)
+      info.each do |k, v|
+        convert_keys(v) if v && v.class == Hash
+        support[k.public_send(conversion_method)] = v
       end
       support
     end
