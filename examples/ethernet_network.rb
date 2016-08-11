@@ -30,3 +30,30 @@ oneview_ethernet_network 'Eth1' do
   client client
   action :delete
 end
+
+## Bulk creation ##
+oneview_ethernet_network 'BulkEth' do
+  client client
+  data ({
+    vlanIdRange: '10-12',
+    purpose: 'General',
+    smartLink: false,
+    privateNetwork: false
+  })
+  action :bulk_create
+end
+
+oneview_ethernet_network 'BulkEth_10' do
+  client client
+  action :delete
+end
+
+oneview_ethernet_network 'BulkEth_11' do
+  client client
+  action :delete
+end
+
+oneview_ethernet_network 'BulkEth_12' do
+  client client
+  action :delete
+end
