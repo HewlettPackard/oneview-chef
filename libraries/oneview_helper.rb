@@ -96,7 +96,7 @@ module OneviewCookbook
     def convert_keys(info, conversion_method)
       support = {}
       info.each do |k, v|
-        convert_keys(v) if v && v.class == Hash
+        convert_keys(v, conversion_method) if v && v.class == Hash
         support[k.public_send(conversion_method)] = v
       end
       support

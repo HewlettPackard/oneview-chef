@@ -188,11 +188,7 @@ RSpec.describe OneviewCookbook::Helper do
     end
 
     it 'converts empty nested hash keys' do
-      nested_3 = {
-        a: 1,
-        b: {},
-        c: 3
-      }
+      nested_3 = { a: 1, b: {}, c: 3 }
       conv = helper.convert_keys(nested_3, :to_s)
       conv.each { |k, _| expect(k).class == String }
     end
