@@ -14,7 +14,7 @@
 # specific language governing permissions and limitations under the License.
 #
 
-oneview_fc_network 'FCNetwork1' do
+oneview_fc_network 'FCNetwork2' do
   client node['oneview_test']['client']
   data(
     autoLoginRedistribution: true,
