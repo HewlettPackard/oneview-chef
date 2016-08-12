@@ -16,7 +16,7 @@
 
 oneview_fc_network 'FCNetwork1' do
   client node['oneview_test']['client']
-  data (
+  data(
     autoLoginRedistribution: true,
     fabricType: 'FabricAttach'
   )
