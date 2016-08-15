@@ -17,7 +17,7 @@ if defined?(ChefSpec)
     oneview_resource:                   standard_actions,
     oneview_enclosure:                  [:add, :remove, :refresh, :reconfigure],
     oneview_enclosure_group:            standard_actions + [:set_script],
-    oneview_ethernet_network:           standard_actions,
+    oneview_ethernet_network:           standard_actions + [:bulk_create],
     oneview_fc_network:                 standard_actions,
     oneview_fcoe_network:               standard_actions,
     oneview_logical_enclosure:          [:update_from_group],
