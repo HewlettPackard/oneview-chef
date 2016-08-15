@@ -16,6 +16,8 @@ describe 'oneview_test::default' do
     # oneview_enclosure
     expect(chef_run).to_not add_oneview_enclosure('')
     expect(chef_run).to_not remove_oneview_enclosure('')
+    expect(chef_run).to_not refresh_oneview_enclosure('')
+    expect(chef_run).to_not reconfigure_oneview_enclosure('')
 
     # oneview_enclosure_group
     expect(chef_run).to_not create_oneview_enclosure_group('')

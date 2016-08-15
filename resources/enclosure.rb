@@ -12,6 +12,8 @@
 OneviewCookbook::ResourceBaseProperties.load(self)
 
 property :enclosure_group, String # Name of Enclosure Group
+property :state, String
+property :options, Hash
 
 default_action :add
 
@@ -31,4 +33,21 @@ end
 
 action :remove do
   remove
+end
+
+action :reconfigure do
+  item = load_resource
+  item.retrieve!
+  item.configuration
+end
+
+action :refresh do
+  item = load_resource
+  item.retrieve!
+
+  refresh_state = state || 'RefreshPending'
+  refresh_options = options || {}
+  converge_by "#{resource_name} '#{name}' was refreshed." do
+    item.set_refresh_state(refresh_state, refresh_options)
+  end
 end
