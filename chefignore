@@ -53,6 +53,7 @@ test/*
 features/*
 examples/*
 recipes/*
+.recipes/*
 Guardfile
 Procfile
 .kitchen*
