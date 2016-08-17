@@ -48,10 +48,6 @@ action :create do
     item.retrieve!
     retrieved_networks = item.data.delete('networkUris')
     current_networks = temp.delete('networkUris')
-    # puts "\n\n#{retrieved_networks.sort}"
-    # puts "#{current_networks.sort}\n\n"
-    # puts "\n\n#{item.data}"
-    # puts "#{temp}\n\n"
     temp['connectionTemplateUri'] ||= item['connectionTemplateUri']
     networks_match = retrieved_networks.sort == current_networks.sort
     if item.like?(temp) && networks_match
