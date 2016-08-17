@@ -14,3 +14,63 @@ client = {
   user: '',
   password: ''
 }
+
+oneview_ethernet_network 'ChefBulkEthernet' do
+  client client
+  data(
+    'vlanIdRange' => '10-12',
+    'purpose' =>  'General',
+    'smartLink' => false,
+    'privateNetwork' => false
+  )
+  action :bulk_create
+end
+
+oneview_network_set 'ChefNetworkSet_0' do
+  client client
+  action :create
+end
+
+oneview_network_set 'ChefNetworkSet_1' do
+  client client
+  native_network 'ChefBulkEthernet_10'
+  ethernet_network_list ['ChefBulkEthernet_11', 'ChefBulkEthernet_12']
+  action :create
+end
+
+oneview_network_set 'ChefNetworkSet_2' do
+  client client
+  native_network 'ChefBulkEthernet_10'
+  ethernet_network_list ['ChefBulkEthernet_11']
+  action :create_if_missing
+end
+
+oneview_network_set 'ChefNetworkSet_0' do
+  client client
+  action :delete
+end
+
+oneview_network_set 'ChefNetworkSet_1' do
+  client client
+  action :delete
+end
+
+oneview_network_set 'ChefNetworkSet_2' do
+  client client
+  action :delete
+end
+
+oneview_ethernet_network 'ChefBulkEthernet_10' do
+  client client
+  action :delete
+end
+
+oneview_ethernet_network 'ChefBulkEthernet_11' do
+  client client
+  action :delete
+end
+
+oneview_ethernet_network 'ChefBulkEthernet_12' do
+  client client
+  action :delete
+end

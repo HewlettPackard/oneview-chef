@@ -22,15 +22,13 @@ action_class do
   def load_resource_with_properties
     item = load_resource
     if native_network
-      native_net = OneviewSDK::EthernetNetwork.new(item.client, name: native_network)
-      native_net.retrieve!
+      native_net = OneviewSDK::EthernetNetwork.find_by(item.client, name: native_network).first
       item.set_native_network(native_net)
     end
 
     if ethernet_network_list
       ethernet_network_list.each do |net_name|
-        net = OneviewSDK::EthernetNetwork.new(item.client, name: net_name)
-        net.retrieve!
+        net = OneviewSDK::EthernetNetwork.find_by(item.client, name: net_name).first
         item.add_ethernet_network(net)
       end
     end
@@ -49,7 +47,8 @@ action :create do
     retrieved_networks = item.data.delete('networkUris')
     current_networks = temp.delete('networkUris')
     temp['connectionTemplateUri'] ||= item['connectionTemplateUri']
-    networks_match = retrieved_networks.sort == current_networks.sort
+    networks_match = retrieved_networks.sort == current_networks.sort if retrieved_networks && current_networks
+    networks_match ||= retrieved_networks == current_networks
     if item.like?(temp) && networks_match
       Chef::Log.info("#{resource_name} '#{name}' is up to date")
     else
