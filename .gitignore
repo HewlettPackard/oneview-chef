@@ -20,4 +20,6 @@ coverage
 .kitchen/
 .kitchen.local.yml
 
+# Testing
 recipes/*
+.recipes/*
