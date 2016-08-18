@@ -11,6 +11,8 @@
 
 OneviewCookbook::ResourceBaseProperties.load(self)
 
+property :script, String # script for set_script action
+
 default_action :update_from_group
 
 action_class do
@@ -24,5 +26,27 @@ action :update_from_group do
   return if item['state'] == 'Consistent'
   converge_by "Update LogicalEnclosure '#{name}' from group" do
     item.update_from_group
+  end
+end
+
+action :reconfigure do
+  item = load_resource
+  item.retrieve!
+  converge_by "Reconfiguring #{resource_name} '#{name}'" do
+    item.reconfigure
+  end
+end
+
+action :set_script do
+  item = load_resource
+  item.retrieve!
+
+  if item.get_script.eql? script
+    Chef::Log.info("#{resource_name} '#{name}' script is up to date")
+  else
+    Chef::Log.debug "#{resource_name} '#{name}' Chef resource differs from OneView resource."
+    converge_by "Updated script for #{resource_name} '#{name}'" do
+      item.set_script(script)
+    end
   end
 end

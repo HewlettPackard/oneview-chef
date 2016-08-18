@@ -3,6 +3,7 @@
   - Fixed add/create, delete/remove for resources
   - Added support to Enclosure group actions
   - Added support to Ethernet network `:bulk_create`
+  - Added support to Logical Enclosure actions
 
 ### 0.1.1
   - Fixed Ruby SDK version to 1.0.0
