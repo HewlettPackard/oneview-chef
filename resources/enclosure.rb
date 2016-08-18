@@ -38,7 +38,14 @@ end
 action :reconfigure do
   item = load_resource
   item.retrieve!
-  item.configuration
+
+  if ['NotReapplyingConfiguration', 'ReapplyingConfigurationFailed', ''].include? item['reconfigurationState']
+    converge_by "#{resource_name} '#{name}' was reconfigured." do
+      item.configuration
+    end
+  else
+    Chef::Log.info("#{resource_name} '#{name}' configuration is already running.")
+  end
 end
 
 action :refresh do
@@ -47,7 +54,12 @@ action :refresh do
 
   refresh_state = state || 'RefreshPending'
   refresh_options = options || {}
-  converge_by "#{resource_name} '#{name}' was refreshed." do
-    item.set_refresh_state(refresh_state, refresh_options)
+
+  if ['RefreshFailed', 'NotRefreshing', ''].include? item['refreshState']
+    converge_by "#{resource_name} '#{name}' was refreshed." do
+      item.set_refresh_state(refresh_state, refresh_options)
+    end
+  else
+    Chef::Log.info("#{resource_name} '#{name}' refresh is already running.")
   end
 end
