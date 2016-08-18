@@ -15,7 +15,7 @@ if defined?(ChefSpec)
   standard_actions = [:create, :create_if_missing, :delete]
   oneview_resources = {
     oneview_resource:                   standard_actions,
-    oneview_enclosure:                  [:add, :remove],
+    oneview_enclosure:                  [:add, :remove, :refresh, :reconfigure],
     oneview_enclosure_group:            standard_actions + [:set_script],
     oneview_ethernet_network:           standard_actions + [:bulk_create],
     oneview_fc_network:                 standard_actions,

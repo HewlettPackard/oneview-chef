@@ -12,6 +12,8 @@
 OneviewCookbook::ResourceBaseProperties.load(self)
 
 property :enclosure_group, String # Name of Enclosure Group
+property :state, String
+property :options, Hash
 
 default_action :add
 
@@ -31,4 +33,33 @@ end
 
 action :remove do
   remove
+end
+
+action :reconfigure do
+  item = load_resource
+  item.retrieve!
+
+  if ['NotReapplyingConfiguration', 'ReapplyingConfigurationFailed', ''].include? item['reconfigurationState']
+    converge_by "#{resource_name} '#{name}' was reconfigured." do
+      item.configuration
+    end
+  else
+    Chef::Log.info("#{resource_name} '#{name}' configuration is already running.")
+  end
+end
+
+action :refresh do
+  item = load_resource
+  item.retrieve!
+
+  refresh_state = state || 'RefreshPending'
+  refresh_options = options || {}
+
+  if ['RefreshFailed', 'NotRefreshing', ''].include? item['refreshState']
+    converge_by "#{resource_name} '#{name}' was refreshed." do
+      item.set_refresh_state(refresh_state, refresh_options)
+    end
+  else
+    Chef::Log.info("#{resource_name} '#{name}' refresh is already running.")
+  end
 end

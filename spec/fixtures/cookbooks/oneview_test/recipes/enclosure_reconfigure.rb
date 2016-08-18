@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: oneview_test
-# Recipe:: enclosure_group_set_script
+# Recipe:: enclosure_reconfigure
 #
 # (c) Copyright 2016 Hewlett Packard Enterprise Development LP
 #
@@ -14,8 +14,7 @@
 # specific language governing permissions and limitations under the License.
 #
 
-oneview_enclosure_group 'EnclosureGroup3' do
+oneview_enclosure 'Enclosure1' do
   client node['oneview_test']['client']
-  script 'hello, world!'
-  action :set_script
+  action :reconfigure
 end
