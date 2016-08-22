@@ -16,14 +16,41 @@ default_action :create
 action_class do
   include OneviewCookbook::Helper
   include OneviewCookbook::ResourceBase
+
+  def update_connection_template(item, bandwidth)
+    bandwidth = convert_keys(bandwidth, :to_s)
+    connection_template = OneviewSDK::ConnectionTemplate.new(item.client, uri: item['connectionTemplateUri'])
+    connection_template.retrieve!
+    if connection_template.like? bandwidth
+      Chef::Log.info("#{resource_name} '#{name}' connection template is up to date")
+    else
+      converge_by "Update #{resource_name} '#{name}' connection template settings" do
+        connection_template.update(bandwidth)
+      end
+    end
+  end
 end
 
 action :create do
-  create_or_update
+  item = load_resource
+  bandwidth = item.data.delete('bandwidth')
+  create_or_update(item)
+  item.retrieve!
+  update_connection_template(item, bandwidth: bandwidth) if bandwidth
 end
 
 action :create_if_missing do
-  create_if_missing
+  item = load_resource
+  bandwidth = item.data.delete('bandwidth')
+  created = create_if_missing(item)
+  item.retrieve!
+  update_connection_template(item, bandwidth: bandwidth) if bandwidth && created
+end
+
+action :reset_connection_template do
+  item = load_resource
+  item.retrieve!
+  update_connection_template(item, bandwidth: OneviewSDK::ConnectionTemplate.get_default(item.client)['bandwidth'])
 end
 
 action :delete do

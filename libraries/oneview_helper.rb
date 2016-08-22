@@ -93,7 +93,9 @@ module OneviewCookbook
     # Utility method that converts Hash symbol to string keys
     # @param [Hash] info Hash containing the dataset
     # @param [Symbol] conversion_method Symbol representing the method to be called in the conversion
+    # @return [Hash] Hash with the keys converted. Returns nil if info is invalid.
     def convert_keys(info, conversion_method)
+      return nil unless info
       support = {}
       info.each do |k, v|
         con = convert_keys(v, conversion_method) if v && v.class == Hash
