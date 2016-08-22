@@ -3,18 +3,18 @@ require_relative './../../../spec_helper'
 describe 'oneview_test::logical_enclosure_reconfigure' do
   let(:resource_name) { 'logical_enclosure' }
   include_context 'chef context'
+  include_context 'shared context'
 
   it 'reconfigure logical enclosure not triggered' do
     enclosure_uris = ['/rest/enclosures/encl1', '/rest/enclosures/encl2']
-    fake_client = OneviewSDK::Client.new(url: 'https://oneview.example.com', user: 'Administrator', password: 'secret123')
     encl1 = OneviewSDK::Enclosure.new(
-      fake_client,
+      @client,
       name: 'encl1',
       reconfigurationState: 'Pending',
       uri: '/rest/enclosures/encl1'
     )
     encl2 = OneviewSDK::Enclosure.new(
-      fake_client,
+      @client,
       name: 'encl2',
       reconfigurationState: 'NotReapplyingConfiguration',
       uri: '/rest/enclosures/encl2'
@@ -35,15 +35,14 @@ describe 'oneview_test::logical_enclosure_reconfigure' do
 
   it 'reconfigure logical enclosure should not be triggered' do
     enclosure_uris = ['/rest/enclosures/encl1', '/rest/enclosures/encl2']
-    fake_client = OneviewSDK::Client.new(url: 'https://oneview.example.com', user: 'Administrator', password: 'secret123')
     encl1 = OneviewSDK::Enclosure.new(
-      fake_client,
+      @client,
       name: 'encl1',
       reconfigurationState: 'Pending',
       uri: '/rest/enclosures/encl1'
     )
     encl2 = OneviewSDK::Enclosure.new(
-      fake_client,
+      @client,
       name: 'encl2',
       reconfigurationState: 'Pending',
       uri: '/rest/enclosures/encl2'
