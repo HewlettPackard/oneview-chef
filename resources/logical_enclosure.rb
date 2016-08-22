@@ -32,9 +32,18 @@ end
 action :reconfigure do
   item = load_resource
   item.retrieve!
-  converge_by "Reconfiguring #{resource_name} '#{name}'" do
-    item.reconfigure
+
+  item['enclosureUris'].each do |enclosure_uri|
+    enclosure = OneviewSDK::Enclosure.new(item.client, uri: enclosure_uri)
+    enclosure.retrieve!
+    next unless ['NotReapplyingConfiguration', 'ReapplyingConfigurationFailed', ''].include? enclosure['reconfigurationState']
+    converge_by "#{resource_name} '#{name}' was reconfigured." do
+      item.reconfigure
+    end
+    return true
   end
+
+  Chef::Log.info("#{resource_name} '#{name}' configuration is already running.")
 end
 
 action :set_script do
