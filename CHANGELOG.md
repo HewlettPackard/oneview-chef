@@ -4,6 +4,7 @@
   - Added support to Enclosure group actions
   - Added support for Enclosure `:refresh` and `:reconfigure`
   - Added support to Ethernet network `:bulk_create`
+  - Added support to Logical Enclosure `:reconfigure`, `:set_script`
   - Added support to Network set actions
 
 ### 0.1.1

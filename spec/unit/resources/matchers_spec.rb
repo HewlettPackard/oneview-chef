@@ -48,6 +48,8 @@ describe 'oneview_test::default' do
 
     # oneview_logical_enclosure
     expect(chef_run).to_not update_oneview_logical_enclosure_from_group('')
+    expect(chef_run).to_not reconfigure_oneview_logical_enclosure('')
+    expect(chef_run).to_not set_oneview_logical_enclosure_script('')
 
     # oneview_logical_interconnect_group
     expect(chef_run).to_not create_oneview_logical_interconnect_group('')

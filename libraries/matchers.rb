@@ -21,7 +21,7 @@ if defined?(ChefSpec)
     oneview_network_set:                standard_actions,
     oneview_fc_network:                 standard_actions,
     oneview_fcoe_network:               standard_actions,
-    oneview_logical_enclosure:          [:update_from_group],
+    oneview_logical_enclosure:          [:update_from_group, :reconfigure, :set_script],
     oneview_logical_interconnect_group: standard_actions,
     oneview_storage_pool:               [:add, :remove],
     oneview_storage_system:             [:add, :remove],
