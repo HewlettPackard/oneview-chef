@@ -3,12 +3,11 @@ require_relative './../../../spec_helper'
 describe 'oneview_test::logical_enclosure_reconfigure' do
   let(:resource_name) { 'logical_enclosure' }
   include_context 'chef context'
-
-  let(:fake_client) { OneviewSDK::Client.new(url: 'https://oneview.example.com', user: 'Administrator', password: 'secret123') }
+  include_context 'shared context'
 
   let(:encl1) do
     OneviewSDK::Enclosure.new(
-      fake_client,
+      @client,
       name: 'encl1',
       reconfigurationState: 'Pending',
       uri: '/rest/enclosures/encl1'
@@ -17,7 +16,7 @@ describe 'oneview_test::logical_enclosure_reconfigure' do
 
   let(:encl2) do
     OneviewSDK::Enclosure.new(
-      fake_client,
+      @client,
       name: 'encl2',
       reconfigurationState: 'NotReapplyingConfiguration',
       uri: '/rest/enclosures/encl2'

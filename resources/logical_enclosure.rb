@@ -43,7 +43,7 @@ action :reconfigure do
     return true
   end
 
-  Chef::Log.info("#{resource_name} '#{name}' configuration is already running.")
+  Chef::Log.info("#{resource_name} '#{name}' is already reconfiguring.")
 end
 
 action :set_script do
