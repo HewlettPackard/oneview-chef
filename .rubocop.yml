@@ -4,6 +4,7 @@ AllCops:
   Exclude:
     - 'recipes/*'
     - 'examples/*'
+    - 'bin/*'
 
 Metrics/LineLength:
   Max: 150
