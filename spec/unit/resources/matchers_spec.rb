@@ -13,6 +13,11 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not delete_oneview_resource('')
     expect(chef_run).to_not create_oneview_resource_if_missing('')
 
+    # oneview_datacenter
+    expect(chef_run).to_not add_oneview_datacenter('')
+    expect(chef_run).to_not remove_oneview_datacenter('')
+    expect(chef_run).to_not add_oneview_datacenter_if_missing('')
+
     # oneview_enclosure
     expect(chef_run).to_not add_oneview_enclosure('')
     expect(chef_run).to_not remove_oneview_enclosure('')
