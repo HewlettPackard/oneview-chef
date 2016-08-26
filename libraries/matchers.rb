@@ -15,6 +15,7 @@ if defined?(ChefSpec)
   standard_actions = [:create, :create_if_missing, :delete]
   oneview_resources = {
     oneview_resource:                   standard_actions,
+    oneview_datacenter:                 [:add, :remove, :add_if_missing],
     oneview_enclosure:                  [:add, :remove, :refresh, :reconfigure],
     oneview_enclosure_group:            standard_actions + [:set_script],
     oneview_ethernet_network:           standard_actions + [:bulk_create],
@@ -32,6 +33,7 @@ if defined?(ChefSpec)
   oneview_resources.each do |resource_type, actions|
     actions.each do |action|
       method_name = case action
+                    when :add_if_missing then "add_#{resource_type}_if_missing"
                     when :create_if_missing then "create_#{resource_type}_if_missing"
                     when :update_from_group then "update_#{resource_type}_from_group"
                     when :set_script then "set_#{resource_type}_script"

@@ -6,6 +6,7 @@
   - Added support to Ethernet network `:bulk_create`
   - Added support to Logical Enclosure `:reconfigure`, `:set_script`
   - Added support to Network set actions
+  - Added support to Datacenter actions
 
 ### 0.1.1
   - Fixed Ruby SDK version to 1.0.0
