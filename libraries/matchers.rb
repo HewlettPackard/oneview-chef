@@ -17,7 +17,7 @@ if defined?(ChefSpec)
     oneview_resource:                   standard_actions,
     oneview_enclosure:                  [:add, :remove, :refresh, :reconfigure],
     oneview_enclosure_group:            standard_actions + [:set_script],
-    oneview_ethernet_network:           standard_actions + [:bulk_create],
+    oneview_ethernet_network:           standard_actions + [:bulk_create, :reset_connection_template],
     oneview_network_set:                standard_actions,
     oneview_fc_network:                 standard_actions,
     oneview_fcoe_network:               standard_actions,
@@ -35,6 +35,7 @@ if defined?(ChefSpec)
                     when :create_if_missing then "create_#{resource_type}_if_missing"
                     when :update_from_group then "update_#{resource_type}_from_group"
                     when :set_script then "set_#{resource_type}_script"
+                    when :reset_connection_template then "reset_#{resource_type}_connection_template"
                     else "#{action}_#{resource_type}"
                     end
       define_method(method_name) do |resource_name|

@@ -35,7 +35,6 @@ action :create do
   item = load_resource
   bandwidth = item.data.delete('bandwidth')
   create_or_update(item)
-  item.retrieve!
   update_connection_template(item, bandwidth: bandwidth) if bandwidth
 end
 
@@ -43,7 +42,6 @@ action :create_if_missing do
   item = load_resource
   bandwidth = item.data.delete('bandwidth')
   created = create_if_missing(item)
-  item.retrieve!
   update_connection_template(item, bandwidth: bandwidth) if bandwidth && created
 end
 
