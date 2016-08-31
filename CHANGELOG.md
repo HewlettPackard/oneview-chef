@@ -2,9 +2,11 @@
   - Upgraded Ruby SDK version to 2.0.0
   - Fixed add/create, delete/remove for resources
   - Added support to Enclosure group actions
-  - Added support for Enclosure `:refresh` and `:reconfigure`
+  - Added support to Enclosure `:refresh` and `:reconfigure`
   - Added support to Ethernet network `:bulk_create`
-  - Added support to Logical Enclosure `:reconfigure`, `:set_script`
+  - Added support to Connection template actions
+  - Integrated Connection template actions in Ethernet network within the update action, and added `:reset_connection_template` action
+  - Added support to Logical enclosure `:reconfigure` and `:set_script`
   - Added support to Network set actions
 
 ### 0.1.1
