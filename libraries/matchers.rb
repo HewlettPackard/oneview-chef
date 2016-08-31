@@ -24,6 +24,7 @@ if defined?(ChefSpec)
     oneview_fcoe_network:               standard_actions,
     oneview_logical_enclosure:          [:update_from_group, :reconfigure, :set_script],
     oneview_logical_interconnect_group: standard_actions,
+    oneview_interconnect:               [:set_uid_light, :set_power_state, :reset, :reset_port_protection, :update_port],
     oneview_storage_pool:               [:add, :remove],
     oneview_storage_system:             [:add, :remove],
     oneview_volume:                     standard_actions,

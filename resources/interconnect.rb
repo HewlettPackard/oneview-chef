@@ -71,14 +71,14 @@ action :update_port do
   raise "Required value \"name\" for 'port_options' not specified" unless port_options['name']
   item = load_resource
   item.retrieve!
-  port = (item['ports'].select { |port| port['name'] == port_options['name'] } ).first
-  raise "Could not find port: #{port_options['name']}" unless port
-  # Unless there are no values in new options that differ from the current ones, do the update
-  unless (port_options.select { |k,v| port[k] != v } ).empty?
+  target_port = (item['ports'].select { |port| port['name'] == port_options['name'] }).first
+  raise "Could not find port: #{port_options['name']}" unless target_port
+  # If there are no new options that differ from the current ones do nothing, but else, update
+  if (port_options.select { |k, v| target_port[k] != v }).empty?
+    Chef::Log.info("#{resource_name} '#{name}' port #{port_options['name']} is up to date.")
+  else
     converge_by "Updating #{resource_name} '#{name}' port #{port_options['name']}." do
       item.update_port(port_options['name'], port_options)
     end
-  else
-    Chef::Log.info("#{resource_name} '#{name}' port #{port_options['name']} is up to date.")
   end
 end
