@@ -43,7 +43,8 @@ The following are the standard parameters available for all resources. Some reso
 
  - **client**: Hash or OneviewSDK::Client object that contains information about how to connect to the OneView instance. Required attributes are: `url`, `user`, and `password`. See [this](https://github.com/HewlettPackard/oneview-sdk-ruby#configuration) for more options.
  - **data**: Hash specifying options for this resource. Refer to the OneView API docs for what's available and/or required. If no name attribute is given, it will use the name given to the Chef resource.
- - **action**: Symbol specifying what to do with this resource. Options for most resources (some may differ):
+   - In addition to the API docs, you can use the [oneview-sdk gem's CLI](https://github.com/HewlettPackard/oneview-sdk-ruby#cli) to quickly show information about resources. If you're wanting to know which data properties exist for a resource, it might make sense to create a resource on the Web UI, then view the data. For example, after creating a new ethernet network named `eth1`, run `$ oneview-sdk-ruby show EthernetNetwork eth1`
+ - **action**: Symbol specifying what to do with this resource. Options for most resources (**some may differ**):
    - `:create` - (Default) Ensure this resource exists and matches the data given.
    - `:create_if_missing` - Ensure this resource exists, but don't ensure it is up to date on subsequent chef-client runs.
    - `:delete` - Delete this resource from OneView. For this, you only need to specify the resource name or uri in the data section.
@@ -240,7 +241,7 @@ end
   - **volume_template** (String) Optional - Name of the Volume Template.
   - **snapshot_pool** (String) Optional - Name of the Storage Pool containing the snapshots.
 
-:memo: **NOTE**: Only one of `storage_system_name` and `storage_system_ip` need to be provided. If both are specified at once, the `storage_system_ip` prevails, then ignoring `storage_system_name` value.
+:memo: **NOTE**: Only one of `storage_system_name` and `storage_system_ip` need to be provided. If both are specified at once, the `storage_system_ip` prevails, then ignoring the `storage_system_name` value.
 
 ### oneview_volume_template
 
@@ -266,14 +267,12 @@ end
 
  :warning: **WARNING**: The resources `oneview_volume` and `oneview_volume_template` appear to accept the same data, but they have two characteristics that differ:
  1. `oneview_volume_template` does not accepts the property **volume_template**. In other means, you cannot create a Volume template from another Volume template.
- 2. The provisioning data keys are different:
+ 2. The following provisioning data keys are different:
 
     oneview_volume          | oneview_volume_template
     ----------------------- | -------------------------
     :provisioningParameters | :provisioning
     :requestedCapacity      | :capacity
-    :shareable              | :shareable
-    :provisionType          | :provisionType
 
 
 ### oneview_storage_pool
@@ -324,6 +323,8 @@ end
 ```
 
 ## Examples
+
+:information_source: There are plenty more examples in the [examples](examples) directory showing more detailed usage of each resource, but here's a few to get you started:
 
  - **Create an ethernet network**
 
