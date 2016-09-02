@@ -23,27 +23,25 @@ action_class do
 end
 
 action :set_uid_light do
-  valid_state = uid_light_state && (uid_light_state.casecmp('on').zero? || uid_light_state.casecmp('off').zero?)
-  raise "Invalid Interconnect UID light state: #{uid_light_state}" unless valid_state
+  raise "Unspecified property: 'uid_light_state'. Please set it before attempting this action." unless uid_light_state
   item = load_resource
   item.retrieve!
   # Impossible to verify this value programatically
-  converge_by "Setting #{resource_name} '#{name}' UID light to #{uid_light_state.uppercase}" do
+  converge_by "Setting #{resource_name} '#{name}' UID light to #{uid_light_state.upcase}" do
     item.patch('replace', '/uidState', uid_light_state.capitalize)
   end
 end
 
 action :set_power_state do
-  valid_state = power_state && (power_state.casecmp('on').zero? || power_state.casecmp('off').zero?)
-  raise "Invalid Interconnect power state: #{power_state}" unless valid_state
+  raise "Unspecified property: 'power_state'. Please set it before attempting this action." unless power_state
   item = load_resource
   item.retrieve!
   if item['powerState'] != power_state
-    converge_by "Powering #{resource_name} '#{name}'#{power_state.uppercase}" do
+    converge_by "Powering #{resource_name} '#{name}'#{power_state.upcase}" do
       item.patch('replace', '/powerState', power_state.capitalize)
     end
   else
-    Chef::Log.info("#{resource_name} '#{name}' is already powered #{power_state.uppercase}")
+    Chef::Log.info("#{resource_name} '#{name}' is already powered #{power_state.upcase}")
   end
 end
 
@@ -66,19 +64,19 @@ action :reset_port_protection do
 end
 
 action :update_port do
-  raise "Unspecified property: 'port_options'" unless port_options
-  port_options = convert_keys(port_options, :to_s)
-  raise "Required value \"name\" for 'port_options' not specified" unless port_options['name']
+  raise "Unspecified property: 'port_options'. Please set it before attempting this action." unless port_options
+  parsed_port_options = convert_keys(port_options, :to_s)
+  raise "Required value \"name\" for 'port_options' not specified" unless parsed_port_options['name']
   item = load_resource
   item.retrieve!
-  target_port = (item['ports'].select { |port| port['name'] == port_options['name'] }).first
-  raise "Could not find port: #{port_options['name']}" unless target_port
+  target_port = (item['ports'].select { |port| port['name'] == parsed_port_options['name'] }).first
+  raise "Could not find port: #{parsed_port_options['name']}" unless target_port
   # If there are no new options that differ from the current ones do nothing, but else, update
-  if (port_options.select { |k, v| target_port[k] != v }).empty?
-    Chef::Log.info("#{resource_name} '#{name}' port #{port_options['name']} is up to date.")
+  if (parsed_port_options.select { |k, v| target_port[k] != v }).empty?
+    Chef::Log.info("#{resource_name} '#{name}' port #{parsed_port_options['name']} is up to date.")
   else
-    converge_by "Updating #{resource_name} '#{name}' port #{port_options['name']}." do
-      item.update_port(port_options['name'], port_options)
+    converge_by "Updating #{resource_name} '#{name}' port #{parsed_port_options['name']}." do
+      item.update_port(parsed_port_options['name'], parsed_port_options)
     end
   end
 end

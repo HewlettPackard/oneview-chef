@@ -38,6 +38,10 @@ if defined?(ChefSpec)
                     when :create_if_missing then "create_#{resource_type}_if_missing"
                     when :update_from_group then "update_#{resource_type}_from_group"
                     when :set_script then "set_#{resource_type}_script"
+                    when :set_uid_light then "set_#{resource_type}_uid_light"
+                    when :set_power_state then "set_#{resource_type}_power_state"
+                    when :reset_port_protection then "reset_#{resource_type}_port_protection"
+                    when :update_port then "update_#{resource_type}_port"
                     else "#{action}_#{resource_type}"
                     end
       define_method(method_name) do |resource_name|
