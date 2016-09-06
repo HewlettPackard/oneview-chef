@@ -193,4 +193,69 @@ RSpec.describe OneviewCookbook::Helper do
       conv.each { |k, _| expect(k).class == String }
     end
   end
+
+  describe '#get_diff' do
+    before :each do
+      @item = OneviewSDK::Resource.new(@client, uri: 'rest/fake', name: 'res', state: 'OK')
+      @desired_data = { state: 'Not OK' }
+    end
+
+    it 'calls #recursive_diff' do
+      expect(helper).to receive(:recursive_diff).with(@item.data, @desired_data, "\n", '  ').and_return('diff')
+      diff = helper.get_diff(@item, @desired_data)
+      expect(diff).to eq('diff')
+    end
+
+    it 'handles unexpected errors quietly' do
+      expect(helper).to receive(:recursive_diff).and_raise('Unexpected error')
+      expect(Chef::Log).to receive(:error).with(/Failed to generate resource diff.*Unexpected error/)
+      diff = helper.get_diff(@item, @desired_data)
+      expect(diff).to eq('')
+    end
+  end
+
+  describe '#recursive_diff' do
+    before :each do
+      @data = { key1: 'val1', key2: { key3: 'val3', key4: 'val4' }, key5: ['val5.1', 'val5.2'] }
+      @item = OneviewSDK::Resource.new(@client, @data)
+    end
+
+    it 'returns an empty string if there is no difference' do
+      diff = helper.recursive_diff(@item.data, @item.data)
+      expect(diff).to eq('')
+    end
+
+    it 'allows you to set the initial string and indent' do
+      expect(helper.recursive_diff('blah', 'newBlah', 'diff:', '  ')).to eq("diff:\n  blah -> newBlah")
+    end
+
+    it 'can compare strings' do
+      expect(helper.recursive_diff('blah', 'blah')).to eq('')
+      expect(helper.recursive_diff('blah', 'newBlah')).to eq("\nblah -> newBlah")
+      expect(helper.recursive_diff(nil, 'blah')).to eq("\nnil -> blah")
+    end
+
+    it 'can compare arrays' do
+      expect(helper.recursive_diff(['blah'], ['blah'])).to eq('')
+      expect(helper.recursive_diff(['blah'], ['blah', 'newBlah'])).to eq("\n[\"blah\"] -> [\"blah\", \"newBlah\"]")
+    end
+
+    it 'can compare hashes' do
+      expect(helper.recursive_diff(@data, @data)).to eq('')
+      expect(helper.recursive_diff(@data, key1: 'val2')).to eq("\nkey1: val1 -> val2")
+      expect(helper.recursive_diff(@data, key2: { key3: 'val2', key4: 'val3' }))
+        .to eq("\nkey2:\n  key3: val3 -> val2\n  key4: val4 -> val3")
+      expect(helper.recursive_diff(@data, key5: ['val5.1', 'val5.2'])).to eq('')
+      expect(helper.recursive_diff(@data, key5: ['val1', 'val2']))
+        .to eq("\nkey5: [\"val5.1\", \"val5.2\"] -> [\"val1\", \"val2\"]")
+    end
+
+    it 'can compare mismatched types' do
+      expect(helper.recursive_diff(nil, ['blah'])).to eq("\nnil -> [\"blah\"]")
+      expect(helper.recursive_diff(nil, ['blah'])).to eq("\nnil -> [\"blah\"]")
+      expect(helper.recursive_diff('blah', ['blah'])).to eq("\nblah -> [\"blah\"]")
+      expect(helper.recursive_diff(['blah'], 'blah')).to eq("\n[\"blah\"] -> blah")
+      expect(helper.recursive_diff(nil, @data)).to eq("\nnil -> #{@data}")
+    end
+  end
 end
