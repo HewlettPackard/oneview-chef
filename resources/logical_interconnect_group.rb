@@ -22,11 +22,13 @@ action_class do
 
   def load_lig(item)
     interconnects.each do |location|
-      item.add_interconnect(location[:bay], location[:type])
+      parsed_location = convert_keys(location, :to_sym)
+      item.add_interconnect(parsed_location[:bay], parsed_location[:type])
     end
     uplink_sets.each do |uplink_info|
-      up = OneviewSDK::LIGUplinkSet.new(item.client, uplink_info[:data])
-      uplink_info[:networks].each do |network_name|
+      parsed_uplink_info = convert_keys(uplink_info, :to_sym)
+      up = OneviewSDK::LIGUplinkSet.new(item.client, parsed_uplink_info[:data])
+      parsed_uplink_info[:networks].each do |network_name|
         net = case up[:networkType]
               when 'Ethernet'
                 OneviewSDK::EthernetNetwork.new(item.client, name: network_name)
@@ -38,15 +40,57 @@ action_class do
         raise "#{up[:networkType]} #{network_name} not found" unless net.retrieve!
         up.add_network(net)
       end
-      uplink_info[:connections].each { |link| up.add_uplink(link[:bay], link[:port]) }
+      parsed_uplink_info[:connections].each { |link| up.add_uplink(link[:bay], link[:port]) }
       item.add_uplink_set(up)
     end
     item
   end
+
+  # like? function specific to the interconnectMapTemplate resource
+  def interconnect_map_like?(item, another_item)
+    item_pairs = parse_interconnect_entry_pairs(item['interconnectMapTemplate']['interconnectMapEntryTemplates'])
+    another_pairs = parse_interconnect_entry_pairs(another_item['interconnectMapTemplate']['interconnectMapEntryTemplates'])
+    item_pairs == another_pairs
+  end
+
+  # Parses the entry templates into a sorted array of tuples (bay, interconnect_type)
+  def parse_interconnect_entry_pairs(map_entry_templates)
+    parsed = []
+    map_entry_templates.each do |template|
+      bay_number = template['logicalLocation']['locationEntries'].select { |entry| entry['type'] == 'Bay' }.first['relativeValue']
+      parsed << [bay_number, template['permittedInterconnectTypeUri']] if template['permittedInterconnectTypeUri']
+    end
+    parsed.sort
+  end
 end
 
 action :create do
-  create_or_update(load_lig(load_resource))
+  item = load_lig(load_resource)
+  temp = item.data.clone
+  if item.exists?
+    item.retrieve!
+    interconnect_like = interconnect_map_like?(item, temp)
+    item.data.delete('interconnectMapTemplate')
+    int_map_template_bkp = temp.delete('interconnectMapTemplate')
+    if interconnect_like && item.like?(temp)
+      Chef::Log.info("#{resource_name} '#{name}' is up to date")
+    else
+      Chef::Log.debug "#{resource_name} '#{name}' Chef resource differs from OneView resource."
+      Chef::Log.info "Update #{resource_name} '#{name}'"
+      converge_by "Update #{resource_name} '#{name}'" do
+        temp['interconnectMapTemplate'] = int_map_template_bkp
+        item.update(temp)
+      end
+    end
+  else
+    Chef::Log.info "Create #{resource_name} '#{name}'"
+    converge_by "Create #{resource_name} '#{name}'" do
+      item.create
+    end
+    ret_val = true
+  end
+  save_res_info(save_resource_info, name, item)
+  ret_val
 end
 
 action :create_if_missing do
