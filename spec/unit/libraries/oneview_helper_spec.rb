@@ -60,6 +60,12 @@ RSpec.describe OneviewCookbook::Helper do
       item = helper.load_resource
       expect(item[:name]).to eq('other_net')
     end
+
+    it 'converts the data hash to a json-safe format' do
+      allow(helper).to receive(:data).and_return(name: 'net', key2: { key3: :val3 })
+      item = helper.load_resource
+      expect(item['key2']['key3']).to eq('val3')
+    end
   end
 
   describe '#get_resource_named' do
