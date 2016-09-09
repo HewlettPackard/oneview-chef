@@ -262,6 +262,8 @@ RSpec.describe OneviewCookbook::Helper do
       expect(helper.recursive_diff('blah', ['blah'])).to eq("\nblah -> [\"blah\"]")
       expect(helper.recursive_diff(['blah'], 'blah')).to eq("\n[\"blah\"] -> blah")
       expect(helper.recursive_diff(nil, @data)).to eq("\nnil -> #{@data}")
+      expect(helper.recursive_diff({ key2: nil }, @data)).to match(/key1: nil -> val1\n+key2: nil -> #{@data[:key2]}/)
+      expect(helper.recursive_diff({ key2: 1 }, @data)).to match(/key1: nil -> val1\n+key2: 1 -> #{@data[:key2]}/)
     end
   end
 end

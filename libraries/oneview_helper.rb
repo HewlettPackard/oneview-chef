@@ -133,7 +133,7 @@ module OneviewCookbook
             str2 = recursive_diff(data[key], val, '', "#{indent}  ")
             str << "\n#{indent}#{key}:#{str2}" unless str2.empty?
           else
-            str << "\n#{indent}#{data[key].nil? ? 'nil' : data[key]} -> #{val}"
+            str << "\n#{indent}#{key}: #{data[key].nil? ? 'nil' : data[key]} -> #{val}"
           end
         elsif val != data[key]
           str << "\n#{indent}#{key}: #{data[key].nil? ? 'nil' : data[key]} -> #{val}"
