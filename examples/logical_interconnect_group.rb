@@ -10,8 +10,8 @@
 # specific language governing permissions and limitations under the License.
 
 # NOTE: This recipe requires:
-# Ethernet Networks: CHEF_ETH_NETWORK_01, CHEF_ETH_NETWORK_02
-# FC Network: CHEF_FC_NETWORK_01
+# Ethernet Networks: EthernetNetwork1, EthernetNetwork2
+# FC Network: FCNetwork1
 
 
 client = {
@@ -23,19 +23,18 @@ client = {
 # Simple Logical Interconnect group creation without interconnects and uplinks
 lig_data = {
   enclosureType: 'C7000',
-  type: 'logical-interconnect-groupV3'
 }
 
-oneview_logical_interconnect_group 'CHEF_LIG_01' do
+oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
   client client
-  data lig_data
+  data(enclosureType: 'C7000')
   action :create
 end
 
 # Logical Interconnect group creation with interconnects but without uplinks
-oneview_logical_interconnect_group 'CHEF_LIG_02' do
+oneview_logical_interconnect_group 'LogicalInterconnectGroup2' do
   client client
-  data lig_data
+  data(enclosureType: 'C7000')
   interconnects [
     {bay: 1, type: 'HP VC FlexFabric 10Gb/24-Port Module'},
     {bay: 2, type: 'HP VC FlexFabric 10Gb/24-Port Module'}
@@ -45,39 +44,38 @@ end
 
 
 # Complete Logical Interconnect group creation with interconnects and uplinks
+
+# Ethernet uplink set
 lig_03_uplink_01_data = {
-  name: 'CHEF_LIG_03_UPLINK_SET_01',
+  name: 'LogicalInterconnectGroup3 - UplinkSet1',
   networkType: 'Ethernet',
   ethernetNetworkType: 'Tagged'
 }
-
 connections_01 = [
-    {bay: 1, port: 'X5'},
-    {bay: 1, port: 'X6'},
-    {bay: 2, port: 'X7'},
-    {bay: 2, port: 'X8'}
+  {bay: 1, port: 'X5'},
+  {bay: 1, port: 'X6'},
+  {bay: 2, port: 'X7'},
+  {bay: 2, port: 'X8'}
 ]
+networks_01 = ['EthernetNetwork1','EthernetNetwork2']
 
-networks_01 = ['CHEF_ETH_NETWORK_01','CHEF_ETH_NETWORK_02']
-
+# Fibre channel uplink set
 lig_03_uplink_02_data = {
-  name: 'CHEF_LIG_03_UPLINK_SET_02',
+  name: 'LogicalInterconnectGroup3 - UplinkSet2',
   networkType: 'FibreChannel'
 }
-
 connections_02 = [
-    {bay: 1, port: 'X1'},
-    {bay: 1, port: 'X2'}
+  {bay: 1, port: 'X1'},
+  {bay: 1, port: 'X2'}
 ]
+networks_02 = ['FCNetwork1']
 
-networks_02 = ['CHEF_FC_NETWORK_01']
-
-oneview_logical_interconnect_group 'CHEF_LIG_03' do
+oneview_logical_interconnect_group 'LogicalInterconnectGroup3' do
   client client
-  data lig_data
+  data(enclosureType: 'C7000')
   interconnects [
-      {bay: 1, type: 'HP VC FlexFabric 10Gb/24-Port Module'},
-      {bay: 2, type: 'HP VC FlexFabric 10Gb/24-Port Module'}
+    {bay: 1, type: 'HP VC FlexFabric 10Gb/24-Port Module'},
+    {bay: 2, type: 'HP VC FlexFabric 10Gb/24-Port Module'}
   ]
   uplink_sets [
     { data: lig_03_uplink_01_data,  connections: connections_01, networks: networks_01},
@@ -87,20 +85,17 @@ oneview_logical_interconnect_group 'CHEF_LIG_03' do
 end
 
 
-oneview_logical_interconnect_group 'CHEF_LIG_01' do
+oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
   client client
-  data ({})
   action :delete
 end
 
-oneview_logical_interconnect_group 'CHEF_LIG_02' do
+oneview_logical_interconnect_group 'LogicalInterconnectGroup2' do
   client client
-  data ({})
   action :delete
 end
 
-oneview_logical_interconnect_group 'CHEF_LIG_03' do
+oneview_logical_interconnect_group 'LogicalInterconnectGroup3' do
   client client
-  data ({})
   action :delete
 end
