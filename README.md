@@ -176,6 +176,22 @@ interconnects_data = [
   ]
   ```
 
+### oneview_datacenter
+
+Datacenter resource for HPE OneView.
+
+```ruby
+oneview_datacenter 'Datacenter_1' do
+  client <my_client>
+  data <resource_data>
+  racks(
+    <rack1_name> => {<x>, <y>, <rotation>},
+    <rack2_name> => {<x>, <y>, <rotation>},
+  )
+  action [:add, :add_if_missing, :remove]
+end
+```
+
 ### oneview_enclosure_group
 
 Enclosure Group resource for HPE OneView.
@@ -292,7 +308,7 @@ oneview_storage_system 'ThreePAR7200-8147' do
     credentials: storage_system_credentials,
     managedDomain: 'TestDomain'
   )
-  action [:add, :delete]
+  action [:add, :remove]
 end
 ```
 
