@@ -24,6 +24,7 @@ if defined?(ChefSpec)
     oneview_fcoe_network:               standard_actions,
     oneview_logical_enclosure:          [:update_from_group, :reconfigure, :set_script],
     oneview_logical_interconnect_group: standard_actions,
+    oneview_rack:                       [:add, :remove, :add_if_missing, :add_to_rack, :remove_from_rack],
     oneview_storage_pool:               [:add, :remove],
     oneview_storage_system:             [:add, :remove],
     oneview_volume:                     standard_actions,
@@ -37,6 +38,8 @@ if defined?(ChefSpec)
                     when :create_if_missing then "create_#{resource_type}_if_missing"
                     when :update_from_group then "update_#{resource_type}_from_group"
                     when :set_script then "set_#{resource_type}_script"
+                    when :add_to_rack then 'add_to_oneview_rack'
+                    when :remove_from_rack then 'remove_from_oneview_rack'
                     else "#{action}_#{resource_type}"
                     end
       define_method(method_name) do |resource_name|
