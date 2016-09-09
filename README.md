@@ -329,7 +329,7 @@ oneview_storage_system 'ThreePAR7200-8147' do
     credentials: storage_system_credentials,
     managedDomain: 'TestDomain'
   )
-  action [:add, :delete]
+  action [:add, :remove]
 end
 ```
 
