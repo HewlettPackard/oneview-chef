@@ -51,7 +51,7 @@ action :add_to_rack do
   else
     mounted_resource = item['rackMounts'].find { |i| i['mountUri'] == mount_item['uri'] }
     results = options.map { |key, value| value == mounted_resource[key.to_s] }
-    unless results.all? { |i| i } # ~FC023
+    unless results.all? # ~FC023
       converge_by "#{resource_name} '#{name}' updated." do
         item.add_rack_resource(mount_item, options)
         item.update
