@@ -18,7 +18,8 @@ if defined?(ChefSpec)
     oneview_datacenter:                 [:add, :remove, :add_if_missing],
     oneview_enclosure:                  [:add, :remove, :refresh, :reconfigure],
     oneview_enclosure_group:            standard_actions + [:set_script],
-    oneview_ethernet_network:           standard_actions + [:bulk_create],
+    oneview_ethernet_network:           standard_actions + [:bulk_create, :reset_connection_template],
+    oneview_connection_template:        [:update, :reset],
     oneview_network_set:                standard_actions,
     oneview_fc_network:                 standard_actions,
     oneview_fcoe_network:               standard_actions,
@@ -42,6 +43,7 @@ if defined?(ChefSpec)
                     when :set_power_state then "set_#{resource_type}_power_state"
                     when :reset_port_protection then "reset_#{resource_type}_port_protection"
                     when :update_port then "update_#{resource_type}_port"
+                    when :reset_connection_template then "reset_#{resource_type}_connection_template"
                     else "#{action}_#{resource_type}"
                     end
       define_method(method_name) do |resource_name|

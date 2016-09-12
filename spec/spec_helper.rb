@@ -6,8 +6,8 @@ SimpleCov.start do
   add_filter 'matchers.rb'
   add_group 'Libraries', 'libraries'
   add_group 'Resources', 'resources'
-  minimum_coverage 97
-  minimum_coverage_by_file 94
+  minimum_coverage 98
+  minimum_coverage_by_file 96
 end
 
 Dir[File.expand_path('../libraries/*.rb', File.dirname(__FILE__))].each { |file| require file }
@@ -51,5 +51,9 @@ RSpec.shared_context 'chef context', a: :b do
     # NOTE: Must define resource_name in each spec file
     runner = ChefSpec::SoloRunner.new(step_into: ["oneview_#{resource_name}"])
     runner.converge(described_recipe)
+  end
+
+  let(:client) do
+    OneviewSDK::Client.new(url: 'https://oneview.example.com', user: 'Administrator', password: 'secret123')
   end
 end
