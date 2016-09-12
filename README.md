@@ -107,6 +107,27 @@ oneview_fcoe_network 'FCoE1' do
 end
 ```
 
+### oneview_interconnect
+
+Interconnect resource for HPE OneView.
+
+Perform the Interconnect actions:
+  - **reset:** Resets the Interconnect.
+  - **reset_port_protection:** Resets the Interconnect port protection.
+  - **update_port:** Updates one specified port in the Interconnect. The Hash property `port_options` is required, and is also needed to specify the key `"name"` corresponding to the port name. (E.G.: "X1", "Q1.1")
+  - **set_uid_light:** Sets the Interconnect UID indicator (UID light) to the specified value. The String property `uid_light_state` is required, and typically assumes the "On" and "Off" values.
+  - **power_state:** Sets the Interconnect power state to the specified value. The String property `power_state` is required, and typically assumes the "On" and "Off" values.
+
+```Ruby
+oneview_interconnect 'Interconnect1' do
+  client <my_client>
+  data <resource_data>
+  port_options <port_data_hash> # Required for :update_port
+  uid_light_state <uid_light_state_string> # Required for :set_uid_light
+  power_state <power_state_string> # Required for :set_power_state
+  action [:reset, :reset_port_protection, :update_port, :set_uid_light, :set_power_state]
+end
+```
 
 ### oneview_logical_interconnect_group
 
