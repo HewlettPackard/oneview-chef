@@ -18,13 +18,15 @@ if defined?(ChefSpec)
     oneview_datacenter:                 [:add, :remove, :add_if_missing],
     oneview_enclosure:                  [:add, :remove, :refresh, :reconfigure],
     oneview_enclosure_group:            standard_actions + [:set_script],
-    oneview_ethernet_network:           standard_actions + [:bulk_create],
+    oneview_ethernet_network:           standard_actions + [:bulk_create, :reset_connection_template],
+    oneview_connection_template:        [:update, :reset],
     oneview_network_set:                standard_actions,
     oneview_fc_network:                 standard_actions,
     oneview_fcoe_network:               standard_actions,
     oneview_logical_enclosure:          [:update_from_group, :reconfigure, :set_script],
     oneview_logical_interconnect_group: standard_actions,
     oneview_rack:                       [:add, :remove, :add_if_missing, :add_to_rack, :remove_from_rack],
+    oneview_interconnect:               [:set_uid_light, :set_power_state, :reset, :reset_port_protection, :update_port],
     oneview_storage_pool:               [:add, :remove],
     oneview_storage_system:             [:add, :remove],
     oneview_volume:                     standard_actions,
@@ -40,6 +42,11 @@ if defined?(ChefSpec)
                     when :set_script then "set_#{resource_type}_script"
                     when :add_to_rack then 'add_to_oneview_rack'
                     when :remove_from_rack then 'remove_from_oneview_rack'
+                    when :set_uid_light then "set_#{resource_type}_uid_light"
+                    when :set_power_state then "set_#{resource_type}_power_state"
+                    when :reset_port_protection then "reset_#{resource_type}_port_protection"
+                    when :update_port then "update_#{resource_type}_port"
+                    when :reset_connection_template then "reset_#{resource_type}_connection_template"
                     else "#{action}_#{resource_type}"
                     end
       define_method(method_name) do |resource_name|
