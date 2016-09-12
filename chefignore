@@ -69,6 +69,7 @@ coverage/*
 #######
 .git
 */.git
+.github
 .gitignore
 .gitmodules
 .gitconfig
