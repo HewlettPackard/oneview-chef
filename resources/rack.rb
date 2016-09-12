@@ -51,7 +51,7 @@ action :add_to_rack do
   else
     mounted_resource = item['rackMounts'].find { |i| i['mountUri'] == mount_item['uri'] }
     results = options.map { |key, value| value == mounted_resource[key.to_s] }
-    not_if results.all? { |i| i } do
+    unless results.all? { |i| i } # ~FC023
       converge_by "#{resource_name} '#{name}' updated." do
         item.add_rack_resource(mount_item, options)
         item.update
@@ -70,7 +70,7 @@ action :remove_from_rack do
 
   rack_resources = []
   item['rackMounts'].each { |value| rack_resources << value['mountUri'] }
-  only_if rack_resources.include? mount_item['uri'] do
+  if rack_resources.include? mount_item['uri'] # ~FC023
     converge_by "#{resource_name} '#{name}' removed." do
       item.remove_rack_resource(mount_item)
       item.update

@@ -27,7 +27,7 @@ describe 'oneview_test::rack_add_to_rack' do
         }
       ]
     )
-    expect_any_instance_of(OneviewSDK::Rack).to receive(:add_rack_resource).and_return(true)
+    expect_any_instance_of(OneviewSDK::Rack).to receive(:add_rack_resource)
     expect_any_instance_of(OneviewSDK::Rack).to receive(:update)
     expect(real_chef_run).to add_to_oneview_rack('Rack1')
   end
