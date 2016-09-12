@@ -14,3 +14,33 @@ client = {
   user: '',
   password: ''
 }
+
+oneview_rack 'Rack_1' do
+  client client
+  action :add
+end
+
+oneview_rack 'Rack_1' do
+  client client
+  mount_options(
+    name: 'UnmanagedILO_1',
+    'topUSlot' => 20,
+    type: 'UnmanagedDevice'
+  )
+  action :add_to_rack
+end
+
+oneview_rack 'Rack_1' do
+  client client
+  mount_options(
+    name: 'UnmanagedILO_1',
+    type: 'UnmanagedDevice'
+  )
+  action :remove_from_rack
+end
+
+
+oneview_rack 'Rack_1' do
+  client client
+  action :remove
+end

@@ -193,6 +193,33 @@ oneview_datacenter 'Datacenter_1' do
 end
 ```
 
+### oneview_rack
+
+Rack resource for HPE OneView.
+
+Perform the Rack actions:
+  -  **add:** Adds a rack to HPE OneView
+  -  **add_if_missing:** Adds a rack to HPE OneView if it does not exists
+  -  **add_to_rack:** Mounts a resource
+  -  **remove:** Removes a rack from HPE OneView
+  -  **remove_from_rack:** Removes a mounted resource from a Rack
+
+```ruby
+oneview_rack 'Rack_1' do
+  client <my_client>
+  data <resource_data>
+  action [:add, :add_if_missing, :remove]
+end
+
+oneview_rack 'Rack_1' do
+  mount_options(
+    name: <resource_name>,
+    type: <resource_type>
+  )
+  action [:add_to_rack, :remove_from_rack]
+end
+```
+
 ### oneview_enclosure_group
 
 Enclosure Group resource for HPE OneView.
