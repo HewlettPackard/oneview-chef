@@ -40,7 +40,8 @@ module OneviewCookbook
         klass_name.gsub!(/^Oneview/, '')
         klass = get_resource_named(klass_name)
       end
-      item = klass.new(c, data)
+      new_data = JSON.parse(data.to_json) rescue data
+      item = klass.new(c, new_data)
       item['name'] ||= name
       item
     end

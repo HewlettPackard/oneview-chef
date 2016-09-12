@@ -31,7 +31,7 @@ module OneviewCookbook
     def create_or_update(item = nil, method_1 = :create, method_2 = :update)
       ret_val = false
       item ||= load_resource
-      temp = item.data.clone
+      temp = Marshal.load(Marshal.dump(item.data))
       if item.exists?
         item.retrieve!
         if item.like? temp

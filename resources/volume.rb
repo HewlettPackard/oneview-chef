@@ -27,16 +27,30 @@ action_class do
   # @return [OneviewSDK::Volume] Loaded Volume resource
   def load_resource_with_associated_resources
     item = load_resource
-    item = load_storage_system(item)
+    load_storage_system(item)
 
     # item.set_storage_pool(OneviewSDK::StoragePool.new(item.client, name: storage_pool)) if storage_pool
-    # HACK Ruby SDK 1.0.0 issue workaround
-    sp = OneviewSDK::StoragePool.new(item.client, name: storage_pool)
-    raise "Storage Pool '#{sp['name']}' not found" unless sp.retrieve!
-    item['provisioningParameters']['storagePoolUri'] = sp['uri']
+    # Workaround for issue in oneview-sdk:
+    if storage_pool
+      sp = OneviewSDK::StoragePool.find_by(item.client, name: storage_pool).first
+      raise "Storage Pool '#{sp['name']}' not found" unless sp
+      item['storagePoolUri'] = sp['uri']
+    end
 
     item.set_snapshot_pool(OneviewSDK::StoragePool.new(item.client, name: snapshot_pool)) if snapshot_pool
-    item.set_volume_template(OneviewSDK::VolumeTemplate.new(item.client, name: volume_template)) if volume_template
+    item.set_storage_volume_template(OneviewSDK::VolumeTemplate.new(item.client, name: volume_template)) if volume_template
+
+    # Convert capacity integers to strings
+    item['provisionedCapacity'] = item['provisionedCapacity'].to_s if item['provisionedCapacity']
+    item['allocatedCapacity'] = item['allocatedCapacity'].to_s if item['allocatedCapacity']
+
+    unless item.exists? # Also set provisioningParameters if the volume does not exist
+      item['provisioningParameters'] ||= {}
+      item['provisioningParameters']['shareable'] = item['shareable'] if item['provisioningParameters']['shareable'].nil?
+      item['provisioningParameters']['provisionType'] ||= item['provisionType']
+      item['provisioningParameters']['requestedCapacity'] ||= item['provisionedCapacity']
+      item['provisioningParameters']['storagePoolUri'] ||= item['storagePoolUri']
+    end
     item
   end
 
@@ -47,11 +61,13 @@ action_class do
   # @param [OneviewSDK::Volume] item Volume to add the Storage System
   # @return [OneviewSDK::Volume] Volume with Storage System parameters updated
   def load_storage_system(item)
-    warn_msg = "Both Storage System Name '#{storage_system_name}' and IP '#{storage_system_ip}' were provided. Name is being ignored!"
-    Chef::Log.warn(warn_msg) if storage_system_name & storage_system_ip
-    item.set_storage_system(OneviewSDK::StorageSystem.new(item.client, name: storage_system_name)) if storage_system_name && !storage_system_ip
-    item.set_storage_system(OneviewSDK::StorageSystem.new(item.client, credentials: { ip_hostname: storage_system_ip })) if storage_system_ip
-    item
+    warn_msg = "Both StorageSystem name '#{storage_system_name}' and IP '#{storage_system_ip}' were provided. Name is being ignored!"
+    Chef::Log.warn(warn_msg) if storage_system_name && storage_system_ip
+    if storage_system_ip
+      item.set_storage_system(OneviewSDK::StorageSystem.new(item.client, credentials: { ip_hostname: storage_system_ip }))
+    elsif storage_system_name
+      item.set_storage_system(OneviewSDK::StorageSystem.new(item.client, name: storage_system_name))
+    end
   end
 end
 
