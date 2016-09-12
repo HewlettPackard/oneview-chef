@@ -119,7 +119,7 @@ Perform the Interconnect actions:
   - **power_state:** Sets the Interconnect power state to the specified value. The String property `power_state` is required, and typically assumes the "On" and "Off" values.
 
 ```Ruby
-oneview_fcoe_network 'Interconnect1' do
+oneview_interconnect 'Interconnect1' do
   client <my_client>
   data <resource_data>
   port_options <port_data_hash> # Required for :update_port
