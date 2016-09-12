@@ -106,7 +106,7 @@ module OneviewCookbook
     # Get the diff of the current resource state and the desired state
     # @param [OneviewSDK::Resource] resource Resource containing current state
     # @param [Hash] desired_data Desired state for the resource
-    # @return [String] Diff string (multi-line)
+    # @return [String] Diff string (multi-line). Returns empty string if there is no diff or an error occurred
     def get_diff(resource, desired_data)
       recursive_diff(resource.data, desired_data, "\n", '  ')
     rescue StandardError => e
@@ -119,7 +119,8 @@ module OneviewCookbook
     # @param [Hash] desired_data Desired state for the resource
     # @param [String] str Current diff string to append to (used for recursive calls)
     # @param [String] indent String used to indent the output
-    # @return [String] Diff string (multi-line)
+    # @raise [StandardError] if the comparison cannot be made due to an unexpected error
+    # @return [String] Diff string (multi-line). Returns empty string if there is no diff
     def recursive_diff(data, desired_data, str = '', indent = '')
       unless desired_data.class == Hash
         return '' if data == desired_data
