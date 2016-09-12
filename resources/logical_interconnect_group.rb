@@ -45,52 +45,10 @@ action_class do
     end
     item
   end
-
-  # like? function specific to the interconnectMapTemplate resource
-  def interconnect_map_like?(item, another_item)
-    item_pairs = parse_interconnect_entry_pairs(item['interconnectMapTemplate']['interconnectMapEntryTemplates'])
-    another_pairs = parse_interconnect_entry_pairs(another_item['interconnectMapTemplate']['interconnectMapEntryTemplates'])
-    item_pairs == another_pairs
-  end
-
-  # Parses the entry templates into a sorted array of tuples (bay, interconnect_type)
-  def parse_interconnect_entry_pairs(map_entry_templates)
-    parsed = []
-    map_entry_templates.each do |template|
-      bay_number = template['logicalLocation']['locationEntries'].select { |entry| entry['type'] == 'Bay' }.first['relativeValue']
-      parsed << [bay_number, template['permittedInterconnectTypeUri']] if template['permittedInterconnectTypeUri']
-    end
-    parsed.sort
-  end
 end
 
 action :create do
-  item = load_lig(load_resource)
-  temp = item.data.clone
-  if item.exists?
-    item.retrieve!
-    interconnect_like = interconnect_map_like?(item, temp)
-    item.data.delete('interconnectMapTemplate')
-    int_map_template_bkp = temp.delete('interconnectMapTemplate')
-    if interconnect_like && item.like?(temp)
-      Chef::Log.info("#{resource_name} '#{name}' is up to date")
-    else
-      Chef::Log.debug "#{resource_name} '#{name}' Chef resource differs from OneView resource."
-      Chef::Log.info "Update #{resource_name} '#{name}'"
-      converge_by "Update #{resource_name} '#{name}'" do
-        temp['interconnectMapTemplate'] = int_map_template_bkp
-        item.update(temp)
-      end
-    end
-  else
-    Chef::Log.info "Create #{resource_name} '#{name}'"
-    converge_by "Create #{resource_name} '#{name}'" do
-      item.create
-    end
-    ret_val = true
-  end
-  save_res_info(save_resource_info, name, item)
-  ret_val
+  create_or_update(load_lig(load_resource))
 end
 
 action :create_if_missing do
