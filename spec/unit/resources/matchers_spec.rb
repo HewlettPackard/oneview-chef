@@ -73,6 +73,11 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not create_oneview_logical_interconnect_group_if_missing('')
     expect(chef_run).to_not delete_oneview_logical_interconnect_group('')
 
+    # oneview_logical_switch_group
+    expect(chef_run).to_not create_oneview_logical_switch_group('')
+    expect(chef_run).to_not create_oneview_logical_switch_group_if_missing('')
+    expect(chef_run).to_not delete_oneview_logical_switch_group('')
+
     # oneview_storage_pool
     expect(chef_run).to_not add_oneview_storage_pool('')
     expect(chef_run).to_not remove_oneview_storage_pool('')
