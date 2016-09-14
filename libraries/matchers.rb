@@ -26,6 +26,7 @@ if defined?(ChefSpec)
     oneview_logical_enclosure:          [:update_from_group, :reconfigure, :set_script],
     oneview_logical_interconnect_group: standard_actions,
     oneview_server_hardware:            [:add, :add_if_missing, :remove, :refresh, :set_power_state, :update_ilo_firmware],
+    oneview_interconnect:               [:set_uid_light, :set_power_state, :reset, :reset_port_protection, :update_port],
     oneview_storage_pool:               [:add, :remove],
     oneview_storage_system:             [:add, :remove],
     oneview_volume:                     standard_actions,
@@ -39,6 +40,10 @@ if defined?(ChefSpec)
                     when :create_if_missing then "create_#{resource_type}_if_missing"
                     when :update_from_group then "update_#{resource_type}_from_group"
                     when :set_script then "set_#{resource_type}_script"
+                    when :set_uid_light then "set_#{resource_type}_uid_light"
+                    when :set_power_state then "set_#{resource_type}_power_state"
+                    when :reset_port_protection then "reset_#{resource_type}_port_protection"
+                    when :update_port then "update_#{resource_type}_port"
                     when :reset_connection_template then "reset_#{resource_type}_connection_template"
                     when :set_power_state then "set_#{resource_type}_power_state"
                     when :update_ilo_firmware then "update_#{resource_type}_ilo_firmware"
