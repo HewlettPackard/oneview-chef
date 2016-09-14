@@ -18,6 +18,14 @@ default_action :add
 action_class do
   include OneviewCookbook::Helper
   include OneviewCookbook::ResourceBase
+
+  def load_mount_item(client, mount_options)
+    options = convert_keys(mount_options, :to_s)
+    klass = get_resource_named(options['type'])
+    mount_item = klass.new(client, name: options['name'])
+    mount_item.retrieve!
+    mount_item
+  end
 end
 
 action :add do
@@ -34,24 +42,19 @@ end
 
 action :add_to_rack do
   item = load_resource
-  options = Hash[mount_options.map { |k, v| [k.to_s, v] }]
-  klass = get_resource_named(options['type'])
-  mount_item = klass.new(item.client, name: options['name'])
-  mount_item.retrieve!
   item.retrieve!
+  mount_item = load_mount_item(item.client, mount_options)
 
-  rack_resources = []
-  item['rackMounts'].each { |value| rack_resources << value['mountUri'] }
-  options = options.reject { |i| ['type', 'name'].include?(i) }
-  if !rack_resources.include? mount_item['uri']
+  rack_uris = item['rackMounts'].collect { |i| i['mountUri'] }
+  options = convert_keys(mount_options, :to_s).reject! { |i| ['type', 'name'].include?(i) }
+  if !rack_uris.include? mount_item['uri']
     converge_by "#{resource_name} '#{name}' added." do
       item.add_rack_resource(mount_item, options)
       item.update
     end
   else
     mounted_resource = item['rackMounts'].find { |i| i['mountUri'] == mount_item['uri'] }
-    results = options.map { |key, value| value == mounted_resource[key.to_s] }
-    unless results.all? # ~FC023
+    if options.any? { |k, v| v != mounted_resource[k] } # ~FC023
       converge_by "#{resource_name} '#{name}' updated." do
         item.add_rack_resource(mount_item, options)
         item.update
@@ -62,15 +65,11 @@ end
 
 action :remove_from_rack do
   item = load_resource
-  options = Hash[mount_options.map { |k, v| [k.to_s, v] }]
-  klass = get_resource_named(options['type'])
-  mount_item = klass.new(item.client, name: options['name'])
-  mount_item.retrieve!
   item.retrieve!
+  mount_item = load_mount_item(item.client, mount_options)
 
-  rack_resources = []
-  item['rackMounts'].each { |value| rack_resources << value['mountUri'] }
-  if rack_resources.include? mount_item['uri'] # ~FC023
+  rack_uris = item['rackMounts'].collect { |i| i['mountUri'] }
+  if rack_uris.include? mount_item['uri'] # ~FC023
     converge_by "#{resource_name} '#{name}' removed." do
       item.remove_rack_resource(mount_item)
       item.update
