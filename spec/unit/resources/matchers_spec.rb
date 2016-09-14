@@ -66,6 +66,14 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not create_oneview_logical_interconnect_group_if_missing('')
     expect(chef_run).to_not delete_oneview_logical_interconnect_group('')
 
+    # oneview_server_hardware
+    expect(chef_run).to_not add_oneview_server_hardware('')
+    expect(chef_run).to_not add_oneview_server_hardware_if_missing('')
+    expect(chef_run).to_not remove_oneview_server_hardware('')
+    expect(chef_run).to_not refresh_oneview_server_hardware('')
+    expect(chef_run).to_not set_oneview_server_hardware_power_state('')
+    expect(chef_run).to_not update_oneview_server_hardware_ilo_firmware('')
+
     # oneview_storage_pool
     expect(chef_run).to_not add_oneview_storage_pool('')
     expect(chef_run).to_not remove_oneview_storage_pool('')

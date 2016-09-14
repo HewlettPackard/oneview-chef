@@ -324,6 +324,19 @@ oneview_logical_enclosure 'Encl1' do
 end
 ```
 
+### oneview_server_hardware
+
+Server hardware resource for HPE OneView
+
+```ruby
+oneview_server_hardware 'ServerHardware1' do
+  client client
+  data <data>
+  power_state <state>
+  action [:add, :add_if_missing, :remove, :refresh, :set_power_state, :update_ilo_firmware]
+end
+```
+
 ## Examples
 
 :information_source: There are plenty more examples in the [examples](examples) directory showing more detailed usage of each resource, but here's a few to get you started:

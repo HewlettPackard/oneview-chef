@@ -25,6 +25,7 @@ if defined?(ChefSpec)
     oneview_fcoe_network:               standard_actions,
     oneview_logical_enclosure:          [:update_from_group, :reconfigure, :set_script],
     oneview_logical_interconnect_group: standard_actions,
+    oneview_server_hardware:            [:add, :add_if_missing, :remove, :refresh, :set_power_state, :update_ilo_firmware],
     oneview_storage_pool:               [:add, :remove],
     oneview_storage_system:             [:add, :remove],
     oneview_volume:                     standard_actions,
@@ -39,6 +40,8 @@ if defined?(ChefSpec)
                     when :update_from_group then "update_#{resource_type}_from_group"
                     when :set_script then "set_#{resource_type}_script"
                     when :reset_connection_template then "reset_#{resource_type}_connection_template"
+                    when :set_power_state then "set_#{resource_type}_power_state"
+                    when :update_ilo_firmware then "update_#{resource_type}_ilo_firmware"
                     else "#{action}_#{resource_type}"
                     end
       define_method(method_name) do |resource_name|
