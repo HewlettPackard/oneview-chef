@@ -37,6 +37,9 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not reset_oneview_ethernet_network_connection_template('')
     expect(chef_run).to_not delete_oneview_ethernet_network('')
 
+    # oneview_firmware_bundle
+    expect(chef_run).to_not add_oneview_firmware_bundle('')
+
     # oneview_connection_template
     expect(chef_run).to_not update_oneview_connection_template('')
     expect(chef_run).to_not reset_oneview_connection_template('')
