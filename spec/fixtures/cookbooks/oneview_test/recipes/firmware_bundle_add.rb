@@ -15,6 +15,6 @@
 #
 
 oneview_firmware_bundle 'cp027376.exe' do
-  file_path '/path/to/file'
   client node['oneview_test']['client']
+  file_path '/path/to/file'
 end

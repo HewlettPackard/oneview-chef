@@ -15,7 +15,7 @@ my_client = {
   password: ''
 }
 
-oneview_firmware_bundle 'firmware_bundle_name' do
-  file_path '/bundles/firmware_bundle_name'
+oneview_firmware_bundle 'firmware_bundle_name.iso' do
   client my_client
+  file_path '/bundles/firmware_bundle_name'
 end
