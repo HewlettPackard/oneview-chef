@@ -10,97 +10,102 @@
 # specific language governing permissions and limitations under the License.
 
 # NOTE: This recipe requires:
-# Ethernet Networks: CHEF_ETH_NETWORK_01, CHEF_ETH_NETWORK_02
-# FC Network: CHEF_FC_NETWORK_01
+# Ethernet Networks: EthernetNetwork1, EthernetNetwork2
+# FC Network: FCNetwork1
 
 
-client = {
+my_client = {
   url: '',
   user: '',
   password: ''
 }
 
+# LOGICAL INTERCONNECT GROUP 1 #
 # Simple Logical Interconnect group creation without interconnects and uplinks
-lig_data = {
-  enclosureType: 'C7000',
-  type: 'logical-interconnect-groupV3'
-}
-
-oneview_logical_interconnect_group 'CHEF_LIG_01' do
-  client client
-  data lig_data
-  action :create
+oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
+  client my_client
+  data(enclosureType: 'C7000')
 end
+################################
 
+
+# LOGICAL INTERCONNECT GROUP 2 #
 # Logical Interconnect group creation with interconnects but without uplinks
-oneview_logical_interconnect_group 'CHEF_LIG_02' do
-  client client
-  data lig_data
+oneview_logical_interconnect_group 'LogicalInterconnectGroup2' do
+  client my_client
+  data(enclosureType: 'C7000')
+  # Define each interconnect type in the corresponding bay
+  # If not specified the interconnect is not added to the group
   interconnects [
     {bay: 1, type: 'HP VC FlexFabric 10Gb/24-Port Module'},
     {bay: 2, type: 'HP VC FlexFabric 10Gb/24-Port Module'}
   ]
-  action :create
 end
+################################
 
 
-# Complete Logical Interconnect group creation with interconnects and uplinks
+# LOGICAL INTERCONNECT GROUP 3 #
+# Complete Logical Interconnect group creation with interconnects and uplinks.
+# We are specifying first the Uplink set data outside the chef block to make it more clear.
+
+# Ethernet uplink set
+## First specify the main attributes
 lig_03_uplink_01_data = {
-  name: 'CHEF_LIG_03_UPLINK_SET_01',
+  name: 'LogicalInterconnectGroup3 - UplinkSet1',
   networkType: 'Ethernet',
   ethernetNetworkType: 'Tagged'
 }
-
+## Second, the connections (uplinks)
+## Define exactly the ports from the interconnects that need to be linked in this Uplink set
 connections_01 = [
-    {bay: 1, port: 'X5'},
-    {bay: 1, port: 'X6'},
-    {bay: 2, port: 'X7'},
-    {bay: 2, port: 'X8'}
+  {bay: 1, port: 'X5'},
+  {bay: 1, port: 'X6'},
+  {bay: 2, port: 'X7'},
+  {bay: 2, port: 'X8'}
 ]
+## We finish setting the Uplink set networks (they should be Ethernet networks since it is an Ethernet uplink set)
+networks_01 = ['EthernetNetwork1','EthernetNetwork2']
 
-networks_01 = ['CHEF_ETH_NETWORK_01','CHEF_ETH_NETWORK_02']
-
+# Now, the Fibre channel uplink set
 lig_03_uplink_02_data = {
-  name: 'CHEF_LIG_03_UPLINK_SET_02',
+  name: 'LogicalInterconnectGroup3 - UplinkSet2',
   networkType: 'FibreChannel'
 }
-
 connections_02 = [
-    {bay: 1, port: 'X1'},
-    {bay: 1, port: 'X2'}
+  {bay: 1, port: 'X1'},
+  {bay: 1, port: 'X2'}
 ]
+## Currently, only one FCNetwork is supported per Uplink set
+networks_02 = ['FCNetwork1']
 
-networks_02 = ['CHEF_FC_NETWORK_01']
-
-oneview_logical_interconnect_group 'CHEF_LIG_03' do
-  client client
-  data lig_data
+## Now, putting everything in the Chef block
+oneview_logical_interconnect_group 'LogicalInterconnectGroup3' do
+  client my_client
+  data(enclosureType: 'C7000')
   interconnects [
-      {bay: 1, type: 'HP VC FlexFabric 10Gb/24-Port Module'},
-      {bay: 2, type: 'HP VC FlexFabric 10Gb/24-Port Module'}
+    {bay: 1, type: 'HP VC FlexFabric 10Gb/24-Port Module'},
+    {bay: 2, type: 'HP VC FlexFabric 10Gb/24-Port Module'}
   ]
   uplink_sets [
     { data: lig_03_uplink_01_data,  connections: connections_01, networks: networks_01},
     { data: lig_03_uplink_02_data,  connections: connections_02, networks: networks_02}
   ]
-  action :create
 end
+################################
 
 
-oneview_logical_interconnect_group 'CHEF_LIG_01' do
-  client client
-  data ({})
+# CLEANING UP THE LOGICAL INTERCONNECT GROUPS #
+oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
+  client my_client
   action :delete
 end
 
-oneview_logical_interconnect_group 'CHEF_LIG_02' do
-  client client
-  data ({})
+oneview_logical_interconnect_group 'LogicalInterconnectGroup2' do
+  client my_client
   action :delete
 end
 
-oneview_logical_interconnect_group 'CHEF_LIG_03' do
-  client client
-  data ({})
+oneview_logical_interconnect_group 'LogicalInterconnectGroup3' do
+  client my_client
   action :delete
 end
