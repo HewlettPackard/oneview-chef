@@ -22,11 +22,13 @@ action_class do
 
   def load_lig(item)
     interconnects.each do |location|
-      item.add_interconnect(location[:bay], location[:type])
+      parsed_location = convert_keys(location, :to_sym)
+      item.add_interconnect(parsed_location[:bay], parsed_location[:type])
     end
     uplink_sets.each do |uplink_info|
-      up = OneviewSDK::LIGUplinkSet.new(item.client, uplink_info[:data])
-      uplink_info[:networks].each do |network_name|
+      parsed_uplink_info = convert_keys(uplink_info, :to_sym)
+      up = OneviewSDK::LIGUplinkSet.new(item.client, parsed_uplink_info[:data])
+      parsed_uplink_info[:networks].each do |network_name|
         net = case up[:networkType]
               when 'Ethernet'
                 OneviewSDK::EthernetNetwork.new(item.client, name: network_name)
@@ -38,7 +40,7 @@ action_class do
         raise "#{up[:networkType]} #{network_name} not found" unless net.retrieve!
         up.add_network(net)
       end
-      uplink_info[:connections].each { |link| up.add_uplink(link[:bay], link[:port]) }
+      parsed_uplink_info[:connections].each { |link| up.add_uplink(link[:bay], link[:port]) }
       item.add_uplink_set(up)
     end
     item

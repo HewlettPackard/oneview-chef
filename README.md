@@ -107,6 +107,27 @@ oneview_fcoe_network 'FCoE1' do
 end
 ```
 
+### oneview_interconnect
+
+Interconnect resource for HPE OneView.
+
+Perform the Interconnect actions:
+  - **reset:** Resets the Interconnect.
+  - **reset_port_protection:** Resets the Interconnect port protection.
+  - **update_port:** Updates one specified port in the Interconnect. The Hash property `port_options` is required, and is also needed to specify the key `"name"` corresponding to the port name. (E.G.: "X1", "Q1.1")
+  - **set_uid_light:** Sets the Interconnect UID indicator (UID light) to the specified value. The String property `uid_light_state` is required, and typically assumes the "On" and "Off" values.
+  - **power_state:** Sets the Interconnect power state to the specified value. The String property `power_state` is required, and typically assumes the "On" and "Off" values.
+
+```Ruby
+oneview_interconnect 'Interconnect1' do
+  client <my_client>
+  data <resource_data>
+  port_options <port_data_hash> # Required for :update_port
+  uid_light_state <uid_light_state_string> # Required for :set_uid_light
+  power_state <power_state_string> # Required for :set_power_state
+  action [:reset, :reset_port_protection, :update_port, :set_uid_light, :set_power_state]
+end
+```
 
 ### oneview_logical_interconnect_group
 
@@ -176,6 +197,26 @@ interconnects_data = [
     { data: uplink_data_2,  connections: connections_2, networks: ['FC_1']}
   ]
   ```
+
+### oneview_logical_switch_group
+
+Logical Switch Group resource for HPE OneView.
+
+```ruby
+oneview_logical_switch_group 'LogicalSwitchGroup_1' do
+  client <my_client>
+  data <resource_data> # Switch options
+  switch_number <number> # Specify how many switches are in the group
+  switch_type <switch_type_name> # Specify the type of the switches for the entire group
+  action [:create, :create_if_missing, :delete]
+end
+```
+
+The `:create` and `create_if_missing` can be done in two different ways:
+  1. By specifying the 'switchMapTemplate' attribute in the `data` property
+  2. By specifying both `switch_number` and `switch_type` properties, but no 'switchMapTemplate' attribute in the `data` property
+
+:memo: **Note:** You are still able to specify the `switch_number` and `switch_type` properties even if you use the 'switchMapTemplate' attribute, but they will be **ignored**, only the values from 'switchMapTemplate' are going to be used.
 
 ### oneview_datacenter
 
