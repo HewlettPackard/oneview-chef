@@ -14,7 +14,7 @@ describe 'oneview_test::rack_add_to_rack' do
   it 'mounts a new resource' do
     expect_any_instance_of(OneviewSDK::Rack).to receive(:add_rack_resource)
     expect_any_instance_of(OneviewSDK::Rack).to receive(:update)
-    expect(real_chef_run).to add_to_oneview_rack('Rack1')
+    expect(real_chef_run).to add_oneview_rack_to_rack('Rack1')
   end
 
   it 'mounts a resource that already exists and it is not alike' do
@@ -29,7 +29,7 @@ describe 'oneview_test::rack_add_to_rack' do
     )
     expect_any_instance_of(OneviewSDK::Rack).to receive(:add_rack_resource)
     expect_any_instance_of(OneviewSDK::Rack).to receive(:update)
-    expect(real_chef_run).to add_to_oneview_rack('Rack1')
+    expect(real_chef_run).to add_oneview_rack_to_rack('Rack1')
   end
 
   it 'mounts a resource that already exists and it is alike' do
@@ -44,6 +44,6 @@ describe 'oneview_test::rack_add_to_rack' do
     )
     expect_any_instance_of(OneviewSDK::Rack).to_not receive(:add_rack_resource)
     expect_any_instance_of(OneviewSDK::Rack).to_not receive(:update)
-    expect(real_chef_run).to add_to_oneview_rack('Rack1')
+    expect(real_chef_run).to add_oneview_rack_to_rack('Rack1')
   end
 end

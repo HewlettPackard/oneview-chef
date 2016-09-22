@@ -22,7 +22,7 @@ describe 'oneview_test::rack_remove_from_rack' do
     )
     expect_any_instance_of(OneviewSDK::Rack).to receive(:remove_rack_resource)
     expect_any_instance_of(OneviewSDK::Rack).to receive(:update)
-    expect(real_chef_run).to remove_from_oneview_rack('Rack1')
+    expect(real_chef_run).to remove_oneview_rack_from_rack('Rack1')
   end
 
   it 'mounted resource does not exists' do
@@ -43,6 +43,6 @@ describe 'oneview_test::rack_remove_from_rack' do
     )
     expect_any_instance_of(OneviewSDK::Rack).to_not receive(:remove_rack_resource)
     expect_any_instance_of(OneviewSDK::Rack).to_not receive(:update)
-    expect(real_chef_run).to remove_from_oneview_rack('Rack1')
+    expect(real_chef_run).to remove_oneview_rack_from_rack('Rack1')
   end
 end

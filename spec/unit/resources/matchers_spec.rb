@@ -76,8 +76,8 @@ describe 'oneview_test::default' do
     # oneview_rack
     expect(chef_run).to_not add_oneview_rack('')
     expect(chef_run).to_not remove_oneview_rack('')
-    expect(chef_run).to_not add_to_oneview_rack('')
-    expect(chef_run).to_not remove_from_oneview_rack('')
+    expect(chef_run).to_not add_oneview_rack_to_rack('')
+    expect(chef_run).to_not remove_oneview_rack_from_rack('')
 
     # oneview_storage_pool
     expect(chef_run).to_not add_oneview_storage_pool('')
