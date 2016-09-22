@@ -11,6 +11,7 @@
   - Added support to Datacenter actions
   - Added support to Server hardware actions
   - Added support to Interconnect actions
+  - Added support to Logical switch group actions
 
 ### 0.1.1
   - Fixed Ruby SDK version to 1.0.0

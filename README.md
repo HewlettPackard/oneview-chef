@@ -198,6 +198,26 @@ interconnects_data = [
   ]
   ```
 
+### oneview_logical_switch_group
+
+Logical Switch Group resource for HPE OneView.
+
+```ruby
+oneview_logical_switch_group 'LogicalSwitchGroup_1' do
+  client <my_client>
+  data <resource_data> # Switch options
+  switch_number <number> # Specify how many switches are in the group
+  switch_type <switch_type_name> # Specify the type of the switches for the entire group
+  action [:create, :create_if_missing, :delete]
+end
+```
+
+The `:create` and `create_if_missing` can be done in two different ways:
+  1. By specifying the 'switchMapTemplate' attribute in the `data` property
+  2. By specifying both `switch_number` and `switch_type` properties, but no 'switchMapTemplate' attribute in the `data` property
+
+:memo: **Note:** You are still able to specify the `switch_number` and `switch_type` properties even if you use the 'switchMapTemplate' attribute, but they will be **ignored**, only the values from 'switchMapTemplate' are going to be used.
+
 ### oneview_datacenter
 
 Datacenter resource for HPE OneView.

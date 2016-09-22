@@ -13,6 +13,10 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not delete_oneview_resource('')
     expect(chef_run).to_not create_oneview_resource_if_missing('')
 
+    # oneview_connection_template
+    expect(chef_run).to_not update_oneview_connection_template('')
+    expect(chef_run).to_not reset_oneview_connection_template('')
+
     # oneview_datacenter
     expect(chef_run).to_not add_oneview_datacenter('')
     expect(chef_run).to_not remove_oneview_datacenter('')
@@ -37,15 +41,6 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not reset_oneview_ethernet_network_connection_template('')
     expect(chef_run).to_not delete_oneview_ethernet_network('')
 
-    # oneview_connection_template
-    expect(chef_run).to_not update_oneview_connection_template('')
-    expect(chef_run).to_not reset_oneview_connection_template('')
-
-    # oneview_network_set
-    expect(chef_run).to_not create_oneview_network_set('')
-    expect(chef_run).to_not create_oneview_network_set_if_missing('')
-    expect(chef_run).to_not delete_oneview_network_set('')
-
     # oneview_fc_network
     expect(chef_run).to_not create_oneview_fc_network('')
     expect(chef_run).to_not create_oneview_fc_network_if_missing('')
@@ -56,11 +51,6 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not create_oneview_fcoe_network_if_missing('')
     expect(chef_run).to_not delete_oneview_fcoe_network('')
 
-    # oneview_logical_enclosure
-    expect(chef_run).to_not update_oneview_logical_enclosure_from_group('')
-    expect(chef_run).to_not reconfigure_oneview_logical_enclosure('')
-    expect(chef_run).to_not set_oneview_logical_enclosure_script('')
-
     # oneview_interconnect
     expect(chef_run).to_not set_oneview_interconnect_uid_light('')
     expect(chef_run).to_not set_oneview_interconnect_power_state('')
@@ -68,10 +58,25 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not reset_oneview_interconnect('')
     expect(chef_run).to_not update_oneview_interconnect_port('')
 
+    # oneview_logical_enclosure
+    expect(chef_run).to_not update_oneview_logical_enclosure_from_group('')
+    expect(chef_run).to_not reconfigure_oneview_logical_enclosure('')
+    expect(chef_run).to_not set_oneview_logical_enclosure_script('')
+
     # oneview_logical_interconnect_group
     expect(chef_run).to_not create_oneview_logical_interconnect_group('')
     expect(chef_run).to_not create_oneview_logical_interconnect_group_if_missing('')
     expect(chef_run).to_not delete_oneview_logical_interconnect_group('')
+
+    # oneview_logical_switch_group
+    expect(chef_run).to_not create_oneview_logical_switch_group('')
+    expect(chef_run).to_not create_oneview_logical_switch_group_if_missing('')
+    expect(chef_run).to_not delete_oneview_logical_switch_group('')
+
+    # oneview_network_set
+    expect(chef_run).to_not create_oneview_network_set('')
+    expect(chef_run).to_not create_oneview_network_set_if_missing('')
+    expect(chef_run).to_not delete_oneview_network_set('')
 
     # oneview_server_hardware
     expect(chef_run).to_not add_oneview_server_hardware('')
