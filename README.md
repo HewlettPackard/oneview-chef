@@ -340,7 +340,7 @@ Logical enclosure resource for HPE OneView.
 
 ```ruby
 oneview_logical_enclosure 'Encl1' do
-  client client
+  client <my_client>
   action :update_from_group
 end
 ```
@@ -351,9 +351,9 @@ Server hardware resource for HPE OneView
 
 ```ruby
 oneview_server_hardware 'ServerHardware1' do
-  client client
+  client <my_client>
   data <data>
-  power_state <state>
+  power_state [:on, :off] # Only used with the :set_power_state action
   action [:add, :add_if_missing, :remove, :refresh, :set_power_state, :update_ilo_firmware]
 end
 ```

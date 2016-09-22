@@ -18,6 +18,10 @@ require 'chefspec/berkshelf'
 ChefSpec::Coverage.start!
 
 RSpec.configure do |config|
+  # Set the default Fauxhai platform and version
+  config.platform = 'redhat'
+  config.version = '7.2'
+  
   config.before(:each) do
     # Mock appliance version and login api requests, as well as loading trusted certs
     allow_any_instance_of(OneviewSDK::Client).to receive(:appliance_api_version).and_return(200)

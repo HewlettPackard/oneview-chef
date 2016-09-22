@@ -16,6 +16,6 @@
 
 oneview_server_hardware 'ServerHardware1' do
   client node['oneview_test']['client']
-  power_state 'on'
+  power_state 'On'
   action :set_power_state
 end

@@ -11,7 +11,7 @@
 
 OneviewCookbook::ResourceBaseProperties.load(self)
 
-property :power_state, String
+property :power_state, [String, Symbol], regex: /^(on|off)$/i
 property :options, Hash
 
 default_action :add
@@ -36,22 +36,22 @@ end
 action :update_ilo_firmware do
   item = load_resource
   item.retrieve!
-  converge_by "Updating iLO firmware #{resource_name} '#{name}'" do
+  converge_by "Updating iLO firmware on #{resource_name} '#{item['name']}'" do
     item.update_ilo_firmware
   end
 end
 
 action :set_power_state do
   raise "Unspecified property: 'power_state'. Please set it before attempting this action." unless power_state
-  raise "Invalid property: 'power_state'." unless ['ON', 'OFF'].include? power_state.upcase
+  ps = power_state.to_s.downcase
   item = load_resource
   item.retrieve!
-  if item['powerState'] != power_state
-    converge_by "Powering #{resource_name} '#{name}'#{power_state.upcase}" do
-      item.public_send("power_#{power_state.downcase}".to_sym)
-    end
+  if item['powerState'].casecmp(ps) == 0
+    Chef::Log.info("#{resource_name} '#{item['name']}' is already powered #{ps}")
   else
-    Chef::Log.info("#{resource_name} '#{name}' is already powered #{power_state.upcase}")
+    converge_by "Powering #{ps} #{resource_name} '#{item['name']}'" do
+      item.public_send("power_#{ps}".to_sym)
+    end
   end
 end
 
