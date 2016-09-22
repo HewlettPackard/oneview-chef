@@ -16,6 +16,7 @@ my_client = {
 }
 
 oneview_server_hardware '172.18.6.4' do
+  client my_client
   data(
     hostname: '172.18.6.4',
     username: 'user',
@@ -23,7 +24,6 @@ oneview_server_hardware '172.18.6.4' do
     licensingIntent: 'OneViewStandard',
     configurationState: "Monitored"
   )
-  client my_client
 end
 
 oneview_server_hardware '172.18.6.4' do

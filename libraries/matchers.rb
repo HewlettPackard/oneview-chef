@@ -13,6 +13,8 @@ if defined?(ChefSpec)
   # Instead of defining each matcher method, we're going to save some time by doing some meta programming
   # To see a full list of the actual matchers, see spec/unit/resources/matchers_spec.rb
   standard_actions = [:create, :create_if_missing, :delete]
+  # Lists all the possible action verbs
+  action_list = %w(create add delete remove set reset refresh update configure reconfigure)
   oneview_resources = {
     oneview_resource:                   standard_actions,
     oneview_datacenter:                 [:add, :remove, :add_if_missing],
@@ -35,20 +37,16 @@ if defined?(ChefSpec)
 
   oneview_resources.each do |resource_type, actions|
     actions.each do |action|
-      method_name = case action
-                    when :add_if_missing then "add_#{resource_type}_if_missing"
-                    when :create_if_missing then "create_#{resource_type}_if_missing"
-                    when :update_from_group then "update_#{resource_type}_from_group"
-                    when :set_script then "set_#{resource_type}_script"
-                    when :set_uid_light then "set_#{resource_type}_uid_light"
-                    when :set_power_state then "set_#{resource_type}_power_state"
-                    when :reset_port_protection then "reset_#{resource_type}_port_protection"
-                    when :update_port then "update_#{resource_type}_port"
-                    when :reset_connection_template then "reset_#{resource_type}_connection_template"
-                    when :set_power_state then "set_#{resource_type}_power_state"
-                    when :update_ilo_firmware then "update_#{resource_type}_ilo_firmware"
-                    else "#{action}_#{resource_type}"
-                    end
+      # Each action should follow <action_clause>_<resource_type>[_<object_complement>] naming standards
+      description = action.to_s.split('_')
+      # Finds the last action cited in the action description
+      action_indexes = action_list.map { |action_word| description.rindex(action_word) }
+      last_action_index = action_indexes.compact.max
+      # Inserts the resource type after the action
+      description.insert(last_action_index + 1, resource_type.to_s)
+      # Rejoin everything
+      method_name = description.join('_')
+
       define_method(method_name) do |resource_name|
         ChefSpec::Matchers::ResourceMatcher.new(resource_type, action, resource_name)
       end
