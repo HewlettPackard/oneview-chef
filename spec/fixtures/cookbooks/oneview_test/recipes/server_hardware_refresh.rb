@@ -16,5 +16,8 @@
 
 oneview_server_hardware 'ServerHardware1' do
   client node['oneview_test']['client']
+  refresh_options(
+    refreshActions: [:ClearSyslog, :PowerOff]
+  )
   action :refresh
 end

@@ -45,7 +45,7 @@ action :set_power_state do
   raise "Unspecified property: 'power_state'. Please set it before attempting this action." unless power_state
   ps = power_state.to_s.downcase
   item = load_resource
-  fail "#{resource_name} '#{item['name']}' not found!" unless item.retrieve!
+  raise "#{resource_name} '#{item['name']}' not found!" unless item.retrieve!
   if item['powerState'].casecmp(ps) == 0
     Chef::Log.info("#{resource_name} '#{item['name']}' is already powered #{ps}")
   else
@@ -57,7 +57,7 @@ end
 
 action :refresh do
   item = load_resource
-  fail "#{resource_name} '#{item['name']}' not found!" unless item.retrieve!
+  raise "#{resource_name} '#{item['name']}' not found!" unless item.retrieve!
 
   if ['RefreshFailed', 'NotRefreshing', ''].include? item['refreshState']
     converge_by "Refresh #{resource_name} '#{item['name']}'." do
