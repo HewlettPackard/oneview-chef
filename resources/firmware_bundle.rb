@@ -11,7 +11,7 @@
 
 OneviewCookbook::ResourceBaseProperties.load(self)
 
-property :file_path, String
+property :file_path, String, name_property: true
 
 default_action :add
 
@@ -21,17 +21,17 @@ action_class do
 end
 
 action :add do
-  raise "Unspecified property: 'file_path'. Please set it before attempting this action." unless file_path
   load_sdk
   c = build_client(client)
 
-  bundles_fw_components = OneviewSDK::FirmwareDriver.find_by(c, {}).map { |i| i['fwComponents'] }
+  file_name = ::File.basename(file_path)
+  fw_bundles = OneviewSDK::FirmwareDriver.find_by(c, {}).map { |i| i['fwComponents'] }
 
-  if bundles_fw_components.all? { |bundle| name != bundle.first['fileName'] }
-    converge_by "Add #{resource_name} '#{name}'" do
+  if fw_bundles.any? { |bundle| bundle.first['fileName'] == file_name }
+    Chef::Log.info "#{resource_name} '#{file_name}' is already uploaded."
+  else
+    converge_by "Add #{resource_name} '#{file_path}'" do
       OneviewSDK::FirmwareBundle.add(c, file_path)
     end
-  else
-    Chef::Log.info "#{resource_name} '#{name}' is already up to date."
   end
 end

@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: oneview_test
-# Recipe:: firmware_bundle_add
+# Recipe:: logical_interconnect_group_create
 #
 # (c) Copyright 2016 Hewlett Packard Enterprise Development LP
 #
@@ -14,7 +14,9 @@
 # specific language governing permissions and limitations under the License.
 #
 
-oneview_firmware_bundle 'upload cp027376.exe' do
+oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
   client node['oneview_test']['client']
-  file_path '/path/to/cp027376.exe'
+  data(
+    enclosureType: 'C7000'
+  )
 end

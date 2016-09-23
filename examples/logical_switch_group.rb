@@ -15,14 +15,24 @@ my_client = {
   password: ''
 }
 
-# Example: Upload a firmware bundle
-oneview_firmware_bundle 'firmware_bundle_name.iso' do
+# Ensures the existence of one Logical Switch Group with room for 2 Switches with type 'Cisco Nexus 50xx'
+oneview_logical_switch_group 'LogicalSwitchGroup1' do
   client my_client
-  file_path '/bundles/firmware_bundle_name.iso'
+  switch_number 2
+  switch_type 'Cisco Nexus 50xx'
 end
 
-# Example: Upload a firmware bundle
-# This is functionally the same as above, but uses the name attribute to specify the file path
-oneview_firmware_bundle '/bundles/firmware_bundle_name.iso' do
+# Creates LogicalSwitchGroup2 only if no Logical Switch group already created with that name
+oneview_logical_switch_group 'LogicalSwitchGroup2' do
   client my_client
+  switch_number 1
+  switch_type 'Cisco Nexus 50xx'
+  action :create_if_missing
+end
+
+# Deletes LogicalSwitchGroup2
+# Delete action will only need the name and client
+oneview_logical_switch_group 'LogicalSwitchGroup2' do
+  client my_client
+  action :delete
 end
