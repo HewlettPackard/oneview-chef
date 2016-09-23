@@ -11,8 +11,8 @@
 
 OneviewCookbook::ResourceBaseProperties.load(self)
 
-property :power_state, [String, Symbol], regex: /^(on|off)$/i
-property :options, Hash
+property :power_state, [String, Symbol], regex: /^(on|off)$/i # Used in :set_power_state action only
+property :refresh_options, Hash, default: {}                  # Used in :refresh action only
 
 default_action :add
 
@@ -45,11 +45,11 @@ action :set_power_state do
   raise "Unspecified property: 'power_state'. Please set it before attempting this action." unless power_state
   ps = power_state.to_s.downcase
   item = load_resource
-  item.retrieve!
+  fail "#{resource_name} '#{item['name']}' not found!" unless item.retrieve!
   if item['powerState'].casecmp(ps) == 0
     Chef::Log.info("#{resource_name} '#{item['name']}' is already powered #{ps}")
   else
-    converge_by "Powering #{ps} #{resource_name} '#{item['name']}'" do
+    converge_by "Power #{ps} #{resource_name} '#{item['name']}'" do
       item.public_send("power_#{ps}".to_sym)
     end
   end
@@ -57,16 +57,13 @@ end
 
 action :refresh do
   item = load_resource
-  item.retrieve!
-
-  refresh_state = state || 'RefreshPending'
-  refresh_options = options || {}
+  fail "#{resource_name} '#{item['name']}' not found!" unless item.retrieve!
 
   if ['RefreshFailed', 'NotRefreshing', ''].include? item['refreshState']
-    converge_by "#{resource_name} '#{name}' was refreshed." do
-      item.set_refresh_state(refresh_state, refresh_options)
+    converge_by "Refresh #{resource_name} '#{item['name']}'." do
+      item.set_refresh_state('RefreshPending', refresh_options)
     end
   else
-    Chef::Log.info("#{resource_name} '#{name}' refresh is already running.")
+    Chef::Log.info("#{resource_name} '#{item['name']}' refresh is already running.")
   end
 end

@@ -41,6 +41,16 @@ oneview_server_hardware '172.18.6.4' do
   action :refresh
 end
 
+# Example: Refresh the server hardware to fix configuration issues, and pass in refresh_options.
+# See the API docs for other options (these will get passed into the request body)
+oneview_server_hardware '172.18.6.4' do
+  client my_client
+  refresh_options(
+    refreshActions: [:ClearSyslog, :PowerOff]
+  )
+  action :refresh
+end
+
 # Example: Update the iLO firmware on a physical server to a minimum ILO firmware
 # version required by OneView to manage the server
 oneview_server_hardware '172.18.6.4' do
@@ -48,7 +58,7 @@ oneview_server_hardware '172.18.6.4' do
   action :update_ilo_firmware
 end
 
-# Example: Remove the server from OneView
+# Example: Remove the server hardware from OneView
 oneview_server_hardware '172.18.6.4' do
   client my_client
   action :remove

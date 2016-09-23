@@ -374,6 +374,7 @@ oneview_server_hardware 'ServerHardware1' do
   client <my_client>
   data <data>
   power_state [:on, :off] # Only used with the :set_power_state action
+  refresh_options <hash>  # Only used with the :refresh action. Optional
   action [:add, :add_if_missing, :remove, :refresh, :set_power_state, :update_ilo_firmware]
 end
 ```
