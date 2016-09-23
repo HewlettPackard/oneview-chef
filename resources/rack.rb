@@ -41,38 +41,38 @@ action :remove do
 end
 
 action :add_to_rack do
+  raise "Unspecified property: 'mount_options'. Please set it before attempting this action." unless mount_options
   item = load_resource
   item.retrieve!
   mount_item = load_mount_item(item.client, mount_options)
 
   rack_uris = item['rackMounts'].collect { |i| i['mountUri'] }
   options = convert_keys(mount_options, :to_s).reject! { |i| ['type', 'name'].include?(i) }
-  if !rack_uris.include? mount_item['uri']
-    converge_by "#{resource_name} '#{name}' added." do
+  if rack_uris.include? mount_item['uri']
+    mounted_resource = item['rackMounts'].find { |i| i['mountUri'] == mount_item['uri'] }
+    return unless options.any? { |k, v| v != mounted_resource[k] }
+    converge_by "Update #{mount_item['name']} in #{resource_name} '#{name}'" do
       item.add_rack_resource(mount_item, options)
       item.update
     end
   else
-    mounted_resource = item['rackMounts'].find { |i| i['mountUri'] == mount_item['uri'] }
-    if options.any? { |k, v| v != mounted_resource[k] } # ~FC023
-      converge_by "#{resource_name} '#{name}' updated." do
-        item.add_rack_resource(mount_item, options)
-        item.update
-      end
+    converge_by "Add #{mount_item['name']} to #{resource_name} '#{name}'" do
+      item.add_rack_resource(mount_item, options)
+      item.update
     end
   end
 end
 
 action :remove_from_rack do
+  raise "Unspecified property: 'mount_options'. Please set it before attempting this action." unless mount_options
   item = load_resource
   item.retrieve!
   mount_item = load_mount_item(item.client, mount_options)
 
   rack_uris = item['rackMounts'].collect { |i| i['mountUri'] }
-  if rack_uris.include? mount_item['uri'] # ~FC023
-    converge_by "#{resource_name} '#{name}' removed." do
-      item.remove_rack_resource(mount_item)
-      item.update
-    end
+  return unless rack_uris.include? mount_item['uri']
+  converge_by "Remove #{mount_item['name']} from #{resource_name} '#{name}'" do
+    item.remove_rack_resource(mount_item)
+    item.update
   end
 end

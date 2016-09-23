@@ -7,6 +7,7 @@ describe 'oneview_test::rack_remove_from_rack' do
   it 'removes an existing mounted resource' do
     # Mount item
     allow_any_instance_of(OneviewSDK::Enclosure).to receive(:retrieve!).and_return(true)
+    allow_any_instance_of(OneviewSDK::Enclosure).to receive(:[]).with('name').and_return('Encl1')
     allow_any_instance_of(OneviewSDK::Enclosure).to receive(:[]).with('uri').and_return('/rest/enclosures/encl1')
 
     # Rack item

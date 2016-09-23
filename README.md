@@ -198,6 +198,26 @@ interconnects_data = [
   ]
   ```
 
+### oneview_logical_switch_group
+
+Logical Switch Group resource for HPE OneView.
+
+```ruby
+oneview_logical_switch_group 'LogicalSwitchGroup_1' do
+  client <my_client>
+  data <resource_data> # Switch options
+  switch_number <number> # Specify how many switches are in the group
+  switch_type <switch_type_name> # Specify the type of the switches for the entire group
+  action [:create, :create_if_missing, :delete]
+end
+```
+
+The `:create` and `create_if_missing` can be done in two different ways:
+  1. By specifying the 'switchMapTemplate' attribute in the `data` property
+  2. By specifying both `switch_number` and `switch_type` properties, but no 'switchMapTemplate' attribute in the `data` property
+
+:memo: **Note:** You are still able to specify the `switch_number` and `switch_type` properties even if you use the 'switchMapTemplate' attribute, but they will be **ignored**, only the values from 'switchMapTemplate' are going to be used.
+
 ### oneview_datacenter
 
 Datacenter resource for HPE OneView.
@@ -218,12 +238,12 @@ end
 
 Rack resource for HPE OneView.
 
-Perform the Rack actions:
-  -  **add:** Adds a rack to HPE OneView
-  -  **add_if_missing:** Adds a rack to HPE OneView if it does not exists
-  -  **add_to_rack:** Mounts a resource
-  -  **remove:** Removes a rack from HPE OneView
-  -  **remove_from_rack:** Removes a mounted resource from a Rack
+Available Rack actions:
+  -  **add:** Add a rack to HPE OneView and updates it as necessary
+  -  **add_if_missing:** Add a rack to HPE OneView if it does not exists (no updates)
+  -  **add_to_rack:** Add a resource to the rack
+  -  **remove:** Remove a rack from HPE OneView
+  -  **remove_from_rack:** Remove a resource from a Rack
 
 ```ruby
 oneview_rack 'Rack_1' do
@@ -235,7 +255,10 @@ end
 oneview_rack 'Rack_1' do
   mount_options(
     name: <resource_name>,
-    type: <resource_type>
+    type: <resource_type>,
+    topUSlot: 20,           # Optional. For add_to_rack only
+    uHeight: 2,             # Optional. For add_to_rack only
+    location: 'CenterFront' # Optional. For add_to_rack only
   )
   action [:add_to_rack, :remove_from_rack]
 end
@@ -367,8 +390,22 @@ Logical enclosure resource for HPE OneView.
 
 ```ruby
 oneview_logical_enclosure 'Encl1' do
-  client client
+  client <my_client>
   action :update_from_group
+end
+```
+
+### oneview_server_hardware
+
+Server hardware resource for HPE OneView
+
+```ruby
+oneview_server_hardware 'ServerHardware1' do
+  client <my_client>
+  data <data>
+  power_state [:on, :off] # Only used with the :set_power_state action
+  refresh_options <hash>  # Only used with the :refresh action. Optional
+  action [:add, :add_if_missing, :remove, :refresh, :set_power_state, :update_ilo_firmware]
 end
 ```
 

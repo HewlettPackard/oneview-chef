@@ -15,20 +15,44 @@ my_client = {
   password: ''
 }
 
+# Example: Add an empty rack with default values
 oneview_rack 'Rack_1' do
   client my_client
 end
 
+# Example: Add an empty rack with some options
+# Note that you can also define all the info for the devices in the rack in the data hash, but the
+# following examples show how to use the :add_to_rack & remove_from_rack actions to make this easier.
+oneview_rack 'Rack_1' do
+  client my_client
+  data(
+    depth:  1100,       # mm
+    height: 2500,       # mm
+    width:  800,        # mm
+    uHeight: 40,
+    thermalLimit: 2000, # watts
+    serialNumber: 'FakeSN123456',
+    model: 'HPE Standard Series Rack'
+  )
+end
+
+# Example: Add a device to the rack
+# Here we'll add an unmanaged device to the rack (the device we would like to add must exist already).
+# This action uses the mount_options property to make it easier to add devices. Specify the type, name,
+# and slot to align the top of the device with (uHeight & location are optional).
 oneview_rack 'Rack_1' do
   client my_client
   mount_options(
+    type: 'UnmanagedDevice',
     name: 'UnmanagedILO_1',
     topUSlot: 20,
-    type: 'UnmanagedDevice'
+    uHeight: 2,            # Optional
+    location: 'CenterBack' # Optional
   )
   action :add_to_rack
 end
 
+# Example: Remove a device from the rack
 oneview_rack 'Rack_1' do
   client my_client
   mount_options(
@@ -38,7 +62,7 @@ oneview_rack 'Rack_1' do
   action :remove_from_rack
 end
 
-
+# Example: Remove a rack
 oneview_rack 'Rack_1' do
   client my_client
   action :remove

@@ -7,6 +7,7 @@ describe 'oneview_test::rack_add_to_rack' do
   before :each do
     # Mount item
     allow_any_instance_of(OneviewSDK::Enclosure).to receive(:retrieve!).and_return(true)
+    allow_any_instance_of(OneviewSDK::Enclosure).to receive(:[]).with('name').and_return('Encl1')
     allow_any_instance_of(OneviewSDK::Enclosure).to receive(:[]).with('uri').and_return('/rest/enclosures/encl1')
     allow_any_instance_of(OneviewSDK::Rack).to receive(:retrieve!).and_return(true)
   end
@@ -21,10 +22,7 @@ describe 'oneview_test::rack_add_to_rack' do
     allow_any_instance_of(OneviewSDK::Rack).to receive(:[]).with('name').and_return('Rack1')
     allow_any_instance_of(OneviewSDK::Rack).to receive(:[]).with('rackMounts').and_return(
       [
-        {
-          'mountUri' => '/rest/enclosures/encl1',
-          'uHeight' => 30
-        }
+        { 'mountUri' => '/rest/enclosures/encl1', 'uHeight' => 30 }
       ]
     )
     expect_any_instance_of(OneviewSDK::Rack).to receive(:add_rack_resource)
