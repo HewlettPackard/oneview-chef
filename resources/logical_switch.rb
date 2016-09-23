@@ -12,9 +12,7 @@
 OneviewCookbook::ResourceBaseProperties.load(self)
 
 property :logical_switch_group, String
-property :host, String
-property :ssh_credentials, Hash
-property :snmp_credentials, Hash
+property :credentials, Array
 
 default_action :create
 
@@ -32,30 +30,35 @@ action_class do
     return item unless item['logicalSwitchCredentials']
 
     # Check if the credential properties are set
-    raise "Undefined Property: 'host'. Please set it before attempting this action" unless host
-    raise "Undefined Property: 'ssh_credentials'. Please set it before attempting this action" unless ssh_credentials
-    raise "Undefined Property: 'snmp_credentials'. Please set it before attempting this action" unless snmp_credentials
+    raise "Undefined Property: 'credentials'. Please set it before attempting this action" unless credentials
 
-    parsed_ssh_credentials = convert_keys(ssh_credentials, :to_sym)
-    parsed_snmp_credentials = convert_keys(snmp_credentials, :to_sym)
+    # Iterate through all the credentials
+    credentials.each do |credential|
+      parsed_credential = convert_keys(credential, :to_sym)
 
-    # Building the SSH Credential
-    # This will create the Struct and then associate the pairs in the order required by it
-    ssh_struct = OneviewSDK::LogicalSwitch::CredentialsSSH.new *OneviewSDK::LogicalSwitch::CredentialsSSH.members.map do |key|
-      parsed_ssh_credentials[:key]
+      # Building the SSH Credential
+      # This will create the Struct and then associate the pairs in the order required by it
+      ssh_type = OneviewSDK::LogicalSwitch::CredentialsSSH
+      ssh_struct = ssh_type.new(*ssh_type.members.map { |key| parsed_credential[:ssh_credentials][key] })
+
+      # Building the SNMP Credential
+      # Selects the correct SNMP Credential type
+      snmpv1 = OneviewSDK::LogicalSwitch::CredentialsSNMPV1
+      snmpv3 = OneviewSDK::LogicalSwitch::CredentialsSNMPV3
+      # Bootstrap for comparison
+      parsed_credential[:snmp_credentials][:version] = nil
+      snmp_type = case parsed_credential[:snmp_credentials].keys.sort
+                  when snmpv1.members.sort then snmpv1
+                  when snmpv3.members.sort then snmpv3
+                  else raise "Could not match any SNMP version configuration with the parameters: #{parsed_credential[:snmp_credentials]}"
+                  end
+
+      # This will create the Struct and then associate the pairs in the order required by it
+      snmp_struct = snmp_type.new(*snmp_type.members.map { |key| parsed_credential[:snmp_credentials][key] })
+
+      # Set the credentials for one Switch
+      item.set_switch_credentials(parsed_credential[:host], ssh_struct, snmp_struct)
     end
-
-    # Building the SNMP Credential
-    # Selects the correct SNMP Credential type
-    snmp_type = case parsed_snmp_credentials[:version]
-                when 'SNMPv1' then OneviewSDK::LogicalSwitch::CredentialsSNMPV1
-                when 'SNMPv3' then OneviewSDK::LogicalSwitch::CredentialsSNMPV3
-                end
-
-    # This will create the Struct and then associate the pairs in the order required by it
-    snmp_struct = snmp_type.new *snmp_type.members.map { |key| parsed_snmp_credentials[:key] }
-
-    item.set_switch_credentials(host, ssh_struct, snmp_struct)
     item
   end
 end
