@@ -15,6 +15,7 @@ my_client = {
   password: ''
 }
 
+# Example: Add server hardware to OneView for management
 oneview_server_hardware '172.18.6.4' do
   client my_client
   data(
@@ -22,26 +23,32 @@ oneview_server_hardware '172.18.6.4' do
     username: 'user',
     password: 'password',
     licensingIntent: 'OneViewStandard',
-    configurationState: "Monitored"
+    configurationState: 'Monitored'
   )
 end
 
+# Example: Make sure the server is powered on
+# Note: The data hash is not required or used with this action or any of the following.
 oneview_server_hardware '172.18.6.4' do
   client my_client
   power_state 'on'
   action :set_power_state
 end
 
+# Example: Refresh the server hardware to fix configuration issues
 oneview_server_hardware '172.18.6.4' do
   client my_client
   action :refresh
 end
 
+# Example: Update the iLO firmware on a physical server to a minimum ILO firmware
+# version required by OneView to manage the server
 oneview_server_hardware '172.18.6.4' do
   client my_client
   action :update_ilo_firmware
 end
 
+# Example: Remove the server from OneView
 oneview_server_hardware '172.18.6.4' do
   client my_client
   action :remove
