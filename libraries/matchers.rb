@@ -24,6 +24,7 @@ if defined?(ChefSpec)
     oneview_ethernet_network:           standard_actions + [:bulk_create, :reset_connection_template],
     oneview_fc_network:                 standard_actions,
     oneview_fcoe_network:               standard_actions,
+    oneview_firmware_bundle:            [:add],
     oneview_interconnect:               [:set_uid_light, :set_power_state, :reset, :reset_port_protection, :update_port],
     oneview_logical_enclosure:          [:update_from_group, :reconfigure, :set_script],
     oneview_logical_interconnect_group: standard_actions,

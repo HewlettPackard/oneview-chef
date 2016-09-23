@@ -51,6 +51,9 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not create_oneview_fcoe_network_if_missing('')
     expect(chef_run).to_not delete_oneview_fcoe_network('')
 
+    # oneview_firmware_bundle
+    expect(chef_run).to_not add_oneview_firmware_bundle('')
+
     # oneview_interconnect
     expect(chef_run).to_not set_oneview_interconnect_uid_light('')
     expect(chef_run).to_not set_oneview_interconnect_power_state('')

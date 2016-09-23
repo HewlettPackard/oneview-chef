@@ -107,6 +107,18 @@ oneview_fcoe_network 'FCoE1' do
 end
 ```
 
+### oneview_firmware_bundle
+
+Firmware bundle resource for HPE OneView.
+
+```Ruby
+oneview_firmware_bundle 'upload firmware' do
+  client <my_client>
+  file_path '/full/path/to/file.iso' # Defaults to name property
+  action :add
+end
+```
+
 ### oneview_interconnect
 
 Interconnect resource for HPE OneView.
