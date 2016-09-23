@@ -9,8 +9,11 @@
   - Added support to Logical enclosure `:reconfigure` and `:set_script`
   - Added support to Network set actions
   - Added support to Datacenter actions
+  - Added support to Rack actions
+  - Added support to Server hardware actions
   - Added support to Interconnect actions
   - Added support to Logical switch group actions
+  - Added support to Firmware bundle actions
   - Added diff output for updating resources
 
 ### 0.1.1
