@@ -9,31 +9,31 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-client = {
+my_client = {
   url: '',
   user: '',
   password: ''
 }
 
 oneview_interconnect 'Encl1, interconnect 1' do
-  client client
+  client my_client
   action :reset_port_protection
 end
 
 oneview_interconnect 'Encl1, interconnect 1' do
-  client client
+  client my_client
   uid_light_state 'On'
   action :set_uid_light
 end
 
 oneview_interconnect 'Encl1, interconnect 1' do
-  client client
+  client my_client
   power_state 'On'
   action :set_power_state
 end
 
 oneview_interconnect 'Encl1, interconnect 1' do
-  client client
+  client my_client
   port_options(
     name: 'X4',
     portName: 'X4',
@@ -43,6 +43,6 @@ oneview_interconnect 'Encl1, interconnect 1' do
 end
 
 oneview_interconnect 'Encl1, interconnect 1' do
-  client client
+  client my_client
   action :reset
 end

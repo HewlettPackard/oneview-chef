@@ -212,6 +212,12 @@ RSpec.describe OneviewCookbook::Helper do
       expect(diff).to eq('diff')
     end
 
+    it 'allows a hash values instead of a resource' do
+      expect(helper).to receive(:recursive_diff).with(@item.data, @desired_data, "\n", '  ').and_return('diff')
+      diff = helper.get_diff(@item.data, @desired_data)
+      expect(diff).to eq('diff')
+    end
+
     it 'handles unexpected errors quietly' do
       expect(helper).to receive(:recursive_diff).and_raise('Unexpected error')
       expect(Chef::Log).to receive(:error).with(/Failed to generate resource diff.*Unexpected error/)
