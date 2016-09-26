@@ -23,5 +23,4 @@ oneview_server_hardware 'ServerHardware1' do
     configurationState: 'Monitored'
   )
   client node['oneview_test']['client']
-  action :add_if_missing
 end

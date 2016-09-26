@@ -14,15 +14,11 @@ OneviewCookbook::ResourceBaseProperties.load(self)
 property :power_state, [String, Symbol], regex: /^(on|off)$/i # Used in :set_power_state action only
 property :refresh_options, Hash, default: {}                  # Used in :refresh action only
 
-default_action :add
+default_action :add_if_missing
 
 action_class do
   include OneviewCookbook::Helper
   include OneviewCookbook::ResourceBase
-end
-
-action :add do
-  add_or_edit
 end
 
 action :add_if_missing do
