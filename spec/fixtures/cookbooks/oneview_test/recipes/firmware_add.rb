@@ -16,5 +16,4 @@
 
 oneview_firmware 'cp027376.exe' do
   client node['oneview_test']['client']
-  file_path '/path/to/cp027376.exe'
 end

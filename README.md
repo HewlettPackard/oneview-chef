@@ -107,15 +107,25 @@ oneview_fcoe_network 'FCoE1' do
 end
 ```
 
-### oneview_firmware_bundle
+### oneview_firmware
 
-Firmware bundle resource for HPE OneView.
+Firmware bundle and driver resource for HPE OneView.
 
 ```Ruby
-oneview_firmware_bundle 'upload firmware' do
+oneview_firmware '/full/path/to/file.iso'  do
   client <my_client>
-  file_path '/full/path/to/file.iso' # Defaults to name property
   action :add
+end
+```
+
+```Ruby
+oneview_firmware 'CustomSPP'  do
+  client <my_client>
+  spp_name 'SPPName'
+  hotfixes_names [
+    'hotfix1_name'
+  ]
+  action :create_custom_spp
 end
 ```
 

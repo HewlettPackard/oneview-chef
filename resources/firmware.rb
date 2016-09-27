@@ -11,7 +11,6 @@
 
 OneviewCookbook::ResourceBaseProperties.load(self)
 
-property :file_path, String
 property :spp_name, String
 property :spp_file, String
 property :hotfixes_names, Array, default: []
@@ -34,13 +33,12 @@ action_class do
 end
 
 action :add do
-  raise "Unspecified property: 'file_path'. Please set it before attempting this action." unless file_path
   item = load_firmware
 
   if item.nil?
     c = build_client(client)
     converge_by "Add #{resource_name} '#{name}'" do
-      OneviewSDK::FirmwareBundle.add(c, file_path)
+      OneviewSDK::FirmwareBundle.add(c, name)
     end
   else
     Chef::Log.info "#{resource_name} '#{name}' is already up to date."

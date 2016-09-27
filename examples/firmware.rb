@@ -16,13 +16,34 @@ my_client = {
 }
 
 # Example: Upload a firmware bundle
-oneview_firmware_bundle 'firmware_bundle_name.iso' do
+oneview_firmware '/bundles/firmware_bundle_name.iso' do
   client my_client
-  file_path '/bundles/firmware_bundle_name.iso'
 end
 
-# Example: Upload a firmware bundle
-# This is functionally the same as above, but uses the name attribute to specify the file path
-oneview_firmware_bundle '/bundles/firmware_bundle_name.iso' do
+# Example: Create a custom spp
+# Uses spp_name and hotfixes_names
+oneview_firmware 'CustomSPP' do
   client my_client
+  spp_name 'Service Pack for ProLiant'
+  hotfixes_names [
+    'Online ROM Flash Component for Windows x64 - HPE Synergy 620/680 Gen9 Compute Module'
+  ]
+  action :create_custom_spp
+end
+
+# Example: Create a custom spp
+# Uses spp_file and hotfixes_files as reference
+oneview_firmware 'CustomSPP' do
+  client my_client
+  spp_files '/bundles/firmware_bundle_name.iso'
+  hotfixes_files [
+    '/bundles/hotfix_name.rpm'
+  ]
+  action :create_custom_spp
+end
+
+# Example: Remove a firmware
+oneview_firmware '/bundles/firmware_bundle_name.iso' do
+  client my_client
+  action :remove
 end
