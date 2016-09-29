@@ -407,6 +407,29 @@ oneview_logical_enclosure 'Encl1' do
 end
 ```
 
+### oneview_power_device
+
+Power device resource for HPE OneView.
+
+```ruby
+oneview_power_device 'PowerDevice1' do
+  client <my_client>
+  data(
+    ratedCapacity: 40
+  )
+  action [:add, :add_if_missing, :remove]
+end
+```
+
+```ruby
+oneview_power_device '<iPDU hostname>' do
+  client <my_client>
+  username <username>
+  password <password>
+  action :discover
+end
+```
+
 ### oneview_server_hardware
 
 Server hardware resource for HPE OneView
