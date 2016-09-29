@@ -13,6 +13,7 @@
   - Added support to Server hardware actions
   - Added support to Interconnect actions
   - Added support to Logical switch group actions
+  - Added support to Logical switch actions
   - Added support to Firmware bundle actions
 
 ### 0.1.1
