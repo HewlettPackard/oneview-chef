@@ -9,7 +9,7 @@ RSpec.describe OneviewCookbook::Helper do
   end
 
   let(:sdk_version) do
-    '~> 2.0'
+    '~> 2.1'
   end
 
   describe '#load_sdk' do
@@ -23,7 +23,17 @@ RSpec.describe OneviewCookbook::Helper do
     end
 
     it 'attempts to install the gem if it is not found' do
-      expect(helper).to receive(:gem).and_raise LoadError
+      expect(helper).to receive(:gem).once.and_raise LoadError
+      expect(helper).to receive(:gem).once.and_return true
+      expect(helper).to receive(:chef_gem).with('oneview-sdk').and_return true
+      expect(helper).to receive(:require).with('oneview-sdk').and_return true
+      helper.load_sdk
+    end
+
+    it 'prints an error message if the gem cannot be loaded either time' do
+      expect(helper).to receive(:gem).twice.and_raise LoadError, 'Blah'
+      expect(Chef::Log).to receive(:error).with(/cannot be loaded. Message: Blah/)
+      expect(Chef::Log).to receive(:error).with(/Loaded version .* instead/)
       expect(helper).to receive(:chef_gem).with('oneview-sdk').and_return true
       expect(helper).to receive(:require).with('oneview-sdk').and_return true
       helper.load_sdk
