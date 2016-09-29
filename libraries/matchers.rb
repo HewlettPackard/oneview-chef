@@ -14,7 +14,7 @@ if defined?(ChefSpec)
   # To see a full list of the actual matchers, see spec/unit/resources/matchers_spec.rb
   standard_actions = [:create, :create_if_missing, :delete]
   # Lists all the possible action verbs
-  action_list = %w(create add delete remove set reset refresh update configure reconfigure)
+  action_list = %w(create add delete remove set reset refresh update configure reconfigure edit)
   oneview_resources = {
     oneview_resource:                   standard_actions,
     oneview_connection_template:        [:update, :reset],
@@ -33,7 +33,7 @@ if defined?(ChefSpec)
     oneview_rack:                       [:add, :remove, :add_if_missing, :add_to_rack, :remove_from_rack],
     oneview_server_hardware:            [:add, :add_if_missing, :remove, :refresh, :set_power_state, :update_ilo_firmware],
     oneview_storage_pool:               [:add, :remove],
-    oneview_storage_system:             [:add, :remove],
+    oneview_storage_system:             [:add, :remove, :edit_credentials, :add_if_missing],
     oneview_volume:                     standard_actions,
     oneview_volume_template:            standard_actions
   }
