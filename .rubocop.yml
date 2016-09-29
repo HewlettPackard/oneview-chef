@@ -13,6 +13,9 @@ Metrics/MethodLength:
   CountComments: false
   Max: 26
 
+Metrics/ModuleLength:
+  Max: 125
+
 Metrics/AbcSize:
   Enabled: false
 
