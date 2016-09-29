@@ -16,5 +16,7 @@
 
 oneview_server_hardware_type 'ServerHardwareType1' do
   client node['oneview_test']['client']
-  data()
+  data(
+    description: 'Server hardware type description'
+  )
 end

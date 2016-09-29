@@ -20,11 +20,7 @@ end
 
 action :edit do
   item = load_resource
-  if item.exists?
-    add_or_edit(item)
-  else
-
-  end
+  add_or_edit(item) if item.exists?
 end
 
 action :remove do
