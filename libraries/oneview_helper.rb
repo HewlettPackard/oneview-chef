@@ -18,14 +18,23 @@ module OneviewCookbook
     def load_sdk
       gem 'oneview-sdk', node['oneview']['ruby_sdk_version']
       require 'oneview-sdk'
-      Chef::Log.debug("Found gem oneview-sdk (version #{node['oneview']['ruby_sdk_version']})")
-    rescue LoadError
-      Chef::Log.info("Did not find gem oneview-sdk (version #{node['oneview']['ruby_sdk_version']}). Installing now")
+      Chef::Log.debug("Loaded oneview-sdk #{node['oneview']['ruby_sdk_version']} (#{OneviewSDK::VERSION})")
+    rescue LoadError => e
+      Chef::Log.debug("Could not load gem oneview-sdk #{node['oneview']['ruby_sdk_version']}. Message: #{e.message}")
+      Chef::Log.info("Could not load gem oneview-sdk #{node['oneview']['ruby_sdk_version']}. Making sure it's installed...")
       chef_gem 'oneview-sdk' do
         version node['oneview']['ruby_sdk_version']
         compile_time true if Chef::Resource::ChefGem.method_defined?(:compile_time)
       end
-      require 'oneview-sdk'
+      begin # Try to load the specified version of the oneview-sdk gem again
+        gem 'oneview-sdk', node['oneview']['ruby_sdk_version']
+        require 'oneview-sdk'
+        Chef::Log.debug("Loaded oneview-sdk version #{OneviewSDK::VERSION}")
+      rescue LoadError => er
+        Chef::Log.error("Version #{node['oneview']['ruby_sdk_version']} of oneview-sdk cannot be loaded. Message: #{er.message}")
+        require 'oneview-sdk'
+        Chef::Log.error("Loaded version #{OneviewSDK::VERSION} of the oneview-sdk gem instead")
+      end
     end
 
     # Builds client and resource instance
