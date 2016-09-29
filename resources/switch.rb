@@ -11,7 +11,7 @@
 
 OneviewCookbook::ResourceBaseProperties.load(self)
 
-default_action :add
+default_action :none
 
 action_class do
   include OneviewCookbook::Helper
@@ -30,4 +30,7 @@ action :remove do
   else
     Chef::Log.info "#{resource_name} '#{name}' is already in the inventory."
   end
+end
+
+action :none do
 end
