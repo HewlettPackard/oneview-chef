@@ -34,6 +34,7 @@ if defined?(ChefSpec)
     oneview_server_hardware:            [:add, :add_if_missing, :remove, :refresh, :set_power_state, :update_ilo_firmware],
     oneview_storage_pool:               [:add, :remove],
     oneview_storage_system:             [:add, :remove],
+    oneview_switch:                     [:remove],
     oneview_volume:                     standard_actions,
     oneview_volume_template:            standard_actions
   }

@@ -421,6 +421,17 @@ oneview_server_hardware 'ServerHardware1' do
 end
 ```
 
+### oneview_switch
+
+Switch resource for HPE OneView
+
+```ruby
+oneview_switch 'Switch1' do
+  client <my_client>
+  action :remove
+end
+```
+
 ## Examples
 
 :information_source: There are plenty more examples in the [examples](examples) directory showing more detailed usage of each resource, but here's a few to get you started:
