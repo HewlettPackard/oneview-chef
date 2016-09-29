@@ -238,12 +238,10 @@ Logical switch resource for HPE OneView.
 oneview_logical_switch 'LogicalSwitch_1' do
   client <my_client>
   data <resource_data> # Logical Switch options
-  credentials <number> # Specify how many switches are in the group
+  credentials <switches_credentials> # Specify the credentials for all the switches
   action [:create, :create_if_missing, :delete, :refresh]
 end
 ```
-
-The `credentials` are needed for the `:create` and `:create_if_missing` actions, but can also be replaced by the entire data Hash or JSON.
 
 **credentials:** Array containing Hashes indicating the credentials of the switches. They are needed for the `:create` and `:create_if_missing` actions. Each Hash should have the keys:
   - `:host` - It specifies the location switch hostname or IP address.
