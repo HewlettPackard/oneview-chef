@@ -24,23 +24,20 @@ action_class do
     item = load_resource
     lsg_defined = logical_switch_group || item['LogicalSwitchGroupUri']
     raise "Undefined Property: 'logical_switch_group'. Please set it before attempting this action" unless lsg_defined
-    item.set_logical_switch_group(OneviewSDK::LogicalSwitchGroup.find_by(item.client, name: logical_switch_group).first)
-
+    unless item['LogicalSwitchGroupUri']
+      item.set_logical_switch_group(OneviewSDK::LogicalSwitchGroup.find_by(item.client, name: logical_switch_group).first)
+    end
     # This will avoid overriding the 'logicalSwitchCredentials' if already specified in data
-    return item unless item['logicalSwitchCredentials']
-
+    return item if item['logicalSwitchCredentials']
     # Check if the credential properties are set
     raise "Undefined Property: 'credentials'. Please set it before attempting this action" unless credentials
-
     # Iterate through all the credentials
     credentials.each do |credential|
       parsed_credential = convert_keys(credential, :to_sym)
-
       # Building the SSH Credential
       # This will create the Struct and then associate the pairs in the order required by it
       ssh_type = OneviewSDK::LogicalSwitch::CredentialsSSH
       ssh_struct = ssh_type.new(*ssh_type.members.map { |key| parsed_credential[:ssh_credentials][key] })
-
       # Building the SNMP Credential
       # Selects the correct SNMP Credential type
       snmpv1 = OneviewSDK::LogicalSwitch::CredentialsSNMPV1
@@ -52,10 +49,8 @@ action_class do
                   when snmpv3.members.sort then snmpv3
                   else raise "Could not match any SNMP version configuration with the parameters: #{parsed_credential[:snmp_credentials]}"
                   end
-
       # This will create the Struct and then associate the pairs in the order required by it
       snmp_struct = snmp_type.new(*snmp_type.members.map { |key| parsed_credential[:snmp_credentials][key] })
-
       # Set the credentials for one Switch
       item.set_switch_credentials(parsed_credential[:host], ssh_struct, snmp_struct)
     end
@@ -69,6 +64,14 @@ end
 
 action :create_if_missing do
   create_if_missing(load_logical_switch)
+end
+
+action :refresh do
+  item = load_resource
+  item = OneviewSDK::LogicalSwitch.find_by(item.client, name: item['name']).first
+  converge_by "Refreshing #{resource_name} '#{name}'" do
+    item.refresh
+  end
 end
 
 action :delete do
