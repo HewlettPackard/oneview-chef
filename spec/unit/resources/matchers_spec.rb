@@ -105,6 +105,7 @@ describe 'oneview_test::default' do
 
     # oneview_switch
     expect(chef_run).to_not remove_oneview_switch('')
+    expect(chef_run).to_not none_oneview_switch('')
 
     # oneview_volume
     expect(chef_run).to_not create_oneview_volume('')
