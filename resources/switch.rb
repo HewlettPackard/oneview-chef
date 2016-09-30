@@ -11,6 +11,7 @@
 
 OneviewCookbook::ResourceBaseProperties.load(self)
 
+# To prevent that the default action is remove
 default_action :none
 
 action_class do

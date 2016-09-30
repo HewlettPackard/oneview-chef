@@ -428,7 +428,7 @@ Switch resource for HPE OneView
 ```ruby
 oneview_switch 'Switch1' do
   client <my_client>
-  action :remove
+  action [:remove, :none]
 end
 ```
 

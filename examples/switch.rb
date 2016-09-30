@@ -9,14 +9,23 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-client = {
+my_client = {
   url: '',
   user: '',
   password: ''
 }
 
+# Example: No action is executed.
+# In a resource that has only one action and no action is specified in the block
+# CHEF executes this one. To prevent CHEF from removing a switch as the standard action we created
+# the none action
+oneview_switch 'Switch1' do
+  client my_client
+end
+
+
 # Example: removes switch
 oneview_switch 'Switch1' do
-  client client
+  client my_client
   action :remove
 end
