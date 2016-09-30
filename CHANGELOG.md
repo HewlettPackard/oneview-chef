@@ -15,7 +15,6 @@
   - Added support to Logical switch group actions
   - Added support to Firmware bundle actions
   - Added support to Storage system `:edit_credentials` and `:add_if_missing`
-  - Changed implementation of Storage system `:add` and `:remove`
 
 ### 0.1.1
   - Fixed Ruby SDK version to 1.0.0

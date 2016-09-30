@@ -24,32 +24,21 @@ storage_system_credentials = {
 # Example: add storage system or update if it already exists
 oneview_storage_system 'StorageSystem1' do
   client my_client
-  data ({
+  data(
     credentials:storage_system_credentials,
     managedDomain: 'TestDomain'
-  })
+  )
   action :add
 end
 
 # Example: add storage system if it does not exist
 oneview_storage_system 'StorageSystem1' do
   client my_client
-  data ({
+  data(
     credentials:storage_system_credentials,
     managedDomain: 'TestDomain'
-  })
-  action :add_if_missing
-end
-
-# Example: edit storage system credentials
-oneview_storage_system 'StorageSystem1' do
-  client my_client
-  data(
-    ip_hostname: '127.0.0.1',
-    username: 'username',
-    password: 'password'
   )
-  action :edit_credentials
+  action :add_if_missing
 end
 
 # Example: edit storage system credentials
