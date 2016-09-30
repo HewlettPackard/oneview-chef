@@ -417,7 +417,7 @@ oneview_server_hardware 'ServerHardware1' do
   data <data>
   power_state [:on, :off] # Only used with the :set_power_state action
   refresh_options <hash>  # Only used with the :refresh action. Optional
-  action [:add, :add_if_missing, :remove, :refresh, :set_power_state, :update_ilo_firmware]
+  action [:add_if_missing, :remove, :refresh, :set_power_state, :update_ilo_firmware]
 end
 ```
 
@@ -459,18 +459,17 @@ end
 
   ```ruby
   # Notes:
-  #  - It can't be updated, so we use the :create_if_missing action here
+  #  - It can't be updated, so we use the default :add_if_missing action here
   #  - Also, because the hostname is used as a name in OneView, we need to set the name to the hostname
-  oneview_resource '172.18.6.11' do
-    type :ServerHardware
+  oneview_server_hardware '172.18.6.11' do
     data(
-      hostname: '172.18.6.11',
-      username: 'admin',
-      password: 'secret123', # Note: This should be read from a file or databag, not stored in clear text.
-      licensingIntent: 'OneView'
+      hostname: '172.18.6.4',
+      username: 'user',
+      password: 'password', # Note: This should be read from a file or databag, not stored in clear text.
+      licensingIntent: 'OneViewStandard',
+      configurationState: 'Monitored'
     )
     client my_client
-    action :create_if_missing
   end
   ```
 
@@ -478,7 +477,7 @@ end
 
   ```ruby
   # Notes:
-  #  - Since the script is at a seperate endpoint, we can't set that here
+  #  - Since the script is at a separate endpoint, we can't set that here
   oneview_enclosure_group 'Enclosure-Group-1' do
     data(
       stackingMode: 'Enclosure',

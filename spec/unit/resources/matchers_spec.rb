@@ -88,7 +88,6 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not remove_oneview_rack_from_rack('')
 
     # oneview_server_hardware
-    expect(chef_run).to_not add_oneview_server_hardware('')
     expect(chef_run).to_not add_oneview_server_hardware_if_missing('')
     expect(chef_run).to_not remove_oneview_server_hardware('')
     expect(chef_run).to_not refresh_oneview_server_hardware('')
