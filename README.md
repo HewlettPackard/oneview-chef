@@ -367,8 +367,8 @@ Storage pool resource for HPE OneView.
 ```ruby
 oneview_storage_pool 'CPG_FC-AO' do
   client <my_client>
-  storage_system_name <storage_system_name> # String
-  action [:add, :remove]
+  storage_system <storage_system> # name or hostname
+  action [:add_if_missing, :remove]
 end
 ```
 

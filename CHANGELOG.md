@@ -14,6 +14,7 @@
   - Added support to Interconnect actions
   - Added support to Logical switch group actions
   - Added support to Firmware bundle actions
+  - Changed Storage pool action `:add` to `:add_if_missing`
 
 ### 0.1.1
   - Fixed Ruby SDK version to 1.0.0

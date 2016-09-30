@@ -96,7 +96,7 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not update_oneview_server_hardware_ilo_firmware('')
 
     # oneview_storage_pool
-    expect(chef_run).to_not add_oneview_storage_pool('')
+    expect(chef_run).to_not add_oneview_storage_pool_if_missing('')
     expect(chef_run).to_not remove_oneview_storage_pool('')
 
     # oneview_storage_system
