@@ -230,6 +230,26 @@ The `:create` and `create_if_missing` can be done in two different ways:
 
 :memo: **Note:** You are still able to specify the `switch_number` and `switch_type` properties even if you use the 'switchMapTemplate' attribute, but they will be **ignored**, only the values from 'switchMapTemplate' are going to be used.
 
+### oneview_logical_switch
+
+Logical switch resource for HPE OneView.
+
+```ruby
+oneview_logical_switch 'LogicalSwitch_1' do
+  client <my_client>
+  data <resource_data> # Logical Switch options
+  credentials <switches_credentials> # Specify the credentials for all the switches
+  action [:create, :create_if_missing, :delete, :refresh]
+end
+```
+
+**credentials:** Array containing Hashes indicating the credentials of the switches. They are needed for the `:create` and `:create_if_missing` actions. Each Hash should have the keys:
+  - `:host` - It specifies the location switch hostname or IP address.
+  - `:ssh_credentials` - User and password to access the switch through ssh.
+  - `:snmp_credentials` - The switch SNMP credentials. They may vary depending on which SNMP type you are using.
+
+:memo: NOTE: The `credentials` may also be replaced by the entire data Hash or JSON. In this case the property will be ignored.
+
 ### oneview_datacenter
 
 Datacenter resource for HPE OneView.
