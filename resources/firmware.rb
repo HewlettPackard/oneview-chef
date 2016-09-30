@@ -13,8 +13,8 @@ OneviewCookbook::ResourceBaseProperties.load(self)
 
 property :spp_name, String
 property :spp_file, String
-property :hotfixes_names, Array, default: []
-property :hotfixes_files, Array, default: []
+property :hotfixes_names, Array
+property :hotfixes_files, Array
 
 default_action :add
 
@@ -25,6 +25,11 @@ action_class do
   def load_firmware(filename = nil)
     load_sdk
     c = build_client(client)
+    item = OneviewSDK::FirmwareDriver.new(c, name: name)
+    if item.exists?
+      item.retrieve!
+      return item
+    end
     filename ||= name
     filename = ::File.basename(filename, ::File.extname(filename)).tr('.', '_')
     firmware_list = OneviewSDK::FirmwareDriver.find_by(c, {})
@@ -34,23 +39,21 @@ end
 
 action :add do
   item = load_firmware
-
-  if item.nil?
+  if item
+    Chef::Log.info "#{resource_name} '#{name}' is already up to date."
+  else
     c = build_client(client)
     converge_by "Add #{resource_name} '#{name}'" do
       OneviewSDK::FirmwareBundle.add(c, name)
     end
-  else
-    Chef::Log.info "#{resource_name} '#{name}' is already up to date."
   end
 end
 
 action :create_custom_spp do
   raise "Unspecified property: 'spp_name' or 'spp_file'. Please set it before attempting this action." unless spp_name || spp_file
-  if hotfixes_names.empty? && hotfixes_files.empty?
+  unless hotfixes_names || hotfixes_files
     raise "Unspecified property: 'hotfixes_names' or 'hotfixes_files'. Please set it before attempting this action."
   end
-
   load_sdk
   c = build_client(client)
   item = OneviewSDK::FirmwareDriver.new(c, name: name)
@@ -66,14 +69,17 @@ action :create_custom_spp do
     end
     item['baselineUri'] = spp['uri']
     item['hotfixUris'] = []
-    hotfixes_names.each do |hotfix|
-      temp = OneviewSDK::FirmwareDriver.new(c, name: hotfix)
-      temp.retrieve!
-      item['hotfixUris'] << temp['uri'] if temp['uri']
-    end
-    hotfixes_files.each do |hotfix|
-      temp = load_firmware(hotfix)
-      item['hotfixUris'] << temp['uri'] if temp['uri']
+    if hotfixes_names
+      hotfixes_names.each do |hotfix|
+        temp = OneviewSDK::FirmwareDriver.new(c, name: hotfix)
+        temp.retrieve!
+        item['hotfixUris'] << temp['uri'] if temp['uri']
+      end
+    else
+      hotfixes_files.each do |hotfix|
+        temp = load_firmware(hotfix)
+        item['hotfixUris'] << temp['uri'] if temp['uri']
+      end
     end
 
     Chef::Log.info "Created custom #{resource_name} '#{name}'"

@@ -114,7 +114,12 @@ Firmware bundle and driver resource for HPE OneView.
 ```Ruby
 oneview_firmware '/full/path/to/file.iso'  do
   client <my_client>
-  action :add
+  action [:add, :remove]
+end
+
+oneview_firmware 'firmware_bundle_name'  do
+  client <my_client>
+  action :remove
 end
 ```
 
