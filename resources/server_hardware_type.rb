@@ -20,7 +20,11 @@ end
 
 action :edit do
   item = load_resource
-  add_or_edit(item) if item.exists?
+  if item.exists?
+    add_or_edit(item)
+  else
+    Chef::Log.warn "#{resource_name} '#{name}' does not exists"
+  end
 end
 
 action :remove do
