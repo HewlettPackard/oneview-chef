@@ -51,9 +51,3 @@ oneview_power_device '127.0.0.1' do
   client my_client
   action :remove
 end
-
-# Removes an iPDU using the name
-oneview_power_device '127.0.0.1 ' do
-  client my_client
-  action :remove
-end

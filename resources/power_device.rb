@@ -34,8 +34,8 @@ action :discover do
   c = build_client(client)
   power_devices_list = OneviewSDK::PowerDevice.get_ipdu_devices(c, name)
   if power_devices_list.empty?
-    Chef::Log.info "#{resource_name} '#{name}' discovered."
-    converge_by "Adding #{resource_name} '#{name}'" do
+    Chef::Log.info "Discovering #{resource_name} '#{name}'"
+    converge_by "Discovered #{resource_name} '#{name}'" do
       OneviewSDK::PowerDevice.discover(c, hostname: name, username: username, password: password)
     end
   else
