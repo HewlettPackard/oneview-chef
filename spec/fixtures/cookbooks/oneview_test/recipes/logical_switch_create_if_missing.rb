@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: oneview_test
-# Recipe:: server_hardware_add_if_missing
+# Recipe:: logical_switch_create_if_missing
 #
 # (c) Copyright 2016 Hewlett Packard Enterprise Development LP
 #
@@ -13,14 +13,17 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 #
+default_ssh_credentials = { user: 'usr', password: 'pwd' }
+default_snmpv1_credentials = { port: 161, community_string: 'public' }
 
-oneview_server_hardware 'ServerHardware1' do
-  data(
-    hostname: '172.18.6.4',
-    username: 'dcs',
-    password: 'dcs',
-    licensingIntent: 'OneViewStandard',
-    configurationState: 'Monitored'
-  )
+oneview_logical_switch 'LogicalSwitch2' do
   client node['oneview_test']['client']
+  data(
+    LogicalSwitchGroupUri: 'fake/lsg-uri'
+  )
+  credentials([
+                { host: '172.x.x.1', ssh_credentials: default_ssh_credentials, snmp_credentials: default_snmpv1_credentials },
+                { host: '172.x.x.2', ssh_credentials: default_ssh_credentials, snmp_credentials: default_snmpv1_credentials }
+              ])
+  action :create_if_missing
 end

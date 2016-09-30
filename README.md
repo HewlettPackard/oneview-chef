@@ -230,6 +230,26 @@ The `:create` and `create_if_missing` can be done in two different ways:
 
 :memo: **Note:** You are still able to specify the `switch_number` and `switch_type` properties even if you use the 'switchMapTemplate' attribute, but they will be **ignored**, only the values from 'switchMapTemplate' are going to be used.
 
+### oneview_logical_switch
+
+Logical switch resource for HPE OneView.
+
+```ruby
+oneview_logical_switch 'LogicalSwitch_1' do
+  client <my_client>
+  data <resource_data> # Logical Switch options
+  credentials <switches_credentials> # Specify the credentials for all the switches
+  action [:create, :create_if_missing, :delete, :refresh]
+end
+```
+
+**credentials:** Array containing Hashes indicating the credentials of the switches. They are needed for the `:create` and `:create_if_missing` actions. Each Hash should have the keys:
+  - `:host` - It specifies the location switch hostname or IP address.
+  - `:ssh_credentials` - User and password to access the switch through ssh.
+  - `:snmp_credentials` - The switch SNMP credentials. They may vary depending on which SNMP type you are using.
+
+:memo: NOTE: The `credentials` may also be replaced by the entire data Hash or JSON. In this case the property will be ignored.
+
 ### oneview_datacenter
 
 Datacenter resource for HPE OneView.
@@ -417,7 +437,7 @@ oneview_server_hardware 'ServerHardware1' do
   data <data>
   power_state [:on, :off] # Only used with the :set_power_state action
   refresh_options <hash>  # Only used with the :refresh action. Optional
-  action [:add, :add_if_missing, :remove, :refresh, :set_power_state, :update_ilo_firmware]
+  action [:add_if_missing, :remove, :refresh, :set_power_state, :update_ilo_firmware]
 end
 ```
 
@@ -447,18 +467,17 @@ end
 
   ```ruby
   # Notes:
-  #  - It can't be updated, so we use the :create_if_missing action here
+  #  - It can't be updated, so we use the default :add_if_missing action here
   #  - Also, because the hostname is used as a name in OneView, we need to set the name to the hostname
-  oneview_resource '172.18.6.11' do
-    type :ServerHardware
+  oneview_server_hardware '172.18.6.11' do
     data(
-      hostname: '172.18.6.11',
-      username: 'admin',
-      password: 'secret123', # Note: This should be read from a file or databag, not stored in clear text.
-      licensingIntent: 'OneView'
+      hostname: '172.18.6.4',
+      username: 'user',
+      password: 'password', # Note: This should be read from a file or databag, not stored in clear text.
+      licensingIntent: 'OneViewStandard',
+      configurationState: 'Monitored'
     )
     client my_client
-    action :create_if_missing
   end
   ```
 
@@ -466,7 +485,7 @@ end
 
   ```ruby
   # Notes:
-  #  - Since the script is at a seperate endpoint, we can't set that here
+  #  - Since the script is at a separate endpoint, we can't set that here
   oneview_enclosure_group 'Enclosure-Group-1' do
     data(
       stackingMode: 'Enclosure',
