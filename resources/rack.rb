@@ -29,7 +29,10 @@ action_class do
 end
 
 action :add do
-  add_or_edit
+  item = load_resource
+  # Prevent the default initialization of the rackMounts property
+  item.data.delete('rackMounts') if data['rackMounts'].nil? && item['rackMounts'] == []
+  add_or_edit(item)
 end
 
 action :add_if_missing do
@@ -51,7 +54,8 @@ action :add_to_rack do
   if rack_uris.include? mount_item['uri']
     mounted_resource = item['rackMounts'].find { |i| i['mountUri'] == mount_item['uri'] }
     return unless options.any? { |k, v| v != mounted_resource[k] }
-    converge_by "Update #{mount_item['name']} in #{resource_name} '#{name}'" do
+    diff = get_diff(mounted_resource, options)
+    converge_by "Update #{mount_item['name']} in #{resource_name} '#{name}'#{diff}" do
       item.add_rack_resource(mount_item, options)
       item.update
     end
