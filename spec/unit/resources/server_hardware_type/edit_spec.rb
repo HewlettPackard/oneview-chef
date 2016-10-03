@@ -6,7 +6,7 @@ describe 'oneview_test::server_hardware_type_edit' do
 
   it 'raise error when it does not exists' do
     allow_any_instance_of(OneviewSDK::ServerHardwareType).to receive(:exists?).and_return(false)
-    expect { real_chef_run }.to raise_error(/ServerHardwareType1 does not exists/)
+    expect { real_chef_run }.to raise_error(/oneview_server_hardware_type 'ServerHardwareType1' not found/)
   end
 
   it 'updates it when it exists but not alike' do
