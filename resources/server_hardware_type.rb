@@ -21,7 +21,7 @@ end
 action :edit do
   item = load_resource
   return add_or_edit(item) if item.exists?
-  raise "#{resource_name} '#{item['name']}' not found"
+  raise "Resource not found: #{resource_name} '#{item['name']}'"
 end
 
 action :remove do
