@@ -15,6 +15,7 @@
   - Added support to Logical switch group actions
   - Added support to Logical switch actions
   - Added support to Firmware bundle actions
+  - Added support to Storage system `:edit_credentials` and `:add_if_missing`
   - Added support to Switch actions
   - Added support to Firmware driver actions and integrated it with firmware bundles in a resource called Firmware
   - Added diff output for updating resources

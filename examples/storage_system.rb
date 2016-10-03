@@ -9,7 +9,7 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-client = {
+my_client = {
   url: '',
   user: '',
   password: ''
@@ -21,23 +21,39 @@ storage_system_credentials = {
   password: ''
 }
 
-oneview_storage_system 'Teste' do
-  data ({
+# Example: add storage system or update if it already exists
+oneview_storage_system 'StorageSystem1' do
+  client my_client
+  data(
     credentials:storage_system_credentials,
     managedDomain: 'TestDomain'
-  })
-  client client
+  )
   action :add
 end
 
-oneview_storage_system 'ThreePAR7200-8147' do
-  data ({
-    credentials: {
-      ip_hostname: '172.18.11.11',
-      username: 'dcs'
-    },
-    refreshState: 'RefreshPending'
-  })
-  client client
-  action :edit
+# Example: add storage system if it does not exist
+oneview_storage_system 'StorageSystem1' do
+  client my_client
+  data(
+    credentials:storage_system_credentials,
+    managedDomain: 'TestDomain'
+  )
+  action :add_if_missing
+end
+
+# Example: edit storage system credentials
+oneview_storage_system 'StorageSystem1' do
+  client my_client
+  data(
+    ip_hostname: '127.0.0.1',
+    username: 'username',
+    password: 'password'
+  )
+  action :edit_credentials
+end
+
+# Example: remove storage system
+oneview_storage_system 'StorageSystem1' do
+  client my_client
+  action :remove
 end

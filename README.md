@@ -427,9 +427,20 @@ oneview_storage_system 'ThreePAR7200-8147' do
     credentials: storage_system_credentials,
     managedDomain: 'TestDomain'
   )
-  action [:add, :remove]
+  action [:add, :add_if_missing, :remove]
 end
 ```
+
+```ruby
+oneview_storage_system 'ThreePAR7200-81471' do
+  client my_client
+  data(
+    ip_hostname: '127.0.0.1',
+    username: 'username',
+    password: 'password'
+  )
+  action :edit_credentials
+end
 
 ### oneview_logical_enclosure
 
