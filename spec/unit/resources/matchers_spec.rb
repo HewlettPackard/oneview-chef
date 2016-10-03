@@ -110,6 +110,10 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not add_oneview_storage_system('')
     expect(chef_run).to_not remove_oneview_storage_system('')
 
+    # oneview_switch
+    expect(chef_run).to_not remove_oneview_switch('')
+    expect(chef_run).to_not none_oneview_switch('')
+
     # oneview_volume
     expect(chef_run).to_not create_oneview_volume('')
     expect(chef_run).to_not create_oneview_volume_if_missing('')
