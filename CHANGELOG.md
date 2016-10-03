@@ -1,6 +1,7 @@
-### New
-  - Upgraded Ruby SDK version to 2.0.0
+### 0.2.0
+  - Upgraded Ruby SDK version to ~> 2.1
   - Fixed add/create, delete/remove for resources
+  - Added diff output for updating resources
   - Added support to Enclosure group actions
   - Added support to Enclosure `:refresh` and `:reconfigure`
   - Added support to Ethernet network `:bulk_create`
@@ -20,11 +21,10 @@
   - Added support to Storage system `:edit_credentials` and `:add_if_missing`
   - Added support to Switch actions
   - Added support to Firmware driver actions and integrated it with firmware bundles in a resource called Firmware
-  - Added diff output for updating resources
 
-### 0.1.1
+#### 0.1.1
   - Fixed Ruby SDK version to 1.0.0
   - Added Stove support (using `rake`)
 
-### 0.1.0
+## 0.1.0
   - Initial release
