@@ -15,6 +15,11 @@ my_client = {
   password: ''
 }
 
+# Do nothing
+oneview_interconnect 'Encl1, interconnect 1' do
+  client my_client
+end
+
 oneview_interconnect 'Encl1, interconnect 1' do
   client my_client
   action :reset_port_protection
