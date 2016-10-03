@@ -490,6 +490,18 @@ oneview_server_hardware 'ServerHardware1' do
 end
 ```
 
+### oneview_server_hardware_type
+
+Server hardware type resource for HPE OneView
+
+```ruby
+oneview_server_hardware_type 'ServerHardwareType1' do
+  client <my_client>
+  data <data>
+  action [:edit, :remove]
+end
+```
+
 ### oneview_switch
 
 Switch resource for HPE OneView
