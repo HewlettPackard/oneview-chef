@@ -41,21 +41,24 @@ end
 action :create do
   ret_val = false
   item = load_resource_with_properties
-  temp = item.data.clone
+  temp = Marshal.load(Marshal.dump(item.data))
   if item.exists?
     item.retrieve!
     retrieved_networks = item.data.delete('networkUris')
-    current_networks = temp.delete('networkUris')
+    desired_networks = temp.delete('networkUris')
     temp['connectionTemplateUri'] ||= item['connectionTemplateUri']
-    networks_match = retrieved_networks.sort == current_networks.sort if retrieved_networks && current_networks
-    networks_match ||= retrieved_networks == current_networks
+    networks_match = retrieved_networks.to_a.sort == desired_networks.to_a.sort
     if item.like?(temp) && networks_match
       Chef::Log.info("#{resource_name} '#{name}' is up to date")
     else
-      Chef::Log.debug "#{resource_name} '#{name}' Chef resource differs from OneView resource."
       Chef::Log.info "Update #{resource_name} '#{name}'"
-      converge_by "Update #{resource_name} '#{name}'" do
-        temp['networkUris'] = current_networks
+      Chef::Log.debug "#{resource_name} '#{name}' Chef resource differs from OneView resource."
+      Chef::Log.debug "Current state: #{JSON.pretty_generate(item.data)}"
+      Chef::Log.debug "Desired state: #{JSON.pretty_generate(temp)}"
+      diff = get_diff(item, temp)
+      diff << get_diff({ networkUris: retrieved_networks }, networkUris: desired_networks)
+      converge_by "Update #{resource_name} '#{name}'#{diff}" do
+        temp['networkUris'] = desired_networks
         item.update(temp)
       end
     end

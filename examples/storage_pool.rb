@@ -9,19 +9,28 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-client = {
+my_client = {
   url: '',
   user: '',
   password: ''
 }
 
+# Example: Adds storage pool if it is not added in HPE OneView using
+# the storage system name
 oneview_storage_pool 'CPG_FC-AO' do
+  client my_client
   storage_system 'ThreePAR7200-8147'
-  client client
-  action :add
 end
 
+# Example: Adds storage pool if it is not added in HPE OneView using
+# the storage system hostname
 oneview_storage_pool 'CPG_FC-AO' do
-  client client
+  client my_client
+  storage_system '172.XX.XX.XX'
+end
+
+# Example: Removes storage pool from HPE OneView
+oneview_storage_pool 'CPG_FC-AO' do
+  client my_client
   action :remove
 end

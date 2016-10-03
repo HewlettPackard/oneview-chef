@@ -20,12 +20,50 @@ end
 
 action :add do
   item = load_resource
-  item.data.delete('name')
-  add_if_missing(item)
+  temp = Marshal.load(Marshal.dump(item.data))
+
+  if item.exists?
+    item.retrieve!
+    if item.like? temp
+      Chef::Log.info("#{resource_name} '#{name}' is up to date")
+    else
+      Chef::Log.info "Editing #{resource_name} '#{name}'"
+      converge_by "#{resource_name} '#{name}' was edited." do
+        item.update(temp)
+      end
+    end
+  else
+    item.data.delete('name')
+    Chef::Log.info "Adding #{resource_name} '#{name}'"
+    converge_by "Added #{resource_name} '#{name}'" do
+      item.add
+    end
+  end
+end
+
+action :add_if_missing do
+  item = load_resource
+  unless item.exists?
+    item.data.delete('name')
+    add_if_missing(item)
+  end
+end
+
+action :edit_credentials do
+  item = load_resource
+  temp = {}
+  temp['credentials'] = Marshal.load(Marshal.dump(item.data))
+  temp = convert_keys(temp, :to_s)
+  if item.exists?
+    item.retrieve!
+    temp['credentials']['ip_hostname'] ||= item['credentials']['ip_hostname']
+    Chef::Log.info "Editing #{resource_name} '#{name}' credentials"
+    converge_by "#{resource_name} '#{name}' credentials edited" do
+      item.update(temp)
+    end
+  end
 end
 
 action :remove do
-  item = load_resource
-  item.data.delete('name') if item['credentials'] && item['credentials'][:ip_hostname]
-  remove(item)
+  remove
 end

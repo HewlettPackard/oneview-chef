@@ -7,7 +7,7 @@ SimpleCov.start do
   add_group 'Libraries', 'libraries'
   add_group 'Resources', 'resources'
   minimum_coverage 98
-  minimum_coverage_by_file 96
+  minimum_coverage_by_file 97
 end
 
 Dir[File.expand_path('../libraries/*.rb', File.dirname(__FILE__))].each { |file| require file }

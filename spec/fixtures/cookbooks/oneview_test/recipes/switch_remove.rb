@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: oneview_test
-# Recipe:: storage_pool_add_with_name
+# Recipe:: switch_remove
 #
 # (c) Copyright 2016 Hewlett Packard Enterprise Development LP
 #
@@ -14,7 +14,7 @@
 # specific language governing permissions and limitations under the License.
 #
 
-oneview_storage_pool 'StoragePool2' do
+oneview_switch 'Switch1' do
   client node['oneview_test']['client']
-  storage_system_name 'StorageSystem1'
+  action :remove
 end
