@@ -60,7 +60,7 @@ action :bulk_create do
   connection = build_client(client)
   formatted_data = convert_keys(data, :to_sym)
   formatted_data[:namePrefix] ||= name
-  converge_by "Creating #{resource_name} '#{name}' within the range #{formatted_data[:vlanIdRange]}" do
+  converge_by "Create #{resource_name} '#{name}' within the range #{formatted_data[:vlanIdRange]}" do
     OneviewSDK::EthernetNetwork.bulk_create(connection, formatted_data)
   end
 end

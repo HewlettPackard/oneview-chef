@@ -113,5 +113,46 @@ module OneviewCookbook
       end
       support
     end
+
+    # Get the diff of the current resource state and the desired state
+    # @param [OneviewSDK::Resource] resource Resource containing current state
+    # @param [Hash] desired_data Desired state for the resource
+    # @return [String] Diff string (multi-line). Returns empty string if there is no diff or an error occurred
+    def get_diff(resource, desired_data)
+      data = resource.is_a?(Hash) ? resource : resource.data
+      recursive_diff(data, desired_data, "\n", '  ')
+    rescue StandardError => e
+      Chef::Log.error "Failed to generate resource diff for '#{resource['name']}': #{e.message}"
+      '' # Return empty diff
+    end
+
+    # Get the diff of the current resource state and the desired state
+    # @param [Hash] data Current state of the resource
+    # @param [Hash] desired_data Desired state for the resource
+    # @param [String] str Current diff string to append to (used for recursive calls)
+    # @param [String] indent String used to indent the output
+    # @raise [StandardError] if the comparison cannot be made due to an unexpected error
+    # @return [String] Diff string (multi-line). Returns empty string if there is no diff
+    def recursive_diff(data, desired_data, str = '', indent = '')
+      unless desired_data.class == Hash
+        return '' if data == desired_data
+        return str << "\n#{indent}#{data.nil? ? 'nil' : data} -> #{desired_data}"
+      end
+      return str << "\n#{indent}nil -> #{desired_data}" if data.nil?
+      return str << "\n#{indent}#{data} -> #{desired_data}" unless data && data.class == Hash
+      desired_data.each do |key, val|
+        if val.is_a?(Hash)
+          if data[key].class == Hash
+            str2 = recursive_diff(data[key], val, '', "#{indent}  ")
+            str << "\n#{indent}#{key}:#{str2}" unless str2.empty?
+          else
+            str << "\n#{indent}#{key}: #{data[key].nil? ? 'nil' : data[key]} -> #{val}"
+          end
+        elsif val != data[key]
+          str << "\n#{indent}#{key}: #{data[key].nil? ? 'nil' : data[key]} -> #{val}"
+        end
+      end
+      str
+    end
   end
 end
