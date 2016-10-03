@@ -23,7 +23,6 @@ if defined?(ChefSpec)
     oneview_enclosure_group:            standard_actions + [:set_script],
     oneview_ethernet_network:           standard_actions + [:bulk_create, :reset_connection_template],
     oneview_firmware:                   [:add, :remove, :create_custom_spp],
-    oneview_network_set:                standard_actions,
     oneview_fc_network:                 standard_actions,
     oneview_fcoe_network:               standard_actions,
     oneview_interconnect:               [:set_uid_light, :set_power_state, :reset, :reset_port_protection, :update_port],
