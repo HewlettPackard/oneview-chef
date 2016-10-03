@@ -15,6 +15,11 @@ my_client = {
   password: ''
 }
 
+# It will not do anything if no action is selected
+oneview_interconnect 'Encl1, interconnect 1' do
+  client my_client
+end
+
 oneview_interconnect 'Encl1, interconnect 1' do
   client my_client
   action :reset_port_protection
