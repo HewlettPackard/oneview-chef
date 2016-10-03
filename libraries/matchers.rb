@@ -14,7 +14,8 @@ if defined?(ChefSpec)
   # To see a full list of the actual matchers, see spec/unit/resources/matchers_spec.rb
   standard_actions = [:create, :create_if_missing, :delete]
   # Lists all the possible action verbs
-  action_list = %w(create add delete remove set reset refresh update configure reconfigure edit)
+  action_list = %w(create add delete remove set reset refresh update configure reconfigure edit none)
+
   oneview_resources = {
     oneview_resource:                   standard_actions,
     oneview_connection_template:        [:update, :reset],
@@ -24,16 +25,18 @@ if defined?(ChefSpec)
     oneview_ethernet_network:           standard_actions + [:bulk_create, :reset_connection_template],
     oneview_fc_network:                 standard_actions,
     oneview_fcoe_network:               standard_actions,
-    oneview_firmware_bundle:            [:add],
+    oneview_firmware:                   [:add, :remove, :create_custom_spp],
     oneview_interconnect:               [:set_uid_light, :set_power_state, :reset, :reset_port_protection, :update_port],
     oneview_logical_enclosure:          [:update_from_group, :reconfigure, :set_script],
     oneview_logical_interconnect_group: standard_actions,
     oneview_logical_switch_group:       standard_actions,
+    oneview_logical_switch:             standard_actions + [:refresh],
     oneview_network_set:                standard_actions,
     oneview_rack:                       [:add, :remove, :add_if_missing, :add_to_rack, :remove_from_rack],
-    oneview_server_hardware:            [:add, :add_if_missing, :remove, :refresh, :set_power_state, :update_ilo_firmware],
+    oneview_server_hardware:            [:add_if_missing, :remove, :refresh, :set_power_state, :update_ilo_firmware],
     oneview_storage_pool:               [:add, :remove],
     oneview_storage_system:             [:add, :remove, :edit_credentials, :add_if_missing],
+    oneview_switch:                     [:remove, :none],
     oneview_volume:                     standard_actions,
     oneview_volume_template:            standard_actions
   }

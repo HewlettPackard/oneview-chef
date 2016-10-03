@@ -11,7 +11,10 @@ Metrics/LineLength:
 
 Metrics/MethodLength:
   CountComments: false
-  Max: 25
+  Max: 26
+
+Metrics/ModuleLength:
+  Max: 125
 
 Metrics/AbcSize:
   Enabled: false
@@ -25,6 +28,12 @@ Metrics/PerceivedComplexity:
 Style/EmptyLineBetweenDefs:
   Exclude:
     - 'libraries/matchers.rb'
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Enabled: false
 
 Style/RescueModifier:
   Enabled: false

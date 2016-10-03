@@ -84,6 +84,7 @@ RSpec.describe OneviewCookbook::ResourceBase do
       expect(@resource).to receive(:like?).and_return(false)
       expect(@resource).to receive(:update).and_return(true)
       expect(base).to receive(:save_res_info).and_return(true)
+      expect(base).to receive(:get_diff).and_return('')
       expect(base.create_or_update(@resource)).to eq(false) # And returns false
     end
 

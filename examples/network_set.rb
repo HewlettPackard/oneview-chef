@@ -9,14 +9,14 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-client = {
+my_client = {
   url: '',
   user: '',
   password: ''
 }
 
 oneview_ethernet_network 'ChefBulkEthernet' do
-  client client
+  client my_client
   data(
     'vlanIdRange' => '10-12',
     'purpose' =>  'General',
@@ -27,50 +27,50 @@ oneview_ethernet_network 'ChefBulkEthernet' do
 end
 
 oneview_network_set 'ChefNetworkSet_0' do
-  client client
+  client my_client
   action :create
 end
 
 oneview_network_set 'ChefNetworkSet_1' do
-  client client
+  client my_client
   native_network 'ChefBulkEthernet_10'
   ethernet_network_list ['ChefBulkEthernet_11', 'ChefBulkEthernet_12']
   action :create
 end
 
 oneview_network_set 'ChefNetworkSet_2' do
-  client client
+  client my_client
   native_network 'ChefBulkEthernet_10'
   ethernet_network_list ['ChefBulkEthernet_11']
   action :create_if_missing
 end
 
 oneview_network_set 'ChefNetworkSet_0' do
-  client client
+  client my_client
   action :delete
 end
 
 oneview_network_set 'ChefNetworkSet_1' do
-  client client
+  client my_client
   action :delete
 end
 
 oneview_network_set 'ChefNetworkSet_2' do
-  client client
+  client my_client
   action :delete
 end
 
 oneview_ethernet_network 'ChefBulkEthernet_10' do
-  client client
+  client my_client
   action :delete
 end
 
 oneview_ethernet_network 'ChefBulkEthernet_11' do
-  client client
+  client my_client
   action :delete
 end
 
 oneview_ethernet_network 'ChefBulkEthernet_12' do
-  client client
+  client my_client
   action :delete
 end
