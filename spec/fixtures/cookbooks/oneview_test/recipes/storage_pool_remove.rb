@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: oneview_test
-# Recipe:: storage_pool_add_with_ip
+# Recipe:: storage_pool_remove
 #
 # (c) Copyright 2016 Hewlett Packard Enterprise Development LP
 #
@@ -16,5 +16,5 @@
 
 oneview_storage_pool 'StoragePool1' do
   client node['oneview_test']['client']
-  storage_system_ip '10.1.1.1'
+  action :remove
 end
