@@ -11,27 +11,27 @@
 
 OneviewCookbook::ResourceBaseProperties.load(self)
 
-property :file_path, String, name_property: true
-
-default_action :add
+# To prevent that the default action is remove
+default_action :none
 
 action_class do
   include OneviewCookbook::Helper
   include OneviewCookbook::ResourceBase
 end
 
-action :add do
-  load_sdk
-  c = build_client(client)
+action :remove do
+  item = load_resource
+  found = item.retrieve!
 
-  file_name = ::File.basename(file_path)
-  fw_bundles = OneviewSDK::FirmwareDriver.find_by(c, {}).map { |i| i['fwComponents'] }
-
-  if fw_bundles.any? { |bundle| bundle.first['fileName'] == file_name }
-    Chef::Log.info "#{resource_name} '#{file_name}' is already uploaded."
-  else
-    converge_by "Add #{resource_name} '#{file_path}'" do
-      OneviewSDK::FirmwareBundle.add(c, file_path)
+  # Checks if the switch was already removed from oneview
+  if found && 'Inventory' != item['state']
+    converge_by "#{resource_name} '#{name}'" do
+      item.remove
     end
+  else
+    Chef::Log.info "#{resource_name} '#{name}' is already in the inventory."
   end
+end
+
+action :none do
 end

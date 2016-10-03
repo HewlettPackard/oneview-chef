@@ -44,6 +44,8 @@ action :discover do
 end
 
 action :remove do
+  # First try to remove by name, if it does not work it consider the power device is
+  # an iPDU
   unless remove
     c = build_client(client)
     power_devices_list = OneviewSDK::PowerDevice.get_ipdu_devices(c, name)

@@ -27,7 +27,7 @@ action :set_uid_light do
   item = load_resource
   item.retrieve!
   # Impossible to verify this value programatically
-  converge_by "Setting #{resource_name} '#{name}' UID light to #{uid_light_state.upcase}" do
+  converge_by "Set #{resource_name} '#{name}' UID light to #{uid_light_state.upcase}" do
     item.patch('replace', '/uidState', uid_light_state.capitalize)
   end
 end
@@ -37,7 +37,7 @@ action :set_power_state do
   item = load_resource
   item.retrieve!
   if item['powerState'] != power_state
-    converge_by "Powering #{resource_name} '#{name}'#{power_state.upcase}" do
+    converge_by "Power #{resource_name} '#{name}' #{power_state.upcase}" do
       item.patch('replace', '/powerState', power_state.capitalize)
     end
   else
@@ -49,7 +49,7 @@ action :reset do
   item = load_resource
   item.retrieve!
   # Nothing to verify
-  converge_by "Resetting #{resource_name} '#{name}'" do
+  converge_by "Reset #{resource_name} '#{name}'" do
     item.patch('replace', '/deviceResetState', 'Reset')
   end
 end
@@ -58,7 +58,7 @@ action :reset_port_protection do
   item = load_resource
   item.retrieve!
   # Nothing to verify
-  converge_by "Resetting #{resource_name} '#{name}' port protection" do
+  converge_by "Reset #{resource_name} '#{name}' port protection" do
     item.reset_port_protection
   end
 end
@@ -68,15 +68,16 @@ action :update_port do
   parsed_port_options = convert_keys(port_options, :to_s)
   raise "Required value \"name\" for 'port_options' not specified" unless parsed_port_options['name']
   item = load_resource
-  item.retrieve!
+  raise "#{resource_name} '#{item['name']}' not found!" unless item.retrieve!
   target_port = (item['ports'].select { |port| port['name'] == parsed_port_options['name'] }).first
   raise "Could not find port: #{parsed_port_options['name']}" unless target_port
-  # If there are no new options that differ from the current ones do nothing, but else, update
-  if (parsed_port_options.select { |k, v| target_port[k] != v }).empty?
-    Chef::Log.info("#{resource_name} '#{name}' port #{parsed_port_options['name']} is up to date.")
-  else
-    converge_by "Updating #{resource_name} '#{name}' port #{parsed_port_options['name']}." do
+  # Update only if there are options that differ from the current ones
+  if parsed_port_options.any? { |k, v| target_port[k] != v }
+    diff = get_diff(target_port, parsed_port_options)
+    converge_by "Update #{resource_name} '#{name}' port #{parsed_port_options['name']}.#{diff}" do
       item.update_port(parsed_port_options['name'], parsed_port_options)
     end
+  else
+    Chef::Log.info("#{resource_name} '#{name}' port #{parsed_port_options['name']} is up to date.")
   end
 end

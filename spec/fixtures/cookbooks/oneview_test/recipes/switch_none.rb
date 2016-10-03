@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: oneview_test
-# Recipe:: server_hardware_add_if_missing
+# Recipe:: switch_none
 #
 # (c) Copyright 2016 Hewlett Packard Enterprise Development LP
 #
@@ -14,13 +14,6 @@
 # specific language governing permissions and limitations under the License.
 #
 
-oneview_server_hardware 'ServerHardware1' do
-  data(
-    hostname: '172.18.6.4',
-    username: 'dcs',
-    password: 'dcs',
-    licensingIntent: 'OneViewStandard',
-    configurationState: 'Monitored'
-  )
+oneview_switch 'Switch1' do
   client node['oneview_test']['client']
 end

@@ -11,27 +11,28 @@
 
 OneviewCookbook::ResourceBaseProperties.load(self)
 
-property :storage_system_ip, String
-property :storage_system_name, String
+property :storage_system, String
 
-default_action :add
+default_action :add_if_missing
 
 action_class do
   include OneviewCookbook::Helper
   include OneviewCookbook::ResourceBase
 end
 
-action :add do
+action :add_if_missing do
+  raise "Unspecified property: 'storage_system'. Please set it before attempting this action." unless storage_system
   item = load_resource
   item['poolName'] ||= name
-  if storage_system_ip
-    storage_system = OneviewSDK::StorageSystem.new(item.client, credentials: { ip_hostname: storage_system_ip })
-  elsif storage_system_name
-    storage_system = OneviewSDK::StorageSystem.new(item.client, name: storage_system_name)
+
+  storage_system_resource = OneviewSDK::StorageSystem.new(item.client, credentials: { ip_hostname: storage_system })
+  unless storage_system_resource.exists?
+    storage_system_resource = OneviewSDK::StorageSystem.new(item.client, name: storage_system)
   end
-  storage_system.retrieve!
-  item.set_storage_system(storage_system)
-  add_or_edit(item)
+
+  storage_system_resource.retrieve!
+  item.set_storage_system(storage_system_resource)
+  add_if_missing(item)
 end
 
 action :remove do

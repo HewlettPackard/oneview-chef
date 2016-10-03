@@ -107,15 +107,30 @@ oneview_fcoe_network 'FCoE1' do
 end
 ```
 
-### oneview_firmware_bundle
+### oneview_firmware
 
-Firmware bundle resource for HPE OneView.
+Firmware bundle and driver resource for HPE OneView.
 
 ```Ruby
-oneview_firmware_bundle 'upload firmware' do
+oneview_firmware '/full/path/to/file.iso'  do
   client <my_client>
-  file_path '/full/path/to/file.iso' # Defaults to name property
-  action :add
+  action [:add, :remove]
+end
+
+oneview_firmware 'firmware_bundle_name'  do
+  client <my_client>
+  action :remove
+end
+```
+
+```Ruby
+oneview_firmware 'CustomSPP'  do
+  client <my_client>
+  spp_name 'SPPName'
+  hotfixes_names [
+    'hotfix1_name'
+  ]
+  action :create_custom_spp
 end
 ```
 
@@ -229,6 +244,26 @@ The `:create` and `create_if_missing` can be done in two different ways:
   2. By specifying both `switch_number` and `switch_type` properties, but no 'switchMapTemplate' attribute in the `data` property
 
 :memo: **Note:** You are still able to specify the `switch_number` and `switch_type` properties even if you use the 'switchMapTemplate' attribute, but they will be **ignored**, only the values from 'switchMapTemplate' are going to be used.
+
+### oneview_logical_switch
+
+Logical switch resource for HPE OneView.
+
+```ruby
+oneview_logical_switch 'LogicalSwitch_1' do
+  client <my_client>
+  data <resource_data> # Logical Switch options
+  credentials <switches_credentials> # Specify the credentials for all the switches
+  action [:create, :create_if_missing, :delete, :refresh]
+end
+```
+
+**credentials:** Array containing Hashes indicating the credentials of the switches. They are needed for the `:create` and `:create_if_missing` actions. Each Hash should have the keys:
+  - `:host` - It specifies the location switch hostname or IP address.
+  - `:ssh_credentials` - User and password to access the switch through ssh.
+  - `:snmp_credentials` - The switch SNMP credentials. They may vary depending on which SNMP type you are using.
+
+:memo: NOTE: The `credentials` may also be replaced by the entire data Hash or JSON. In this case the property will be ignored.
 
 ### oneview_datacenter
 
@@ -367,8 +402,8 @@ Storage pool resource for HPE OneView.
 ```ruby
 oneview_storage_pool 'CPG_FC-AO' do
   client <my_client>
-  storage_system_name <storage_system_name> # String
-  action [:add, :remove]
+  storage_system <storage_system> # name or hostname
+  action [:add_if_missing, :remove]
 end
 ```
 
@@ -392,9 +427,20 @@ oneview_storage_system 'ThreePAR7200-8147' do
     credentials: storage_system_credentials,
     managedDomain: 'TestDomain'
   )
-  action [:add, :remove]
+  action [:add, :add_if_missing, :remove]
 end
 ```
+
+```ruby
+oneview_storage_system 'ThreePAR7200-81471' do
+  client my_client
+  data(
+    ip_hostname: '127.0.0.1',
+    username: 'username',
+    password: 'password'
+  )
+  action :edit_credentials
+end
 
 ### oneview_logical_enclosure
 
@@ -440,7 +486,19 @@ oneview_server_hardware 'ServerHardware1' do
   data <data>
   power_state [:on, :off] # Only used with the :set_power_state action
   refresh_options <hash>  # Only used with the :refresh action. Optional
-  action [:add, :add_if_missing, :remove, :refresh, :set_power_state, :update_ilo_firmware]
+  action [:add_if_missing, :remove, :refresh, :set_power_state, :update_ilo_firmware]
+end
+```
+
+### oneview_switch
+
+Switch resource for HPE OneView
+
+```ruby
+oneview_switch 'Switch1' do
+  client <my_client>
+  data <data>
+  action [:remove, :none]
 end
 ```
 
@@ -470,18 +528,17 @@ end
 
   ```ruby
   # Notes:
-  #  - It can't be updated, so we use the :create_if_missing action here
+  #  - It can't be updated, so we use the default :add_if_missing action here
   #  - Also, because the hostname is used as a name in OneView, we need to set the name to the hostname
-  oneview_resource '172.18.6.11' do
-    type :ServerHardware
+  oneview_server_hardware '172.18.6.11' do
     data(
-      hostname: '172.18.6.11',
-      username: 'admin',
-      password: 'secret123', # Note: This should be read from a file or databag, not stored in clear text.
-      licensingIntent: 'OneView'
+      hostname: '172.18.6.4',
+      username: 'user',
+      password: 'password', # Note: This should be read from a file or databag, not stored in clear text.
+      licensingIntent: 'OneViewStandard',
+      configurationState: 'Monitored'
     )
     client my_client
-    action :create_if_missing
   end
   ```
 
@@ -489,7 +546,7 @@ end
 
   ```ruby
   # Notes:
-  #  - Since the script is at a seperate endpoint, we can't set that here
+  #  - Since the script is at a separate endpoint, we can't set that here
   oneview_enclosure_group 'Enclosure-Group-1' do
     data(
       stackingMode: 'Enclosure',
