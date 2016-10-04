@@ -15,39 +15,16 @@ my_client = {
   password: ''
 }
 
-# It will not do anything if no action is selected
-oneview_interconnect 'Encl1, interconnect 1' do
+# Example: Update server hardware type properties
+oneview_server_hardware_type 'DL360 Gen9 1' do
   client my_client
-end
-
-oneview_interconnect 'Encl1, interconnect 1' do
-  client my_client
-  action :reset_port_protection
-end
-
-oneview_interconnect 'Encl1, interconnect 1' do
-  client my_client
-  uid_light_state 'On'
-  action :set_uid_light
-end
-
-oneview_interconnect 'Encl1, interconnect 1' do
-  client my_client
-  power_state 'On'
-  action :set_power_state
-end
-
-oneview_interconnect 'Encl1, interconnect 1' do
-  client my_client
-  port_options(
-    name: 'X4',
-    portName: 'X4',
-    enabled: true
+  data(
+    description: 'Server hardware type description'
   )
-  action :update_port
 end
 
-oneview_interconnect 'Encl1, interconnect 1' do
+# Example: Remove server hardware type
+oneview_server_hardware_type 'DL360 Gen9 1' do
   client my_client
-  action :reset
+  action :remove
 end

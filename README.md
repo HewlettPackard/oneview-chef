@@ -371,19 +371,16 @@ Volume Template resource for HPE OneView.
 oneview_volume_template 'VolumeTemplate_1' do
   client <my_client>
   data <resource_data>
-  storage_system_name <storage_system_name>
-  storage_system_ip <storage_system_ip>
+  storage_system <storage_system_info>
   storage_pool <storage_pool_name>
   snapshot_pool <snapshot_pool_name>
   action [:create, :create_if_missing, :delete]
 end
 ```
-  - **storage_system_name** (String) Optional - Name of the Storage System to associate the Volume.
-  - **storage_system_ip** (String) Optional - IP address or hostname of the Storage System to associate the Volume.
+
+  - **storage_system** (String) Optional - IP address, hostname or name of the Storage System to associate the Volume.
   - **storage_pool** (String) Optional - Name of the Storage Pool from the Storage System to associate the Volume.
   - **snapshot_pool** (String) Optional - Name of the Storage Pool containing the snapshots.
-
- :memo: **NOTE**: Only one of `storage_system_name` and `storage_system_ip` need to be provided. If both are specified at once, the `storage_system_ip` prevails, then ignoring `storage_system_name` value.
 
  :warning: **WARNING**: The resources `oneview_volume` and `oneview_volume_template` appear to accept the same data, but they have two characteristics that differ:
  1. `oneview_volume_template` does not accepts the property **volume_template**. In other means, you cannot create a Volume template from another Volume template.
@@ -487,6 +484,18 @@ oneview_server_hardware 'ServerHardware1' do
   power_state [:on, :off] # Only used with the :set_power_state action
   refresh_options <hash>  # Only used with the :refresh action. Optional
   action [:add_if_missing, :remove, :refresh, :set_power_state, :update_ilo_firmware]
+end
+```
+
+### oneview_server_hardware_type
+
+Server hardware type resource for HPE OneView
+
+```ruby
+oneview_server_hardware_type 'ServerHardwareType1' do
+  client <my_client>
+  data <data>
+  action [:edit, :remove]
 end
 ```
 
