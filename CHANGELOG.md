@@ -22,6 +22,7 @@
   - Added support to Switch actions
   - Added support to Firmware driver actions and integrated it with firmware bundles in a resource called Firmware
   - Added diff output for updating resources
+  - Added unit tests for volume template and merged `:storage_system_ip` and `:storage_system_name`. Now use `:storage_system`
 
 ### 0.1.1
   - Fixed Ruby SDK version to 1.0.0

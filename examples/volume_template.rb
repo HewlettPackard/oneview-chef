@@ -10,32 +10,60 @@
 # specific language governing permissions and limitations under the License.
 
 # NOTE: This recipe requires one Storage System with IP '172.18.11.11'
-# and one Storage Pool named 'CPG-SSD-AO' associated to this Storage System
+# and one Storage Pool named 'CPG-SSD' associated to this Storage System
 
-client = {
+my_client = {
   url: '',
   user: '',
   password: ''
 }
 
-volume_template_data_1 = {
-  description: 'CHEF created Volume Template',
-  provisioning: {
-    provisionType: 'Full',
-    shareable: true,
-    capacity: 1024 * 1024 * 1024 # 1GB
-  }
-}
-
-oneview_volume_template 'CHEF_VOL_TEMP_01' do
-  client client
-  data volume_template_data_1
-  storage_system_ip '172.18.11.11'
-  storage_pool 'CPG-SSD-AO'
-  action :create
+# Example: creates or updates a volume template and specify storage system hostname
+oneview_volume_template 'VolumeTemplate1' do
+  client my_client
+  data(
+    provisioning: {
+      provisionType: 'Full',
+      shareable: true,
+      capacity: 1024 * 1024 * 1024 # 1GB
+    }
+  )
+  storage_system '172.18.11.11'
+  storage_pool 'CPG-SSD'
 end
 
-oneview_volume_template 'CHEF_VOL_TEMP_01' do
-  client client
+
+# Example: creates or updates a volume template and specify storage system name
+oneview_volume_template 'VolumeTemplate2' do
+  client my_client
+  data(
+    provisioning: {
+      provisionType: 'Full',
+      shareable: false,
+      capacity: 1024 * 1024 * 1024 # 1GB
+    }
+  )
+  storage_system 'ThreePAR7200-8147'
+  storage_pool 'CPG-SSD'
+end
+
+# Example: creates a volume template only if does not exists
+oneview_volume_template 'VolumeTemplate3' do
+  client my_client
+  data(
+    provisioning: {
+      provisionType: 'Full',
+      shareable: true,
+      capacity: 1024 * 1024 * 1024 # 1GB
+    }
+  )
+  storage_system '172.18.11.11'
+  storage_pool 'CPG-SSD'
+  action :create_if_missing
+end
+
+# Example: deletes a volume template
+oneview_volume_template 'VolumeTemplate1' do
+  client my_client
   action :delete
 end

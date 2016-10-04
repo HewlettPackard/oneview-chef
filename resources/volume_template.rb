@@ -11,8 +11,7 @@
 
 OneviewCookbook::ResourceBaseProperties.load(self)
 
-property :storage_system_ip, String
-property :storage_system_name, String
+property :storage_system, String
 property :storage_pool, String
 property :snapshot_pool, String
 
@@ -39,16 +38,17 @@ action_class do
   end
 
   # Loads Storage System in the given Volume resource.
-  # The properties storage_system_name or storage_system_ip properties needs to be used in the recipe
-  #  for this code to load the Storage System.
-  # The storage_system_ip property has priority above the others
+  # The property storage_system needs to be used in the recipe for this code to load the Storage System.
+  # Hostname or storage system name can be used
   # @param [OneviewSDK::Volume] item Volume to add the Storage System
   # @return [OneviewSDK::Volume] Volume with Storage System parameters updated
   def load_storage_system(item)
-    warn_msg = "Both Storage System Name '#{storage_system_name}' and IP '#{storage_system_ip}' were provided. Name is being ignored!"
-    Chef::Log.warn(warn_msg) if storage_system_name & storage_system_ip
-    item.set_storage_system(OneviewSDK::StorageSystem.new(item.client, name: storage_system_name)) if storage_system_name && !storage_system_ip
-    item.set_storage_system(OneviewSDK::StorageSystem.new(item.client, credentials: { ip_hostname: storage_system_ip })) if storage_system_ip
+    raise "Unspecified property: 'storage_system'. Please set it before attempting this action." unless storage_system
+    storage_system_resource = OneviewSDK::StorageSystem.new(item.client, credentials: { ip_hostname: storage_system })
+    unless storage_system_resource.exists?
+      storage_system_resource = OneviewSDK::StorageSystem.new(item.client, name: storage_system)
+    end
+    item.set_storage_system(storage_system_resource)
     item
   end
 end
