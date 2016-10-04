@@ -16,6 +16,7 @@
   - Added support to Logical switch actions
   - Added support to Firmware bundle actions
   - Added diff output for updating resources
+  - Added support to Manage san actions
 
 ### 0.1.1
   - Fixed Ruby SDK version to 1.0.0
