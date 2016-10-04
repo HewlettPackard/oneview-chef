@@ -15,39 +15,35 @@ my_client = {
   password: ''
 }
 
-# It will not do anything if no action is selected
-oneview_interconnect 'Encl1, interconnect 1' do
+# Example: Upload a firmware bundle
+oneview_firmware '/bundles/firmware_bundle_name.iso' do
   client my_client
 end
 
-oneview_interconnect 'Encl1, interconnect 1' do
+# Example: Create a custom spp
+# Uses spp_name and hotfixes_names
+oneview_firmware 'CustomSPP' do
   client my_client
-  action :reset_port_protection
+  spp_name 'Service Pack for ProLiant'
+  hotfixes_names [
+    'Online ROM Flash Component for Windows x64 - HPE Synergy 620/680 Gen9 Compute Module'
+  ]
+  action :create_custom_spp
 end
 
-oneview_interconnect 'Encl1, interconnect 1' do
+# Example: Create a custom spp
+# Uses spp_file and hotfixes_files as reference
+oneview_firmware 'CustomSPP' do
   client my_client
-  uid_light_state 'On'
-  action :set_uid_light
+  spp_files '/bundles/firmware_bundle_name.iso'
+  hotfixes_files [
+    '/bundles/hotfix_name.rpm'
+  ]
+  action :create_custom_spp
 end
 
-oneview_interconnect 'Encl1, interconnect 1' do
+# Example: Remove a firmware
+oneview_firmware '/bundles/firmware_bundle_name.iso' do
   client my_client
-  power_state 'On'
-  action :set_power_state
-end
-
-oneview_interconnect 'Encl1, interconnect 1' do
-  client my_client
-  port_options(
-    name: 'X4',
-    portName: 'X4',
-    enabled: true
-  )
-  action :update_port
-end
-
-oneview_interconnect 'Encl1, interconnect 1' do
-  client my_client
-  action :reset
+  action :remove
 end

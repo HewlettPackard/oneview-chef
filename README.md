@@ -107,15 +107,30 @@ oneview_fcoe_network 'FCoE1' do
 end
 ```
 
-### oneview_firmware_bundle
+### oneview_firmware
 
-Firmware bundle resource for HPE OneView.
+Firmware bundle and driver resource for HPE OneView.
 
 ```Ruby
-oneview_firmware_bundle 'upload firmware' do
+oneview_firmware '/full/path/to/file.iso'  do
   client <my_client>
-  file_path '/full/path/to/file.iso' # Defaults to name property
-  action :add
+  action [:add, :remove]
+end
+
+oneview_firmware 'firmware_bundle_name'  do
+  client <my_client>
+  action :remove
+end
+```
+
+```Ruby
+oneview_firmware 'CustomSPP'  do
+  client <my_client>
+  spp_name 'SPPName'
+  hotfixes_names [
+    'hotfix1_name'
+  ]
+  action :create_custom_spp
 end
 ```
 
@@ -387,8 +402,8 @@ Storage pool resource for HPE OneView.
 ```ruby
 oneview_storage_pool 'CPG_FC-AO' do
   client <my_client>
-  storage_system_name <storage_system_name> # String
-  action [:add, :remove]
+  storage_system <storage_system> # name or hostname
+  action [:add_if_missing, :remove]
 end
 ```
 
@@ -412,9 +427,20 @@ oneview_storage_system 'ThreePAR7200-8147' do
     credentials: storage_system_credentials,
     managedDomain: 'TestDomain'
   )
-  action [:add, :remove]
+  action [:add, :add_if_missing, :remove]
 end
 ```
+
+```ruby
+oneview_storage_system 'ThreePAR7200-81471' do
+  client my_client
+  data(
+    ip_hostname: '127.0.0.1',
+    username: 'username',
+    password: 'password'
+  )
+  action :edit_credentials
+end
 
 ### oneview_logical_enclosure
 
@@ -439,6 +465,29 @@ oneview_managed_san 'SAN1_0' do
 end
 ```
 
+### oneview_power_device
+
+Power device resource for HPE OneView.
+
+```ruby
+oneview_power_device 'PowerDevice1' do
+  client <my_client>
+  data(
+    ratedCapacity: 40
+  )
+  action [:add, :add_if_missing, :remove]
+end
+```
+
+```ruby
+oneview_power_device '<iPDU hostname>' do
+  client <my_client>
+  username <username>
+  password <password>
+  action :discover
+end
+```
+
 ### oneview_server_hardware
 
 Server hardware resource for HPE OneView
@@ -450,6 +499,30 @@ oneview_server_hardware 'ServerHardware1' do
   power_state [:on, :off] # Only used with the :set_power_state action
   refresh_options <hash>  # Only used with the :refresh action. Optional
   action [:add_if_missing, :remove, :refresh, :set_power_state, :update_ilo_firmware]
+end
+```
+
+### oneview_server_hardware_type
+
+Server hardware type resource for HPE OneView
+
+```ruby
+oneview_server_hardware_type 'ServerHardwareType1' do
+  client <my_client>
+  data <data>
+  action [:edit, :remove]
+end
+```
+
+### oneview_switch
+
+Switch resource for HPE OneView
+
+```ruby
+oneview_switch 'Switch1' do
+  client <my_client>
+  data <data>
+  action [:remove, :none]
 end
 ```
 

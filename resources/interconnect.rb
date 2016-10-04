@@ -22,6 +22,9 @@ action_class do
   include OneviewCookbook::ResourceBase
 end
 
+action :none do
+end
+
 action :set_uid_light do
   raise "Unspecified property: 'uid_light_state'. Please set it before attempting this action." unless uid_light_state
   item = load_resource

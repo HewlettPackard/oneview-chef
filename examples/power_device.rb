@@ -15,45 +15,39 @@ my_client = {
   password: ''
 }
 
-storage_system_credentials = {
-  ip_hostname: '',
-  username: '',
-  password: ''
-}
-
-# Example: add storage system or update if it already exists
-oneview_storage_system 'StorageSystem1' do
+# Adds a power delivery device or update if it already exists
+oneview_power_device 'PowerDevice1' do
   client my_client
   data(
-    credentials:storage_system_credentials,
-    managedDomain: 'TestDomain'
+    ratedCapacity: 40
   )
-  action :add
 end
 
-# Example: add storage system if it does not exist
-oneview_storage_system 'StorageSystem1' do
+# Add if power delivery device is not present, does not update
+oneview_power_device 'PowerDevice1' do
   client my_client
   data(
-    credentials:storage_system_credentials,
-    managedDomain: 'TestDomain'
+    ratedCapacity: 40
   )
   action :add_if_missing
 end
 
-# Example: edit storage system credentials
-oneview_storage_system 'StorageSystem1' do
+# Discovers an iPDU
+oneview_power_device '127.0.0.1' do
   client my_client
-  data(
-    ip_hostname: '127.0.0.1',
-    username: 'username',
-    password: 'password'
-  )
-  action :edit_credentials
+  username 'usernmae'
+  password 'password'
+  action :discover
 end
 
-# Example: remove storage system
-oneview_storage_system 'StorageSystem1' do
+# Removes a power delivery device
+oneview_power_device 'PowerDevice1' do
+  client my_client
+  action :remove
+end
+
+# Removes an iPDU by hostname
+oneview_power_device '127.0.0.1' do
   client my_client
   action :remove
 end
