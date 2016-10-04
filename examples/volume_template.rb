@@ -18,7 +18,7 @@ my_client = {
   password: ''
 }
 
-# Example: creates or updates a volume template and specify storage system hostname
+# Example: create or update a volume template, specifying a storage system hostname/IP
 oneview_volume_template 'VolumeTemplate1' do
   client my_client
   data(
@@ -33,7 +33,7 @@ oneview_volume_template 'VolumeTemplate1' do
 end
 
 
-# Example: creates or updates a volume template and specify storage system name
+# Example: creates or updates a volume template, specifying a storage system name
 oneview_volume_template 'VolumeTemplate2' do
   client my_client
   data(
@@ -47,7 +47,7 @@ oneview_volume_template 'VolumeTemplate2' do
   storage_pool 'CPG-SSD'
 end
 
-# Example: creates a volume template only if does not exists
+# Example: create a volume template only if does not exists (no updates)
 oneview_volume_template 'VolumeTemplate3' do
   client my_client
   data(
@@ -62,7 +62,7 @@ oneview_volume_template 'VolumeTemplate3' do
   action :create_if_missing
 end
 
-# Example: deletes a volume template
+# Example: delete a volume template
 oneview_volume_template 'VolumeTemplate1' do
   client my_client
   action :delete
