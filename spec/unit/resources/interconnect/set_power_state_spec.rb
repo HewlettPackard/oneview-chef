@@ -17,6 +17,6 @@ describe 'oneview_test::interconnect_set_power_state_invalid' do
 
   it 'fails if power_state property is not set' do
     allow_any_instance_of(OneviewSDK::Interconnect).to receive(:retrieve!).and_return(true)
-    expect { real_chef_run }.to raise_error(/Unspecified property: 'power_state'/)
+    expect { real_chef_run }.to raise_error(RuntimeError, /Unspecified property: 'power_state'/)
   end
 end

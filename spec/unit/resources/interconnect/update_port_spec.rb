@@ -42,7 +42,7 @@ describe 'oneview_test::interconnect_update_port' do
     allow_any_instance_of(OneviewSDK::Interconnect).to receive(:retrieve!).and_return(true)
     allow_any_instance_of(OneviewSDK::Interconnect).to receive(:[]).with('name')
     allow_any_instance_of(OneviewSDK::Interconnect).to receive(:[]).with('ports').and_return(ports)
-    expect { real_chef_run }.to raise_error(/Could not find port/)
+    expect { real_chef_run }.to raise_error(RuntimeError, /Could not find port/)
   end
 end
 
@@ -52,6 +52,6 @@ describe 'oneview_test::interconnect_update_port_invalid' do
 
   it 'fails if port_options property is not set' do
     allow_any_instance_of(OneviewSDK::Interconnect).to receive(:retrieve!).and_return(true)
-    expect { real_chef_run }.to raise_error(/Unspecified property: 'port_options'/)
+    expect { real_chef_run }.to raise_error(RuntimeError, /Unspecified property: 'port_options'/)
   end
 end
