@@ -22,7 +22,7 @@ if defined?(ChefSpec)
     oneview_datacenter:                 [:add, :remove, :add_if_missing],
     oneview_enclosure:                  [:add, :remove, :refresh, :reconfigure],
     oneview_enclosure_group:            standard_actions + [:set_script],
-    oneview_ethernet_network:           standard_actions + [:bulk_create, :reset_connection_template],
+    oneview_ethernet_network:           standard_actions + [:reset_connection_template],
     oneview_fc_network:                 standard_actions,
     oneview_fcoe_network:               standard_actions,
     oneview_firmware:                   [:add, :remove, :create_custom_spp],
