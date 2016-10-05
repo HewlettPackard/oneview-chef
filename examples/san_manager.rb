@@ -9,14 +9,14 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-client = {
+my_client = {
   url: '',
   user: '',
   password: ''
 }
 
-oneview_san_manager 'SANManager1' do
-  client client
+oneview_san_manager '172.18.15.1' do
+  client my_client
   data(
     providerDisplayName: 'Brocade Network Advisor',
     connectionInfo:
@@ -46,6 +46,6 @@ oneview_san_manager 'SANManager1' do
 end
 
 oneview_san_manager '172.18.15.1' do
-  client client
+  client my_client
   action :remove
 end
