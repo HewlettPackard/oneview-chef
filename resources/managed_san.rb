@@ -58,8 +58,11 @@ action :set_public_attributes do
   item.retrieve!
   # compares two hashes
   results = []
-  temp = temp.each_with_index do |element, index|
-    results << element.all? { |k, v| v == item['publicAttributes'][index][k] }
+  temp_attributes = temp.sort_by { |element| element['name'] }
+  item_attributes = item['publicAttributes'].sort_by { |element| element['name'] }
+
+  temp_attributes = temp_attributes.each_with_index do |element, index|
+    results << element.all? { |k, v| v == item_attributes[index][k] }
   end
 
   if results.all?
@@ -67,7 +70,7 @@ action :set_public_attributes do
   else
     Chef::Log.info "Updating #{resource_name} '#{name}' public attributes"
     converge_by "#{resource_name} '#{name}' public attributes updated" do
-      item.set_public_attributes(temp)
+      item.set_public_attributes(temp_attributes)
     end
   end
 end
