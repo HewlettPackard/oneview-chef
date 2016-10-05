@@ -43,6 +43,7 @@ action :add do
       item.add
     end
   end
+  item.data['credentials'].delete('password') if item.data['credentials']
   save_res_info(save_resource_info, name, item)
 end
 
