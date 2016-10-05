@@ -24,6 +24,7 @@
   - Added diff output for updating resources
   - Added support to Manage SAN actions
   - Merged attributes `:storage_system_ip` and `:storage_system_name` into `:storage_system` for Volume template
+  - Added support to Unmanaged device actions
 
 ### 0.1.1
   - Fixed Ruby SDK version to 1.0.0

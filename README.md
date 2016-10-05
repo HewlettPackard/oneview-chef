@@ -523,6 +523,18 @@ oneview_switch 'Switch1' do
 end
 ```
 
+### oneview_unmanaged_device
+
+Unmanaged device resource for HPE OneView
+
+```ruby
+oneview_unmanaged_device 'UnmanagedDevice1' do
+  client <my_client>
+  data <data>
+  action [:add, :add_if_missing, :remove]
+end
+```
+
 ## Examples
 
 :information_source: There are plenty more examples in the [examples](examples) directory showing more detailed usage of each resource, but here's a few to get you started:
