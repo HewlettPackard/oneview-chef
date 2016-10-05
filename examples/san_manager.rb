@@ -15,6 +15,7 @@ my_client = {
   password: ''
 }
 
+# Example: create a SAN manager under the specified provider
 oneview_san_manager '172.18.15.1' do
   client my_client
   data(
@@ -45,6 +46,7 @@ oneview_san_manager '172.18.15.1' do
   )
 end
 
+# Example: remove the SAN manager
 oneview_san_manager '172.18.15.1' do
   client my_client
   action :remove

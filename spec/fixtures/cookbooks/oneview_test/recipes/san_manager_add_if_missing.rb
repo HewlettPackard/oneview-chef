@@ -30,11 +30,11 @@ oneview_san_manager '172.18.15.1' do
       },
       {
         name: 'Username',
-        value: 'dcs'
+        value: 'Admin'
       },
       {
         name: 'Password',
-        value: 'dcs'
+        value: 'Secret123'
       },
       {
         name: 'UseSsl',
