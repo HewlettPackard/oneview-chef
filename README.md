@@ -450,6 +450,18 @@ oneview_logical_enclosure 'Encl1' do
 end
 ```
 
+### oneview_managed_san
+
+Managed SAN resource for HPE OneView.
+
+```ruby
+oneview_managed_san 'SAN1_0' do
+  client <my_client>
+  data <data>
+  action [:none, :set_refresh_state, :set_policy, :set_public_attributes]
+end
+```
+
 ### oneview_power_device
 
 Power device resource for HPE OneView.

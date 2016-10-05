@@ -84,6 +84,11 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not delete_oneview_logical_switch('')
     expect(chef_run).to_not refresh_oneview_logical_switch('')
 
+    # oneview_managed_san
+    expect(chef_run).to_not set_oneview_managed_san_public_attributes('')
+    expect(chef_run).to_not set_oneview_managed_san_policy('')
+    expect(chef_run).to_not set_refresh_oneview_managed_san_state('')
+
     # oneview_network_set
     expect(chef_run).to_not create_oneview_network_set('')
     expect(chef_run).to_not create_oneview_network_set_if_missing('')

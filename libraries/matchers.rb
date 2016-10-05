@@ -31,6 +31,7 @@ if defined?(ChefSpec)
     oneview_logical_interconnect_group: standard_actions,
     oneview_logical_switch_group:       standard_actions,
     oneview_logical_switch:             standard_actions + [:refresh],
+    oneview_managed_san:                [:set_refresh_state, :set_policy, :set_public_attributes],
     oneview_network_set:                standard_actions,
     oneview_power_device:               [:add, :add_if_missing, :discover, :remove],
     oneview_rack:                       [:add, :remove, :add_if_missing, :add_to_rack, :remove_from_rack],
