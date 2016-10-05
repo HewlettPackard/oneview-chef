@@ -9,21 +9,21 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-client = {
+my_client = {
   url: '',
   user: '',
   password: ''
 }
 
 oneview_unmanaged_device 'UnmanagedDevice1' do
-  data ({
-     model: 'Procurve 4200VL',
-     deviceType: 'Server'
-  })
-  client client
+  client my_client
+  data(
+    model: 'Procurve 4200VL',
+    deviceType: 'Server'
+  )
 end
 
 oneview_unmanaged_device 'UnmanagedDevice1' do
-  client client
+  client my_client
   action :delete
 end
