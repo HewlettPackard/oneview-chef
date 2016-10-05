@@ -16,9 +16,9 @@
 
 oneview_unmanaged_device 'UnmanagedDevice1' do
   client node['oneview_test']['client']
-  data ({
-     model: 'Procurve 4200VL',
-     deviceType: 'Server'
-  })
+  data(
+    model: 'Procurve 4200VL',
+    deviceType: 'Server'
+  )
   action :add_if_missing
 end
