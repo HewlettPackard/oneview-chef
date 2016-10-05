@@ -9,51 +9,38 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-client = {
+my_client = {
   url: '',
   user: '',
   password: ''
 }
 
+# Example: Create and manage a new ethernet network
 oneview_ethernet_network 'Eth1' do
-  data ({
-    vlanId:  '1001',
-    purpose:  'General',
-    smartLink:  false,
-    privateNetwork:  false
-  })
-  client client
-  action :create
-end
-
-oneview_ethernet_network 'Eth1' do
-  client client
-  action :delete
-end
-
-## Bulk creation ##
-oneview_ethernet_network 'BulkEth' do
-  client client
-  data ({
-    vlanIdRange: '10-12',
+  client my_client
+  data(
+    vlanId: '1001',
     purpose: 'General',
     smartLink: false,
     privateNetwork: false
-  })
-  action :bulk_create
+  )
 end
 
-oneview_ethernet_network 'BulkEth_10' do
-  client client
-  action :delete
+# Example: Create a new ethernet network only if it doesn't exist.
+# No updates will be made if the network exists but attributes differ
+oneview_ethernet_network 'Eth1' do
+  client my_client
+  data(
+    vlanId: '1001',
+    purpose: 'General',
+    smartLink: false,
+    privateNetwork: false
+  )
+  action :create_if_missing
 end
 
-oneview_ethernet_network 'BulkEth_11' do
-  client client
-  action :delete
-end
-
-oneview_ethernet_network 'BulkEth_12' do
-  client client
+# Example: Delete an ethernet network
+oneview_ethernet_network 'Eth1' do
+  client my_client
   action :delete
 end
