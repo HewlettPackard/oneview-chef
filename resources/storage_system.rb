@@ -27,8 +27,12 @@ action :add do
     if item.like? temp
       Chef::Log.info("#{resource_name} '#{name}' is up to date")
     else
-      Chef::Log.info "Editing #{resource_name} '#{name}'"
-      converge_by "#{resource_name} '#{name}' was edited." do
+      Chef::Log.info "Updating #{resource_name} '#{name}'"
+      Chef::Log.debug "#{resource_name} '#{name}' Chef resource differs from OneView resource."
+      Chef::Log.debug "Current state: #{JSON.pretty_generate(item.data)}"
+      Chef::Log.debug "Desired state: #{JSON.pretty_generate(temp)}"
+      diff = get_diff(item, temp)
+      converge_by "Update #{resource_name} '#{name}'#{diff}" do
         item.update(temp)
       end
     end
@@ -39,6 +43,8 @@ action :add do
       item.add
     end
   end
+  item.data['credentials'].delete('password') if item.data['credentials']
+  save_res_info(save_resource_info, name, item)
 end
 
 action :add_if_missing do
@@ -53,12 +59,11 @@ action :edit_credentials do
   item = load_resource
   temp = {}
   temp['credentials'] = Marshal.load(Marshal.dump(item.data))
-  temp = convert_keys(temp, :to_s)
   if item.exists?
     item.retrieve!
     temp['credentials']['ip_hostname'] ||= item['credentials']['ip_hostname']
-    Chef::Log.info "Editing #{resource_name} '#{name}' credentials"
-    converge_by "#{resource_name} '#{name}' credentials edited" do
+    Chef::Log.info "Updating #{resource_name} '#{name}' credentials"
+    converge_by "Update #{resource_name} '#{name}' credentials" do
       item.update(temp)
     end
   end

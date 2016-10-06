@@ -15,17 +15,6 @@ my_client = {
   password: ''
 }
 
-oneview_ethernet_network 'ChefBulkEthernet' do
-  client my_client
-  data(
-    'vlanIdRange' => '10-12',
-    'purpose' =>  'General',
-    'smartLink' => false,
-    'privateNetwork' => false
-  )
-  action :bulk_create
-end
-
 oneview_network_set 'ChefNetworkSet_0' do
   client my_client
   action :create

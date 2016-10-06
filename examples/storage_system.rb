@@ -25,7 +25,7 @@ storage_system_credentials = {
 oneview_storage_system 'StorageSystem1' do
   client my_client
   data(
-    credentials:storage_system_credentials,
+    credentials: storage_system_credentials,
     managedDomain: 'TestDomain'
   )
   action :add
@@ -35,7 +35,7 @@ end
 oneview_storage_system 'StorageSystem1' do
   client my_client
   data(
-    credentials:storage_system_credentials,
+    credentials: storage_system_credentials,
     managedDomain: 'TestDomain'
   )
   action :add_if_missing

@@ -36,7 +36,6 @@ describe 'oneview_test::default' do
 
     # oneview_ethernet_network
     expect(chef_run).to_not create_oneview_ethernet_network('')
-    expect(chef_run).to_not bulk_create_oneview_ethernet_network('')
     expect(chef_run).to_not create_oneview_ethernet_network_if_missing('')
     expect(chef_run).to_not reset_oneview_ethernet_network_connection_template('')
     expect(chef_run).to_not delete_oneview_ethernet_network('')
@@ -84,6 +83,11 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not delete_oneview_logical_switch('')
     expect(chef_run).to_not refresh_oneview_logical_switch('')
 
+    # oneview_managed_san
+    expect(chef_run).to_not set_oneview_managed_san_public_attributes('')
+    expect(chef_run).to_not set_oneview_managed_san_policy('')
+    expect(chef_run).to_not set_refresh_oneview_managed_san_state('')
+
     # oneview_network_set
     expect(chef_run).to_not create_oneview_network_set('')
     expect(chef_run).to_not create_oneview_network_set_if_missing('')
@@ -130,6 +134,11 @@ describe 'oneview_test::default' do
     # oneview_switch
     expect(chef_run).to_not remove_oneview_switch('')
     expect(chef_run).to_not none_oneview_switch('')
+
+    # oneview_unmanaged_device
+    expect(chef_run).to_not add_oneview_unmanaged_device('')
+    expect(chef_run).to_not add_oneview_unmanaged_device_if_missing('')
+    expect(chef_run).to_not remove_oneview_unmanaged_device('')
 
     # oneview_volume
     expect(chef_run).to_not create_oneview_volume('')

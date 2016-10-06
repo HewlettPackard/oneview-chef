@@ -15,32 +15,15 @@ my_client = {
   password: ''
 }
 
-# Example: Create and manage a new ethernet network
-oneview_ethernet_network 'Eth1' do
+oneview_unmanaged_device 'UnmanagedDevice1' do
   client my_client
   data(
-    vlanId: '1001',
-    purpose: 'General',
-    smartLink: false,
-    privateNetwork: false
+    model: 'Procurve 4200VL',
+    deviceType: 'Server'
   )
 end
 
-# Example: Create a new ethernet network only if it doesn't exist.
-# No updates will be made if the network exists but attributes differ
-oneview_ethernet_network 'Eth1' do
-  client my_client
-  data(
-    vlanId: '1001',
-    purpose: 'General',
-    smartLink: false,
-    privateNetwork: false
-  )
-  action :create_if_missing
-end
-
-# Example: Delete an ethernet network
-oneview_ethernet_network 'Eth1' do
+oneview_unmanaged_device 'UnmanagedDevice1' do
   client my_client
   action :delete
 end
