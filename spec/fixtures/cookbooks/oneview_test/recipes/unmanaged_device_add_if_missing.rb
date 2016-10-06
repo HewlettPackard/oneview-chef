@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: oneview_test
-# Recipe:: volume_create
+# Recipe:: unmanaged_device_add_if_missing
 #
 # (c) Copyright 2016 Hewlett Packard Enterprise Development LP
 #
@@ -14,16 +14,11 @@
 # specific language governing permissions and limitations under the License.
 #
 
-oneview_volume 'VOL1' do
+oneview_unmanaged_device 'UnmanagedDevice1' do
   client node['oneview_test']['client']
   data(
-    description: 'Volume created by Chef',
-    shareable: true,
-    provisionType: 'Thin',
-    provisionedCapacity: 1024 * 1024 * 1024 * 2 # 2GB
+    model: 'Procurve 4200VL',
+    deviceType: 'Server'
   )
-  storage_system 'StorageSystem1'
-  storage_pool 'Pool1'
-  snapshot_pool 'Pool2'
-  volume_template 'Template1'
+  action :add_if_missing
 end
