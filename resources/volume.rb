@@ -41,7 +41,6 @@ action_class do
       snapshot_pool_resource = OneviewSDK::StoragePool.find_by(item.client, name: snapshot_pool, storageSystemUri: item['storageSystemUri']).first
       item.set_snapshot_pool(snapshot_pool_resource)
     end
-
     item.set_storage_volume_template(OneviewSDK::VolumeTemplate.new(item.client, name: volume_template)) if volume_template
 
     # Convert capacity integers to strings

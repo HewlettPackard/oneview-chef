@@ -4,12 +4,11 @@ describe 'oneview_test::volume_create_if_missing' do
   let(:resource_name) { 'volume' }
   include_context 'chef context'
 
-
   before :each do
     allow(OneviewSDK::StoragePool).to receive(:find_by).and_return(
       [
         OneviewSDK::StoragePool.new(client, name: 'Pool1', uri: '/rest/fake', storageSystemUri: '/rest/storage-systems/1'),
-        OneviewSDK::StoragePool.new(client, name: 'Pool2', uri: '/rest/fake', storageSystemUri: '/rest/storage-systems/1'),
+        OneviewSDK::StoragePool.new(client, name: 'Pool2', uri: '/rest/fake', storageSystemUri: '/rest/storage-systems/1')
       ]
     )
     allow(OneviewSDK::StorageSystem).to receive(:find_by).with(kind_of(OneviewSDK::Client), name: 'StorageSystem1')
