@@ -130,6 +130,8 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not create_oneview_volume('')
     expect(chef_run).to_not create_oneview_volume_if_missing('')
     expect(chef_run).to_not delete_oneview_volume('')
+    expect(chef_run).to_not create_oneview_volume_snapshot('')
+    expect(chef_run).to_not delete_oneview_volume_snapshot('')
 
     # oneview_volume_template
     expect(chef_run).to_not create_oneview_volume_template('')

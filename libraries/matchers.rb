@@ -39,7 +39,7 @@ if defined?(ChefSpec)
     oneview_storage_pool:               [:add_if_missing, :remove],
     oneview_storage_system:             [:add, :remove, :edit_credentials, :add_if_missing],
     oneview_switch:                     [:remove, :none],
-    oneview_volume:                     standard_actions,
+    oneview_volume:                     standard_actions + [:create_snapshot, :delete_snapshot],
     oneview_volume_template:            standard_actions
   }
 

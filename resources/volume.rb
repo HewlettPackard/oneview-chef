@@ -16,6 +16,7 @@ property :storage_system_name, String
 property :storage_pool, String
 property :volume_template, String
 property :snapshot_pool, String
+property :snapshot_data, Hash
 
 default_action :create
 
@@ -81,4 +82,40 @@ end
 
 action :delete do
   delete
+end
+
+action :create_snapshot do
+  item = load_resource
+  raise "Unspecified property: 'snapshot_data'. Please set it before attempting this action." unless snapshot_data
+  raise "Resource not found: #{resource_name} '#{item['name']}'" unless item.exists?
+
+  temp = convert_keys(Marshal.load(Marshal.dump(snapshot_data)), :to_s)
+  item.retrieve!
+  snapshot = item.get_snapshot(temp['name'])
+  if snapshot.empty?
+    Chef::Log.info "Creating oneview_volume '#{name}' snapshot"
+    converge_by "Created oneview_volume '#{name}' snapshot" do
+      item.create_snapshot(temp)
+    end
+  else
+    Chef::Log.info "Volume snapshot '#{temp['name']}' already exists"
+  end
+end
+
+action :delete_snapshot do
+  item = load_resource
+  raise "Unspecified property: 'snapshot_data'. Please set it before attempting this action." unless snapshot_data
+  raise "Resource not found: #{resource_name} '#{item['name']}'" unless item.exists?
+
+  temp = convert_keys(Marshal.load(Marshal.dump(snapshot_data)), :to_s)
+  item.retrieve!
+  snapshot = item.get_snapshot(temp['name'])
+  if snapshot.empty?
+    Chef::Log.info "Volume snapshot '#{temp['name']}' is already deleted"
+  else
+    Chef::Log.info "Deleting oneview_volume '#{name}'"
+    converge_by "Deleted oneview_volume_snapshot '#{name}'" do
+      item.delete_snapshot(temp['name'])
+    end
+  end
 end
