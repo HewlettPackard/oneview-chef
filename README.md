@@ -360,8 +360,7 @@ oneview_volume 'Volume_1' do
   action [:create, :create_if_missing, :delete]
 end
 ```
-  - **storage_system_name** (String) Optional - Name of the Storage System to associate the Volume.
-  - **storage_system_ip** (String) Optional - IP address or hostname of the Storage System to associate the Volume.
+  - **storage_system** (String) Optional - IP address, hostname or name of the Storage System to associate the Volume.
   - **storage_pool** (String) Optional - Name of the Storage Pool from the Storage System to associate the Volume.
   - **volume_template** (String) Optional - Name of the Volume Template.
   - **snapshot_pool** (String) Optional - Name of the Storage Pool containing the snapshots.
@@ -488,6 +487,18 @@ oneview_power_device '<iPDU hostname>' do
   username <username>
   password <password>
   action :discover
+end
+```
+
+### oneview_san_manager
+
+SAN manager resource for HPE OneView
+
+```ruby
+oneview_san_manager '<host ip>' do
+  client <my_client>
+  data <data>
+  action [:add, :add_if_missing, :remove]
 end
 ```
 

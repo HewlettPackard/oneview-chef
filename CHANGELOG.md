@@ -1,3 +1,7 @@
+### New
+- Added support to Volume actions `:create_snapshot` and `:delete_snapshot`
+- Added support to SAN manager actions
+
 ### 0.2.0
   - Upgraded Ruby SDK version to ~> 2.1
   - Fixed add/create, delete/remove for resources
@@ -22,9 +26,8 @@
   - Added support to Switch actions
   - Added support to Firmware driver actions and integrated it with firmware bundles in a resource called Firmware
   - Added unit tests for volume template and merged `:storage_system_ip` and `:storage_system_name` into `:storage_system`
-  - Added support to Manage SAN actions
+  - Added support to Managed SAN actions
   - Added support to Unmanaged device actions
-  - Added support to Volume actions `:create_snapshot` and `:delete_snapshot`
 
 #### 0.1.1
   - Fixed Ruby SDK version to 1.0.0
