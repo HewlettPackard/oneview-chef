@@ -25,29 +25,45 @@ action_class do
   def load_resource_with_properties
     item = load_resource
     if native_network
-      native_net = OneviewSDK::EthernetNetwork.find_by(item.client, name: native_network).first
-      raise "Network #{native_network} not found." unless native_net
-      item['nativeNetworkUri'] = native_net['uri']
+      if native_network.nil? || native_network == 'nil'
+        item['nativeNetworkUri'] = nil
+      else
+        native_net = OneviewSDK::EthernetNetwork.find_by(item.client, name: native_network).first
+        raise "Network #{native_network} not found." unless native_net
+        item['nativeNetworkUri'] = native_net['uri']
+      end
     end
     if networks
-      networks.each do |net_name|
-        net = OneviewSDK::EthernetNetwork.find_by(item.client, name: net_name).first
-        raise "Ethernet Network #{net_name} not found." unless net
-        item.add_network(net)
+      if networks.empty?
+        item['networkUris'] = []
+      else
+        networks.each do |net_name|
+          net = OneviewSDK::EthernetNetwork.find_by(item.client, name: net_name).first
+          raise "Ethernet Network #{net_name} not found." unless net
+          item.add_network(net)
+        end
       end
     end
     if fc_networks
-      fc_networks.each do |net_name|
-        net = OneviewSDK::FCNetwork.find_by(item.client, name: net_name).first
-        raise "FC Network #{net_name} not found." unless net
-        item.add_fcnetwork(net)
+      if fc_networks.empty?
+        item['fcNetworkUris'] = []
+      else
+        fc_networks.each do |net_name|
+          net = OneviewSDK::FCNetwork.find_by(item.client, name: net_name).first
+          raise "FC Network #{net_name} not found." unless net
+          item.add_fcnetwork(net)
+        end
       end
     end
     if fcoe_networks
-      fcoe_networks.each do |net_name|
-        net = OneviewSDK::FCoENetwork.find_by(item.client, name: net_name).first
-        raise "FCoE Network #{net_name} not found." unless net
-        item.add_fcoenetwork(net)
+      if fcoe_networks.empty?
+        item['fcoeNetworkUris'] = []
+      else
+        fcoe_networks.each do |net_name|
+          net = OneviewSDK::FCoENetwork.find_by(item.client, name: net_name).first
+          raise "FCoE Network #{net_name} not found." unless net
+          item.add_fcoenetwork(net)
+        end
       end
     end
     if logical_interconnect
@@ -71,6 +87,7 @@ action_class do
 end
 
 action :create do
+  puts load_resource_with_properties.data
   create_or_update(load_resource_with_properties)
 end
 
