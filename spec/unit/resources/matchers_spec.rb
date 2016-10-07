@@ -105,6 +105,11 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not add_oneview_rack_to_rack('')
     expect(chef_run).to_not remove_oneview_rack_from_rack('')
 
+    # oneview_san_manager
+    expect(chef_run).to_not add_oneview_san_manager('')
+    expect(chef_run).to_not add_oneview_san_manager_if_missing('')
+    expect(chef_run).to_not remove_oneview_san_manager('')
+
     # oneview_server_hardware
     expect(chef_run).to_not add_oneview_server_hardware_if_missing('')
     expect(chef_run).to_not remove_oneview_server_hardware('')

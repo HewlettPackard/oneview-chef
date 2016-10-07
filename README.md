@@ -485,6 +485,18 @@ oneview_power_device '<iPDU hostname>' do
 end
 ```
 
+### oneview_san_manager
+
+SAN manager resource for HPE OneView
+
+```ruby
+oneview_san_manager '<host ip>' do
+  client <my_client>
+  data <data>
+  action [:add, :add_if_missing, :remove]
+end
+```
+
 ### oneview_server_hardware
 
 Server hardware resource for HPE OneView

@@ -22,8 +22,9 @@
   - Added support to Switch actions
   - Added support to Firmware driver actions and integrated it with firmware bundles in a resource called Firmware
   - Added unit tests for volume template and merged `:storage_system_ip` and `:storage_system_name` into `:storage_system`
-  - Added support to Manage SAN actions
+  - Added support to Managed SAN actions
   - Added support to Unmanaged device actions
+  - Added support to SAN manager actions
 
 #### 0.1.1
   - Fixed Ruby SDK version to 1.0.0
