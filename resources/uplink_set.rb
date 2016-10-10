@@ -75,11 +75,10 @@ action_class do
     # An IF statement by itself would try to iterate and raise an exception if locationEntries does not exist
     if defined? item.data['portConfigInfos'][0]['location']['locationEntries']
       item.data['portConfigInfos'][0]['location']['locationEntries'].each do |entry|
-        if entry && entry['type'] == 'Enclosure'
-          enclosure = OneviewSDK::Enclosure.find_by(item.client, name: entry['value']).first
-          raise "Enclosure #{entry['value']} not found." unless enclosure
-          entry['value'] = enclosure['uri']
-        end
+        next unless entry && entry['type'] == 'Enclosure'
+        enclosure = OneviewSDK::Enclosure.find_by(item.client, name: entry['value']).first
+        raise "Enclosure #{entry['value']} not found." unless enclosure
+        entry['value'] = enclosure['uri']
       end
     end
     item
@@ -87,7 +86,6 @@ action_class do
 end
 
 action :create do
-  # puts load_resource_with_properties.data
   create_or_update(load_resource_with_properties)
 end
 
