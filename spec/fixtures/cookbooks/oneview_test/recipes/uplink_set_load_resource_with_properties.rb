@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: oneview_test
-# Recipe:: uplink_set_create
+# Recipe:: uplink_set_load_resource_with_properties
 #
 # (c) Copyright 2016 Hewlett Packard Enterprise Development LP
 #
@@ -16,14 +16,6 @@
 
 oneview_uplink_set 'UplinkSet1' do
   client node['oneview_test']['client']
-  data(
-    reachability: 'Reachable',
-    manualLoginRedistributionState: 'NotSupported',
-    connectionMode: 'Auto',
-    lacpTimer: 'Short',
-    networkType: 'Ethernet',
-    ethernetNetworkType: 'Tagged',
-    description: 'nil'
-  )
-  action :create
+  networks ['Ethernet1']
+  logical_interconnect 'Encl1-LIG'
 end

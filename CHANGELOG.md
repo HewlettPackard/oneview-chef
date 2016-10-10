@@ -24,6 +24,7 @@
   - Added unit tests for volume template and merged `:storage_system_ip` and `:storage_system_name` into `:storage_system`
   - Added support to Manage SAN actions
   - Added support to Unmanaged device actions
+  - Added support to Uplink set actions
 
 #### 0.1.1
   - Fixed Ruby SDK version to 1.0.0
