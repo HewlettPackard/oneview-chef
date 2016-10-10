@@ -87,7 +87,7 @@ action_class do
 end
 
 action :create do
-  puts load_resource_with_properties.data
+  # puts load_resource_with_properties.data
   create_or_update(load_resource_with_properties)
 end
 
