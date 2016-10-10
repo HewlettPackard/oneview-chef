@@ -22,8 +22,8 @@ default_action :create
 action_class do
   include OneviewCookbook::Helper
   include OneviewCookbook::ResourceBase
-  def load_resource_with_properties
-    item = load_resource
+
+  def load_native_network(item)
     if native_network
       if native_network.nil? || native_network == 'nil'
         item['nativeNetworkUri'] = nil
@@ -33,6 +33,9 @@ action_class do
         item['nativeNetworkUri'] = native_net['uri']
       end
     end
+  end
+
+  def load_network(item)
     if networks
       if networks.empty?
         item['networkUris'] = []
@@ -44,6 +47,9 @@ action_class do
         end
       end
     end
+  end
+
+  def load_fc_network(item)
     if fc_networks
       if fc_networks.empty?
         item['fcNetworkUris'] = []
@@ -55,6 +61,9 @@ action_class do
         end
       end
     end
+  end
+
+  def load_fcoe_network(item)
     if fcoe_networks
       if fcoe_networks.empty?
         item['fcoeNetworkUris'] = []
@@ -66,13 +75,19 @@ action_class do
         end
       end
     end
+  end
+
+  def load_logical_interconnect(item)
     if logical_interconnect
       li = OneviewSDK::LogicalInterconnect.find_by(item.client, name: logical_interconnect).first
       raise "Logical Interconnect #{logical_interconnect} not found." unless li
       item.set_logical_interconnect(li)
     end
-    # Looks for enclosures within Location Entries
-    # An IF statement by itself would try to iterate and raise an exception if locationEntries does not exist
+  end
+
+  # Looks for enclosures within Location Entries
+  # An IF statement by itself would try to iterate and raise an exception if locationEntries does not exist
+  def load_enclosure(item)
     if defined? item.data['portConfigInfos'][0]['location']['locationEntries']
       item.data['portConfigInfos'][0]['location']['locationEntries'].each do |entry|
         next unless entry && entry['type'] == 'Enclosure'
@@ -81,6 +96,16 @@ action_class do
         entry['value'] = enclosure['uri']
       end
     end
+  end
+
+  def load_resource_with_properties
+    item = load_resource
+    load_native_network(item)
+    load_network(item)
+    load_fc_network(item)
+    load_fcoe_network(item)
+    load_logical_interconnect(item)
+    load_enclosure(item)
     item
   end
 end
