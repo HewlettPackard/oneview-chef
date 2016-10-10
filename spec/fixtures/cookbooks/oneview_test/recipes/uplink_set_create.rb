@@ -25,7 +25,7 @@ oneview_uplink_set 'UplinkSet1' do
     ethernetNetworkType: 'Tagged',
     description: 'nil'
   )
-  networks ['Ethernet1']
-  logical_interconnect 'Encl1-LIG'
+  # networks ['Ethernet1']
+  # logical_interconnect 'Encl1-LIG'
   action :create
 end
