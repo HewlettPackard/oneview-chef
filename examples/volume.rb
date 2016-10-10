@@ -68,6 +68,25 @@ oneview_volume 'CHEF_VOL_03' do
   volume_template 'Template1' # Name of the VolumeTemplate
 end
 
+# Example: Create a snapshot from the volume created by this recipe
+oneview_volume 'CHEF_VOL_01' do
+  client my_client
+  snapshot_data(
+    name: 'CHEF_VOL_SNAP_01',
+    description: 'Volume snapshot'
+  )
+  action :create_snapshot
+end
+
+# Example: Delete a volume snapshot
+oneview_volume 'CHEF_VOL_01' do
+  client my_client
+  snapshot_data(
+    name: 'CHEF_VOL_SNAP_01'
+  )
+  action :delete_snapshot
+end
+
 # Example: Make sure a volume does not exist
 oneview_volume 'CHEF_VOL_04' do
   client my_client
