@@ -89,7 +89,7 @@ action :create_snapshot do
   raise "Unspecified property: 'snapshot_data'. Please set it before attempting this action." unless snapshot_data
   raise "Resource not found: #{resource_name} '#{item['name']}'" unless item.exists?
 
-  temp = convert_keys(Marshal.load(Marshal.dump(snapshot_data)), :to_s)
+  temp = convert_keys(snapshot_data, :to_s)
   item.retrieve!
   snapshot = item.get_snapshot(temp['name'])
   if snapshot.empty?
