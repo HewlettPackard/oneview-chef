@@ -344,24 +344,29 @@ Volume resource for HPE OneView.
 ```ruby
 oneview_volume 'Volume_1' do
   client <my_client>
+  snapshot_data <snapshot_data>
+  action [:create_snapshot, :delete_snapshot]
+end
+```
+
+```ruby
+oneview_volume 'Volume_1' do
+  client <my_client>
   data <resource_data>
-  storage_system_name <storage_system_name>
-  storage_system_ip <storage_system_ip>
+  storage_system <storage_system>
   storage_pool <storage_pool_name>
   volume_template <volume_template_name>
   snapshot_pool <snapshot_pool_name>
   action [:create, :create_if_missing, :delete]
 end
 ```
-  - **storage_system_name** (String) Optional - Name of the Storage System to associate the Volume.
-  - **storage_system_ip** (String) Optional - IP address or hostname of the Storage System to associate the Volume.
+  - **storage_system** (String) Optional - IP address, hostname or name of the Storage System to associate the Volume.
   - **storage_pool** (String) Optional - Name of the Storage Pool from the Storage System to associate the Volume.
   - **volume_template** (String) Optional - Name of the Volume Template.
   - **snapshot_pool** (String) Optional - Name of the Storage Pool containing the snapshots.
 
-:memo: **NOTE**: Only one of `storage_system_name` and `storage_system_ip` need to be provided. If both are specified at once, the `storage_system_ip` prevails, then ignoring the `storage_system_name` value.
-
 :memo: **NOTE**: The OneView API has a provisioningParameters hash for creation, but not updates. In recipes, use same data as you would for an update, and this resource will handle creating the provisioningParameters for you if the volume needs created. (Define the desired state, not how to create it). See the [volume example](examples/volume.rb) for more on this.
+
 
 ### oneview_volume_template
 
@@ -482,6 +487,18 @@ oneview_power_device '<iPDU hostname>' do
   username <username>
   password <password>
   action :discover
+end
+```
+
+### oneview_san_manager
+
+SAN manager resource for HPE OneView
+
+```ruby
+oneview_san_manager '<host ip>' do
+  client <my_client>
+  data <data>
+  action [:add, :add_if_missing, :remove]
 end
 ```
 
