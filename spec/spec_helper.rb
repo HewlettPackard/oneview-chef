@@ -4,6 +4,7 @@ require 'simplecov'
 SimpleCov.start do
   add_filter 'spec/'
   add_filter 'matchers.rb'
+  add_filter '.direnv/'
   add_group 'Libraries', 'libraries'
   add_group 'Resources', 'resources'
   minimum_coverage 98

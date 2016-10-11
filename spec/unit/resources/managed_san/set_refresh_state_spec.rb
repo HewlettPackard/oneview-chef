@@ -6,7 +6,7 @@ describe 'oneview_test::managed_san_set_refresh_state' do
 
   it 'fails whe it does not exist' do
     allow_any_instance_of(OneviewSDK::ManagedSAN).to receive(:exists?).and_return(false)
-    expect { real_chef_run }.to raise_error(/Resource not found: oneview_managed_san 'ManagedSAN1'/)
+    expect { real_chef_run }.to raise_error(RuntimeError, /Resource not found: oneview_managed_san 'ManagedSAN1'/)
   end
 
   it 'sets the policy if it is no alike' do
