@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: oneview_test
-# Recipe:: volume_create
+# Recipe:: volume_template_create
 #
 # (c) Copyright 2016 Hewlett Packard Enterprise Development LP
 #
@@ -14,16 +14,15 @@
 # specific language governing permissions and limitations under the License.
 #
 
-oneview_volume 'VOL1' do
+oneview_volume_template 'VolumeTemplate1' do
   client node['oneview_test']['client']
   data(
-    description: 'Volume created by Chef',
-    shareable: true,
-    provisionType: 'Thin',
-    provisionedCapacity: 1024 * 1024 * 1024 * 2 # 2GB
+    provisioning: {
+      provisionType: 'Full',
+      shareable: false,
+      capacity: 1024 * 1024 * 1024 # 1GB
+    }
   )
-  storage_system 'StorageSystem1'
-  storage_pool 'Pool1'
-  snapshot_pool 'Pool2'
-  volume_template 'Template1'
+  storage_system '172.18.11.11'
+  storage_pool 'CPG-SSD'
 end

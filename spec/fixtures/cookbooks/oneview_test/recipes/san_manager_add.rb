@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: oneview_test
-# Recipe:: volume_create
+# Recipe:: san_manager_add
 #
 # (c) Copyright 2016 Hewlett Packard Enterprise Development LP
 #
@@ -14,16 +14,32 @@
 # specific language governing permissions and limitations under the License.
 #
 
-oneview_volume 'VOL1' do
+oneview_san_manager '172.18.15.1' do
   client node['oneview_test']['client']
   data(
-    description: 'Volume created by Chef',
-    shareable: true,
-    provisionType: 'Thin',
-    provisionedCapacity: 1024 * 1024 * 1024 * 2 # 2GB
+    providerDisplayName: 'Brocade Network Advisor',
+    connectionInfo:
+    [
+      {
+        name: 'Host',
+        value: '172.18.15.1'
+      },
+      {
+        name: 'Port',
+        value: '5989'
+      },
+      {
+        name: 'Username',
+        value: 'Admin'
+      },
+      {
+        name: 'Password',
+        value: 'Secret123'
+      },
+      {
+        name: 'UseSsl',
+        value: true
+      }
+    ]
   )
-  storage_system 'StorageSystem1'
-  storage_pool 'Pool1'
-  snapshot_pool 'Pool2'
-  volume_template 'Template1'
 end

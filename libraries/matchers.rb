@@ -22,7 +22,7 @@ if defined?(ChefSpec)
     oneview_datacenter:                 [:add, :remove, :add_if_missing],
     oneview_enclosure:                  [:add, :remove, :refresh, :reconfigure],
     oneview_enclosure_group:            standard_actions + [:set_script],
-    oneview_ethernet_network:           standard_actions + [:bulk_create, :reset_connection_template],
+    oneview_ethernet_network:           standard_actions + [:reset_connection_template],
     oneview_fc_network:                 standard_actions,
     oneview_fcoe_network:               standard_actions,
     oneview_firmware:                   [:add, :remove, :create_custom_spp],
@@ -31,15 +31,18 @@ if defined?(ChefSpec)
     oneview_logical_interconnect_group: standard_actions,
     oneview_logical_switch_group:       standard_actions,
     oneview_logical_switch:             standard_actions + [:refresh],
+    oneview_managed_san:                [:set_refresh_state, :set_policy, :set_public_attributes],
     oneview_network_set:                standard_actions,
     oneview_power_device:               [:add, :add_if_missing, :discover, :remove],
     oneview_rack:                       [:add, :remove, :add_if_missing, :add_to_rack, :remove_from_rack],
+    oneview_san_manager:                [:add, :add_if_missing, :remove],
     oneview_server_hardware:            [:add_if_missing, :remove, :refresh, :set_power_state, :update_ilo_firmware],
     oneview_server_hardware_type:       [:edit, :remove],
     oneview_storage_pool:               [:add_if_missing, :remove],
     oneview_storage_system:             [:add, :remove, :edit_credentials, :add_if_missing],
     oneview_switch:                     [:remove, :none],
-    oneview_volume:                     standard_actions,
+    oneview_unmanaged_device:           [:add, :remove, :add_if_missing],
+    oneview_volume:                     standard_actions + [:create_snapshot, :delete_snapshot],
     oneview_volume_template:            standard_actions
   }
 

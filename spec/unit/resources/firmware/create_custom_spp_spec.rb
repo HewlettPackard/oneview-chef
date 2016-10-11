@@ -26,7 +26,7 @@ describe 'oneview_test::firmware_create_custom_spp_invalid_spp' do
   include_context 'chef context'
 
   it 'spp not given' do
-    expect { real_chef_run }.to raise_error(/Unspecified property: 'spp_name'/)
+    expect { real_chef_run }.to raise_error(RuntimeError, /Unspecified property: 'spp_name'/)
   end
 end
 
@@ -35,6 +35,6 @@ describe 'oneview_test::firmware_create_custom_spp_invalid_hotfix' do
   include_context 'chef context'
 
   it 'hotfix not given' do
-    expect { real_chef_run }.to raise_error(/Unspecified property: 'hotfixes_names'/)
+    expect { real_chef_run }.to raise_error(RuntimeError, /Unspecified property: 'hotfixes_names'/)
   end
 end

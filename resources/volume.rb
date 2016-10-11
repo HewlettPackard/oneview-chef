@@ -11,11 +11,11 @@
 
 OneviewCookbook::ResourceBaseProperties.load(self)
 
-property :storage_system_ip, String
-property :storage_system_name, String
+property :storage_system, String
 property :storage_pool, String
 property :volume_template, String
 property :snapshot_pool, String
+property :snapshot_data, Hash
 
 default_action :create
 
@@ -32,12 +32,15 @@ action_class do
     # item.set_storage_pool(OneviewSDK::StoragePool.new(item.client, name: storage_pool)) if storage_pool
     # Workaround for issue in oneview-sdk:
     if storage_pool
-      sp = OneviewSDK::StoragePool.find_by(item.client, name: storage_pool).first
+      sp = OneviewSDK::StoragePool.find_by(item.client, name: storage_pool, storageSystemUri: item['storageSystemUri']).first
       raise "Storage Pool '#{sp['name']}' not found" unless sp
       item['storagePoolUri'] = sp['uri']
     end
 
-    item.set_snapshot_pool(OneviewSDK::StoragePool.new(item.client, name: snapshot_pool)) if snapshot_pool
+    if snapshot_pool
+      snapshot_pool_resource = OneviewSDK::StoragePool.find_by(item.client, name: snapshot_pool, storageSystemUri: item['storageSystemUri']).first
+      item.set_snapshot_pool(snapshot_pool_resource)
+    end
     item.set_storage_volume_template(OneviewSDK::VolumeTemplate.new(item.client, name: volume_template)) if volume_template
 
     # Convert capacity integers to strings
@@ -57,17 +60,15 @@ action_class do
   # Loads Storage System in the given Volume resource.
   # The properties storage_system_name or storage_system_ip properties needs to be used in the recipe
   #  for this code to load the Storage System.
-  # The storage_system_ip property has priority above the others
   # @param [OneviewSDK::Volume] item Volume to add the Storage System
   # @return [OneviewSDK::Volume] Volume with Storage System parameters updated
   def load_storage_system(item)
-    warn_msg = "Both StorageSystem name '#{storage_system_name}' and IP '#{storage_system_ip}' were provided. Name is being ignored!"
-    Chef::Log.warn(warn_msg) if storage_system_name && storage_system_ip
-    if storage_system_ip
-      item.set_storage_system(OneviewSDK::StorageSystem.new(item.client, credentials: { ip_hostname: storage_system_ip }))
-    elsif storage_system_name
-      item.set_storage_system(OneviewSDK::StorageSystem.new(item.client, name: storage_system_name))
+    raise "Unspecified property: 'storage_system'. Please set it before attempting this action." unless storage_system
+    storage_system_resource = OneviewSDK::StorageSystem.new(item.client, credentials: { ip_hostname: storage_system })
+    unless storage_system_resource.exists?
+      storage_system_resource = OneviewSDK::StorageSystem.new(item.client, name: storage_system)
     end
+    item.set_storage_system(storage_system_resource)
   end
 end
 
@@ -81,4 +82,40 @@ end
 
 action :delete do
   delete
+end
+
+action :create_snapshot do
+  item = load_resource
+  raise "Unspecified property: 'snapshot_data'. Please set it before attempting this action." unless snapshot_data
+  raise "Resource not found: #{resource_name} '#{item['name']}'" unless item.exists?
+
+  temp = convert_keys(snapshot_data, :to_s)
+  item.retrieve!
+  snapshot = item.get_snapshot(temp['name'])
+  if snapshot.empty?
+    Chef::Log.info "Creating oneview_volume '#{name}' snapshot"
+    converge_by "Created oneview_volume '#{name}' snapshot" do
+      item.create_snapshot(temp)
+    end
+  else
+    Chef::Log.info "Volume snapshot '#{temp['name']}' already exists"
+  end
+end
+
+action :delete_snapshot do
+  item = load_resource
+  raise "Unspecified property: 'snapshot_data'. Please set it before attempting this action." unless snapshot_data
+  raise "Resource not found: #{resource_name} '#{item['name']}'" unless item.exists?
+
+  temp = convert_keys(Marshal.load(Marshal.dump(snapshot_data)), :to_s)
+  item.retrieve!
+  snapshot = item.get_snapshot(temp['name'])
+  if snapshot.empty?
+    Chef::Log.info "Volume snapshot '#{temp['name']}' is already deleted"
+  else
+    Chef::Log.info "Deleting oneview_volume '#{name}'"
+    converge_by "Deleted oneview_volume_snapshot '#{name}'" do
+      item.delete_snapshot(temp['name'])
+    end
+  end
 end

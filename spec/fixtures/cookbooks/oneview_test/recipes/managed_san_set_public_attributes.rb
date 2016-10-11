@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: oneview_test
-# Recipe:: ethernet_network_create
+# Recipe:: managed_san_set_public_attributes
 #
 # (c) Copyright 2016 Hewlett Packard Enterprise Development LP
 #
@@ -14,13 +14,17 @@
 # specific language governing permissions and limitations under the License.
 #
 
-oneview_ethernet_network 'BulkEthernetNetwork' do
+oneview_managed_san 'ManagedSAN1' do
   client node['oneview_test']['client']
   data(
-    vlanIdRange: '10-12',
-    purpose:  'General',
-    smartLink: false,
-    privateNetwork: false
+    publicAttributes: [
+      {
+        name: 'MetaSan',
+        value: 'Neon SAN',
+        valueType: 'String',
+        valueFormat: 'None'
+      }
+    ]
   )
-  action :bulk_create
+  action :set_public_attributes
 end
