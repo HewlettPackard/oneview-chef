@@ -13,7 +13,10 @@ OneviewCookbook::ResourceBaseProperties.load(self)
 
 property :bay_number, Fixnum
 property :enclosure, String
-property :internal_network_list, Array
+property :internal_networks, Array
+property :trap_destinations, Hash, default: []
+property :firmware, String
+property :firmware_data, Hash, default: {}
 
 default_action :none
 
@@ -21,7 +24,7 @@ action_class do
   include OneviewCookbook::Helper
   include OneviewCookbook::ResourceBase
   def interconnect_handler(present_block, absent_block, item = nil)
-    item ||= load_resource
+    item = load_resource if item.nil?
     raise "Unspecified property: 'bay_number'. Please set it before attempting this action." unless bay_number
     raise "Unspecified property: 'enclosure'. Please set it before attempting this action." unless enclosure
     interconnect_list = OneviewSDK::Interconnect.find_by(item.client, {})
@@ -43,13 +46,23 @@ action_class do
     end
   end
 
-  def update_handler(action, key = nil, item = nil, temp = nil)
-    item ||= load_resource
-    temp ||= if key
-               { key.to_s => Marshal.load(Marshal.dump(item[key])) }
-             else
-               Marshal.load(Marshal.dump(item.data))
-             end
+  def recursive_set(actual, updates)
+    updates.each_pair do |k, v|
+      if v.respond_to?(:each_pair)
+        recursive_set(actual[k], v)
+      else
+        actual[k] = v
+      end
+    end
+  end
+
+  def update_handler(action, key = nil, item = nil)
+    item = load_resource if item.nil?
+    temp = if key
+            { key.to_s => Marshal.load(Marshal.dump(item[key])) }
+          else
+            Marshal.load(Marshal.dump(item.data))
+          end
     raise "Resource not found: Action '#{action}' cannot be performed since #{resource_name} '#{name}' was not found." unless item.exists?
     item.retrieve!
     return Chef::Log.info("#{resource_name} '#{name}' is up to date") if item.like?(temp)
@@ -58,10 +71,25 @@ action_class do
     Chef::Log.debug "Current state: #{JSON.pretty_generate(item.data)}"
     Chef::Log.debug "Desired state: #{JSON.pretty_generate(temp)}"
     diff = get_diff(item, temp)
-    temp[key].each { |k, v| item[key][k] = v } if key
+    recursive_set(item.data, temp)
     converge_by "#{action.to_s.capitalize.tr('_', ' ')} #{resource_name} '#{name}'#{diff}" do
       item.send(action)
     end
+  end
+
+  def firmware_handler(action)
+    item = load_resource
+    current_firmware = item.get_firmware
+    firmware_data['command'] = action
+    firmware_data.each_pair.select { |k, v|  current_firmware[k] != v }  # TODO
+    end
+    matches = (current_firmware['command'] == action) &&
+    raise "Unspecified property: 'firmware'. Please set it before attempting this action." unless firmware || firmware_data['sppName']
+    firmware ||= firmware_data['sppName']
+    fd = OneviewSDK::FirmwareDriver.find_by(item.client, name: firmware).first
+    raise "Resource not found: Firmware action '#{action}' cannot be performed since the firmware '#{firmware}' was not found." unless fd
+    item.retrieve!
+
   end
 end
 
@@ -96,14 +124,15 @@ end
 
 action :update_internal_networks do
   item = load_resource
-  internal_network_list.collect! { |n| OneviewSDK::EthernetNetwork.new(item.client, name: n) }
   item.retrieve!
-  if item['internalNetworkUris'].sort == internal_network_list.sort
+  internal_networks = [] if internal_networks.nil?
+  internal_networks.collect! { |n| OneviewSDK::EthernetNetwork.find_by(item.client, name: n).first }
+  if item['internalNetworkUris'].sort == internal_networks.collect { |x| x['uri'] }.sort
     Chef::Log.info("Internal networks for #{resource_name} #{name} are up to date")
   else
-    diff = get_diff(item, 'internalNetworkUris' => internal_network_list)
+    diff = get_diff(item, 'internalNetworkUris' => internal_networks)
     converge_by("Update internal networks for #{resource_name} '#{name}'#{diff}") do
-      item.update_internal_networks(*internal_network_list)
+      item.update_internal_networks(*internal_networks)
     end
   end
 end
@@ -114,15 +143,6 @@ end
 
 action :update_ethernet_settings do
   update_handler(:update_ethernet_settings, 'ethernetSettings')
-end
-
-action :rogue do
-  item = load_resource
-  item.retrieve!
-  item['ethernetSettings']['igmpIdleTimeoutInterval'] = 750
-  converge_by 'Action update_ethernet_settings test' do
-    item.update_ethernet_settings
-  end
 end
 
 action :update_port_monitor do
@@ -138,10 +158,25 @@ action :update_telemetry_configuration do
 end
 
 action :update_snmp_configuration do
-  update_handler(:update_snmp_configuration, 'snmpConfiguration')
+  item = load_resource
+  traps = convert_keys(trap_destinations, :to_s)
+  item['snmpConfiguration']['trapDestinations'] ||= []
+  traps.each_pair do |k, v|
+    trap_opts = item.generate_trap_options(v['enetTraps'], v['fcTraps'], v['vcmTraps'], v['severities'])
+    item.add_snmp_trap_destination(k, v['trapFormat'], v['communityString'], trap_opts)
+  end
+  update_handler(:update_snmp_configuration, 'snmpConfiguration', item)
 end
 
 action :update_firmware do
+  # TODO
+end
+
+action :stage_firmware do
+  # TODO
+end
+
+action :activate_firmware do
   # TODO
 end
 
