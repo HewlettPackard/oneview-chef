@@ -6,7 +6,7 @@ describe 'oneview_test::volume_create_snapshot' do
 
   it 'raises error when resource does not exists' do
     expect_any_instance_of(OneviewSDK::Volume).to receive(:exists?).and_return(false)
-    expect { real_chef_run }.to raise_error(/Resource not found: oneview_volume 'Volume1'/)
+    expect { real_chef_run }.to raise_error(RuntimeError, /Resource not found: oneview_volume 'Volume1'/)
   end
 
   it 'does nothing when a snapshot already exists with the same name' do
@@ -31,6 +31,6 @@ describe 'oneview_test::volume_create_snapshot_invalid' do
   include_context 'chef context'
 
   it 'needs snapshot_data attribute' do
-    expect { real_chef_run }.to raise_error(/Unspecified property: 'snapshot_data'. Please set it before attempting this action./)
+    expect { real_chef_run }.to raise_error(RuntimeError, /Unspecified property: 'snapshot_data'. Please set it/)
   end
 end
