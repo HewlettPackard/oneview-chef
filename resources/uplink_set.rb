@@ -29,7 +29,14 @@ action_class do
       if native_network.nil? || native_network == 'nil'
         item['nativeNetworkUri'] = nil
       else
-        native_net = OneviewSDK::EthernetNetwork.find_by(item.client, name: native_network).first
+        # Retrieves the uplink set type based on the declared networkType parameter
+        # Takes either Ethernet (default) or FibreChannel
+        network_type = if item['networkType'] == 'Ethernet'
+                         'EthernetNetwork'
+                       else
+                         'FCNetwork'
+                       end
+        native_net = Object.const_get('OneviewSDK::' + network_type).find_by(item.client, name: native_network).first
         raise "Network #{native_network} not found." unless native_net
         item['nativeNetworkUri'] = native_net['uri']
       end
@@ -93,7 +100,7 @@ action_class do
       item.data['portConfigInfos'][0]['location']['locationEntries'].each do |entry|
         # Checks whether the Enclosure has been declared, and sets its URI in case the user has referenced it by name
         # If the URI is already present, the following block is simply skipped
-        next unless entry && (!entry['value'].to_s[0..16].include?('/rest/enclosures') || entry['type'] == 'Enclosure')
+        next unless entry && entry['type'] == 'Enclosure' && !entry['value'].to_s[0..17].include?('/rest/enclosures/')
         enclosure = OneviewSDK::Enclosure.find_by(item.client, name: entry['value']).first
         raise "Enclosure #{entry['value']} not found." unless enclosure
         entry['value'] = enclosure['uri']
