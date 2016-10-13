@@ -557,7 +557,7 @@ end
 Uplink set resource for HPE OneView
 
 ```ruby
-oneview_unmanaged_device 'UnmanagedDevice1' do
+oneview_uplink_set 'UplinkSet1' do
   client <my_client>
   data <data>
   native_network # The name of the network that is designated as the native network

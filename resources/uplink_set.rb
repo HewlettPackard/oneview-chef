@@ -11,11 +11,11 @@
 
 OneviewCookbook::ResourceBaseProperties.load(self)
 
-property :native_network, String
-property :networks, Array
-property :fc_networks, Array
-property :fcoe_networks, Array
-property :logical_interconnect, String
+property :native_network, String       # Native network name - can be null
+property :networks, Array              # Array of strings containing Ethernet Network names - required
+property :fc_networks, Array           # Array of strings containing FC network names - required
+property :fcoe_networks, Array         # Array of strings containing FCoE Network names - required
+property :logical_interconnect, String # Associated logical interconnect name - required
 
 default_action :create
 
@@ -23,6 +23,7 @@ action_class do
   include OneviewCookbook::Helper
   include OneviewCookbook::ResourceBase
 
+  # Checks for external resources to be loaded within the item
   def load_native_network(item)
     if native_network
       if native_network.nil? || native_network == 'nil'
@@ -90,7 +91,9 @@ action_class do
   def load_enclosure(item)
     if defined? item.data['portConfigInfos'][0]['location']['locationEntries']
       item.data['portConfigInfos'][0]['location']['locationEntries'].each do |entry|
-        next unless entry && entry['type'] == 'Enclosure'
+        # Checks whether the Enclosure has been declared, and sets its URI in case the user has referenced it by name
+        # If the URI is already present, the following block is simply skipped
+        next unless entry && (!entry['value'].to_s[0..16].include?('/rest/enclosures') || entry['type'] == 'Enclosure')
         enclosure = OneviewSDK::Enclosure.find_by(item.client, name: entry['value']).first
         raise "Enclosure #{entry['value']} not found." unless enclosure
         entry['value'] = enclosure['uri']
@@ -98,6 +101,7 @@ action_class do
     end
   end
 
+  # Broken-down method calls
   def load_resource_with_properties
     item = load_resource
     load_native_network(item)

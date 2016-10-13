@@ -9,6 +9,13 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
+# NOTE: This recipe requires:
+# - Ethernet Networks: Ethernet1, Ethernet2
+# - FC Network: FCNetwork1
+# - FCoE Network: FCoENetwork1
+# - Logical Interconnect: LogicalInterconnect1
+# - Enclosure: MyEnclosure
+
 my_client = {
   url: '',
   user: '',
@@ -16,6 +23,11 @@ my_client = {
 }
 
 # Example: creates or updates an uplink set
+# The Ethernet, FC, FCoE and Native Networks, as well as the associated Logical Interconnect,
+# could be more conveniently declared by their names outside the data hash, as in the following
+# example (URIs will not be accepted in this case). Notice that you can also declare an Enclosure
+# within the locationEntries parameter by the Enclosure name instead of its URI.
+# The portConfigInfos parameter is optional, as OneView creates it for you)
 oneview_uplink_set 'UplinkSet1' do
   client my_client
   data(
@@ -26,12 +38,25 @@ oneview_uplink_set 'UplinkSet1' do
     networkType: 'Ethernet',
     ethernetNetworkType: 'Tagged',
     description: nil,
+    portConfigInfos:
+    [
+      location:
+      {
+        locationEntries:
+        [
+          {
+            value: 'MyEnclosure',
+            type: 'Enclosure'
+          }
+        ]
+      }
+    ]
   )
-  logical_interconnect 'LogicalInterconnect1'
-  networks ['Ethernet1', 'Ethernet2']
-  fc_networks['FCNetwork1']
-  fcoe_network['FCoENetwork1']
-  native_network nil
+  logical_interconnect 'LogicalInterconnect1' # Name of the associated logical interconnect
+  networks ['Ethernet1', 'Ethernet2'] # Array of strings containing the name of the associated ethernet networks (can be empty - [])
+  fc_networks ['FCNetwork1'] # Array of strings containing the name of the associated fc networks (can be empty - [])
+  fcoe_network ['FCoENetwork1'] # Array of strings containing the name of the associated fcoe networks (can be empty - [])
+  native_network nil # Name of the native network (can be null)
 end
 
 # Example: creates an uplink set if it does not exist yet
@@ -44,7 +69,7 @@ oneview_uplink_set 'UplinkSet1' do
     lacpTimer: 'Short',
     networkType: 'Ethernet',
     ethernetNetworkType: 'Tagged',
-    description: nil,
+    description: nil
   )
   action :create_if_missing
 end
