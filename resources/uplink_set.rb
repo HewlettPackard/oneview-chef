@@ -25,20 +25,17 @@ action_class do
 
   # Checks for external resources to be loaded within the item
   def load_native_network(item)
-    if !native_network || native_network.nil? || native_network == 'nil'
+    unless native_network
       item['nativeNetworkUri'] = nil
-    else
-      # Retrieves the uplink set type based on the declared networkType parameter
-      # Takes either Ethernet (default) or FibreChannel
-      network_type = if item['networkType'] == 'Ethernet'
-                       'EthernetNetwork'
-                     else
-                       'FCNetwork'
-                     end
-      native_net = Object.const_get('OneviewSDK::' + network_type).find_by(item.client, name: native_network).first
-      raise "Network #{native_network} not found." unless native_net
-      item['nativeNetworkUri'] = native_net['uri']
+      return
     end
+
+    # Retrieves the uplink set type based on the declared networkType parameter
+    # Takes either Ethernet (default) or FibreChannel
+    network_type = item['networkType'] == 'Ethernet' ? 'EthernetNetwork' : 'FCNetwork'
+    native_net = Object.const_get('OneviewSDK::' + network_type).find_by(item.client, name: native_network).first
+    raise "Network #{native_network} not found." unless native_net
+    item['nativeNetworkUri'] = native_net['uri']
   end
 
   def load_network(item)

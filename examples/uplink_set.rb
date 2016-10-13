@@ -56,7 +56,7 @@ oneview_uplink_set 'UplinkSet1' do
   networks ['Ethernet1', 'Ethernet2'] # Array of strings containing the name of the associated ethernet networks (can be empty - [])
   fc_networks ['FCNetwork1'] # Array of strings containing the name of the associated fc networks (can be empty - [])
   fcoe_network ['FCoENetwork1'] # Array of strings containing the name of the associated fcoe networks (can be empty - [])
-  native_network 'nil' # Name of the native network (can be null)
+  native_network nil # Name of the native network (can be nil)
 end
 
 # Example: creates an uplink set if it does not exist yet
