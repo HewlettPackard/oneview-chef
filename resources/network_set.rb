@@ -23,12 +23,14 @@ action_class do
     item = load_resource
     if native_network
       native_net = OneviewSDK::EthernetNetwork.find_by(item.client, name: native_network).first
+      raise "Native network #{native_network} not found!" unless native_net
       item.set_native_network(native_net)
     end
 
     if ethernet_network_list
       ethernet_network_list.each do |net_name|
         net = OneviewSDK::EthernetNetwork.find_by(item.client, name: net_name).first
+        raise "Network #{net_name} not found!" unless net
         item.add_ethernet_network(net)
       end
     end
