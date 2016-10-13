@@ -140,6 +140,11 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not add_oneview_unmanaged_device_if_missing('')
     expect(chef_run).to_not remove_oneview_unmanaged_device('')
 
+    # oneview_uplink_set
+    expect(chef_run).to_not create_oneview_uplink_set('')
+    expect(chef_run).to_not create_oneview_uplink_set_if_missing('')
+    expect(chef_run).to_not delete_oneview_uplink_set('')
+
     # oneview_volume
     expect(chef_run).to_not create_oneview_volume('')
     expect(chef_run).to_not create_oneview_volume_if_missing('')

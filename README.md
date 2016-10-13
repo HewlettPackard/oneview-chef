@@ -555,6 +555,24 @@ oneview_unmanaged_device 'UnmanagedDevice1' do
 end
 ```
 
+### oneview_uplink_set
+
+Uplink set resource for HPE OneView
+
+```ruby
+oneview_uplink_set 'UplinkSet1' do
+  client <my_client>
+  data <data>
+  fc_networks # Array of assigned FC networks - Optional
+  fcoe_networks # Array of assigned FCoE networks - Optional
+  networks # Array of assigned Ethernet networks - Optional
+  logical_interconnect # Name of the assigned Logical Interconnect - Optional
+  native_network # The name of the network that is designated as the native network - Optional
+                 # The native network has to be added to one of the network arrays before being declared
+  action [:create, :create_if_missing, :delete]
+end
+```
+
 ## Examples
 
 :information_source: There are plenty more examples in the [examples](examples) directory showing more detailed usage of each resource, but here's a few to get you started:
