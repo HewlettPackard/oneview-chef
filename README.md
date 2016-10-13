@@ -560,11 +560,12 @@ Uplink set resource for HPE OneView
 oneview_uplink_set 'UplinkSet1' do
   client <my_client>
   data <data>
-  native_network # The name of the network that is designated as the native network
-  fc_networks # Array of assigned FC networks
-  fcoe_networks # Array of assigned FCoE networks
-  networks # Array of assigned Ethernet networks
-  logical_interconnect # Name of the assigned Logical Interconnect
+  fc_networks # Array of assigned FC networks - Optional
+  fcoe_networks # Array of assigned FCoE networks - Optional
+  networks # Array of assigned Ethernet networks - Optional
+  logical_interconnect # Name of the assigned Logical Interconnect - Optional
+  native_network # The name of the network that is designated as the native network - Optional
+                 # The native network has to be added to one of the network arrays before being declared
   action [:create, :create_if_missing, :delete]
 end
 ```

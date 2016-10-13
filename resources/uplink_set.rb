@@ -11,11 +11,11 @@
 
 OneviewCookbook::ResourceBaseProperties.load(self)
 
-property :native_network, String       # Native network name - can be null
-property :networks, Array              # Array of strings containing Ethernet Network names - required
-property :fc_networks, Array           # Array of strings containing FC network names - required
-property :fcoe_networks, Array         # Array of strings containing FCoE Network names - required
-property :logical_interconnect, String # Associated logical interconnect name - required
+property :native_network, String       # Native network name
+property :networks, Array              # Array of strings containing Ethernet Network names
+property :fc_networks, Array           # Array of strings containing FC network names
+property :fcoe_networks, Array         # Array of strings containing FCoE Network names
+property :logical_interconnect, String # Associated logical interconnect name
 
 default_action :create
 
@@ -25,21 +25,19 @@ action_class do
 
   # Checks for external resources to be loaded within the item
   def load_native_network(item)
-    if native_network
-      if native_network.nil? || native_network == 'nil'
-        item['nativeNetworkUri'] = nil
-      else
-        # Retrieves the uplink set type based on the declared networkType parameter
-        # Takes either Ethernet (default) or FibreChannel
-        network_type = if item['networkType'] == 'Ethernet'
-                         'EthernetNetwork'
-                       else
-                         'FCNetwork'
-                       end
-        native_net = Object.const_get('OneviewSDK::' + network_type).find_by(item.client, name: native_network).first
-        raise "Network #{native_network} not found." unless native_net
-        item['nativeNetworkUri'] = native_net['uri']
-      end
+    if !native_network || native_network.nil? || native_network == 'nil'
+      item['nativeNetworkUri'] = nil
+    else
+      # Retrieves the uplink set type based on the declared networkType parameter
+      # Takes either Ethernet (default) or FibreChannel
+      network_type = if item['networkType'] == 'Ethernet'
+                       'EthernetNetwork'
+                     else
+                       'FCNetwork'
+                     end
+      native_net = Object.const_get('OneviewSDK::' + network_type).find_by(item.client, name: native_network).first
+      raise "Network #{native_network} not found." unless native_net
+      item['nativeNetworkUri'] = native_net['uri']
     end
   end
 
