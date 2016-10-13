@@ -15,6 +15,7 @@ my_client = {
   password: ''
 }
 
+# Example: Adds an unmanaged device (default action)
 oneview_unmanaged_device 'UnmanagedDevice1' do
   client my_client
   data(
@@ -23,7 +24,8 @@ oneview_unmanaged_device 'UnmanagedDevice1' do
   )
 end
 
+# Example: Removes an unmanaged device
 oneview_unmanaged_device 'UnmanagedDevice1' do
   client my_client
-  action :delete
+  action :remove
 end

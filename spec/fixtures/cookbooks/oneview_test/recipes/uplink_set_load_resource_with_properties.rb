@@ -16,6 +16,23 @@
 
 oneview_uplink_set 'UplinkSet1' do
   client node['oneview_test']['client']
+  data(
+    portConfigInfos:
+    [
+      location:
+      {
+        locationEntries:
+        [
+          {
+            value: 'Encl1',
+            type: 'Enclosure'
+          }
+        ]
+      }
+    ]
+  )
   networks ['Ethernet1']
   logical_interconnect 'Encl1-LIG'
+  fcoe_networks ['FCoE1']
+  fc_networks ['FC1']
 end
