@@ -1,6 +1,7 @@
 # Cookbook for HPE OneView
 
 [![Cookbook Version](https://img.shields.io/cookbook/v/oneview.svg)](https://supermarket.chef.io/cookbooks/oneview)
+[![Build Status](https://travis-ci.org/HewlettPackard/oneview-chef.svg?branch=master)](https://travis-ci.org/HewlettPackard/oneview-chef)
 
 Chef cookbook that provides resources for managing OneView.
 
