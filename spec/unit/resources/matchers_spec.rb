@@ -67,6 +67,10 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not reconfigure_oneview_logical_enclosure('')
     expect(chef_run).to_not set_oneview_logical_enclosure_script('')
 
+    # oneview_logical_interconnect
+    expect(chef_run).to_not add_oneview_logical_interconnect_interconnect('')
+    expect(chef_run).to_not remove_oneview_logical_interconnect_interconnect('')
+
     # oneview_logical_interconnect_group
     expect(chef_run).to_not create_oneview_logical_interconnect_group('')
     expect(chef_run).to_not create_oneview_logical_interconnect_group_if_missing('')

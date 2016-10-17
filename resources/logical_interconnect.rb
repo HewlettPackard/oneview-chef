@@ -13,8 +13,8 @@ OneviewCookbook::ResourceBaseProperties.load(self)
 
 property :bay_number, Fixnum
 property :enclosure, String
-property :internal_networks, Array
-property :trap_destinations, Hash, default: []
+property :internal_networks, Array, default: []
+property :trap_destinations, Hash, default: {}
 property :firmware, String
 property :firmware_data, Hash, default: {}
 
@@ -59,10 +59,10 @@ action_class do
   def update_handler(action, key = nil, item = nil)
     item = load_resource if item.nil?
     temp = if key
-            { key.to_s => Marshal.load(Marshal.dump(item[key])) }
-          else
-            Marshal.load(Marshal.dump(item.data))
-          end
+             { key.to_s => Marshal.load(Marshal.dump(item[key])) }
+           else
+             Marshal.load(Marshal.dump(item.data))
+           end
     raise "Resource not found: Action '#{action}' cannot be performed since #{resource_name} '#{name}' was not found." unless item.exists?
     item.retrieve!
     return Chef::Log.info("#{resource_name} '#{name}' is up to date") if item.like?(temp)
@@ -79,17 +79,21 @@ action_class do
 
   def firmware_handler(action)
     item = load_resource
+    item.retrieve!
     current_firmware = item.get_firmware
     firmware_data['command'] = action
-    firmware_data.each_pair.select { |k, v|  current_firmware[k] != v }  # TODO
-    end
-    matches = (current_firmware['command'] == action) &&
+    dif_values = firmware_data.select { |k, v| current_firmware[k] != v }
     raise "Unspecified property: 'firmware'. Please set it before attempting this action." unless firmware || firmware_data['sppName']
-    firmware ||= firmware_data['sppName']
+    # unless firmware
+    #   firmware = firmware_data['sppName']
+    # end
+    return Chef::Log.info("Firmware #{firmware} from logical interconnect '#{name}' is up to date") if dif_values.empty?
     fd = OneviewSDK::FirmwareDriver.find_by(item.client, name: firmware).first
+    puts JSON.pretty_generate(OneviewSDK::FirmwareDriver.find_by(item.client, {}).last.data)
     raise "Resource not found: Firmware action '#{action}' cannot be performed since the firmware '#{firmware}' was not found." unless fd
-    item.retrieve!
-
+    converge_by "#{action.capitalize} firmware '#{firmware}' from logical interconnect '#{name}'" do
+      item.firmware_update(action, fd, firmware_data)
+    end
   end
 end
 
@@ -125,7 +129,6 @@ end
 action :update_internal_networks do
   item = load_resource
   item.retrieve!
-  internal_networks = [] if internal_networks.nil?
   internal_networks.collect! { |n| OneviewSDK::EthernetNetwork.find_by(item.client, name: n).first }
   if item['internalNetworkUris'].sort == internal_networks.collect { |x| x['uri'] }.sort
     Chef::Log.info("Internal networks for #{resource_name} #{name} are up to date")
@@ -160,7 +163,9 @@ end
 action :update_snmp_configuration do
   item = load_resource
   traps = convert_keys(trap_destinations, :to_s)
-  item['snmpConfiguration']['trapDestinations'] ||= []
+  unless item['snmpConfiguration']['trapDestinations']
+    item['snmpConfiguration']['trapDestinations'] = []
+  end
   traps.each_pair do |k, v|
     trap_opts = item.generate_trap_options(v['enetTraps'], v['fcTraps'], v['vcmTraps'], v['severities'])
     item.add_snmp_trap_destination(k, v['trapFormat'], v['communityString'], trap_opts)
@@ -169,15 +174,15 @@ action :update_snmp_configuration do
 end
 
 action :update_firmware do
-  # TODO
+  firmware_handler('Update')
 end
 
 action :stage_firmware do
-  # TODO
+  firmware_handler('Stage')
 end
 
 action :activate_firmware do
-  # TODO
+  firmware_handler('Activate')
 end
 
 action :update_from_group do
