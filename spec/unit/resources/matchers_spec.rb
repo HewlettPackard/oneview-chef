@@ -70,6 +70,8 @@ describe 'oneview_test::default' do
     # oneview_logical_interconnect
     expect(chef_run).to_not add_oneview_logical_interconnect_interconnect('')
     expect(chef_run).to_not remove_oneview_logical_interconnect_interconnect('')
+    expect(chef_run).to_not reapply_oneview_logical_interconnect_configuration('')
+    expect(chef_run).to_not update_oneview_logical_interconnect_from_group('')
 
     # oneview_logical_interconnect_group
     expect(chef_run).to_not create_oneview_logical_interconnect_group('')
