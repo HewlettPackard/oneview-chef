@@ -1,6 +1,8 @@
 # Cookbook for HPE OneView
 
 [![Cookbook Version](https://img.shields.io/cookbook/v/oneview.svg)](https://supermarket.chef.io/cookbooks/oneview)
+[![Travis Build Status](https://travis-ci.org/HewlettPackard/oneview-chef.svg?branch=master)](https://travis-ci.org/HewlettPackard/oneview-chef)
+[![Chef Build Status](https://jenkins-01.eastus.cloudapp.azure.com/job/oneview-cookbook/badge/icon)](https://jenkins-01.eastus.cloudapp.azure.com/job/oneview-cookbook/) 
 
 Chef cookbook that provides resources for managing OneView.
 
@@ -27,7 +29,7 @@ depends 'oneview'
 
 ## Attributes
 
- - `node['oneview']['ruby_sdk_version']` - Set which version of the SDK to install and use. Defaults to `'~> 1.0'`
+ - `node['oneview']['ruby_sdk_version']` - Set which version of the SDK to install and use. Defaults to `'~> 2.1'`
  - `node['oneview']['save_resource_info']` - Save resource info to a node attribute? Defaults to `['uri']`. Possible values/types:
    - `true` - Save all info (Merged hash of OneView info and Chef resource properties). Warning: Resource credentials will be saved if specified.
    - `false` - Do not save any info
@@ -48,7 +50,7 @@ The following are the standard parameters available for all resources. Some reso
    - `:create` - (Default) Ensure this resource exists and matches the data given.
    - `:create_if_missing` - Ensure this resource exists, but don't ensure it is up to date on subsequent chef-client runs.
    - `:delete` - Delete this resource from OneView. For this, you only need to specify the resource name or uri in the data section.
- - **save_resource_info**: (See the `node['oneview']['save_resource_info']` attribute above.) Defaults to `node['oneview']['save_resource_info']`. Doesn't apply to the `:delete` action
+ - **save_resource_info**: Defaults to `node['oneview']['save_resource_info']` (see the attribute above). Doesn't apply to the `:delete` action
    - Once the resource is created, you can access this data at `node['oneview'][<oneview_url>][<resource_name>]`. This can be useful to extract URIs from other resources, etc.
 
 ### oneview_resource
@@ -69,6 +71,8 @@ end
 ```
 
 **type:** String or Symbol corresponding to the name of the resource type. For example, `EthernetNetwork`, `Enclosure`, `Volume` etc. These should line up with the OneView SDK resource classes listed [here](https://github.com/HewlettPackard/oneview-sdk-ruby/tree/master/lib/oneview-sdk/resource).
+
+See the [example](examples/oneview_resource.rb) for more details.
 
 ### oneview_ethernet_network
 
@@ -569,6 +573,24 @@ oneview_unmanaged_device 'UnmanagedDevice1' do
   client <my_client>
   data <data>
   action [:add, :add_if_missing, :remove]
+end
+```
+
+### oneview_uplink_set
+
+Uplink set resource for HPE OneView
+
+```ruby
+oneview_uplink_set 'UplinkSet1' do
+  client <my_client>
+  data <data>
+  fc_networks          # Array of assigned FC network names - Optional
+  fcoe_networks        # Array of assigned FCoE network names - Optional
+  networks             # Array of assigned Ethernet network names - Optional
+  logical_interconnect # Name of the assigned Logical Interconnect - Optional
+  native_network       # Name of the network that is designated as the native network - Optional
+                       # The native network has to be added to one of the network arrays before being declared
+  action [:create, :create_if_missing, :delete]
 end
 ```
 
