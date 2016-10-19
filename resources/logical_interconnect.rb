@@ -84,12 +84,8 @@ action_class do
     firmware_data['command'] = action
     dif_values = firmware_data.select { |k, v| current_firmware[k] != v }
     raise "Unspecified property: 'firmware'. Please set it before attempting this action." unless firmware || firmware_data['sppName']
-    # unless firmware
-    #   firmware = firmware_data['sppName']
-    # end
     return Chef::Log.info("Firmware #{firmware} from logical interconnect '#{name}' is up to date") if dif_values.empty?
     fd = OneviewSDK::FirmwareDriver.find_by(item.client, name: firmware).first
-    puts JSON.pretty_generate(OneviewSDK::FirmwareDriver.find_by(item.client, {}).last.data)
     raise "Resource not found: Firmware action '#{action}' cannot be performed since the firmware '#{firmware}' was not found." unless fd
     converge_by "#{action.capitalize} firmware '#{firmware}' from logical interconnect '#{name}'" do
       item.firmware_update(action, fd, firmware_data)
@@ -149,7 +145,7 @@ action :update_ethernet_settings do
 end
 
 action :update_port_monitor do
-  update_handler(:update_ethernet_settings, 'portMonitor')
+  update_handler(:update_port_monitor, 'portMonitor')
 end
 
 action :update_qos_configuration do

@@ -72,6 +72,16 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not remove_oneview_logical_interconnect_interconnect('')
     expect(chef_run).to_not reapply_oneview_logical_interconnect_configuration('')
     expect(chef_run).to_not update_oneview_logical_interconnect_from_group('')
+    expect(chef_run).to_not activate_oneview_logical_interconnect_firmware('')
+    expect(chef_run).to_not stage_oneview_logical_interconnect_firmware('')
+    expect(chef_run).to_not update_oneview_logical_interconnect_ethernet_settings('')
+    expect(chef_run).to_not update_oneview_logical_interconnect_firmware('')
+    expect(chef_run).to_not update_oneview_logical_interconnect_internal_networks('')
+    expect(chef_run).to_not update_oneview_logical_interconnect_port_monitor('')
+    expect(chef_run).to_not update_oneview_logical_interconnect_qos_configuration('')
+    expect(chef_run).to_not update_oneview_logical_interconnect_settings('')
+    expect(chef_run).to_not update_oneview_logical_interconnect_snmp_configuration('')
+    expect(chef_run).to_not update_oneview_logical_interconnect_telemetry_configuration('')
 
     # oneview_logical_interconnect_group
     expect(chef_run).to_not create_oneview_logical_interconnect_group('')
