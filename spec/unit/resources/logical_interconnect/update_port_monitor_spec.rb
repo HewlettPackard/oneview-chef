@@ -11,7 +11,7 @@ describe 'oneview_test::logical_interconnect_update_port_monitor' do
     allow_any_instance_of(OneviewSDK::LogicalInterconnect).to receive(:like?).and_return(false)
   end
 
-  it 'adds one interconnect when there is no interconnect' do
+  it 'updates port monitor configurations' do
     expect_any_instance_of(OneviewSDK::LogicalInterconnect).to receive(:update_port_monitor).and_return(true)
     expect(real_chef_run).to update_oneview_logical_interconnect_port_monitor('LogicalInterconnect-update_port_monitor')
   end

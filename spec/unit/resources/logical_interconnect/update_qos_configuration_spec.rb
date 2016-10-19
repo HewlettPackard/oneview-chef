@@ -11,7 +11,7 @@ describe 'oneview_test::logical_interconnect_update_qos_configuration' do
     allow_any_instance_of(OneviewSDK::LogicalInterconnect).to receive(:like?).and_return(false)
   end
 
-  it 'adds one interconnect when there is no interconnect' do
+  it 'updates quality of service configurations' do
     expect_any_instance_of(OneviewSDK::LogicalInterconnect).to receive(:update_qos_configuration).and_return(true)
     expect(real_chef_run).to update_oneview_logical_interconnect_qos_configuration('LogicalInterconnect-update_qos_configuration')
   end

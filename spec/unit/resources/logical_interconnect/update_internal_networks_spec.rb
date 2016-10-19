@@ -5,7 +5,7 @@ describe 'oneview_test::logical_interconnect_update_internal_networks' do
   include_context 'chef context'
   include_context 'shared context'
 
-  it 'adds one interconnect when there is no interconnect' do
+  it 'updates the internal networks' do
     allow_any_instance_of(OneviewSDK::LogicalInterconnect).to receive(:retrieve!).and_return(true)
     eth_1 = OneviewSDK::EthernetNetwork.new(@client, name: 'UnitEth_1', uri: 'rest/ethernet/fake1')
     eth_2 = OneviewSDK::EthernetNetwork.new(@client, name: 'UnitEth_2', uri: 'rest/ethernet/fake2')
