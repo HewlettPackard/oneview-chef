@@ -1,6 +1,7 @@
 ### New
-- Added support to Volume actions `:create_snapshot` and `:delete_snapshot`
-- Added support to SAN manager actions
+  - Added support to Volume actions `:create_snapshot` and `:delete_snapshot`
+  - Added support to SAN manager actions
+  - Added support to Logical Interconnect
 
 ### 0.2.0
   - Upgraded Ruby SDK version to ~> 2.1
