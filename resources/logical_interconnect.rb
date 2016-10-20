@@ -87,7 +87,12 @@ action_class do
     return Chef::Log.info("Firmware #{firmware} from logical interconnect '#{name}' is up to date") if dif_values.empty?
     fd = OneviewSDK::FirmwareDriver.find_by(item.client, name: firmware).first
     raise "Resource not found: Firmware action '#{action}' cannot be performed since the firmware '#{firmware}' was not found." unless fd
-    converge_by "#{action.capitalize} firmware '#{firmware}' from logical interconnect '#{name}'" do
+    diff = get_diff(current_firmware, firmware_data)
+    Chef::Log.info "#{action.to_s.capitalize.tr('_', ' ')} #{resource_name} '#{name}'"
+    Chef::Log.debug "#{resource_name} '#{name}' Chef resource firmware options differs from OneView resource."
+    Chef::Log.debug "Current state: #{JSON.pretty_generate(current_firmware)}"
+    Chef::Log.debug "Desired state: #{JSON.pretty_generate(firmware_data)}"
+    converge_by "#{action.capitalize} firmware '#{firmware}' from logical interconnect '#{name}'#{diff}" do
       item.firmware_update(action, fd, firmware_data)
     end
   end
