@@ -1,5 +1,4 @@
 ### New
-<<<<<<< HEAD
   - Added support to Volume actions `:create_snapshot` and `:delete_snapshot`
   - Added support to SAN manager actions
   - Added support to Uplink set actions
