@@ -1,6 +1,8 @@
 # Cookbook for HPE OneView
 
 [![Cookbook Version](https://img.shields.io/cookbook/v/oneview.svg)](https://supermarket.chef.io/cookbooks/oneview)
+[![Travis Build Status](https://travis-ci.org/HewlettPackard/oneview-chef.svg?branch=master)](https://travis-ci.org/HewlettPackard/oneview-chef)
+[![Chef Build Status](https://jenkins-01.eastus.cloudapp.azure.com/job/oneview-cookbook/badge/icon)](https://jenkins-01.eastus.cloudapp.azure.com/job/oneview-cookbook/)
 
 Chef cookbook that provides resources for managing OneView.
 
@@ -27,7 +29,7 @@ depends 'oneview'
 
 ## Attributes
 
- - `node['oneview']['ruby_sdk_version']` - Set which version of the SDK to install and use. Defaults to `'~> 1.0'`
+ - `node['oneview']['ruby_sdk_version']` - Set which version of the SDK to install and use. Defaults to `'~> 2.1'`
  - `node['oneview']['save_resource_info']` - Save resource info to a node attribute? Defaults to `['uri']`. Possible values/types:
    - `true` - Save all info (Merged hash of OneView info and Chef resource properties). Warning: Resource credentials will be saved if specified.
    - `false` - Do not save any info
@@ -48,7 +50,7 @@ The following are the standard parameters available for all resources. Some reso
    - `:create` - (Default) Ensure this resource exists and matches the data given.
    - `:create_if_missing` - Ensure this resource exists, but don't ensure it is up to date on subsequent chef-client runs.
    - `:delete` - Delete this resource from OneView. For this, you only need to specify the resource name or uri in the data section.
- - **save_resource_info**: (See the `node['oneview']['save_resource_info']` attribute above.) Defaults to `node['oneview']['save_resource_info']`. Doesn't apply to the `:delete` action
+ - **save_resource_info**: Defaults to `node['oneview']['save_resource_info']` (see the attribute above). Doesn't apply to the `:delete` action
    - Once the resource is created, you can access this data at `node['oneview'][<oneview_url>][<resource_name>]`. This can be useful to extract URIs from other resources, etc.
 
 ### oneview_resource
@@ -69,6 +71,8 @@ end
 ```
 
 **type:** String or Symbol corresponding to the name of the resource type. For example, `EthernetNetwork`, `Enclosure`, `Volume` etc. These should line up with the OneView SDK resource classes listed [here](https://github.com/HewlettPackard/oneview-sdk-ruby/tree/master/lib/oneview-sdk/resource).
+
+See the [example](examples/oneview_resource.rb) for more details.
 
 ### oneview_ethernet_network
 
@@ -153,6 +157,26 @@ oneview_interconnect 'Interconnect1' do
   uid_light_state <uid_light_state_string> # Required for :set_uid_light
   power_state <power_state_string> # Required for :set_power_state
   action [:reset, :reset_port_protection, :update_port, :set_uid_light, :set_power_state]
+end
+```
+
+### oneview_logical_interconnect
+
+Performs actions in the logical interconnect and associated interconnects.
+
+By default it performs the action `:none`.
+
+```Ruby
+oneview_interconnect 'LogicalInterconnect1' do
+  client <my_client>
+  data <resource_data>
+  firmware <firmware_name> # String: Optional for actions like :<action>_firwmare (can be replaced by data attribute 'sppName')
+  firmware_data <firmware_data> # Hash: Optional for actions like :<action>_firwmare
+  internal_networks <networks_names> # Array: Optional for :update_internal_networks
+  trap_destinations <trap_options> # Hash: Optional for :update_snmp_configuration
+  enclosure <enclosure_name> # String: Required for :add_interconnect and :remove_interconnect
+  bay_number <bay> # Fixnum: Required for :add_interconnect and :remove_interconnect
+  action [:none, :add_interconnect, :remove_interconnect, :update_internal_networks, :update_settings,:update_ethernet_settings, :update_port_monitor, :update_qos_configuration, :update_telemetry_configuration, :update_snmp_configuration, :update_firmware, :stage_firmware, :activate_firmware, :update_from_group, :reapply_configuration]
 end
 ```
 
@@ -344,24 +368,29 @@ Volume resource for HPE OneView.
 ```ruby
 oneview_volume 'Volume_1' do
   client <my_client>
+  snapshot_data <snapshot_data>
+  action [:create_snapshot, :delete_snapshot]
+end
+```
+
+```ruby
+oneview_volume 'Volume_1' do
+  client <my_client>
   data <resource_data>
-  storage_system_name <storage_system_name>
-  storage_system_ip <storage_system_ip>
+  storage_system <storage_system>
   storage_pool <storage_pool_name>
   volume_template <volume_template_name>
   snapshot_pool <snapshot_pool_name>
   action [:create, :create_if_missing, :delete]
 end
 ```
-  - **storage_system_name** (String) Optional - Name of the Storage System to associate the Volume.
-  - **storage_system_ip** (String) Optional - IP address or hostname of the Storage System to associate the Volume.
+  - **storage_system** (String) Optional - IP address, hostname or name of the Storage System to associate the Volume.
   - **storage_pool** (String) Optional - Name of the Storage Pool from the Storage System to associate the Volume.
   - **volume_template** (String) Optional - Name of the Volume Template.
   - **snapshot_pool** (String) Optional - Name of the Storage Pool containing the snapshots.
 
-:memo: **NOTE**: Only one of `storage_system_name` and `storage_system_ip` need to be provided. If both are specified at once, the `storage_system_ip` prevails, then ignoring the `storage_system_name` value.
-
 :memo: **NOTE**: The OneView API has a provisioningParameters hash for creation, but not updates. In recipes, use same data as you would for an update, and this resource will handle creating the provisioningParameters for you if the volume needs created. (Define the desired state, not how to create it). See the [volume example](examples/volume.rb) for more on this.
+
 
 ### oneview_volume_template
 
@@ -438,6 +467,7 @@ oneview_storage_system 'ThreePAR7200-81471' do
   )
   action :edit_credentials
 end
+```
 
 ### oneview_logical_enclosure
 
@@ -523,6 +553,57 @@ oneview_server_hardware_type 'ServerHardwareType1' do
 end
 ```
 
+### oneview_server_profile_template
+
+Server profile resource for HPE OneView
+
+```ruby
+oneview_server_profile_template 'ServerProfileTemplate1' do
+  client <my_client>
+  data <data>
+  server_hardware <server_hardware_name>
+  server_hardware_type <server_hardware_type_name>
+  enclosure_group <enclosure_group_name>
+  enclosure <enclosure_name>
+  firmware_driver <firmware_driver_name>
+  ethernet_network_connections <ethernet_network_connections_data>
+  fc_network_connections <fc_network_connections_data>
+  network_set_connections <network_set_connections_data>
+  profile_name <profile_name>
+  action [:create, :create_if_missing, :delete, :nwe_profile]
+end
+```
+
+You can specify the association of the server profile with each of the resources using the resource properties. Also it is easy to add connections using the connection properties:
+
+- **<resource_name>_connections** (Hash) Optional - Specify connections with the desired resource type. The Hash should have `<network_name> => <connection_data>` associations. See the examples for more information.
+
+
+### oneview_server_profile
+
+Server profile resource for HPE OneView
+
+```ruby
+oneview_server_profile 'ServerProfile1' do
+  client <my_client>
+  data <data>
+  server_hardware <server_hardware_name>
+  server_hardware_type <server_hardware_type_name>
+  enclosure_group <enclosure_group_name>
+  enclosure <enclosure_name>
+  firmware_driver <firmware_driver_name>
+  ethernet_network_connections <ethernet_network_connections_data>
+  fc_network_connections <fc_network_connections_data>
+  network_set_connections <network_set_connections_data>
+  action [:create, :create_if_missing, :delete]
+end
+```
+
+You can specify the association of the server profile with each of the resources using the resource properties. Also it is easy to add connections using the connection properties:
+
+- **<resource_name>_connections** (Hash) Optional - Specify connections with the desired resource type. The Hash should have `<network_name> => <connection_data>` associations. See the examples for more information.
+
+
 ### oneview_switch
 
 Switch resource for HPE OneView
@@ -544,6 +625,24 @@ oneview_unmanaged_device 'UnmanagedDevice1' do
   client <my_client>
   data <data>
   action [:add, :add_if_missing, :remove]
+end
+```
+
+### oneview_uplink_set
+
+Uplink set resource for HPE OneView
+
+```ruby
+oneview_uplink_set 'UplinkSet1' do
+  client <my_client>
+  data <data>
+  fc_networks          # Array of assigned FC network names - Optional
+  fcoe_networks        # Array of assigned FCoE network names - Optional
+  networks             # Array of assigned Ethernet network names - Optional
+  logical_interconnect # Name of the assigned Logical Interconnect - Optional
+  native_network       # Name of the network that is designated as the native network - Optional
+                       # The native network has to be added to one of the network arrays before being declared
+  action [:create, :create_if_missing, :delete]
 end
 ```
 

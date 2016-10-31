@@ -21,4 +21,16 @@ describe 'oneview_test::network_set_load_resource_with_properties' do
     allow_any_instance_of(OneviewSDK::NetworkSet).to receive(:create).and_return(true)
     expect(real_chef_run).to create_oneview_network_set('NetworkSet4')
   end
+
+  it 'prints a nice error message if the native_set cannot be found' do
+    expect(OneviewSDK::EthernetNetwork).to receive(:find_by).with(anything, name: 'FakeEthernetNetwork0').and_return([])
+    expect { real_chef_run }.to raise_error(RuntimeError, /Native network FakeEthernetNetwork0 not found/)
+  end
+
+  it 'prints a nice error message if a network cannot be found' do
+    fake_eth0 = OneviewSDK::EthernetNetwork.new(@client, name: 'FakeEthernetNetwork0', uri: 'rest/fake0')
+    expect(OneviewSDK::EthernetNetwork).to receive(:find_by).with(anything, name: 'FakeEthernetNetwork0').and_return([fake_eth0])
+    expect(OneviewSDK::EthernetNetwork).to receive(:find_by).with(anything, name: 'FakeEthernetNetwork1').and_return([])
+    expect { real_chef_run }.to raise_error(RuntimeError, /Network FakeEthernetNetwork1 not found/)
+  end
 end

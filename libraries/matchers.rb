@@ -14,7 +14,7 @@ if defined?(ChefSpec)
   # To see a full list of the actual matchers, see spec/unit/resources/matchers_spec.rb
   standard_actions = [:create, :create_if_missing, :delete]
   # Lists all the possible action verbs
-  action_list = %w(create add delete remove set reset refresh update configure reconfigure edit none discover new)
+  action_list = %w(create add delete remove set reset refresh update configure reconfigure edit none discover apply reapply activate stage new)
 
   oneview_resources = {
     oneview_resource:                   standard_actions,
@@ -29,6 +29,10 @@ if defined?(ChefSpec)
     oneview_interconnect:               [:set_uid_light, :set_power_state, :reset, :reset_port_protection, :update_port],
     oneview_logical_enclosure:          [:update_from_group, :reconfigure, :set_script],
     oneview_logical_interconnect_group: standard_actions,
+    oneview_logical_interconnect:       [:none, :add_interconnect, :remove_interconnect, :update_internal_networks, :update_settings,
+                                         :update_ethernet_settings, :update_port_monitor, :update_qos_configuration, :update_telemetry_configuration,
+                                         :update_snmp_configuration, :update_firmware, :stage_firmware, :activate_firmware, :update_from_group,
+                                         :reapply_configuration],
     oneview_logical_switch_group:       standard_actions,
     oneview_logical_switch:             standard_actions + [:refresh],
     oneview_managed_san:                [:set_refresh_state, :set_policy, :set_public_attributes],
@@ -39,11 +43,13 @@ if defined?(ChefSpec)
     oneview_server_hardware:            [:add_if_missing, :remove, :refresh, :set_power_state, :update_ilo_firmware],
     oneview_server_hardware_type:       [:edit, :remove],
     oneview_server_profile_template:    standard_actions + [:new_profile],
+    oneview_server_profile:             standard_actions,
     oneview_storage_pool:               [:add_if_missing, :remove],
     oneview_storage_system:             [:add, :remove, :edit_credentials, :add_if_missing],
     oneview_switch:                     [:remove, :none],
     oneview_unmanaged_device:           [:add, :remove, :add_if_missing],
-    oneview_volume:                     standard_actions,
+    oneview_uplink_set:                 standard_actions,
+    oneview_volume:                     standard_actions + [:create_snapshot, :delete_snapshot],
     oneview_volume_template:            standard_actions
   }
 

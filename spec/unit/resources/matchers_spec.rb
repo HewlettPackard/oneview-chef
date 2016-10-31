@@ -67,6 +67,22 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not reconfigure_oneview_logical_enclosure('')
     expect(chef_run).to_not set_oneview_logical_enclosure_script('')
 
+    # oneview_logical_interconnect
+    expect(chef_run).to_not add_oneview_logical_interconnect_interconnect('')
+    expect(chef_run).to_not remove_oneview_logical_interconnect_interconnect('')
+    expect(chef_run).to_not reapply_oneview_logical_interconnect_configuration('')
+    expect(chef_run).to_not update_oneview_logical_interconnect_from_group('')
+    expect(chef_run).to_not activate_oneview_logical_interconnect_firmware('')
+    expect(chef_run).to_not stage_oneview_logical_interconnect_firmware('')
+    expect(chef_run).to_not update_oneview_logical_interconnect_ethernet_settings('')
+    expect(chef_run).to_not update_oneview_logical_interconnect_firmware('')
+    expect(chef_run).to_not update_oneview_logical_interconnect_internal_networks('')
+    expect(chef_run).to_not update_oneview_logical_interconnect_port_monitor('')
+    expect(chef_run).to_not update_oneview_logical_interconnect_qos_configuration('')
+    expect(chef_run).to_not update_oneview_logical_interconnect_settings('')
+    expect(chef_run).to_not update_oneview_logical_interconnect_snmp_configuration('')
+    expect(chef_run).to_not update_oneview_logical_interconnect_telemetry_configuration('')
+
     # oneview_logical_interconnect_group
     expect(chef_run).to_not create_oneview_logical_interconnect_group('')
     expect(chef_run).to_not create_oneview_logical_interconnect_group_if_missing('')
@@ -121,6 +137,17 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not edit_oneview_server_hardware_type('')
     expect(chef_run).to_not remove_oneview_server_hardware_type('')
 
+    # oneview_server_profile
+    expect(chef_run).to_not create_oneview_server_profile('')
+    expect(chef_run).to_not create_oneview_server_profile_if_missing('')
+    expect(chef_run).to_not delete_oneview_server_profile('')
+
+    # oneview_server_profile_template
+    expect(chef_run).to_not create_oneview_server_profile_template('')
+    expect(chef_run).to_not create_oneview_server_profile_template_if_missing('')
+    expect(chef_run).to_not new_oneview_server_profile_template_profile('')
+    expect(chef_run).to_not delete_oneview_server_profile_template('')
+
     # oneview_storage_pool
     expect(chef_run).to_not add_oneview_storage_pool_if_missing('')
     expect(chef_run).to_not remove_oneview_storage_pool('')
@@ -140,10 +167,17 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not add_oneview_unmanaged_device_if_missing('')
     expect(chef_run).to_not remove_oneview_unmanaged_device('')
 
+    # oneview_uplink_set
+    expect(chef_run).to_not create_oneview_uplink_set('')
+    expect(chef_run).to_not create_oneview_uplink_set_if_missing('')
+    expect(chef_run).to_not delete_oneview_uplink_set('')
+
     # oneview_volume
     expect(chef_run).to_not create_oneview_volume('')
     expect(chef_run).to_not create_oneview_volume_if_missing('')
     expect(chef_run).to_not delete_oneview_volume('')
+    expect(chef_run).to_not create_oneview_volume_snapshot('')
+    expect(chef_run).to_not delete_oneview_volume_snapshot('')
 
     # oneview_volume_template
     expect(chef_run).to_not create_oneview_volume_template('')
