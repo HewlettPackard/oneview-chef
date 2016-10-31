@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: oneview_test
-# Recipe:: server_profile_delete
+# Recipe:: server_profile_properties
 #
 # (c) Copyright 2016 Hewlett Packard Enterprise Development LP
 #
