@@ -160,6 +160,26 @@ oneview_interconnect 'Interconnect1' do
 end
 ```
 
+### oneview_logical_interconnect
+
+Performs actions in the logical interconnect and associated interconnects.
+
+By default it performs the action `:none`.
+
+```Ruby
+oneview_interconnect 'LogicalInterconnect1' do
+  client <my_client>
+  data <resource_data>
+  firmware <firmware_name> # String: Optional for actions like :<action>_firwmare (can be replaced by data attribute 'sppName')
+  firmware_data <firmware_data> # Hash: Optional for actions like :<action>_firwmare
+  internal_networks <networks_names> # Array: Optional for :update_internal_networks
+  trap_destinations <trap_options> # Hash: Optional for :update_snmp_configuration
+  enclosure <enclosure_name> # String: Required for :add_interconnect and :remove_interconnect
+  bay_number <bay> # Fixnum: Required for :add_interconnect and :remove_interconnect
+  action [:none, :add_interconnect, :remove_interconnect, :update_internal_networks, :update_settings,:update_ethernet_settings, :update_port_monitor, :update_qos_configuration, :update_telemetry_configuration, :update_snmp_configuration, :update_firmware, :stage_firmware, :activate_firmware, :update_from_group, :reapply_configuration]
+end
+```
+
 ### oneview_logical_interconnect_group
 
 Logical Interconnect Group resource for HPE OneView.
