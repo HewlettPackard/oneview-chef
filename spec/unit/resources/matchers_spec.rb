@@ -121,6 +121,11 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not edit_oneview_server_hardware_type('')
     expect(chef_run).to_not remove_oneview_server_hardware_type('')
 
+    # oneview_server_profile
+    expect(chef_run).to_not create_oneview_server_profile('')
+    expect(chef_run).to_not create_oneview_server_profile_if_missing('')
+    expect(chef_run).to_not delete_oneview_server_profile('')
+
     # oneview_storage_pool
     expect(chef_run).to_not add_oneview_storage_pool_if_missing('')
     expect(chef_run).to_not remove_oneview_storage_pool('')
