@@ -2,7 +2,7 @@
 
 [![Cookbook Version](https://img.shields.io/cookbook/v/oneview.svg)](https://supermarket.chef.io/cookbooks/oneview)
 [![Travis Build Status](https://travis-ci.org/HewlettPackard/oneview-chef.svg?branch=master)](https://travis-ci.org/HewlettPackard/oneview-chef)
-[![Chef Build Status](https://jenkins-01.eastus.cloudapp.azure.com/job/oneview-cookbook/badge/icon)](https://jenkins-01.eastus.cloudapp.azure.com/job/oneview-cookbook/) 
+[![Chef Build Status](https://jenkins-01.eastus.cloudapp.azure.com/job/oneview-cookbook/badge/icon)](https://jenkins-01.eastus.cloudapp.azure.com/job/oneview-cookbook/)
 
 Chef cookbook that provides resources for managing OneView.
 
@@ -447,6 +447,7 @@ oneview_storage_system 'ThreePAR7200-81471' do
   )
   action :edit_credentials
 end
+```
 
 ### oneview_logical_enclosure
 
@@ -531,6 +532,31 @@ oneview_server_hardware_type 'ServerHardwareType1' do
   action [:edit, :remove]
 end
 ```
+
+### oneview_server_profile
+
+Server profile resource for HPE OneView
+
+```ruby
+oneview_server_profile 'ServerProfile1' do
+  client <my_client>
+  data <data>
+  server_hardware <server_hardware_name>
+  server_hardware_type <server_hardware_type_name>
+  enclosure_group <enclosure_group_name>
+  enclosure <enclosure_name>
+  firmware_driver <firmware_driver_name>
+  ethernet_network_connections <ethernet_network_connections_data>
+  fc_network_connections <fc_network_connections_data>
+  network_set_connections <network_set_connections_data>
+  action [:create, :create_if_missing, :delete]
+end
+```
+
+You can specify the association of the server profile with each of the resources using the resource properties. Also it is easy to add connections using the connection properties:
+
+- **<resource_name>_connections** (Hash) Optional - Specify connections with the desired resource type. The Hash should have `<network_name> => <connection_data>` associations. See the examples for more information.
+
 
 ### oneview_switch
 

@@ -19,7 +19,6 @@ property :firmware_driver, String
 property :ethernet_network_connections, Hash
 property :fc_network_connections, Hash
 property :network_set_connections, Hash
-property :volume_attachments, Array
 
 default_action :create
 
@@ -43,7 +42,7 @@ action_class do
 
   def set_connections(item, type, connection_list)
     return false unless connection_list
-    connection_list.map do |net_name, options|
+    connection_list.each do |net_name, options|
       res = type.find_by(item.client, name: net_name).first
       raise "Resource not found: #{type} '#{net_name}' could not be found." unless res
       item.add_connection(res, options)
@@ -51,7 +50,7 @@ action_class do
     true
   end
 
-  def set_resource(item, type, name, method, args = nil)
+  def set_resource(item, type, name, method, args = [])
     return false unless name
     res = type.find_by(item.client, name: name).first
     raise "Resource not found: #{type} '#{name}' could not be found." unless res
@@ -70,40 +69,4 @@ end
 
 action :delete do
   delete
-end
-
-action :create_snapshot do
-  item = load_resource
-  raise "Unspecified property: 'snapshot_data'. Please set it before attempting this action." unless snapshot_data
-  raise "Resource not found: #{resource_name} '#{item['name']}'" unless item.exists?
-
-  temp = convert_keys(snapshot_data, :to_s)
-  item.retrieve!
-  snapshot = item.get_snapshot(temp['name'])
-  if snapshot.empty?
-    Chef::Log.info "Creating oneview_volume '#{name}' snapshot"
-    converge_by "Created oneview_volume '#{name}' snapshot" do
-      item.create_snapshot(temp)
-    end
-  else
-    Chef::Log.info "Volume snapshot '#{temp['name']}' already exists"
-  end
-end
-
-action :delete_snapshot do
-  item = load_resource
-  raise "Unspecified property: 'snapshot_data'. Please set it before attempting this action." unless snapshot_data
-  raise "Resource not found: #{resource_name} '#{item['name']}'" unless item.exists?
-
-  temp = convert_keys(Marshal.load(Marshal.dump(snapshot_data)), :to_s)
-  item.retrieve!
-  snapshot = item.get_snapshot(temp['name'])
-  if snapshot.empty?
-    Chef::Log.info "Volume snapshot '#{temp['name']}' is already deleted"
-  else
-    Chef::Log.info "Deleting oneview_volume '#{name}'"
-    converge_by "Deleted oneview_volume_snapshot '#{name}'" do
-      item.delete_snapshot(temp['name'])
-    end
-  end
 end
