@@ -570,7 +570,7 @@ oneview_server_profile_template 'ServerProfileTemplate1' do
   fc_network_connections <fc_network_connections_data>
   network_set_connections <network_set_connections_data>
   profile_name <profile_name>
-  action [:create, :create_if_missing, :delete, :nwe_profile]
+  action [:create, :create_if_missing, :delete, :new_profile]
 end
 ```
 
