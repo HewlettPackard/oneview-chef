@@ -1,5 +1,8 @@
 # Release Notes
 
+## v1.0.0
+Now the cookbook can operate with all the supported OneView resources. It adds also some bugfixes and minor improvements.
+
 ## v0.2.0
 This adds new resources, shared features and bug fixes. Also upgrades the Ruby SDK version to ~> 2.1. See the [CHANGELOG](CHANGELOG.md) for more details.
 
