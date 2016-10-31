@@ -19,6 +19,6 @@ oneview_logical_interconnect 'LogicalInterconnect-update_internal_networks' do
   data(
     'internalNetworkUris' => []
   )
-  internal_networks ['UnitEth_1', 'UnitEth_2']
+  internal_networks ['UnitEth_1']
   action :update_internal_networks
 end
