@@ -6,14 +6,10 @@
 
 Chef cookbook that provides resources for managing OneView.
 
-**NOTE:** This is a beta version that provides a subset of specific Chef resources and a generic `oneview_resource` Chef resource.
-Additional Chef resources will be added in future releases, but the functionality of the generic resource will stay.
-With the generic model, you may find that particular OneView resources don't support certain actions or have slightly different behaviors.
-See [RELEASE_NOTES.md](RELEASE_NOTES.md) for more details.
-
 ## Requirements
 
- - Chef 12 or higher
+ - Chef 12.0 or higher
+ - HPE OneView 2.0 (may work with other versions too, but no guarantees)
 
 ## Usage
 
@@ -62,7 +58,7 @@ This really exists only for resources that don't have a specific provider; if a 
 The basic usage is as follows:
 
 ```ruby
-oneview_resource '' do
+oneview_resource 'name' do
   client <my_client>   # Hash or OneviewSDK::Client
   type <resource_type> # String or Symbol
   data <resource_data> # Hash

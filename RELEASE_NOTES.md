@@ -1,7 +1,7 @@
 # Release Notes
 
 ## v1.0.0
-Now the cookbook can operate with all the supported OneView resources. It adds also some bugfixes and minor improvements.
+Now the cookbook can operate with all the supported OneView 2.0 resources. It adds also some bug fixes and minor improvements.
 
 ## v0.2.0
 This adds new resources, shared features and bug fixes. Also upgrades the Ruby SDK version to ~> 2.1. See the [CHANGELOG](CHANGELOG.md) for more details.
@@ -19,7 +19,7 @@ With the generic model, you may find that particular resources don't support cer
 Here are some known specifics for different resource types:
 
 #### EnclosureGroup
- - Since the script is at a seperate API endpoint, we can't set that here.
+ - Since the script is at a separate API endpoint, we can't set that here.
 
 #### FCNetwork
  - Fails when action is `:create` and `connectionTemplateUri` is set to `nil` (because OV sets it). Leave it out instead of setting it to `nil`.
