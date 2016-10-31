@@ -553,6 +553,32 @@ oneview_server_hardware_type 'ServerHardwareType1' do
 end
 ```
 
+### oneview_server_profile_template
+
+Server profile resource for HPE OneView
+
+```ruby
+oneview_server_profile_template 'ServerProfileTemplate1' do
+  client <my_client>
+  data <data>
+  server_hardware <server_hardware_name>
+  server_hardware_type <server_hardware_type_name>
+  enclosure_group <enclosure_group_name>
+  enclosure <enclosure_name>
+  firmware_driver <firmware_driver_name>
+  ethernet_network_connections <ethernet_network_connections_data>
+  fc_network_connections <fc_network_connections_data>
+  network_set_connections <network_set_connections_data>
+  profile_name <profile_name>
+  action [:create, :create_if_missing, :delete, :new_profile]
+end
+```
+
+You can specify the association of the server profile with each of the resources using the resource properties. Also it is easy to add connections using the connection properties:
+
+- **<resource_name>_connections** (Hash) Optional - Specify connections with the desired resource type. The Hash should have `<network_name> => <connection_data>` associations. See the examples for more information.
+
+
 ### oneview_server_profile
 
 Server profile resource for HPE OneView
