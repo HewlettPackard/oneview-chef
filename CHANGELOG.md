@@ -1,9 +1,10 @@
-### New
+## 1.0.0
   - Added support to Volume actions `:create_snapshot` and `:delete_snapshot`
   - Added support to SAN manager actions
   - Added support to Uplink set actions
   - Added support to Logical interconnect
   - Added support to Server profile actions
+  - Added support to Server profile template actions
 
 ### 0.2.0
   - Upgraded Ruby SDK version to ~> 2.1
@@ -32,7 +33,7 @@
   - Added support to Managed SAN actions
   - Added support to Unmanaged device actions
 
-### 0.1.1
+#### 0.1.1
   - Fixed Ruby SDK version to 1.0.0
   - Added Stove support (using `rake`)
 
