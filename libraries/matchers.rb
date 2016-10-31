@@ -42,6 +42,7 @@ if defined?(ChefSpec)
     oneview_san_manager:                [:add, :add_if_missing, :remove],
     oneview_server_hardware:            [:add_if_missing, :remove, :refresh, :set_power_state, :update_ilo_firmware],
     oneview_server_hardware_type:       [:edit, :remove],
+    oneview_server_profile:             standard_actions,
     oneview_storage_pool:               [:add_if_missing, :remove],
     oneview_storage_system:             [:add, :remove, :edit_credentials, :add_if_missing],
     oneview_switch:                     [:remove, :none],
