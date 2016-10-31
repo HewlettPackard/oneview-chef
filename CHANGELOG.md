@@ -4,6 +4,7 @@
   - Added support to Uplink set actions
   - Added support to Logical interconnect
   - Added support to Server profile actions
+  - Added support to Server profile template actions
 
 ### 0.2.0
   - Upgraded Ruby SDK version to ~> 2.1
