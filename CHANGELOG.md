@@ -1,3 +1,6 @@
+### 1.0.1
+  - Add support for client ENV variables
+
 ## 1.0.0
   - Added support to Volume actions `:create_snapshot` and `:delete_snapshot`
   - Added support to SAN manager actions

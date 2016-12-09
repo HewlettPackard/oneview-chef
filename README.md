@@ -107,6 +107,20 @@ oneview_fcoe_network 'FCoE1' do
 end
 ```
 
+### oneview_network_set
+
+Network set resource for HPE OneView.
+
+```Ruby
+oneview_network_set 'NetSet1' do
+  client <my_client>
+  native_network <native_network_name>  # String: Optional
+  ethernet_network_list <networks_list> # Array of network names as Strings: Optional
+  data <resource_data>
+  action [:create, :create_if_missing, :delete]
+end
+```
+
 ### oneview_firmware
 
 Firmware bundle and driver resource for HPE OneView.
@@ -149,9 +163,9 @@ Perform the Interconnect actions:
 oneview_interconnect 'Interconnect1' do
   client <my_client>
   data <resource_data>
-  port_options <port_data_hash> # Required for :update_port
+  port_options <port_data_hash>            # Required for :update_port
   uid_light_state <uid_light_state_string> # Required for :set_uid_light
-  power_state <power_state_string> # Required for :set_power_state
+  power_state <power_state_string>         # Required for :set_power_state
   action [:reset, :reset_port_protection, :update_port, :set_uid_light, :set_power_state]
 end
 ```
@@ -166,12 +180,12 @@ By default it performs the action `:none`.
 oneview_interconnect 'LogicalInterconnect1' do
   client <my_client>
   data <resource_data>
-  firmware <firmware_name> # String: Optional for actions like :<action>_firwmare (can be replaced by data attribute 'sppName')
-  firmware_data <firmware_data> # Hash: Optional for actions like :<action>_firwmare
+  firmware <firmware_name>           # String: Optional for actions like :<action>_firwmare (can be replaced by data attribute 'sppName')
+  firmware_data <firmware_data>      # Hash: Optional for actions like :<action>_firwmare
   internal_networks <networks_names> # Array: Optional for :update_internal_networks
-  trap_destinations <trap_options> # Hash: Optional for :update_snmp_configuration
-  enclosure <enclosure_name> # String: Required for :add_interconnect and :remove_interconnect
-  bay_number <bay> # Fixnum: Required for :add_interconnect and :remove_interconnect
+  trap_destinations <trap_options>   # Hash: Optional for :update_snmp_configuration
+  enclosure <enclosure_name>         # String: Required for :add_interconnect and :remove_interconnect
+  bay_number <bay>                   # Fixnum: Required for :add_interconnect and :remove_interconnect
   action [:none, :add_interconnect, :remove_interconnect, :update_internal_networks, :update_settings,:update_ethernet_settings, :update_port_monitor, :update_qos_configuration, :update_telemetry_configuration, :update_snmp_configuration, :update_firmware, :stage_firmware, :activate_firmware, :update_from_group, :reapply_configuration]
 end
 ```
@@ -192,7 +206,7 @@ oneview_logical_interconnect_group 'LogicalInterconnectGroup_1' do
   client <my_client>
   data <resource_data>
   interconnects <interconnect_map> # Array specifying the interconnects in the bays
-  uplink_sets <uplink_set_map> # Array containing information
+  uplink_sets <uplink_set_map>     # Array containing information
   action [:create, :create_if_missing, :delete]
 end
 ```
@@ -252,8 +266,8 @@ Logical Switch Group resource for HPE OneView.
 ```ruby
 oneview_logical_switch_group 'LogicalSwitchGroup_1' do
   client <my_client>
-  data <resource_data> # Switch options
-  switch_number <number> # Specify how many switches are in the group
+  data <resource_data>           # Switch options
+  switch_number <number>         # Specify how many switches are in the group
   switch_type <switch_type_name> # Specify the type of the switches for the entire group
   action [:create, :create_if_missing, :delete]
 end
@@ -272,7 +286,7 @@ Logical switch resource for HPE OneView.
 ```ruby
 oneview_logical_switch 'LogicalSwitch_1' do
   client <my_client>
-  data <resource_data> # Logical Switch options
+  data <resource_data>               # Logical Switch options
   credentials <switches_credentials> # Specify the credentials for all the switches
   action [:create, :create_if_missing, :delete, :refresh]
 end
@@ -667,12 +681,9 @@ end
  - **Add server hardware**
 
   ```ruby
-  # Notes:
-  #  - It can't be updated, so we use the default :add_if_missing action here
-  #  - Also, because the hostname is used as a name in OneView, we need to set the name to the hostname
   oneview_server_hardware '172.18.6.11' do
     data(
-      hostname: '172.18.6.4',
+      hostname: '172.18.6.11',
       username: 'user',
       password: 'password', # Note: This should be read from a file or databag, not stored in clear text.
       licensingIntent: 'OneViewStandard',
@@ -685,8 +696,7 @@ end
  - **Add an enclosure group**
 
   ```ruby
-  # Notes:
-  #  - Since the script is at a separate endpoint, we can't set that here
+  # Note: Since the script is at a separate endpoint, we can't set that here
   oneview_enclosure_group 'Enclosure-Group-1' do
     data(
       stackingMode: 'Enclosure',

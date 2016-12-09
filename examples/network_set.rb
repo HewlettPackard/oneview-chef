@@ -15,51 +15,55 @@ my_client = {
   password: ''
 }
 
+# Create a few networks for the next examples
+(0..2).each do |i|
+  oneview_ethernet_network "Chef-Eth-Net-#{i}" do
+    client my_client
+    data(
+      vlanId: "5#{i}".to_i,
+      purpose: 'General',
+      smartLink: false,
+      privateNetwork: false
+    )
+  end
+end
+
+# Example: Create an empty network set
 oneview_network_set 'ChefNetworkSet_0' do
   client my_client
   action :create
 end
 
+# Example: Create a network set with a few networks
 oneview_network_set 'ChefNetworkSet_1' do
   client my_client
-  native_network 'ChefBulkEthernet_10'
-  ethernet_network_list ['ChefBulkEthernet_11', 'ChefBulkEthernet_12']
+  native_network 'Chef-Eth-Net-0'
+  ethernet_network_list ['Chef-Eth-Net-1', 'Chef-Eth-Net-2']
   action :create
 end
 
+# Example: Create a network set only if it doesn't exist (no updates)
 oneview_network_set 'ChefNetworkSet_2' do
   client my_client
-  native_network 'ChefBulkEthernet_10'
-  ethernet_network_list ['ChefBulkEthernet_11']
+  native_network 'Chef-Eth-Net-2'
+  ethernet_network_list ['Chef-Eth-Net-1']
   action :create_if_missing
 end
 
-oneview_network_set 'ChefNetworkSet_0' do
-  client my_client
-  action :delete
+# Examples: Delete the network sets
+(0..2).each do |i|
+  oneview_network_set "Delete ChefNetworkSet_#{i}" do
+    data(name: "ChefNetworkSet_#{i}")
+    client my_client
+    action :delete
+  end
 end
 
-oneview_network_set 'ChefNetworkSet_1' do
-  client my_client
-  action :delete
-end
-
-oneview_network_set 'ChefNetworkSet_2' do
-  client my_client
-  action :delete
-end
-
-oneview_ethernet_network 'ChefBulkEthernet_10' do
-  client my_client
-  action :delete
-end
-
-oneview_ethernet_network 'ChefBulkEthernet_11' do
-  client my_client
-  action :delete
-end
-
-oneview_ethernet_network 'ChefBulkEthernet_12' do
-  client my_client
-  action :delete
+# Clean up the ethernet networks
+(0..2).each do |i|
+  oneview_ethernet_network "Delete Chef-Eth-Net-#{i}" do
+    data(name: "Chef-Eth-Net-#{i}")
+    client my_client
+    action :delete
+  end
 end

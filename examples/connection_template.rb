@@ -9,12 +9,13 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-client = {
-  url: '',
-  user: '',
-  password: ''
+my_client = {
+  url: ENV['ONEVIEWSDK_URL'],
+  user: ENV['ONEVIEWSDK_USER'],
+  password: ENV['ONEVIEWSDK_PASSWORD']
 }
 
+# Ethernet network that we'll use for the examples below
 oneview_ethernet_network 'ChefEthernet_3001' do
   client client
   data(
