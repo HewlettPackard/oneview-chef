@@ -22,6 +22,11 @@ Use it by creating a new cookbook and specifying a dependency on this cookbook i
 depends 'oneview'
 ```
 
+### Credentials
+In order to manage HPE OneView resources, you'll need to provide authentication credentials. There are 2 ways to do this:
+
+1. Set the ONEVIEWSDK environment variables: ONEVIEWSDK_URL, ONEVIEWSDK_USER, ONEVIEWSDK_PASSWORD, and/or ONEVIEWSDK_TOKEN. See [this](https://github.com/HewlettPackard/oneview-sdk-ruby#environment-variables) for more info.
+2. Explicitly pass in the `client` property to each resource (see the [Resource Parameters](#resource-parameters) section below). This takes precedence over environment variables and allows you to set more client properties. This also allows you to get these credentials from other sources like encrypted databags, Vault, etc.
 
 ## Attributes
 
@@ -35,11 +40,11 @@ See [attributes/default.rb](attributes/default.rb) for more info.
 
 ## Resources
 
-### Resource Parameters
+### Resource Properties
 
-The following are the standard parameters available for all resources. Some resources have additional parameters or small differences; see their doc sections below for more details.
+The following are the standard properties available for all resources. Some resources have additional properties or small differences; see their doc sections below for more details.
 
- - **client**: Hash or OneviewSDK::Client object that contains information about how to connect to the OneView instance. Required attributes are: `url`, `user`, and `password`. See [this](https://github.com/HewlettPackard/oneview-sdk-ruby#configuration) for more options.
+ - **client**: Hash or OneviewSDK::Client object that contains information about how to connect to the OneView instance. Required attributes are: `url` and `token` or `user`, and `password`. See [this](https://github.com/HewlettPackard/oneview-sdk-ruby#configuration) for more options.
  - **data**: Hash specifying options for this resource. Refer to the OneView API docs for what's available and/or required. If no name attribute is given, it will use the name given to the Chef resource.
    - In addition to the API docs, you can use the [oneview-sdk gem's CLI](https://github.com/HewlettPackard/oneview-sdk-ruby#cli) to quickly show information about resources. If you're wanting to know which data properties exist for a resource, it might make sense to create a resource on the Web UI, then view the data. For example, after creating a new ethernet network named `eth1`, run `$ oneview-sdk-ruby show EthernetNetwork eth1`
  - **action**: Symbol specifying what to do with this resource. Options for most resources (**some may differ**):
@@ -723,7 +728,7 @@ end
   end
   ```
 
-  Note: The data hash is wrapped in a lazy block so that `node['oneview'][my_client.url]['Enclosure-Group-1']['uri']` will be set before the resource parameters are parsed. However, the recommended way is to use the `enclosure_group` (name) parameter, where the uri will be fetched at runtime; this just shows how you can use `lazy` with the node attributes that are saved.
+  Note: The data hash is wrapped in a lazy block so that `node['oneview'][my_client.url]['Enclosure-Group-1']['uri']` will be set before the resource properties are parsed. However, the recommended way is to use the `enclosure_group` (name) property, where the uri will be fetched at runtime; this just shows how you can use `lazy` with the node attributes that are saved.
 
  - **Delete a fibre channel network**
 
