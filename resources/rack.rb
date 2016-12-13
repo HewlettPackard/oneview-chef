@@ -23,6 +23,7 @@ action_class do
     options = convert_keys(mount_options, :to_s)
     klass = get_resource_named(options['type'])
     mount_item = klass.new(client, name: options['name'])
+    mount_item.api_version = api_version if property_is_set?(:api_version)
     mount_item.retrieve!
     mount_item
   end

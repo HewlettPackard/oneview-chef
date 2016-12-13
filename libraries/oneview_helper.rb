@@ -50,16 +50,16 @@ module OneviewCookbook
         klass = get_resource_named(klass_name)
       end
       new_data = JSON.parse(data.to_json) rescue data
-      item = klass.new(c, new_data)
+      item = property_is_set?(:api_version) ? klass.new(c, new_data, api_version) : klass.new(c, new_data)
       item['name'] ||= name
       item
     end
 
     # Get the associated class of the given string or symbol
-    # @param [String] type OneViewSDK resource name
-    # @return [Class] OneViewSDK resource class
+    # @param [String] type OneviewSDK resource name
+    # @return [Class] OneviewSDK resource class
     def get_resource_named(type)
-      klass = OneviewSDK.resource_named(type)
+      klass = OneviewSDK.resource_named(type, api_module, api_variant)
       raise "Invalid OneView Resource type '#{type}'" unless klass
       klass
     end

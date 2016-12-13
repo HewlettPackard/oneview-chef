@@ -1,3 +1,6 @@
+## 2.0.0
+  - Support oneview-sdk v3.0 & different API versions/modules
+
 ## 1.0.0
   - Added support to Volume actions `:create_snapshot` and `:delete_snapshot`
   - Added support to SAN manager actions
