@@ -30,6 +30,8 @@ depends 'oneview'
    - `true` - Save all info (Merged hash of OneView info and Chef resource properties). Warning: Resource credentials will be saved if specified.
    - `false` - Do not save any info
    - `Array` - ie `['uri', 'status', 'created_at']` Save a subset of specified attributes
+ - `node['oneview']['api_module']` - When looking for resources in the SDK's API module, this version will be used. Defaults to `200`
+ - `node['oneview']['api_variant']` - When looking for resources in the SDK's API modules, this variant will be used. Defaults to `C7000`
 
 See [attributes/default.rb](attributes/default.rb) for more info.
 
@@ -48,6 +50,10 @@ The following are the standard parameters available for all resources. Some reso
    - `:delete` - Delete this resource from OneView. For this, you only need to specify the resource name or uri in the data section.
  - **save_resource_info**: Defaults to `node['oneview']['save_resource_info']` (see the attribute above). Doesn't apply to the `:delete` action
    - Once the resource is created, you can access this data at `node['oneview'][<oneview_url>][<resource_name>]`. This can be useful to extract URIs from other resources, etc.
+ - **api_version**: (Fixnum) This version will be used in a header for API requests. You wont' need to specify this in most cases.
+ - **api_module**: (Fixnum) When looking for resources in the SDK's API module, this version will be used. Defaults to `node['oneview']['api_module']`
+ - **api_variant**: (String) When looking for resources in the SDK's API module, this version will be used. Defaults to `node['oneview']['api_variant']`
+
 
 ### oneview_resource
 
