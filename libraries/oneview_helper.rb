@@ -14,33 +14,50 @@ require 'logger'
 module OneviewCookbook
   # Helpers for Oneview Resources
   module Helper
+    class << self
+      attr_reader :oneview_api, :oneview_api_version, :provider_api
+    end
+
     # Load (and install if necessary) the oneview-sdk
-    def load_sdk
-      gem 'oneview-sdk', node['oneview']['ruby_sdk_version']
+    def self.load_sdk(context)
+      gem 'oneview-sdk', context.node['oneview']['ruby_sdk_version']
       require 'oneview-sdk'
-      Chef::Log.debug("Loaded oneview-sdk #{node['oneview']['ruby_sdk_version']} (#{OneviewSDK::VERSION})")
+      Chef::Log.debug("Loaded oneview-sdk #{context.node['oneview']['ruby_sdk_version']} (#{OneviewSDK::VERSION})")
     rescue LoadError => e
-      Chef::Log.debug("Could not load gem oneview-sdk #{node['oneview']['ruby_sdk_version']}. Message: #{e.message}")
-      Chef::Log.info("Could not load gem oneview-sdk #{node['oneview']['ruby_sdk_version']}. Making sure it's installed...")
+      Chef::Log.debug("Could not load gem oneview-sdk #{context.node['oneview']['ruby_sdk_version']}. Message: #{e.message}")
+      Chef::Log.info("Could not load gem oneview-sdk #{context.node['oneview']['ruby_sdk_version']}. Making sure it's installed...")
       chef_gem 'oneview-sdk' do
-        version node['oneview']['ruby_sdk_version']
+        version context.node['oneview']['ruby_sdk_version']
         compile_time true if Chef::Resource::ChefGem.method_defined?(:compile_time)
       end
       begin # Try to load the specified version of the oneview-sdk gem again
-        gem 'oneview-sdk', node['oneview']['ruby_sdk_version']
+        gem 'oneview-sdk', context.node['oneview']['ruby_sdk_version']
         require 'oneview-sdk'
         Chef::Log.debug("Loaded oneview-sdk version #{OneviewSDK::VERSION}")
       rescue LoadError => er
-        Chef::Log.error("Version #{node['oneview']['ruby_sdk_version']} of oneview-sdk cannot be loaded. Message: #{er.message}")
+        Chef::Log.error("Version #{context.node['oneview']['ruby_sdk_version']} of oneview-sdk cannot be loaded. Message: #{er.message}")
         require 'oneview-sdk'
         Chef::Log.error("Loaded version #{OneviewSDK::VERSION} of the oneview-sdk gem instead")
       end
     end
 
+    # Load attributes to help the version handling
+    def self.load_attributes(context)
+      @oneview_api_version = context.node['oneview']['api_version'] || 200
+      api_version_const = "API#{@oneview_api_version}"
+      @oneview_api = OneviewSDK.const_get(api_version_const)
+      @provider_api = OneviewCookbook.const_get(api_version_const)
+      variant = context.node['oneview']['hardware_variant']
+      if variant && @oneview_api_version >= 300
+        @oneview_api = @oneview_api.const_get(variant)
+        @provider_api = @provider_api.const_get(variant)
+      end
+      puts "\n\nRUBY API IS   #{@oneview_api}\nPROVIDER API IS   #{@provider_api}"
+    end
+
     # Builds client and resource instance
     # @return [OneviewSDK::Resource] OneView resource instance with the specified data
     def load_resource
-      load_sdk
       c = build_client(client)
       if defined?(type) # For generic resource
         klass = get_resource_named(type)
@@ -59,7 +76,7 @@ module OneviewCookbook
     # @param [String] type OneViewSDK resource name
     # @return [Class] OneViewSDK resource class
     def get_resource_named(type)
-      klass = OneviewSDK.resource_named(type)
+      klass = Helper.oneview_api.resource_named(type)
       raise "Invalid OneView Resource type '#{type}'" unless klass
       klass
     end
@@ -153,6 +170,26 @@ module OneviewCookbook
         end
       end
       str
+    end
+
+    # Module that adds auto casting for some ResourceBase methods
+    module MissingResource
+      def method_missing(method, *args, &block)
+        # Gets resource name and removes the oneview slice
+        res_part = resource_name.to_s
+        res_part.slice!('oneview') # It is intended to the resource part start with `_`
+        # Removes all the resouce name and leaves the method name only
+        maybe_method = method.to_s
+        maybe_method.slice!(res_part)
+        # Aliases for some methods
+        maybe_method = 'create_or_update' if maybe_method == 'create'
+        maybe_method = 'add_or_edit' if maybe_method == 'add'
+        if respond_to?(maybe_method)
+          public_send(maybe_method)
+        else
+          raise ArgumentError.new("Method `#{method}` doesn't exist.")
+        end
+      end
     end
   end
 end

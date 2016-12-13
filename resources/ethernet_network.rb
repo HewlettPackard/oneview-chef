@@ -10,47 +10,27 @@
 # specific language governing permissions and limitations under the License.
 
 OneviewCookbook::ResourceBaseProperties.load(self)
+OneviewCookbook::Helper.load_sdk(self)
+OneviewCookbook::Helper.load_attributes(self)
 
 default_action :create
 
 action_class do
-  include OneviewCookbook::Helper
-  include OneviewCookbook::ResourceBase
-
-  def update_connection_template(item, bandwidth)
-    bandwidth = convert_keys(bandwidth, :to_s)
-    connection_template = OneviewSDK::ConnectionTemplate.new(item.client, uri: item['connectionTemplateUri'])
-    connection_template.retrieve!
-    if connection_template.like? bandwidth
-      Chef::Log.info("#{resource_name} '#{name}' connection template is up to date")
-    else
-      converge_by "Update #{resource_name} '#{name}' connection template settings" do
-        connection_template.update(bandwidth)
-      end
-    end
-  end
+  include OneviewCookbook::Helper::provider_api::EthernetNetworkProvider
 end
 
 action :create do
-  item = load_resource
-  bandwidth = item.data.delete('bandwidth')
-  create_or_update(item)
-  update_connection_template(item, bandwidth: bandwidth) if bandwidth
+  create_ethernet_network
 end
 
 action :create_if_missing do
-  item = load_resource
-  bandwidth = item.data.delete('bandwidth')
-  created = create_if_missing(item)
-  update_connection_template(item, bandwidth: bandwidth) if bandwidth && created
+  create_ethernet_network_if_missing
 end
 
 action :reset_connection_template do
-  item = load_resource
-  item.retrieve!
-  update_connection_template(item, bandwidth: OneviewSDK::ConnectionTemplate.get_default(item.client)['bandwidth'])
+  reset_ethernet_network_connection_template
 end
 
 action :delete do
-  delete
+  delete_ethernet_network
 end
