@@ -15,9 +15,9 @@
 
 
 my_client = {
-  url: '',
-  user: '',
-  password: ''
+  url: ENV['ONEVIEWSDK_URL'],
+  user: ENV['ONEVIEWSDK_USER'],
+  password: ENV['ONEVIEWSDK_PASSWORD']
 }
 
 # LOGICAL INTERCONNECT GROUP 1 #
@@ -37,8 +37,8 @@ oneview_logical_interconnect_group 'LogicalInterconnectGroup2' do
   # Define each interconnect type in the corresponding bay
   # If not specified the interconnect is not added to the group
   interconnects [
-    {bay: 1, type: 'HP VC FlexFabric 10Gb/24-Port Module'},
-    {bay: 2, type: 'HP VC FlexFabric 10Gb/24-Port Module'}
+    { bay: 1, type: 'HP VC FlexFabric 10Gb/24-Port Module' },
+    { bay: 2, type: 'HP VC FlexFabric 10Gb/24-Port Module' }
   ]
 end
 ################################
@@ -58,10 +58,10 @@ lig_03_uplink_01_data = {
 ## Second, the connections (uplinks)
 ## Define exactly the ports from the interconnects that need to be linked in this Uplink set
 connections_01 = [
-  {bay: 1, port: 'X5'},
-  {bay: 1, port: 'X6'},
-  {bay: 2, port: 'X7'},
-  {bay: 2, port: 'X8'}
+  { bay: 1, port: 'X5' },
+  { bay: 1, port: 'X6' },
+  { bay: 2, port: 'X7' },
+  { bay: 2, port: 'X8' }
 ]
 ## We finish setting the Uplink set networks (they should be Ethernet networks since it is an Ethernet uplink set)
 networks_01 = ['EthernetNetwork1','EthernetNetwork2']
@@ -72,8 +72,8 @@ lig_03_uplink_02_data = {
   networkType: 'FibreChannel'
 }
 connections_02 = [
-  {bay: 1, port: 'X1'},
-  {bay: 1, port: 'X2'}
+  { bay: 1, port: 'X1' },
+  { bay: 1, port: 'X2' }
 ]
 ## Currently, only one FCNetwork is supported per Uplink set
 networks_02 = ['FCNetwork1']
@@ -83,12 +83,12 @@ oneview_logical_interconnect_group 'LogicalInterconnectGroup3' do
   client my_client
   data(enclosureType: 'C7000')
   interconnects [
-    {bay: 1, type: 'HP VC FlexFabric 10Gb/24-Port Module'},
-    {bay: 2, type: 'HP VC FlexFabric 10Gb/24-Port Module'}
+    { bay: 1, type: 'HP VC FlexFabric 10Gb/24-Port Module' },
+    { bay: 2, type: 'HP VC FlexFabric 10Gb/24-Port Module' }
   ]
   uplink_sets [
-    { data: lig_03_uplink_01_data,  connections: connections_01, networks: networks_01},
-    { data: lig_03_uplink_02_data,  connections: connections_02, networks: networks_02}
+    { data: lig_03_uplink_01_data, connections: connections_01, networks: networks_01 },
+    { data: lig_03_uplink_02_data, connections: connections_02, networks: networks_02 }
   ]
 end
 ################################

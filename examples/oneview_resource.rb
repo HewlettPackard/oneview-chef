@@ -21,9 +21,9 @@
 # it in our examples below to interact with OneView and get some information we need.
 require 'oneview-sdk'
 my_client = OneviewSDK::Client.new(
-  url: '',
-  user: '',
-  password: ''
+  url: ENV['ONEVIEWSDK_URL'],
+  user: ENV['ONEVIEWSDK_USER'],
+  password: ENV['ONEVIEWSDK_PASSWORD']
 )
 
 # Example: Create a simple ServerProfileTemplate

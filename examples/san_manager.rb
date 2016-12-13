@@ -10,9 +10,9 @@
 # specific language governing permissions and limitations under the License.
 
 my_client = {
-  url: '',
-  user: '',
-  password: ''
+  url: ENV['ONEVIEWSDK_URL'],
+  user: ENV['ONEVIEWSDK_USER'],
+  password: ENV['ONEVIEWSDK_PASSWORD']
 }
 
 # Example: create a SAN manager under the specified provider
@@ -22,26 +22,11 @@ oneview_san_manager '172.18.15.1' do
     providerDisplayName: 'Brocade Network Advisor',
     connectionInfo:
     [
-      {
-        name: 'Host',
-        value: '172.18.15.1'
-      },
-      {
-        name: 'Port',
-        value: '5989'
-      },
-      {
-        name: 'Username',
-        value: 'dcs'
-      },
-      {
-        name: 'Password',
-        value: 'dcs'
-      },
-      {
-        name: 'UseSsl',
-        value: true
-      }
+      { name: 'Host', value: '172.18.15.1' },
+      { name: 'Port', value: '5989' },
+      { name: 'Username', value: 'dcs' },
+      { name: 'Password', value: 'dcs' },
+      { name: 'UseSsl', value: true }
     ]
   )
 end
