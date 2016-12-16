@@ -20,8 +20,8 @@ describe 'oneview_test::volume_create_if_missing' do
   it 'creates VOL1 when it does not exist' do
     allow_any_instance_of(OneviewSDK::Volume).to receive(:exists?).and_return(false)
     expect_any_instance_of(OneviewSDK::Volume).to receive(:set_snapshot_pool).and_return(true)
-    expect_any_instance_of(OneviewSDK::Volume).to receive(:set_storage_volume_template).and_return(true)
-    expect_any_instance_of(OneviewSDK::Volume).to receive(:set_storage_system).and_return(true)
+    expect_any_instance_of(OneviewSDK::Volume).to_not receive(:set_storage_volume_template)
+    expect_any_instance_of(OneviewSDK::Volume).to receive(:set_storage_system).and_call_original
     expect_any_instance_of(OneviewSDK::Volume).to receive(:create).and_return(true)
     expect(real_chef_run).to create_oneview_volume_if_missing('VOL1')
   end
@@ -30,8 +30,7 @@ describe 'oneview_test::volume_create_if_missing' do
     allow_any_instance_of(OneviewSDK::Volume).to receive(:exists?).and_return(true)
     allow_any_instance_of(OneviewSDK::Volume).to receive(:retrieve!).and_return(true)
     expect_any_instance_of(OneviewSDK::Volume).to receive(:set_snapshot_pool).and_return(true)
-    expect_any_instance_of(OneviewSDK::Volume).to receive(:set_storage_volume_template).and_return(true)
-    expect_any_instance_of(OneviewSDK::Volume).to receive(:set_storage_system).and_return(true)
+    expect_any_instance_of(OneviewSDK::Volume).to receive(:set_storage_system).and_call_original
     expect_any_instance_of(OneviewSDK::Volume).to_not receive(:create)
     expect(real_chef_run).to create_oneview_volume_if_missing('VOL1')
   end

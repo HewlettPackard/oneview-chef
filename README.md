@@ -399,9 +399,9 @@ oneview_volume 'Volume_1' do
   action [:create, :create_if_missing, :delete]
 end
 ```
-  - **storage_system** (String) Optional - IP address, hostname or name of the Storage System to associate the Volume.
+  - **storage_system** (String) Optional - IP address, hostname or name of the Storage System to associate with the Volume.
   - **storage_pool** (String) Optional - Name of the Storage Pool from the Storage System to associate the Volume.
-  - **volume_template** (String) Optional - Name of the Volume Template.
+  - **volume_template** (String) Optional - Name of the Volume Template. If you set this, you cannot set the storage_system or storage_pool properties.
   - **snapshot_pool** (String) Optional - Name of the Storage Pool containing the snapshots.
 
 :memo: **NOTE**: The OneView API has a provisioningParameters hash for creation, but not updates. In recipes, use same data as you would for an update, and this resource will handle creating the provisioningParameters for you if the volume needs created. (Define the desired state, not how to create it). See the [volume example](examples/volume.rb) for more on this.

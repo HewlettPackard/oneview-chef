@@ -25,23 +25,29 @@ action_class do
 
   # Loads the Volume with all the external resources (if needed)
   # @return [OneviewSDK::Volume] Loaded Volume resource
+  # rubocop:disable Metrics/MethodLength
   def load_resource_with_associated_resources
     item = load_resource
-    load_storage_system(item)
+    if volume_template
+      item.set_storage_volume_template(OneviewSDK::VolumeTemplate.new(item.client, name: volume_template))
+    else # Can't set the storage_pool or snapshot_pool if we specify a volume_template
+      load_storage_system(item) if storage_system
 
-    # item.set_storage_pool(OneviewSDK::StoragePool.new(item.client, name: storage_pool)) if storage_pool
-    # Workaround for issue in oneview-sdk:
-    if storage_pool
-      sp = OneviewSDK::StoragePool.find_by(item.client, name: storage_pool, storageSystemUri: item['storageSystemUri']).first
-      raise "Storage Pool '#{sp['name']}' not found" unless sp
-      item['storagePoolUri'] = sp['uri']
-    end
+      # item.set_storage_pool(OneviewSDK::StoragePool.new(item.client, name: storage_pool)) if storage_pool
+      # Workaround for issue in oneview-sdk:
+      if storage_pool
+        raise 'Must specify a storage_system to use the storage_pool helper.' unless item['storageSystemUri']
+        sp = OneviewSDK::StoragePool.find_by(item.client, name: storage_pool, storageSystemUri: item['storageSystemUri']).first
+        raise "Storage Pool '#{sp['name']}' not found" unless sp
+        item['storagePoolUri'] = sp['uri']
+      end
 
-    if snapshot_pool
-      snapshot_pool_resource = OneviewSDK::StoragePool.find_by(item.client, name: snapshot_pool, storageSystemUri: item['storageSystemUri']).first
-      item.set_snapshot_pool(snapshot_pool_resource)
+      if snapshot_pool
+        raise 'Must specify a storage_system to use the storage_pool helper.' unless item['storageSystemUri']
+        snapshot_pool_resource = OneviewSDK::StoragePool.find_by(item.client, name: snapshot_pool, storageSystemUri: item['storageSystemUri']).first
+        item.set_snapshot_pool(snapshot_pool_resource)
+      end
     end
-    item.set_storage_volume_template(OneviewSDK::VolumeTemplate.new(item.client, name: volume_template)) if volume_template
 
     # Convert capacity integers to strings
     item['provisionedCapacity'] = item['provisionedCapacity'].to_s if item['provisionedCapacity']
@@ -49,21 +55,21 @@ action_class do
 
     unless item.exists? # Also set provisioningParameters if the volume does not exist
       item['provisioningParameters'] ||= {}
-      item['provisioningParameters']['shareable'] = item['shareable'] if item['provisioningParameters']['shareable'].nil?
-      item['provisioningParameters']['provisionType'] ||= item['provisionType']
-      item['provisioningParameters']['requestedCapacity'] ||= item['provisionedCapacity']
-      item['provisioningParameters']['storagePoolUri'] ||= item['storagePoolUri']
+      item['provisioningParameters']['shareable'] = item['shareable'] if !item['shareable'].nil? && item['provisioningParameters']['shareable'].nil?
+      item['provisioningParameters']['provisionType'] ||= item['provisionType'] if item['provisionType']
+      item['provisioningParameters']['requestedCapacity'] ||= item['provisionedCapacity'] if item['provisionedCapacity']
+      item['provisioningParameters']['storagePoolUri'] ||= item['storagePoolUri'] if item['storagePoolUri']
+      item.data.delete('provisioningParameters') if item['provisioningParameters'].empty?
     end
     item
   end
+  # rubocop:enable Metrics/MethodLength
 
-  # Loads Storage System in the given Volume resource.
-  # The properties storage_system_name or storage_system_ip properties needs to be used in the recipe
-  #  for this code to load the Storage System.
+  # Loads Storage System into the given Volume resource.
+  # The storage_system property needs to be set to a name or IP in order to use this method
   # @param [OneviewSDK::Volume] item Volume to add the Storage System
   # @return [OneviewSDK::Volume] Volume with Storage System parameters updated
   def load_storage_system(item)
-    raise "Unspecified property: 'storage_system'. Please set it before attempting this action." unless storage_system
     storage_system_resource = OneviewSDK::StorageSystem.new(item.client, credentials: { ip_hostname: storage_system })
     unless storage_system_resource.exists?
       storage_system_resource = OneviewSDK::StorageSystem.new(item.client, name: storage_system)
