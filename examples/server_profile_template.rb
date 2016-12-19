@@ -10,9 +10,9 @@
 # specific language governing permissions and limitations under the License.
 
 my_client = {
-  url: '',
-  user: '',
-  password: ''
+  url: ENV['ONEVIEWSDK_URL'],
+  user: ENV['ONEVIEWSDK_USER'],
+  password: ENV['ONEVIEWSDK_PASSWORD']
 }
 
 # Creates on server profile template with the desired Enclosure group and Server hardware type

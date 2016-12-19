@@ -12,25 +12,25 @@
 # NOTE: This recipe requires:
 # Enclosure group: Eg1
 
-client = {
-  url: '',
-  user: '',
-  password: ''
+my_client = {
+  url: ENV['ONEVIEWSDK_URL'],
+  user: ENV['ONEVIEWSDK_USER'],
+  password: ENV['ONEVIEWSDK_PASSWORD']
 }
 
 oneview_enclosure 'Encl1' do
-  data ({
-      hostname: '172.18.1.11',
-      username: 'dcs',
-      password: 'dcs',
-      licensingIntent: 'OneView'
-  })
+  data(
+    hostname: '172.18.1.11',
+    username: 'dcs',
+    password: 'dcs',
+    licensingIntent: 'OneView'
+  )
   enclosure_group 'Eg1'
-  client client
+  client my_client
   action :add
 end
 
 oneview_enclosure 'Encl1' do
-  client client
+  client my_client
   action :remove
 end

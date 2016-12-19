@@ -14,7 +14,7 @@ module OneviewCookbook
   module ResourceBaseProperties
     # Loads the default properties for all resources
     def self.load(context)
-      context.property :client, required: true
+      context.property :client
       context.property :name, [String, Symbol], required: true
       context.property :data, Hash, default: {}
       context.property :save_resource_info, [TrueClass, FalseClass, Array], default: context.node['oneview']['save_resource_info']

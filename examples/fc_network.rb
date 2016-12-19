@@ -9,22 +9,22 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-client = {
-  url: '',
-  user: '',
-  password: ''
+my_client = {
+  url: ENV['ONEVIEWSDK_URL'],
+  user: ENV['ONEVIEWSDK_USER'],
+  password: ENV['ONEVIEWSDK_PASSWORD']
 }
 
 oneview_fc_network 'Fc1' do
-  data ({
+  data(
     autoLoginRedistribution: true,
     fabricType: 'FabricAttach'
-  })
-  client client
+  )
+  client my_client
   action :create
 end
 
 oneview_fc_network 'Fc1' do
-  client client
+  client my_client
   action :delete
 end

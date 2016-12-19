@@ -20,8 +20,8 @@ describe 'oneview_test::volume_create' do
 
   it 'searches for the storage_pool, snapshot_pool, and volume_template' do
     expect_any_instance_of(OneviewSDK::Volume).to receive(:set_snapshot_pool).and_return(true)
-    expect_any_instance_of(OneviewSDK::Volume).to receive(:set_storage_volume_template).and_return(true)
-    expect_any_instance_of(OneviewSDK::Volume).to receive(:set_storage_system).and_return(true)
+    expect_any_instance_of(OneviewSDK::Volume).to_not receive(:set_storage_volume_template)
+    expect_any_instance_of(OneviewSDK::Volume).to receive(:set_storage_system).and_call_original
     expect_any_instance_of(OneviewSDK::Volume).to receive(:create).and_return(true)
     expect(real_chef_run).to create_oneview_volume('VOL1')
   end

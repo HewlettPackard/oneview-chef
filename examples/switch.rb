@@ -10,9 +10,9 @@
 # specific language governing permissions and limitations under the License.
 
 my_client = {
-  url: '',
-  user: '',
-  password: ''
+  url: ENV['ONEVIEWSDK_URL'],
+  user: ENV['ONEVIEWSDK_USER'],
+  password: ENV['ONEVIEWSDK_PASSWORD']
 }
 
 # Example: No action is executed.
@@ -22,7 +22,6 @@ my_client = {
 oneview_switch 'Switch1' do
   client my_client
 end
-
 
 # Example: removes switch
 oneview_switch 'Switch1' do

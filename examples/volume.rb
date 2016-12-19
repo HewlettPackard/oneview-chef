@@ -10,9 +10,9 @@
 # specific language governing permissions and limitations under the License.
 
 my_client = {
-  url: '',
-  user: '',
-  password: ''
+  url: ENV['ONEVIEWSDK_URL'],
+  user: ENV['ONEVIEWSDK_USER'],
+  password: ENV['ONEVIEWSDK_PASSWORD']
 }
 
 # Example: Create a volume
@@ -32,16 +32,14 @@ oneview_volume 'CHEF_VOL_01' do
     provisionType: 'Thin', # Or 'Full'
     provisionedCapacity: 1024 * 1024 * 1024 # 1GB
   )
-  storage_system_name 'ThreePAR7200-3167' # Name of the storage system
+  storage_system 'ThreePAR7200-3167' # Name of the storage system
   storage_pool 'CPG_FC-AO' # Name of the storage pool
   snapshot_pool 'CPG_FC-AO' # Name of the storage pool used for snapshots
 end
 
-
 # Example: Create a volume (using the storage system IP)
-# This example is identical to the one above, except we use the "storage_system_ip" property instead
-# of the "storage_system_name". You can use either one, but if you provide both, only the IP will be
-# used.
+# This example is identical to the one above, except we use an IP for the the "storage_system" property
+# instead of a name.
 oneview_volume 'CHEF_VOL_02' do
   client my_client
   data(
@@ -50,20 +48,19 @@ oneview_volume 'CHEF_VOL_02' do
     provisionType: 'Thin', # Or 'Full'
     provisionedCapacity: 1024 * 1024 * 1024 # 1GB
   )
-  storage_system_ip '172.18.11.11' # IP of the storage system
+  storage_system '172.18.11.11' # IP of the storage system
   storage_pool 'CPG_FC-AO' # Name of the storage pool
   snapshot_pool 'CPG_FC-AO' # Name of the storage pool used for snapshots
 end
 
-
 # Example: Create a volume using a VolumeTemplate
 # VolumeTemplates are very helpful when you want to (mostly) the same settings for multiple volumes.
-# We can override all the template options, but you really only need to provide the capacity.
+# We can override the template options with the data property, but you really only need to provide volume_template.
 oneview_volume 'CHEF_VOL_03' do
   client my_client
   data(
-    description: 'Created by Chef using template',
-    provisionedCapacity: 1024 * 1024 * 1024 * 2 # 2GB
+    description: 'Created by Chef using template', # Override the template's description
+    provisionedCapacity: 1024 * 1024 * 1024 * 2 # Override the template and provision 2GB
   )
   volume_template 'Template1' # Name of the VolumeTemplate
 end

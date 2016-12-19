@@ -10,9 +10,9 @@
 # specific language governing permissions and limitations under the License.
 
 my_client = {
-  url: '',
-  user: '',
-  password: ''
+  url: ENV['ONEVIEWSDK_URL'],
+  user: ENV['ONEVIEWSDK_USER'],
+  password: ENV['ONEVIEWSDK_PASSWORD']
 }
 
 # Load credentials to use in the switches in the Logical Switch
@@ -28,8 +28,8 @@ oneview_logical_switch 'LogicalSwitch1' do
   client my_client
   logical_switch_group 'LogicalSwitchGroup1'
   credentials([
-    {host: '172.xx.xx.1', ssh_credentials: ssh_credentials_1, snmp_credentials: default_snmpv1_credentials},
-    {host: '172.xx.xx.2', ssh_credentials: ssh_credentials_2, snmp_credentials: default_snmpv1_credentials}
+    { host: '172.xx.xx.1', ssh_credentials: ssh_credentials_1, snmp_credentials: default_snmpv1_credentials },
+    { host: '172.xx.xx.2', ssh_credentials: ssh_credentials_2, snmp_credentials: default_snmpv1_credentials }
   ])
 end
 
@@ -39,8 +39,8 @@ oneview_logical_switch 'LogicalSwitch1' do
   client my_client
   logical_switch_group 'LogicalSwitchGroup1'
   credentials([
-    {host: '172.xx.xx.1', ssh_credentials: ssh_credentials_1, snmp_credentials: default_snmpv1_credentials},
-    {host: '172.xx.xx.2', ssh_credentials: ssh_credentials_2, snmp_credentials: default_snmpv1_credentials}
+    { host: '172.xx.xx.1', ssh_credentials: ssh_credentials_1, snmp_credentials: default_snmpv1_credentials },
+    { host: '172.xx.xx.2', ssh_credentials: ssh_credentials_2, snmp_credentials: default_snmpv1_credentials }
   ])
   action :create_if_missing
 end
