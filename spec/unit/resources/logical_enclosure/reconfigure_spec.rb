@@ -28,9 +28,9 @@ describe 'oneview_test::logical_enclosure_reconfigure' do
     allow_any_instance_of(OneviewSDK::LogicalEnclosure).to receive(:[]).with('enclosureUris')
       .and_return(['/rest/enclosures/encl1', '/rest/enclosures/encl2'])
     allow_any_instance_of(OneviewSDK::LogicalEnclosure).to receive(:[]).with('name').and_call_original
-    allow(OneviewSDK::Enclosure).to receive(:find_by).with(instance_of(OneviewSDK::Client), 'uri' => '/rest/enclosures/encl1')
+    allow(OneviewSDK::Enclosure).to receive(:find_by).with(instance_of(OneviewSDK::Client), uri: '/rest/enclosures/encl1')
       .and_return([encl1])
-    allow(OneviewSDK::Enclosure).to receive(:find_by).with(instance_of(OneviewSDK::Client), 'uri' => '/rest/enclosures/encl2')
+    allow(OneviewSDK::Enclosure).to receive(:find_by).with(instance_of(OneviewSDK::Client), uri: '/rest/enclosures/encl2')
       .and_return([encl2])
   end
 
