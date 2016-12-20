@@ -11,10 +11,9 @@ describe 'oneview_test::volume_create_if_missing' do
         OneviewSDK::StoragePool.new(client, name: 'Pool2', uri: '/rest/fake', storageSystemUri: '/rest/storage-systems/1')
       ]
     )
-    allow(OneviewSDK::StorageSystem).to receive(:find_by).with(kind_of(OneviewSDK::Client), name: 'StorageSystem1')
+    allow_any_instance_of(OneviewSDK::StorageSystem).to receive(:exists?).and_return(false)
+    allow(OneviewSDK::StorageSystem).to receive(:find_by).with(kind_of(OneviewSDK::Client), 'name' => 'StorageSystem1')
       .and_return([OneviewSDK::StorageSystem.new(client, name: 'StorageSystem1', uri: '/rest/storage-systems/1')])
-    allow(OneviewSDK::StorageSystem).to receive(:find_by).with(kind_of(OneviewSDK::Client), credentials: { ip_hostname: 'StorageSystem1' })
-      .and_return([])
   end
 
   it 'creates VOL1 when it does not exist' do
