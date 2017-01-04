@@ -1,6 +1,6 @@
 module OneviewCookbook
   module API300
-    module Thunderbird
+    module Synergy
       module EthernetNetworkProvider
         include OneviewCookbook::API200::EthernetNetworkProvider
       end

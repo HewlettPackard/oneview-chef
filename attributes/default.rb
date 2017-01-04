@@ -17,7 +17,7 @@ default['oneview']['ruby_sdk_version'] = '= 3.0.0'
 # Only used for Ruby SDK 3.0 or greater
 # Default API version and hardware variant are ONLY USED if they are not defined in the Client
 default['oneview']['api_version'] = 300
-default['oneview']['hardware_variant'] = 'C7000'
+default['oneview']['hardware_variant'] = 'Synergy'
 
 # Save resource info to a node attribute? Possible values/types:
 #  - true  : Save all info (Merged hash of OneView info and Chef resource properties)

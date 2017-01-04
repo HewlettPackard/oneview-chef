@@ -11,11 +11,11 @@
 
 module OneviewCookbook
   module API300
-    # Module for API300 Thunderbird
-    module Thunderbird
+    # Module for API300 Synergy
+    module Synergy
     end
   end
 end
 
 # Load all API-specific resources:
-Dir[File.dirname(__FILE__) + '/thunderbird/*.rb'].each { |file| require file }
+Dir[File.dirname(__FILE__) + '/synergy/*.rb'].each { |file| require file }

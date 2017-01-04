@@ -52,7 +52,6 @@ module OneviewCookbook
         @oneview_api = @oneview_api.const_get(variant)
         @provider_api = @provider_api.const_get(variant)
       end
-      puts "\n\nRUBY API IS   #{@oneview_api}\nPROVIDER API IS   #{@provider_api}"
     end
 
     # Builds client and resource instance
