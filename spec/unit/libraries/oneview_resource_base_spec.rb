@@ -11,7 +11,7 @@ RSpec.describe OneviewCookbook::ResourceBaseProperties do
     end
 
     it 'creates the :client property' do
-      expect(@context).to receive(:property).with(:client, required: true)
+      expect(@context).to receive(:property).with(:client)
       described_class.load(@context)
     end
 

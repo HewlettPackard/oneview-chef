@@ -82,9 +82,9 @@ module OneviewCookbook
     end
 
     # Makes it easy to build a Client object
-    # @param [Hash, OneviewSDK::Client] client Machine info or client object.
+    # @param [Hash, OneviewSDK::Client] client Appliance info hash or client object.
     # @return [OneviewSDK::Client] Client object
-    def build_client(client)
+    def build_client(client = nil)
       case client
       when OneviewSDK::Client
         return client
@@ -95,6 +95,11 @@ module OneviewCookbook
           options[:log_level] = Chef::Log.level
         end
         options[:log_level] ||= Chef::Log.level
+        return OneviewSDK::Client.new(options)
+      when NilClass
+        options = {}
+        options[:logger] = Chef::Log
+        options[:log_level] = Chef::Log.level
         return OneviewSDK::Client.new(options)
       else
         raise "Invalid client #{client}. Must be a hash or OneviewSDK::Client"

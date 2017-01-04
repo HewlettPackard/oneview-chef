@@ -13,9 +13,9 @@
 # Ethernet Networks: EthernetNetwork1, EthernetNetwork2
 
 my_client = {
-  url: '',
-  user: '',
-  password: ''
+  url: ENV['ONEVIEWSDK_URL'],
+  user: ENV['ONEVIEWSDK_USER'],
+  password: ENV['ONEVIEWSDK_PASSWORD']
 }
 
 # No action

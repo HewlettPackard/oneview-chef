@@ -22,6 +22,11 @@ Use it by creating a new cookbook and specifying a dependency on this cookbook i
 depends 'oneview'
 ```
 
+### Credentials
+In order to manage HPE OneView resources, you'll need to provide authentication credentials. There are 2 ways to do this:
+
+1. Set the ONEVIEWSDK environment variables: ONEVIEWSDK_URL, ONEVIEWSDK_USER, ONEVIEWSDK_PASSWORD, and/or ONEVIEWSDK_TOKEN. See [this](https://github.com/HewlettPackard/oneview-sdk-ruby#environment-variables) for more info.
+2. Explicitly pass in the `client` property to each resource (see the [Resource Parameters](#resource-parameters) section below). This takes precedence over environment variables and allows you to set more client properties. This also allows you to get these credentials from other sources like encrypted databags, Vault, etc.
 
 ## Attributes
 
@@ -35,11 +40,11 @@ See [attributes/default.rb](attributes/default.rb) for more info.
 
 ## Resources
 
-### Resource Parameters
+### Resource Properties
 
-The following are the standard parameters available for all resources. Some resources have additional parameters or small differences; see their doc sections below for more details.
+The following are the standard properties available for all resources. Some resources have additional properties or small differences; see their doc sections below for more details.
 
- - **client**: Hash or OneviewSDK::Client object that contains information about how to connect to the OneView instance. Required attributes are: `url`, `user`, and `password`. See [this](https://github.com/HewlettPackard/oneview-sdk-ruby#configuration) for more options.
+ - **client**: Hash or OneviewSDK::Client object that contains information about how to connect to the OneView instance. Required attributes are: `url` and `token` or `user`, and `password`. See [this](https://github.com/HewlettPackard/oneview-sdk-ruby#configuration) for more options.
  - **data**: Hash specifying options for this resource. Refer to the OneView API docs for what's available and/or required. If no name attribute is given, it will use the name given to the Chef resource.
    - In addition to the API docs, you can use the [oneview-sdk gem's CLI](https://github.com/HewlettPackard/oneview-sdk-ruby#cli) to quickly show information about resources. If you're wanting to know which data properties exist for a resource, it might make sense to create a resource on the Web UI, then view the data. For example, after creating a new ethernet network named `eth1`, run `$ oneview-sdk-ruby show EthernetNetwork eth1`
  - **action**: Symbol specifying what to do with this resource. Options for most resources (**some may differ**):
@@ -107,6 +112,20 @@ oneview_fcoe_network 'FCoE1' do
 end
 ```
 
+### oneview_network_set
+
+Network set resource for HPE OneView.
+
+```Ruby
+oneview_network_set 'NetSet1' do
+  client <my_client>
+  native_network <native_network_name>  # String: Optional
+  ethernet_network_list <networks_list> # Array of network names as Strings: Optional
+  data <resource_data>
+  action [:create, :create_if_missing, :delete]
+end
+```
+
 ### oneview_firmware
 
 Firmware bundle and driver resource for HPE OneView.
@@ -149,9 +168,9 @@ Perform the Interconnect actions:
 oneview_interconnect 'Interconnect1' do
   client <my_client>
   data <resource_data>
-  port_options <port_data_hash> # Required for :update_port
+  port_options <port_data_hash>            # Required for :update_port
   uid_light_state <uid_light_state_string> # Required for :set_uid_light
-  power_state <power_state_string> # Required for :set_power_state
+  power_state <power_state_string>         # Required for :set_power_state
   action [:reset, :reset_port_protection, :update_port, :set_uid_light, :set_power_state]
 end
 ```
@@ -166,12 +185,12 @@ By default it performs the action `:none`.
 oneview_interconnect 'LogicalInterconnect1' do
   client <my_client>
   data <resource_data>
-  firmware <firmware_name> # String: Optional for actions like :<action>_firwmare (can be replaced by data attribute 'sppName')
-  firmware_data <firmware_data> # Hash: Optional for actions like :<action>_firwmare
+  firmware <firmware_name>           # String: Optional for actions like :<action>_firwmare (can be replaced by data attribute 'sppName')
+  firmware_data <firmware_data>      # Hash: Optional for actions like :<action>_firwmare
   internal_networks <networks_names> # Array: Optional for :update_internal_networks
-  trap_destinations <trap_options> # Hash: Optional for :update_snmp_configuration
-  enclosure <enclosure_name> # String: Required for :add_interconnect and :remove_interconnect
-  bay_number <bay> # Fixnum: Required for :add_interconnect and :remove_interconnect
+  trap_destinations <trap_options>   # Hash: Optional for :update_snmp_configuration
+  enclosure <enclosure_name>         # String: Required for :add_interconnect and :remove_interconnect
+  bay_number <bay>                   # Fixnum: Required for :add_interconnect and :remove_interconnect
   action [:none, :add_interconnect, :remove_interconnect, :update_internal_networks, :update_settings,:update_ethernet_settings, :update_port_monitor, :update_qos_configuration, :update_telemetry_configuration, :update_snmp_configuration, :update_firmware, :stage_firmware, :activate_firmware, :update_from_group, :reapply_configuration]
 end
 ```
@@ -192,7 +211,7 @@ oneview_logical_interconnect_group 'LogicalInterconnectGroup_1' do
   client <my_client>
   data <resource_data>
   interconnects <interconnect_map> # Array specifying the interconnects in the bays
-  uplink_sets <uplink_set_map> # Array containing information
+  uplink_sets <uplink_set_map>     # Array containing information
   action [:create, :create_if_missing, :delete]
 end
 ```
@@ -252,8 +271,8 @@ Logical Switch Group resource for HPE OneView.
 ```ruby
 oneview_logical_switch_group 'LogicalSwitchGroup_1' do
   client <my_client>
-  data <resource_data> # Switch options
-  switch_number <number> # Specify how many switches are in the group
+  data <resource_data>           # Switch options
+  switch_number <number>         # Specify how many switches are in the group
   switch_type <switch_type_name> # Specify the type of the switches for the entire group
   action [:create, :create_if_missing, :delete]
 end
@@ -272,7 +291,7 @@ Logical switch resource for HPE OneView.
 ```ruby
 oneview_logical_switch 'LogicalSwitch_1' do
   client <my_client>
-  data <resource_data> # Logical Switch options
+  data <resource_data>               # Logical Switch options
   credentials <switches_credentials> # Specify the credentials for all the switches
   action [:create, :create_if_missing, :delete, :refresh]
 end
@@ -380,9 +399,9 @@ oneview_volume 'Volume_1' do
   action [:create, :create_if_missing, :delete]
 end
 ```
-  - **storage_system** (String) Optional - IP address, hostname or name of the Storage System to associate the Volume.
+  - **storage_system** (String) Optional - IP address, hostname or name of the Storage System to associate with the Volume.
   - **storage_pool** (String) Optional - Name of the Storage Pool from the Storage System to associate the Volume.
-  - **volume_template** (String) Optional - Name of the Volume Template.
+  - **volume_template** (String) Optional - Name of the Volume Template. If you set this, you cannot set the storage_system or storage_pool properties.
   - **snapshot_pool** (String) Optional - Name of the Storage Pool containing the snapshots.
 
 :memo: **NOTE**: The OneView API has a provisioningParameters hash for creation, but not updates. In recipes, use same data as you would for an update, and this resource will handle creating the provisioningParameters for you if the volume needs created. (Define the desired state, not how to create it). See the [volume example](examples/volume.rb) for more on this.
@@ -667,12 +686,9 @@ end
  - **Add server hardware**
 
   ```ruby
-  # Notes:
-  #  - It can't be updated, so we use the default :add_if_missing action here
-  #  - Also, because the hostname is used as a name in OneView, we need to set the name to the hostname
   oneview_server_hardware '172.18.6.11' do
     data(
-      hostname: '172.18.6.4',
+      hostname: '172.18.6.11',
       username: 'user',
       password: 'password', # Note: This should be read from a file or databag, not stored in clear text.
       licensingIntent: 'OneViewStandard',
@@ -685,8 +701,7 @@ end
  - **Add an enclosure group**
 
   ```ruby
-  # Notes:
-  #  - Since the script is at a separate endpoint, we can't set that here
+  # Note: Since the script is at a separate endpoint, we can't set that here
   oneview_enclosure_group 'Enclosure-Group-1' do
     data(
       stackingMode: 'Enclosure',
@@ -713,7 +728,7 @@ end
   end
   ```
 
-  Note: The data hash is wrapped in a lazy block so that `node['oneview'][my_client.url]['Enclosure-Group-1']['uri']` will be set before the resource parameters are parsed. However, the recommended way is to use the `enclosure_group` (name) parameter, where the uri will be fetched at runtime; this just shows how you can use `lazy` with the node attributes that are saved.
+  Note: The data hash is wrapped in a lazy block so that `node['oneview'][my_client.url]['Enclosure-Group-1']['uri']` will be set before the resource properties are parsed. However, the recommended way is to use the `enclosure_group` (name) property, where the uri will be fetched at runtime; this just shows how you can use `lazy` with the node attributes that are saved.
 
  - **Delete a fibre channel network**
 

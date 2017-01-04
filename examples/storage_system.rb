@@ -10,11 +10,12 @@
 # specific language governing permissions and limitations under the License.
 
 my_client = {
-  url: '',
-  user: '',
-  password: ''
+  url: ENV['ONEVIEWSDK_URL'],
+  user: ENV['ONEVIEWSDK_USER'],
+  password: ENV['ONEVIEWSDK_PASSWORD']
 }
 
+# Replace these credentials with your own:
 storage_system_credentials = {
   ip_hostname: '',
   username: '',
