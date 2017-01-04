@@ -1,5 +1,6 @@
 module OneviewCookbook
   module API200
+    # Ethernet Network Provider resource methods
     module EthernetNetworkProvider
       include OneviewCookbook::Helper
       include OneviewCookbook::Helper::MissingResource

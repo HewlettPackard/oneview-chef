@@ -16,7 +16,7 @@ OneviewCookbook::Helper.load_attributes(self)
 default_action :create
 
 action_class do
-  include OneviewCookbook::Helper::provider_api::EthernetNetworkProvider
+  include OneviewCookbook::Helper.provider_api::EthernetNetworkProvider
 end
 
 action :create do

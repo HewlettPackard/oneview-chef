@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
- # Needed to consider & solve for Ruby version requirements
+# Needed to consider & solve for Ruby version requirements
 ruby RUBY_VERSION
 
 gem 'chef', '~> 12.0'

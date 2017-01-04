@@ -178,7 +178,7 @@ module OneviewCookbook
 
     # Module that adds auto casting for some ResourceBase methods
     module MissingResource
-      def method_missing(method, *args, &block)
+      def method_missing(method, *_args, &_block)
         # Gets resource name and removes the oneview slice
         res_part = resource_name.to_s
         res_part.slice!('oneview') # It is intended to the resource part start with `_`
@@ -188,11 +188,8 @@ module OneviewCookbook
         # Aliases for some methods
         maybe_method = 'create_or_update' if maybe_method == 'create'
         maybe_method = 'add_or_edit' if maybe_method == 'add'
-        if respond_to?(maybe_method)
-          public_send(maybe_method)
-        else
-          raise ArgumentError.new("Method `#{method}` doesn't exist.")
-        end
+        return public_send(maybe_method) if respond_to?(maybe_method)
+        raise ArgumentError, "Method `#{method}` does not exists."
       end
     end
   end
