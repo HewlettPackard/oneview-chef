@@ -12,7 +12,7 @@ describe 'oneview_test::volume_create_if_missing' do
       ]
     )
     allow_any_instance_of(OneviewSDK::StorageSystem).to receive(:exists?).and_return(false)
-    allow(OneviewSDK::StorageSystem).to receive(:find_by).with(kind_of(OneviewSDK::Client), name: 'StorageSystem1')
+    allow(OneviewSDK::StorageSystem).to receive(:find_by).with(kind_of(OneviewSDK::Client), 'name' => 'StorageSystem1')
       .and_return([OneviewSDK::StorageSystem.new(client, name: 'StorageSystem1', uri: '/rest/storage-systems/1')])
   end
 

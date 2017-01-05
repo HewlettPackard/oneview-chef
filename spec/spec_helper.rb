@@ -23,9 +23,14 @@ RSpec.configure do |config|
   config.platform = 'redhat'
   config.version = '7.2'
 
+  config.color = true
+  config.tty = true
+  config.failure_color = :magenta
+  config.fixed_color = :yellow
+
   config.before(:each) do
     # Mock appliance version and login api requests, as well as loading trusted certs
-    allow_any_instance_of(OneviewSDK::Client).to receive(:appliance_api_version).and_return(200)
+    allow_any_instance_of(OneviewSDK::Client).to receive(:appliance_api_version).and_return(300)
     allow_any_instance_of(OneviewSDK::Client).to receive(:login).and_return('secretToken')
     allow(OneviewSDK::SSLHelper).to receive(:load_trusted_certs).and_return(nil)
 

@@ -14,29 +14,30 @@ RSpec.describe OneviewCookbook::Helper do
 
   describe '#load_sdk' do
     before :each do
-      allow(helper).to receive(:node).and_return('oneview' => { 'ruby_sdk_version' => sdk_version })
+      @context = {}
+      allow(@context).to receive(:node).and_return('oneview' => { 'ruby_sdk_version' => sdk_version })
     end
 
     it 'loads the specified version of the gem' do
-      expect(helper).to receive(:gem).with('oneview-sdk', sdk_version)
-      helper.load_sdk
+      expect(OneviewCookbook::Helper).to receive(:gem).with('oneview-sdk', sdk_version)
+      OneviewCookbook::Helper.load_sdk(@context)
     end
 
     it 'attempts to install the gem if it is not found' do
-      expect(helper).to receive(:gem).once.and_raise LoadError
-      expect(helper).to receive(:gem).once.and_return true
-      expect(helper).to receive(:chef_gem).with('oneview-sdk').and_return true
-      expect(helper).to receive(:require).with('oneview-sdk').and_return true
-      helper.load_sdk
+      expect(OneviewCookbook::Helper).to receive(:gem).once.and_raise LoadError
+      expect(OneviewCookbook::Helper).to receive(:gem).once.and_return true
+      expect(OneviewCookbook::Helper).to receive(:chef_gem).with('oneview-sdk').and_return true
+      expect(OneviewCookbook::Helper).to receive(:require).with('oneview-sdk').and_return true
+      OneviewCookbook::Helper.load_sdk(@context)
     end
 
     it 'prints an error message if the gem cannot be loaded either time' do
-      expect(helper).to receive(:gem).twice.and_raise LoadError, 'Blah'
+      expect(OneviewCookbook::Helper).to receive(:gem).twice.and_raise LoadError, 'Blah'
       expect(Chef::Log).to receive(:error).with(/cannot be loaded. Message: Blah/)
       expect(Chef::Log).to receive(:error).with(/Loaded version .* instead/)
-      expect(helper).to receive(:chef_gem).with('oneview-sdk').and_return true
-      expect(helper).to receive(:require).with('oneview-sdk').and_return true
-      helper.load_sdk
+      expect(OneviewCookbook::Helper).to receive(:chef_gem).with('oneview-sdk').and_return true
+      expect(OneviewCookbook::Helper).to receive(:require).with('oneview-sdk').and_return true
+      OneviewCookbook::Helper.load_sdk(@context)
     end
   end
 
@@ -46,9 +47,11 @@ RSpec.describe OneviewCookbook::Helper do
       allow(helper).to receive(:resource_name).and_return 'oneview_ethernet_network'
       allow(helper).to receive(:data).and_return(name: 'net')
       allow(helper).to receive(:load_sdk).and_return true
+      allow(OneviewCookbook::Helper).to receive(:oneview_api).and_return OneviewSDK::API200
     end
 
-    it 'loads the sdk' do
+    # It won't load the sdk in this version
+    xit 'loads the sdk' do
       expect(helper).to receive(:load_sdk).and_raise 'Called load_sdk'
       expect { helper.load_resource }.to raise_error 'Called load_sdk'
     end
@@ -79,6 +82,10 @@ RSpec.describe OneviewCookbook::Helper do
   end
 
   describe '#get_resource_named' do
+    before(:each) do
+      allow(OneviewCookbook::Helper).to receive(:oneview_api).and_return OneviewSDK::API200
+    end
+
     it 'returns a class from a valid snake_case name' do
       r = helper.get_resource_named('server_profile')
       expect(r).to be OneviewSDK::ServerProfile

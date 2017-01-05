@@ -11,6 +11,9 @@
 
 OneviewCookbook::ResourceBaseProperties.load(self)
 
+OneviewCookbook::Helper.load_sdk(self)
+OneviewCookbook::Helper.load_attributes(self)
+
 property :spp_name, String
 property :spp_file, String
 property :hotfixes_names, Array
@@ -23,7 +26,6 @@ action_class do
   include OneviewCookbook::ResourceBase
 
   def load_firmware(filename = nil)
-    load_sdk
     c = build_client(client)
     item = OneviewSDK::FirmwareDriver.new(c, name: name)
     if item.exists?
@@ -54,7 +56,6 @@ action :create_custom_spp do
   unless hotfixes_names || hotfixes_files
     raise "Unspecified property: 'hotfixes_names' or 'hotfixes_files'. Please set it before attempting this action."
   end
-  load_sdk
   c = build_client(client)
   item = OneviewSDK::FirmwareDriver.new(c, name: name)
   if item.exists?
