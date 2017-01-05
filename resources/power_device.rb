@@ -10,6 +10,8 @@
 # specific language governing permissions and limitations under the License.
 
 OneviewCookbook::ResourceBaseProperties.load(self)
+OneviewCookbook::Helper.load_sdk(self)
+OneviewCookbook::Helper.load_attributes(self)
 
 property :username, String
 property :password, String
@@ -30,7 +32,6 @@ action :add_if_missing do
 end
 
 action :discover do
-  load_sdk
   c = build_client(client)
   power_devices_list = OneviewSDK::PowerDevice.get_ipdu_devices(c, name)
   if power_devices_list.empty?

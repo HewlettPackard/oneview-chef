@@ -76,7 +76,7 @@ module OneviewCookbook
     # @return [Class] OneViewSDK resource class
     def get_resource_named(type)
       klass = Helper.oneview_api.resource_named(type)
-      raise "Invalid OneView Resource type '#{type}'" unless klass
+      raise "Invalid OneView Resource type '#{type}' in #{Helper.oneview_api}" unless klass
       klass
     end
 
