@@ -35,3 +35,4 @@ default['oneview']['api_version'] = 200
 #   api_version 200: No variants exist, so don't worry about setting the api_variant attribute
 #   api_version 300: ['C7000', 'Synergy']
 default['oneview']['api_variant'] = 'C7000'
+# default['oneview']['api_variant'] = 'Synergy'
