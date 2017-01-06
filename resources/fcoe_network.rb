@@ -20,13 +20,13 @@ action_class do
 end
 
 action :create do
-  create_or_update
+  create_fcoe_network
 end
 
 action :create_if_missing do
-  create_if_missing
+  create_fcoe_network_if_missing
 end
 
 action :delete do
-  delete
+  delete_fcoe_network
 end
