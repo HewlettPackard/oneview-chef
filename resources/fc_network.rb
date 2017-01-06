@@ -10,12 +10,13 @@
 # specific language governing permissions and limitations under the License.
 
 OneviewCookbook::ResourceBaseProperties.load(self)
+OneviewCookbook::Helper.load_sdk(self)
+OneviewCookbook::Helper.load_attributes(self)
 
 default_action :create
 
 action_class do
-  include OneviewCookbook::Helper
-  include OneviewCookbook::ResourceBase
+  include OneviewCookbook::Helper.provider_api::FCNetworkProvider
 end
 
 action :create do
