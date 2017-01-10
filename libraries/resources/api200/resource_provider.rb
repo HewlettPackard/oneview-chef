@@ -12,7 +12,7 @@
 module OneviewCookbook
   module API200
     # Base class for API200 resource providers
-    class EthernetNetwork < OneviewCookbook::ResourceProvider
+    class ResourceProvider < OneviewCookbook::ResourceProvider
     end
   end
 end
