@@ -21,7 +21,7 @@ module OneviewCookbook
       new_type = type.to_s.downcase.gsub(/[ -_]/, '') + 'provider'
       constants.each do |c|
         klass = OneviewCookbook::API200.const_get(c)
-        next unless klass.is_a?(Class) # && klass < OneviewCookbook::ResourceProvider
+        next unless klass.is_a?(Class) && klass < OneviewCookbook::ResourceProvider
         name = klass.name.split('::').last.downcase.delete('_').delete('-')
         return klass if new_type =~ /^#{name}$/
       end

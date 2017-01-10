@@ -46,7 +46,7 @@ RSpec.describe OneviewCookbook::Helper do
       allow(helper).to receive(:resource_name).and_return 'oneview_ethernet_network'
       allow(helper).to receive(:data).and_return(name: 'net')
       allow(helper).to receive(:load_sdk).and_return true
-      allow(helper).to receive(:api_module).and_return @client.api_version
+      allow(helper).to receive(:api_version).and_return @client.api_version
       allow(helper).to receive(:api_variant).and_return 'C7000'
       allow(helper).to receive(:property_is_set?).with(:api_version).and_return false
     end
@@ -83,7 +83,7 @@ RSpec.describe OneviewCookbook::Helper do
 
   describe '#get_resource_named' do
     before :each do
-      allow(helper).to receive(:api_module).and_return @client.api_version
+      allow(helper).to receive(:api_version).and_return @client.api_version
       allow(helper).to receive(:api_variant).and_return 'C7000'
     end
 

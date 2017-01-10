@@ -12,7 +12,7 @@
 module OneviewCookbook
   # Module for Oneview API 200 Resources
   module API300
-    SUPPORTED_VARIANTS = %w(C7000 Synergy).freeze
+    SUPPORTED_VARIANTS ||= %w(C7000 Synergy).freeze
 
     # Get resource class that matches the type given
     # @param [String] type Name of the desired class type
@@ -24,7 +24,7 @@ module OneviewCookbook
       api_module = OneviewCookbook::API300.const_get(variant.to_s)
       api_module.constants.each do |c|
         klass = api_module.const_get(c)
-        next unless klass.is_a?(Class) # && klass < OneviewCookbook::ResourceProvider
+        next unless klass.is_a?(Class) && klass < OneviewCookbook::ResourceProvider
         name = klass.name.split('::').last.downcase.delete('_').delete('-')
         return klass if new_type =~ /^#{name}$/
       end

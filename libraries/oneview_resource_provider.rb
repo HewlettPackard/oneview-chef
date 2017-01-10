@@ -12,10 +12,6 @@
 module OneviewCookbook
   # Base class for resource providers
   class ResourceProvider
-    SDK_MODULE   = nil # Needs to be overridden in the provider's class
-    SDK_VARIANT  = nil # Needs to be overridden in the provider's class
-    SDK_RESOURCE = nil # Needs to be overridden in the provider's class
-
     attr_accessor \
       :context,       # Ususally a Chef resource's context
       :resource_name, # The Chef resource's type. e.g., oneview_ethernet_network

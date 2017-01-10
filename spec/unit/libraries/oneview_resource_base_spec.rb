@@ -10,7 +10,7 @@ RSpec.describe OneviewCookbook::ResourceBaseProperties do
       attributes = {
         'oneview' => {
           'save_resource_info' => true,
-          'api_module' => 200,
+          'api_version' => 200,
           'api_variant' => 'C7000'
         }
       }
@@ -38,18 +38,18 @@ RSpec.describe OneviewCookbook::ResourceBaseProperties do
     end
 
     it 'creates the :api_version property' do
-      expect(@context).to receive(:property).with(:api_version, Fixnum)
-      described_class.load(@context)
-    end
-
-    it 'creates the :api_module property' do
-      expect(@context).to receive(:property).with(:api_module, Fixnum, default: @context.node['oneview']['api_module'])
+      expect(@context).to receive(:property).with(:api_version, Fixnum, default: @context.node['oneview']['api_version'])
       described_class.load(@context)
     end
 
     it 'creates the :api_variant property' do
       expect(@context).to receive(:property)
         .with(:api_variant, [String, Symbol], default: @context.node['oneview']['api_variant'])
+      described_class.load(@context)
+    end
+
+    it 'creates the :api_header_version property' do
+      expect(@context).to receive(:property).with(:api_header_version, Fixnum)
       described_class.load(@context)
     end
   end

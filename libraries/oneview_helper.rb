@@ -127,7 +127,7 @@ module OneviewCookbook
     # @param [String] type OneviewSDK resource name
     # @return [Class] OneviewSDK resource class
     def get_resource_named(type)
-      klass = OneviewSDK.resource_named(type, api_module, api_variant)
+      klass = OneviewSDK.resource_named(type, api_version, api_variant)
       raise "Invalid OneView Resource type '#{type}'" unless klass
       klass
     end
