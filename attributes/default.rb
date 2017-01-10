@@ -20,20 +20,18 @@ default['oneview']['ruby_sdk_version'] = '~> 3.0'
 #  - Array : ie ['uri', 'status', 'created'] Save a subset of specified attributes
 default['oneview']['save_resource_info'] = ['uri']
 
-# When looking for resources in the SDK's API module, this version will be used by default.
+# When looking for a matching Chef resource provider class, this version will be used by default.
 # The resource must be defined for this version. For example, when set to 200, it will look
-# for the resource in OneviewSDK::API200. When 300, it will look in OneviewSDK::API200
-# See https://github.com/HewlettPackard/oneview-sdk-ruby/blob/master/lib/oneview-sdk.rb for
-# more info on supported API versions
-default['oneview']['api_module'] = 200
+# for the resource in OneviewCookbook::API200. When 300, it will look in OneviewCookbook::API200
+# See the libraries/resources directory for more info on supported API versions
+default['oneview']['api_version'] = 200
 
-# When looking for resources in the SDK's API modules, this variant will be used by default
-# For example, when the api_module attribute described above is set to 300 and the api_variant
-# set to C7000, it will look for the resource in OneviewSDK::API300::C7000
+# When looking for a matching Chef resource provider class, this variant will be used by default
+# For example, when the api_version attribute described above is set to 300 and the api_variant
+# set to C7000, it will look for the resource in OneviewCookbook::API300::C7000
 # Note: If there is only 1 variant for the API module (e.g., API200), this attribute doesn't matter.
-# See the module classes in the following link for supported variants for that module:
-# https://github.com/HewlettPackard/oneview-sdk-ruby/tree/master/lib/oneview-sdk/resource
-# At the time of writing this, the following api_module & api_variant combinations are supported:
-#   api_module 200: No variants exist, so don't worry about setting the api_variant attribute
-#   api_module 300: ['C7000', 'Synergy']
+# See the libraries/resources directory for more info on supported API versions and variants.
+# At the time of writing this, the following api_version & api_variant combinations are supported:
+#   api_version 200: No variants exist, so don't worry about setting the api_variant attribute
+#   api_version 300: ['C7000', 'Synergy']
 default['oneview']['api_variant'] = 'C7000'
