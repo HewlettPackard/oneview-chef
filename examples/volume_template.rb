@@ -13,9 +13,9 @@
 # and one Storage Pool named 'CPG-SSD' associated to this Storage System
 
 my_client = {
-  url: '',
-  user: '',
-  password: ''
+  url: ENV['ONEVIEWSDK_URL'],
+  user: ENV['ONEVIEWSDK_USER'],
+  password: ENV['ONEVIEWSDK_PASSWORD']
 }
 
 # Example: create or update a volume template, specifying a storage system hostname/IP
@@ -31,7 +31,6 @@ oneview_volume_template 'VolumeTemplate1' do
   storage_system '172.18.11.11'
   storage_pool 'CPG-SSD'
 end
-
 
 # Example: creates or updates a volume template, specifying a storage system name
 oneview_volume_template 'VolumeTemplate2' do

@@ -104,12 +104,29 @@ RSpec.describe OneviewCookbook::Helper do
   end
 
   describe '#build_client' do
-    it 'requires a parameter' do
-      expect { helper.build_client }.to raise_error(/wrong number of arguments/)
+    it 'requires a valid oneview object' do
+      expect { helper.build_client(1) }.to raise_error(/Invalid client/)
+      expect { helper.build_client(nil) }.to raise_error(OneviewSDK::InvalidClient, /Must set/)
     end
 
-    it 'requires a valid oneview object' do
-      expect { helper.build_client(nil) }.to raise_error(/Invalid client/)
+    it 'supports using OneviewSDK user/password environment variables' do
+      ENV['ONEVIEWSDK_URL'] = @ov_options[:url]
+      ENV['ONEVIEWSDK_USER'] = @ov_options[:user]
+      ENV['ONEVIEWSDK_PASSWORD'] = @ov_options[:password]
+      ov = helper.build_client
+      expect(ov.url).to eq(@ov_options[:url])
+      expect(ov.user).to eq(@ov_options[:user])
+      expect(ov.password).to eq(@ov_options[:password])
+    end
+
+    it 'supports using OneviewSDK user/password environment variables' do
+      ENV['ONEVIEWSDK_URL'] = @ov_options[:url]
+      ENV['ONEVIEWSDK_TOKEN'] = 'faketoken'
+      ENV['ONEVIEWSDK_SSL_ENABLED'] = 'false'
+      ov = helper.build_client
+      expect(ov.url).to eq(@ov_options[:url])
+      expect(ov.token).to eq('faketoken')
+      expect(ov.ssl_enabled).to eq(false)
     end
 
     it 'accepts an OneviewSDK::Client object' do

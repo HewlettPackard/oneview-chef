@@ -17,9 +17,9 @@
 # - Enclosure: MyEnclosure
 
 my_client = {
-  url: '',
-  user: '',
-  password: ''
+  url: ENV['ONEVIEWSDK_URL'],
+  user: ENV['ONEVIEWSDK_USER'],
+  password: ENV['ONEVIEWSDK_PASSWORD']
 }
 
 # Example: creates or updates an uplink set
@@ -44,10 +44,7 @@ oneview_uplink_set 'UplinkSet1' do
       {
         locationEntries:
         [
-          {
-            value: 'MyEnclosure',
-            type: 'Enclosure'
-          }
+          { value: 'MyEnclosure', type: 'Enclosure' }
         ]
       }
     ]

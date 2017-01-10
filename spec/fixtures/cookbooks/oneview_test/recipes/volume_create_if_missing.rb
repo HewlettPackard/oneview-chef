@@ -25,6 +25,5 @@ oneview_volume 'VOL1' do
   storage_system 'StorageSystem1'
   storage_pool 'Pool1'
   snapshot_pool 'Pool2'
-  volume_template 'Template1'
   action :create_if_missing
 end

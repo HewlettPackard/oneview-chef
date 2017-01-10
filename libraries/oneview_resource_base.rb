@@ -14,13 +14,14 @@ module OneviewCookbook
   module ResourceBaseProperties
     # Loads the default properties for all resources
     def self.load(context)
-      context.property :client, required: true
+      context.property :client
       context.property :name, [String, Symbol], required: true
       context.property :data, Hash, default: {}
       context.property :save_resource_info, [TrueClass, FalseClass, Array], default: context.node['oneview']['save_resource_info']
-      context.property :api_version, Fixnum # This version will be used in a header for API requests
+      context.property :api_version, Fixnum
       context.property :api_module, Fixnum, default: context.node['oneview']['api_module']
       context.property :api_variant, [String, Symbol], default: context.node['oneview']['api_variant']
+      context.property :api_header_version, Fixnum # This version will be used in a header for API requests
     end
   end
 

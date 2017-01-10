@@ -9,23 +9,13 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-my_client = {
-  url: ENV['ONEVIEWSDK_URL'],
-  user: ENV['ONEVIEWSDK_USER'],
-  password: ENV['ONEVIEWSDK_PASSWORD']
-}
-
-# Example: Adds an unmanaged device (default action)
-oneview_unmanaged_device 'UnmanagedDevice1' do
-  client my_client
-  data(
-    model: 'Procurve 4200VL',
-    deviceType: 'Server'
-  )
+module OneviewCookbook
+  module API200
+    # Base class for API200 resource providers
+    class EthernetNetwork < OneviewCookbook::ResourceProvider
+    end
+  end
 end
 
-# Example: Removes an unmanaged device
-oneview_unmanaged_device 'UnmanagedDevice1' do
-  client my_client
-  action :remove
-end
+# Load all resource API modules:
+Dir[File.dirname(__FILE__) + '/resources/*.rb'].each { |file| require file }

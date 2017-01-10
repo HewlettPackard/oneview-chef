@@ -10,16 +10,16 @@
 # specific language governing permissions and limitations under the License.
 
 my_client = {
-  url: '',
-  user: '',
-  password: ''
+  url: ENV['ONEVIEWSDK_URL'],
+  user: ENV['ONEVIEWSDK_USER'],
+  password: ENV['ONEVIEWSDK_PASSWORD']
 }
 
 # Example: Create and manage a new ethernet network
 oneview_ethernet_network 'Eth1' do
   client my_client
   data(
-    vlanId: '1001',
+    vlanId: 1001,
     purpose: 'General',
     smartLink: false,
     privateNetwork: false
@@ -31,7 +31,7 @@ end
 oneview_ethernet_network 'Eth1' do
   client my_client
   data(
-    vlanId: '1001',
+    vlanId: 1001,
     purpose: 'General',
     smartLink: false,
     privateNetwork: false

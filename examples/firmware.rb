@@ -10,9 +10,9 @@
 # specific language governing permissions and limitations under the License.
 
 my_client = {
-  url: '',
-  user: '',
-  password: ''
+  url: ENV['ONEVIEWSDK_URL'],
+  user: ENV['ONEVIEWSDK_USER'],
+  password: ENV['ONEVIEWSDK_PASSWORD']
 }
 
 # Example: Upload a firmware bundle
@@ -36,9 +36,7 @@ end
 oneview_firmware 'CustomSPP' do
   client my_client
   spp_files '/bundles/firmware_bundle_name.iso'
-  hotfixes_files [
-    '/bundles/hotfix_name.rpm'
-  ]
+  hotfixes_files ['/bundles/hotfix_name.rpm']
   action :create_custom_spp
 end
 

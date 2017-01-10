@@ -9,23 +9,23 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-client = {
-  url: '',
-  user: '',
-  password: ''
+my_client = {
+  url: ENV['ONEVIEWSDK_URL'],
+  user: ENV['ONEVIEWSDK_USER'],
+  password: ENV['ONEVIEWSDK_PASSWORD']
 }
 
 oneview_enclosure_group 'Eg2' do
-  data ({
+  data(
     stackingMode: 'Enclosure',
     interconnectBayMappingCount: 8
-  })
+  )
   logical_interconnect_group 'lig1'
-  client client
+  client my_client
   action :create
 end
 
 oneview_enclosure_group 'Eg2' do
-  client client
+  client my_client
   action :delete
 end

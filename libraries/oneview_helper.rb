@@ -14,6 +14,74 @@ require 'logger'
 module OneviewCookbook
   # Helpers for Oneview Resources
   module Helper
+    def self.get_resource_class(context, resource_type)
+      load_sdk(context)
+      api_version = context.property_is_set?(:api_version) ? context.api_version : context.node['oneview']['api_module']
+      api_module = get_api_module(api_version)
+      api_variant = context.property_is_set?(:api_variant) ? context.api_variant : context.node['oneview']['api_variant']
+      api_module.resource_named(resource_type, api_variant)
+    end
+
+    # Get the API module given an api_version
+    # @param [Fixnum, String] api_version
+    # @return [Class] Resource class or nil if not found
+    def self.get_api_module(api_version)
+      OneviewCookbook.const_get("API#{api_version}")
+    rescue NameError
+      raise NameError, "The api_version #{api_version} is not supported. Please use a supported version."
+    end
+
+    # Load (and install if necessary) the oneview-sdk
+    def self.load_sdk(context)
+      node = context.node
+      gem 'oneview-sdk', node['oneview']['ruby_sdk_version']
+      require 'oneview-sdk'
+      Chef::Log.debug("Loaded oneview-sdk #{node['oneview']['ruby_sdk_version']} (#{OneviewSDK::VERSION})")
+    rescue LoadError => e
+      Chef::Log.debug("Could not load gem oneview-sdk #{node['oneview']['ruby_sdk_version']}. Message: #{e.message}")
+      Chef::Log.info("Could not load gem oneview-sdk #{node['oneview']['ruby_sdk_version']}. Making sure it's installed...")
+      context.chef_gem 'oneview-sdk' do
+        version node['oneview']['ruby_sdk_version']
+        compile_time true if Chef::Resource::ChefGem.method_defined?(:compile_time)
+      end
+      begin # Try to load the specified version of the oneview-sdk gem again
+        gem 'oneview-sdk', node['oneview']['ruby_sdk_version']
+        require 'oneview-sdk'
+        Chef::Log.debug("Loaded oneview-sdk version #{OneviewSDK::VERSION}")
+      rescue LoadError => er
+        Chef::Log.error("Version #{node['oneview']['ruby_sdk_version']} of oneview-sdk cannot be loaded. Message: #{er.message}")
+        require 'oneview-sdk'
+        Chef::Log.error("Loaded version #{OneviewSDK::VERSION} of the oneview-sdk gem instead")
+      end
+    end
+
+    # Makes it easy to build a Client object
+    # @param [Hash, OneviewSDK::Client] client Appliance info hash or client object.
+    # @return [OneviewSDK::Client] Client object
+    def self.build_client(client = nil)
+      case client
+      when OneviewSDK::Client
+        return client
+      when Hash
+        options = Hash[client.map { |k, v| [k.to_sym, v] }] # Convert string keys to symbols
+        unless options[:logger] # Use the Chef logger
+          options[:logger] = Chef::Log
+          options[:log_level] = Chef::Log.level
+        end
+        options[:log_level] ||= Chef::Log.level
+        return OneviewSDK::Client.new(options)
+      when NilClass
+        options = {}
+        options[:logger] = Chef::Log
+        options[:log_level] = Chef::Log.level
+        return OneviewSDK::Client.new(options) # Rely on the ENV variables being set
+      else
+        raise "Invalid client #{client}. Must be a hash or OneviewSDK::Client"
+      end
+    end
+
+    # Keeping all the old helper methods until we update all the resources
+
     # Load (and install if necessary) the oneview-sdk
     def load_sdk
       gem 'oneview-sdk', node['oneview']['ruby_sdk_version']
@@ -65,9 +133,9 @@ module OneviewCookbook
     end
 
     # Makes it easy to build a Client object
-    # @param [Hash, OneviewSDK::Client] client Machine info or client object.
+    # @param [Hash, OneviewSDK::Client] client Appliance info hash or client object.
     # @return [OneviewSDK::Client] Client object
-    def build_client(client)
+    def build_client(client = nil)
       case client
       when OneviewSDK::Client
         return client
@@ -78,6 +146,11 @@ module OneviewCookbook
           options[:log_level] = Chef::Log.level
         end
         options[:log_level] ||= Chef::Log.level
+        return OneviewSDK::Client.new(options)
+      when NilClass
+        options = {}
+        options[:logger] = Chef::Log
+        options[:log_level] = Chef::Log.level
         return OneviewSDK::Client.new(options)
       else
         raise "Invalid client #{client}. Must be a hash or OneviewSDK::Client"

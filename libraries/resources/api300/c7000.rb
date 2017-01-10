@@ -6,16 +6,16 @@
 #
 # Unless required by applicable law or agreed to in writing, software distributed
 # under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-# CONDITIONS OF ANY KIND, either express or implied. See the License for the
-# specific language governing permissions and limitations under the License.
+# CONDITIONS OF ANY KIND, either express or implied. See the License for the specific
+# language governing permissions and limitations under the License.
 
-my_client = {
-  url: ENV['ONEVIEWSDK_URL'],
-  user: ENV['ONEVIEWSDK_USER'],
-  password: ENV['ONEVIEWSDK_PASSWORD']
-}
-
-oneview_logical_enclosure 'Encl1' do
-  client my_client
-  action :update_from_group
+module OneviewCookbook
+  module API300
+    # Module for API300 C7000
+    module C7000
+    end
+  end
 end
+
+# Load all API-specific resources:
+Dir[File.dirname(__FILE__) + '/c7000/*.rb'].each { |file| require file }
