@@ -1,5 +1,6 @@
-## 2.0.0
+## Unreleased
   - Support oneview-sdk v3.0 & different API versions/modules
+  - ethernet_network support for API300
 
 ### 1.1.0
   - Add support for client ENV variables

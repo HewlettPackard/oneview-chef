@@ -55,7 +55,7 @@ The following are the standard properties available for all resources. Some reso
    - `:delete` - Delete this resource from OneView. For this, you only need to specify the resource name or uri in the data section.
  - **save_resource_info**: Defaults to `node['oneview']['save_resource_info']` (see the attribute above). Doesn't apply to the `:delete` action
    - Once the resource is created, you can access this data at `node['oneview'][<oneview_url>][<resource_name>]`. This can be useful to extract URIs from other resources, etc.
- - **api_version**: (Fixnum) Specify the version of the [API module](libraries/resources/) to use. Defaults to `node['oneview']['api_version']`
+ - **api_version**: (Fixnum) Specify the version of the [API module](libraries/resource_providers/) to use. Defaults to `node['oneview']['api_version']`
  - **api_variant**: (String) When looking for resources in the SDK's API module, this version will be used. Defaults to `node['oneview']['api_variant']`
  - **api_header_version**: (Fixnum) This will override the version used in API request headers. Only set this if you know what you're doing.
 

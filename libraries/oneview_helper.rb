@@ -10,7 +10,6 @@
 # specific language governing permissions and limitations under the License.
 
 require 'logger'
-Dir[File.dirname(__FILE__) + '/resource_providers/*.rb'].each { |file| require file }
 
 module OneviewCookbook
   # Helpers for Oneview Resources
@@ -300,3 +299,5 @@ module OneviewCookbook
     end
   end
 end
+
+require_relative 'resource_provider'

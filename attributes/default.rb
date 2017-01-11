@@ -20,9 +20,9 @@ default['oneview']['ruby_sdk_version'] = '~> 3.0'
 #  - Array : ie ['uri', 'status', 'created'] Save a subset of specified attributes
 default['oneview']['save_resource_info'] = ['uri']
 
-# This will be the default used for creating clients & when looking for a matching Chef resource provider
-# class. A resource provider must be defined for this version. For example, when set to 200, it will
-# look for the resource in OneviewCookbook::API200. When 300, it will look in OneviewCookbook::API200
+# When looking for a matching Chef resource provider class, this version will be the default.
+# A resource provider must be defined for this version. For example, when set to 200, it will look
+# for the resource in OneviewCookbook::API200. When 300, it will look in OneviewCookbook::API300
 # See the libraries/resources directory for more info on supported API versions
 default['oneview']['api_version'] = 200
 
