@@ -14,25 +14,17 @@ OneviewCookbook::ResourceBaseProperties.load(self)
 default_action :create
 
 action :create do
-  klass = OneviewCookbook::Helper.get_resource_class(self, :EthernetNetwork)
-  res = klass.new(self)
-  res.create_or_update
+  OneviewCookbook::Helper.do_resource_action(self, :EthernetNetwork, :create_or_update)
 end
 
 action :create_if_missing do
-  klass = OneviewCookbook::Helper.get_resource_class(self, :EthernetNetwork)
-  res = klass.new(self)
-  res.create_if_missing
+  OneviewCookbook::Helper.do_resource_action(self, :EthernetNetwork, :create_if_missing)
 end
 
 action :reset_connection_template do
-  klass = OneviewCookbook::Helper.get_resource_class(self, :EthernetNetwork)
-  res = klass.new(self)
-  res.reset_connection_template
+  OneviewCookbook::Helper.do_resource_action(self, :EthernetNetwork, :reset_connection_template)
 end
 
 action :delete do
-  klass = OneviewCookbook::Helper.get_resource_class(self, :EthernetNetwork)
-  res = klass.new(self)
-  res.delete
+  OneviewCookbook::Helper.do_resource_action(self, :EthernetNetwork, :delete)
 end

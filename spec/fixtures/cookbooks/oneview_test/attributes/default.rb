@@ -14,8 +14,7 @@
 # specific language governing permissions and limitations under the License.
 #
 
-# default['oneview']['ruby_sdk_version'] = '~> 3.0'
-# default['oneview']['api_version'] = 300
+default['oneview']['api_version'] = 200
 # default['oneview']['api_variant'] = 'C7000'
 
-default['oneview_test']['client'] = { url: 'https://oneview.example.com', user: 'Administrator', password: 'secret123' }
+default['oneview_test']['client'] = { url: 'https://oneview.example.com', user: 'Administrator', password: 'secret123', api_version: 200 }

@@ -9,6 +9,8 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
+require_relative '../../resource_provider'
+
 module OneviewCookbook
   module API200
     # Base class for API200 resource providers
@@ -16,6 +18,3 @@ module OneviewCookbook
     end
   end
 end
-
-# Load all resource API modules:
-Dir[File.dirname(__FILE__) + '/resources/*.rb'].each { |file| require file }

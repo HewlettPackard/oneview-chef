@@ -13,7 +13,7 @@ module OneviewCookbook
   # Base class for resource providers
   class ResourceProvider
     attr_accessor \
-      :context,       # Ususally a Chef resource's context
+      :context,       # Ususally a Chef resource's context (self)
       :resource_name, # The Chef resource's type. e.g., oneview_ethernet_network
       :name,          # Name of the Chef resource. e.g., EthNet1
       :item,          # The OneviewSDK resource instance
@@ -27,6 +27,11 @@ module OneviewCookbook
       @name = context.name
       name_arr = self.class.to_s.split('::')
       case name_arr.size
+      when 2 # No variant or api version specified. (OneviewCookbook::ResourceProvider)
+        # This case should really only be used for testing
+        # Uses the SDK's default api version and variant
+        @sdk_resource_type = name_arr.pop.gsub(/Provider$/i, '') # e.g., EthernetNetwork
+        klass = OneviewSDK.resource_named(@sdk_resource_type)
       when 3 # No variant specified. e.g., OneviewCookbook::API200::EthernetNetworkProvider
         @sdk_resource_type = name_arr.pop.gsub(/Provider$/i, '') # e.g., EthernetNetwork
         @sdk_api_version = name_arr.pop.gsub(/API/i, '').to_i # e.g., 200
@@ -38,7 +43,7 @@ module OneviewCookbook
       else # Something is wrong
         raise "Can't build a resource object from the class #{self.class}"
       end
-      klass = OneviewSDK.resource_named(@sdk_resource_type, @sdk_api_version, @sdk_variant)
+      klass ||= OneviewSDK.resource_named(@sdk_resource_type, @sdk_api_version, @sdk_variant)
       c = OneviewCookbook::Helper.build_client(context.client)
       new_data = JSON.parse(context.data.to_json) rescue context.data
       @item = context.property_is_set?(:api_header_version) ? klass.new(c, new_data, context.api_header_version) : klass.new(c, new_data)
@@ -139,58 +144,24 @@ module OneviewCookbook
     end
 
     # Utility method that converts Hash symbol to string keys
-    # @param [Hash] info Hash containing the dataset
-    # @param [Symbol] conversion_method Symbol representing the method to be called in the conversion
-    # @return [Hash] Hash with the keys converted. Returns nil if info is invalid.
+    # See the OneviewCookbook::Helper.convert_keys method for param details
     def convert_keys(info, conversion_method)
-      return nil unless info
-      support = {}
-      info.each do |k, v|
-        con = convert_keys(v, conversion_method) if v && v.class == Hash
-        support[k.public_send(conversion_method)] = con || v
-      end
-      support
+      OneviewCookbook::Helper.convert_keys(info, conversion_method)
     end
 
     # Get the diff of the current resource state and the desired state
-    # @param [OneviewSDK::Resource] resource Resource containing current state
-    # @param [Hash] desired_data Desired state for the resource
-    # @return [String] Diff string (multi-line). Returns empty string if there is no diff or an error occurred
+    # See the OneviewCookbook::Helper.get_diff method for param details
     def get_diff(resource, desired_data)
-      data = resource.is_a?(Hash) ? resource : resource.data
-      recursive_diff(data, desired_data, "\n", '  ')
-    rescue StandardError => e
-      Chef::Log.error "Failed to generate resource diff for #{@resource_name} '#{@name}': #{e.message}"
-      '' # Return empty diff
+      OneviewCookbook::Helper.get_diff(resource, desired_data)
     end
 
     # Get the diff of the current resource state and the desired state
-    # @param [Hash] data Current state of the resource
-    # @param [Hash] desired_data Desired state for the resource
-    # @param [String] str Current diff string to append to (used for recursive calls)
-    # @param [String] indent String used to indent the output
-    # @raise [StandardError] if the comparison cannot be made due to an unexpected error
-    # @return [String] Diff string (multi-line). Returns empty string if there is no diff
+    # See the OneviewCookbook::Helper.recursive_diff method for param details
     def recursive_diff(data, desired_data, str = '', indent = '')
-      unless desired_data.class == Hash
-        return '' if data == desired_data
-        return str << "\n#{indent}#{data.nil? ? 'nil' : data} -> #{desired_data}"
-      end
-      return str << "\n#{indent}nil -> #{desired_data}" if data.nil?
-      return str << "\n#{indent}#{data} -> #{desired_data}" unless data && data.class == Hash
-      desired_data.each do |key, val|
-        if val.is_a?(Hash)
-          if data[key].class == Hash
-            str2 = recursive_diff(data[key], val, '', "#{indent}  ")
-            str << "\n#{indent}#{key}:#{str2}" unless str2.empty?
-          else
-            str << "\n#{indent}#{key}: #{data[key].nil? ? 'nil' : data[key]} -> #{val}"
-          end
-        elsif val != data[key]
-          str << "\n#{indent}#{key}: #{data[key].nil? ? 'nil' : data[key]} -> #{val}"
-        end
-      end
-      str
+      OneviewCookbook::Helper.recursive_diff(data, desired_data, str, indent)
     end
   end
 end
+
+# Load all resource providers:
+Dir[File.dirname(__FILE__) + '/resource_providers/*.rb'].each { |file| require file }

@@ -27,3 +27,14 @@ describe 'oneview_test::ethernet_network_create' do
     expect(real_chef_run).to create_oneview_ethernet_network('EthernetNetwork1')
   end
 end
+
+describe 'oneview_test_api300_synergy::ethernet_network_create' do
+  let(:resource_name) { 'ethernet_network' }
+  include_context 'chef context'
+
+  it 'creates it when it does not exist' do
+    expect_any_instance_of(OneviewSDK::API300::Synergy::EthernetNetwork).to receive(:exists?).and_return(false)
+    expect_any_instance_of(OneviewSDK::API300::Synergy::EthernetNetwork).to receive(:create).and_return(true)
+    expect(real_chef_run).to create_oneview_ethernet_network('EthNet1')
+  end
+end

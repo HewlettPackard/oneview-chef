@@ -1,3 +1,7 @@
+#
+# Cookbook Name:: oneview_test_api300_synergy
+# Attributes:: default
+#
 # (c) Copyright 2016 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -8,15 +12,9 @@
 # under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
+#
 
-require_relative '../../api200/ethernet_network_provider'
+default['oneview']['api_version'] = 300
+default['oneview']['api_variant'] = 'Synergy'
 
-module OneviewCookbook
-  module API300
-    module Synergy
-      # EthernetNetworkProvider
-      class EthernetNetworkProvider < OneviewCookbook::API200::EthernetNetworkProvider
-      end
-    end
-  end
-end
+default['oneview_test']['client'] = { url: 'https://oneview.example.com', user: 'Administrator', password: 'secret123', api_version: 300 }
