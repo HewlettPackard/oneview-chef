@@ -10,7 +10,7 @@
 # specific language governing permissions and limitations under the License.
 
 module OneviewCookbook
-  # Module for Oneview API 200 Resources
+  # Module for Oneview API 300 Resources
   module API300
     SUPPORTED_VARIANTS ||= %w(C7000 Synergy).freeze
 
@@ -18,7 +18,7 @@ module OneviewCookbook
     # @param [String] type Name of the desired class type
     # @param [String] variant Variant (C7000 or Synergy)
     # @return [Class] Resource class or nil if not found
-    def self.resource_named(type, variant)
+    def self.provider_named(type, variant)
       raise "API300 variant #{variant} is not supported!" unless SUPPORTED_VARIANTS.include?(variant.to_s)
       new_type = type.to_s.downcase.gsub(/[ -_]/, '') + 'provider'
       api_module = OneviewCookbook::API300.const_get(variant.to_s)

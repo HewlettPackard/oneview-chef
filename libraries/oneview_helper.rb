@@ -34,7 +34,7 @@ module OneviewCookbook
       api_version = context.property_is_set?(:api_version) ? context.api_version : context.node['oneview']['api_version']
       api_module = get_api_module(api_version)
       api_variant = context.property_is_set?(:api_variant) ? context.api_variant : context.node['oneview']['api_variant']
-      api_module.resource_named(resource_type, api_variant)
+      api_module.provider_named(resource_type, api_variant)
     end
 
     # Get the API module given an api_version

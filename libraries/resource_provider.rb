@@ -94,7 +94,7 @@ module OneviewCookbook
     def create_if_missing(method = :create)
       ret_val = false
       if @item.exists?
-        Chef::Log.info("'#{@resource_name} #{@name}' exists. Skipping")
+        Chef::Log.info("#{@resource_name} '#{@name}' exists. Skipping")
         @item.retrieve! if @context.save_resource_info
       else
         Chef::Log.info "#{method.to_s.capitalize} #{@resource_name} '#{@name}'"

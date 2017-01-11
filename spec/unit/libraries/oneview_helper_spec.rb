@@ -34,17 +34,17 @@ RSpec.describe OneviewCookbook::Helper do
     it 'uses the node attributes as defaults' do
       context = FakeResource.new
       klass = described_class.get_resource_class(context, resource_type)
-      expect(klass).to eq(OneviewCookbook::API300::C7000::EthernetNetworkProvider)
-    end
-
-    it "respects the resource's api_version property" do
-      context = FakeResource.new(api_version: 200)
-      klass = described_class.get_resource_class(context, resource_type)
       expect(klass).to eq(OneviewCookbook::API200::EthernetNetworkProvider)
     end
 
+    it "respects the resource's api_version property" do
+      context = FakeResource.new(api_version: 300)
+      klass = described_class.get_resource_class(context, resource_type)
+      expect(klass).to eq(OneviewCookbook::API300::C7000::EthernetNetworkProvider)
+    end
+
     it "respects the resource's api_variant property" do
-      context = FakeResource.new(api_variant: :Synergy)
+      context = FakeResource.new(api_version: 300, api_variant: :Synergy)
       klass = described_class.get_resource_class(context, resource_type)
       expect(klass).to eq(OneviewCookbook::API300::Synergy::EthernetNetworkProvider)
     end
@@ -153,6 +153,117 @@ RSpec.describe OneviewCookbook::Helper do
       ov = described_class.build_client(@ov_options.merge(logger: Logger.new(STDOUT), log_level: level))
       expect(ov.log_level).to eq(level)
       expect(ov.log_level).to_not eq(Chef::Log.level)
+    end
+  end
+
+  describe '#self.convert_keys' do
+    it 'converts simple hash keys' do
+      simple_1 = { a: 1, b: 2, c: 3 }
+      described_class.convert_keys(simple_1, :to_s).each { |k, _| expect(k).class == String }
+    end
+
+    it 'converts unary hash key' do
+      simple_2 = { a: 1 }
+      conv = described_class.convert_keys(simple_2, :to_s)
+      expect(conv['a']).to eq(1)
+    end
+
+    it 'ignores empty hashes' do
+      expect { described_class.convert_keys({}, :to_s) }.to_not raise_error
+    end
+
+    it 'converts nested hash keys' do
+      nested_1 = { a: 1, b: { a: 21, b: 22 }, c: 3 }
+      conv = described_class.convert_keys(nested_1, :to_s)
+      conv.each { |k, _| expect(k).class == String }
+      expect(conv['b']['a']).to eq(21)
+    end
+
+    it 'converts double nested hash keys' do
+      nested_2 = { a: 1, b: { a: 21, b: { a: 221, b: 222 } }, c: 3 }
+      conv = described_class.convert_keys(nested_2, :to_s)
+      conv.each { |k, _| expect(k).class == String }
+      conv['b'].each { |k, _| expect(k).class == String }
+      conv['b']['b'].each { |k, _| expect(k).class == String }
+    end
+
+    it 'converts empty nested hash keys' do
+      nested_3 = { a: 1, b: {}, c: 3 }
+      conv = described_class.convert_keys(nested_3, :to_s)
+      conv.each { |k, _| expect(k).class == String }
+    end
+  end
+
+  describe '#self.get_diff' do
+    before :each do
+      @item = OneviewSDK::Resource.new(@client, uri: 'rest/fake', name: 'res', state: 'OK')
+      @desired_data = { state: 'Not OK' }
+    end
+
+    it 'calls #recursive_diff' do
+      expect(described_class).to receive(:recursive_diff).with(@item.data, @desired_data, "\n", '  ').and_return('diff')
+      diff = described_class.get_diff(@item, @desired_data)
+      expect(diff).to eq('diff')
+    end
+
+    it 'allows a hash values instead of a resource' do
+      expect(described_class).to receive(:recursive_diff).with(@item.data, @desired_data, "\n", '  ').and_return('diff')
+      diff = described_class.get_diff(@item.data, @desired_data)
+      expect(diff).to eq('diff')
+    end
+
+    it 'handles unexpected errors quietly' do
+      expect(described_class).to receive(:recursive_diff).and_raise('Unexpected error')
+      expect(Chef::Log).to receive(:error).with(/Failed to generate resource diff.*Unexpected error/)
+      diff = described_class.get_diff(@item, @desired_data)
+      expect(diff).to eq('')
+    end
+  end
+
+  describe '#self.recursive_diff' do
+    before :each do
+      @data = { key1: 'val1', key2: { key3: 'val3', key4: 'val4' }, key5: ['val5.1', 'val5.2'] }
+      @item = OneviewSDK::Resource.new(@client, @data)
+    end
+
+    it 'returns an empty string if there is no difference' do
+      diff = described_class.recursive_diff(@item.data, @item.data)
+      expect(diff).to eq('')
+    end
+
+    it 'allows you to set the initial string and indent' do
+      expect(described_class.recursive_diff('blah', 'newBlah', 'diff:', '  ')).to eq("diff:\n  blah -> newBlah")
+    end
+
+    it 'can compare strings' do
+      expect(described_class.recursive_diff('blah', 'blah')).to eq('')
+      expect(described_class.recursive_diff('blah', 'newBlah')).to eq("\nblah -> newBlah")
+      expect(described_class.recursive_diff(nil, 'blah')).to eq("\nnil -> blah")
+    end
+
+    it 'can compare arrays' do
+      expect(described_class.recursive_diff(['blah'], ['blah'])).to eq('')
+      expect(described_class.recursive_diff(['blah'], ['blah', 'newBlah'])).to eq("\n[\"blah\"] -> [\"blah\", \"newBlah\"]")
+    end
+
+    it 'can compare hashes' do
+      expect(described_class.recursive_diff(@data, @data)).to eq('')
+      expect(described_class.recursive_diff(@data, key1: 'val2')).to eq("\nkey1: val1 -> val2")
+      expect(described_class.recursive_diff(@data, key2: { key3: 'val2', key4: 'val3' }))
+        .to eq("\nkey2:\n  key3: val3 -> val2\n  key4: val4 -> val3")
+      expect(described_class.recursive_diff(@data, key5: ['val5.1', 'val5.2'])).to eq('')
+      expect(described_class.recursive_diff(@data, key5: ['val1', 'val2']))
+        .to eq("\nkey5: [\"val5.1\", \"val5.2\"] -> [\"val1\", \"val2\"]")
+    end
+
+    it 'can compare mismatched types' do
+      expect(described_class.recursive_diff(nil, ['blah'])).to eq("\nnil -> [\"blah\"]")
+      expect(described_class.recursive_diff(nil, ['blah'])).to eq("\nnil -> [\"blah\"]")
+      expect(described_class.recursive_diff('blah', ['blah'])).to eq("\nblah -> [\"blah\"]")
+      expect(described_class.recursive_diff(['blah'], 'blah')).to eq("\n[\"blah\"] -> blah")
+      expect(described_class.recursive_diff(nil, @data)).to eq("\nnil -> #{@data}")
+      expect(described_class.recursive_diff({ key2: nil }, @data)).to match(/key1: nil -> val1\n+key2: nil -> #{@data[:key2]}/)
+      expect(described_class.recursive_diff({ key2: 1 }, @data)).to match(/key1: nil -> val1\n+key2: 1 -> #{@data[:key2]}/)
     end
   end
 
