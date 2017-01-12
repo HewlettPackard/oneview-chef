@@ -10,23 +10,17 @@
 # specific language governing permissions and limitations under the License.
 
 OneviewCookbook::ResourceBaseProperties.load(self)
-OneviewCookbook::Helper.load_sdk(self)
-OneviewCookbook::Helper.load_attributes(self)
 
 default_action :create
 
-action_class do
-  include OneviewCookbook::Helper.provider_api::FCoENetworkProvider
-end
-
 action :create do
-  create_fcoe_network
+  OneviewCookbook::Helper.do_resource_action(self, :FCoENetwork, :create_or_update)
 end
 
 action :create_if_missing do
-  create_fcoe_network_if_missing
+  OneviewCookbook::Helper.do_resource_action(self, :FCoENetwork, :create_if_missing)
 end
 
 action :delete do
-  delete_fcoe_network
+  OneviewCookbook::Helper.do_resource_action(self, :FCoENetwork, :delete)
 end
