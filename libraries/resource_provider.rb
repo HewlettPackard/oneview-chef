@@ -124,8 +124,6 @@ module OneviewCookbook
       true
     end
 
-    private
-
     # Save the data from a resource to a node attribute
     # @param [TrueClass, FalseClass, Array] attributes Attributes to save (or true/false)
     # @param [String, Symbol] name Resource name
