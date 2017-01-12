@@ -1,6 +1,0 @@
-{
-  "ssl": {
-    "verify": false
-  },
-  "ssl.verify": false
-}
