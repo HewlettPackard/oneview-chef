@@ -9,21 +9,12 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-OneviewCookbook::ResourceBaseProperties.load(self)
+require_relative '../../resource_provider'
 
-property :native_network, String
-property :ethernet_network_list, Array # Array containing network names
-
-default_action :create
-
-action :create do
-  OneviewCookbook::Helper.do_resource_action(self, :NetworkSet, :create_or_update)
-end
-
-action :create_if_missing do
-  OneviewCookbook::Helper.do_resource_action(self, :NetworkSet, :create_if_missing)
-end
-
-action :delete do
-  OneviewCookbook::Helper.do_resource_action(self, :NetworkSet, :delete)
+module OneviewCookbook
+  module API200
+    # FCoENetwork API200 provider
+    class FCoENetworkProvider < ResourceProvider
+    end
+  end
 end

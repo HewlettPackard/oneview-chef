@@ -13,19 +13,14 @@ OneviewCookbook::ResourceBaseProperties.load(self)
 
 default_action :create
 
-action_class do
-  include OneviewCookbook::Helper
-  include OneviewCookbook::ResourceBase
-end
-
 action :create do
-  create_or_update
+  OneviewCookbook::Helper.do_resource_action(self, :FCoENetwork, :create_or_update)
 end
 
 action :create_if_missing do
-  create_if_missing
+  OneviewCookbook::Helper.do_resource_action(self, :FCoENetwork, :create_if_missing)
 end
 
 action :delete do
-  delete
+  OneviewCookbook::Helper.do_resource_action(self, :FCoENetwork, :delete)
 end
