@@ -1,7 +1,3 @@
-#
-# Cookbook Name:: oneview_test
-# Attributes:: default
-#
 # (c) Copyright 2016 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -10,11 +6,16 @@
 #
 # Unless required by applicable law or agreed to in writing, software distributed
 # under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-# CONDITIONS OF ANY KIND, either express or implied. See the License for the
-# specific language governing permissions and limitations under the License.
-#
+# CONDITIONS OF ANY KIND, either express or implied. See the License for the specific
+# language governing permissions and limitations under the License.
 
-default['oneview']['api_version'] = 200
-# default['oneview']['api_variant'] = 'C7000'
+module OneviewCookbook
+  module API300
+    # Module for API300 C7000
+    module C7000
+    end
+  end
+end
 
-default['oneview_test']['client'] = { url: 'https://oneview.example.com', user: 'Administrator', password: 'secret123', api_version: 200 }
+# Load all API-specific resources:
+Dir[File.dirname(__FILE__) + '/c7000/*.rb'].each { |file| require file }

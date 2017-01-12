@@ -37,7 +37,8 @@ end
 desc 'Run cookbook lint tool'
 FoodCritic::Rake::LintTask.new(:foodcritic) do |t|
   t.options = {
-    fail_tags: ['any']
+    fail_tags: ['any'],
+    exclude_paths: ['recipes']
   }
 end
 

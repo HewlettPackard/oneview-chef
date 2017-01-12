@@ -1,6 +1,6 @@
 #
-# Cookbook Name:: oneview_test
-# Attributes:: default
+# Cookbook Name:: oneview_test_api300_synergy
+# Recipe:: ethernet_network_create
 #
 # (c) Copyright 2016 Hewlett Packard Enterprise Development LP
 #
@@ -14,7 +14,13 @@
 # specific language governing permissions and limitations under the License.
 #
 
-default['oneview']['api_version'] = 200
-# default['oneview']['api_variant'] = 'C7000'
-
-default['oneview_test']['client'] = { url: 'https://oneview.example.com', user: 'Administrator', password: 'secret123', api_version: 200 }
+oneview_ethernet_network 'EthNet1' do
+  client node['oneview_test']['client']
+  data(
+    vlanId:  '1001',
+    purpose:  'General',
+    smartLink:  false,
+    privateNetwork:  false,
+    connectionTemplateUri: nil
+  )
+end

@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: oneview_test
+# Cookbook Name:: oneview_test_api300_synergy
 # Attributes:: default
 #
 # (c) Copyright 2016 Hewlett Packard Enterprise Development LP
@@ -14,7 +14,7 @@
 # specific language governing permissions and limitations under the License.
 #
 
-default['oneview']['api_version'] = 200
-# default['oneview']['api_variant'] = 'C7000'
+default['oneview']['api_version'] = 300
+default['oneview']['api_variant'] = 'Synergy'
 
-default['oneview_test']['client'] = { url: 'https://oneview.example.com', user: 'Administrator', password: 'secret123', api_version: 200 }
+default['oneview_test']['client'] = { url: 'https://oneview.example.com', user: 'Administrator', password: 'secret123', api_version: 300 }

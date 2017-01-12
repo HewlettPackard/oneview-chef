@@ -6,6 +6,9 @@ AllCops:
     - 'examples/*'
     - 'bin/*'
 
+Metrics/ClassLength:
+  Max: 135
+
 Metrics/LineLength:
   Max: 150
 
@@ -14,7 +17,7 @@ Metrics/MethodLength:
   Max: 26
 
 Metrics/ModuleLength:
-  Max: 125
+  Max: 210
 
 Metrics/AbcSize:
   Enabled: false
