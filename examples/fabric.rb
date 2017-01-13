@@ -15,17 +15,13 @@ my_client = {
   password: ENV['ONEVIEWSDK_PASSWORD']
 }
 
-# Does nothing (default :none)
-oneview_fabric 'DefaultFabric' do
-  client my_client
-end
-
 # Updates the DefaultFabric fabric reserved vlan range if the values do not match
 oneview_fabric 'DefaultFabric' do
   client my_client
+  api_version 300
+  api_variant 'Synergy'
   reserved_vlan_range(
     'start' => 3000,
     'length' => 120
   )
-  action :set_reserved_vlan_range
 end

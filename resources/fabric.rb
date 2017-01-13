@@ -14,10 +14,7 @@ OneviewCookbook::ResourceBaseProperties.load(self)
 # Vlan range containing the 'start' and the 'length' of the range
 property :reserved_vlan_range, Hash
 
-default_action :none
-
-action :none do
-end
+default_action :set_reserved_vlan_range
 
 action :set_reserved_vlan_range do
   OneviewCookbook::Helper.do_resource_action(self, :Fabric, :set_reserved_vlan_range)

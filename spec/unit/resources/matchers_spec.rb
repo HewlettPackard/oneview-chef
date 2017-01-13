@@ -42,7 +42,6 @@ describe 'oneview_test::default' do
 
     # oneview_fabric
     expect(chef_run).to_not set_oneview_fabric_reserved_vlan_range('')
-    expect(chef_run).to_not none_oneview_fabric('')
 
     # oneview_fc_network
     expect(chef_run).to_not create_oneview_fc_network('')
