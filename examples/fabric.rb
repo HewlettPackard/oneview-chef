@@ -16,6 +16,7 @@ my_client = {
 }
 
 # Updates the DefaultFabric fabric reserved vlan range if the values do not match
+# Only available for API300 with Synergy
 oneview_fabric 'DefaultFabric' do
   client my_client
   api_version 300

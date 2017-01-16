@@ -99,14 +99,14 @@ Fabric resource for HPE OneView.
 
 Support only in API300 onwards with variant Synergy.
 
-Action defaults to `:none`, also performs updates on the reserved vlan range.
+Performs updates on the reserved vlan range.
 
 ```Ruby
 oneview_fabric 'Fabric1' do
   client <my_client>
   data <resource_data>
   reserved_vlan_range <vlan_options> # Hash: Usually the 'start' and 'length' of the range
-  action [:none, :set_reserved_vlan_range]
+  action [:set_reserved_vlan_range]
 end
 ```
 
