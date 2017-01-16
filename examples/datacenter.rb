@@ -15,8 +15,8 @@ my_client = {
   password: ENV['ONEVIEWSDK_PASSWORD']
 }
 
-# Adds or edits one Datacenter View with the size of 3m x 5,1m
-# It adds one rack 'Rack_1' in the position 0,5m x 0,5m rotated 30 degrees clockwise
+# Adds or edits one Datacenter view with the size of 3m x 5,1m
+# It also places one rack named 'Rack_1' in the position 0,5m x 0,5m rotated 30 degrees clockwise
 oneview_datacenter 'Datacenter_1' do
   client my_client
   data(
@@ -32,7 +32,7 @@ oneview_datacenter 'Datacenter_1' do
   )
 end
 
-# Creates a 3m x 7m Datacenter view only if it 'Datacenter_2' does not exists
+# Creates a 3m x 7m Datacenter view named 'Datacenter_2' only if it does not exists
 oneview_datacenter 'Datacenter_2' do
   client my_client
   data(
@@ -42,7 +42,7 @@ oneview_datacenter 'Datacenter_2' do
   action :add_if_missing
 end
 
-# Remove the Datacenter view named 'Datacenter_2'
+# Remove the Datacenter named 'Datacenter_2'
 oneview_datacenter 'Datacenter_2' do
   client my_client
   data(
