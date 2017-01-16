@@ -5,6 +5,7 @@
   - fcoe_network support for API300
   - network_set support for API300
   - datacenter support for API300
+  - rack support for API300
 
 ### 1.1.0
   - Add support for client ENV variables
