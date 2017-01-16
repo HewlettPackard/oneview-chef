@@ -124,6 +124,13 @@ module OneviewCookbook
       true
     end
 
+    # Remove the OneView resource if it exists
+    # @param [Symbol] method Remove method
+    # @return [TrueClass, FalseClass] Returns true if the resource was removed
+    def remove
+      delete(:remove)
+    end
+
     # Save the data from a resource to a node attribute
     # @param [TrueClass, FalseClass, Array] attributes Attributes to save (or true/false)
     # @param [String, Symbol] name Resource name
