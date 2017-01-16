@@ -31,10 +31,6 @@ module OneviewCookbook
         super
       end
 
-      def remove
-        delete(:remove)
-      end
-
       def add_to_rack
         raise "Unspecified property: 'mount_options'. Please set it before attempting this action." unless @context.mount_options
         @item.retrieve!
