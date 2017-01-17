@@ -16,39 +16,18 @@ property :password, String
 
 default_action :add
 
-action_class do
-  include OneviewCookbook::Helper
-  include OneviewCookbook::ResourceBase
-end
-
 action :add do
-  add_or_edit
+  OneviewCookbook::Helper.do_resource_action(self, :PowerDevice, :add_or_edit)
 end
 
 action :add_if_missing do
-  add_if_missing
+  OneviewCookbook::Helper.do_resource_action(self, :PowerDevice, :add_if_missing)
 end
 
 action :discover do
-  load_sdk
-  c = build_client(client)
-  power_devices_list = OneviewSDK::PowerDevice.get_ipdu_devices(c, name)
-  if power_devices_list.empty?
-    Chef::Log.info "Discovering #{resource_name} '#{name}'"
-    converge_by "Discovered #{resource_name} '#{name}'" do
-      OneviewSDK::PowerDevice.discover(c, hostname: name, username: username, password: password)
-    end
-  else
-    Chef::Log.info("#{resource_name} '#{name}' is up to date")
-  end
+  OneviewCookbook::Helper.do_resource_action(self, :PowerDevice, :discover)
 end
 
 action :remove do
-  # First try to remove by name, if it does not work it consider the power device is
-  # an iPDU
-  unless remove
-    c = build_client(client)
-    power_devices_list = OneviewSDK::PowerDevice.get_ipdu_devices(c, name)
-    remove(power_devices_list.first) unless power_devices_list.empty?
-  end
+  OneviewCookbook::Helper.do_resource_action(self, :PowerDevice, :remove)
 end
