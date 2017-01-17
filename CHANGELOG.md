@@ -6,6 +6,7 @@
   - network_set support for API300
   - datacenter support for API300
   - fabric new resource support for API300 Synergy
+  - power_device support for API300
 
 ### 1.1.0
   - Add support for client ENV variables
