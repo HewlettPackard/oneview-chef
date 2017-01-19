@@ -6,6 +6,8 @@
   - network_set support for API300
   - datacenter support for API300
   - fabric new resource support for API300 Synergy
+  - san_manager support for API300
+  - rack support for API300
   - managed_san support for API300
 
 ### 1.1.0
