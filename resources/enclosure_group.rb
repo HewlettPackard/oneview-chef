@@ -1,4 +1,4 @@
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2016-2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,43 +16,18 @@ property :logical_interconnect_group, String # Name of LIG
 
 default_action :create
 
-action_class do
-  include OneviewCookbook::Helper
-  include OneviewCookbook::ResourceBase
-end
-
 action :create do
-  item = load_resource
-  if logical_interconnect_group
-    lig = OneviewSDK::LogicalInterconnectGroup.new(item.client, name: logical_interconnect_group)
-    item.add_logical_interconnect_group(lig)
-  end
-  create_or_update(item)
+  OneviewCookbook::Helper.do_resource_action(self, :EnclosureGroup, :create_or_update)
 end
 
 action :create_if_missing do
-  item = load_resource
-  if logical_interconnect_group
-    lig = OneviewSDK::LogicalInterconnectGroup.new(item.client, name: logical_interconnect_group)
-    item.add_logical_interconnect_group(lig)
-  end
-  create_if_missing(item)
+  OneviewCookbook::Helper.do_resource_action(self, :EnclosureGroup, :create_if_missing)
 end
 
 action :delete do
-  delete
+  OneviewCookbook::Helper.do_resource_action(self, :EnclosureGroup, :delete)
 end
 
 action :set_script do
-  item = load_resource
-  item.retrieve!
-
-  if item.get_script.eql? script
-    Chef::Log.info("#{resource_name} '#{name}' script is up to date")
-  else
-    Chef::Log.debug "#{resource_name} '#{name}' Chef resource differs from OneView resource."
-    converge_by "Updated script for #{resource_name} '#{name}'" do
-      item.set_script(script)
-    end
-  end
+  OneviewCookbook::Helper.do_resource_action(self, :EnclosureGroup, :set_script)
 end
