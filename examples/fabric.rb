@@ -1,4 +1,4 @@
-# (c) Copyright 2016-2017 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -9,18 +9,20 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-OneviewCookbook::ResourceBaseProperties.load(self)
+my_client = {
+  url: ENV['ONEVIEWSDK_URL'],
+  user: ENV['ONEVIEWSDK_USER'],
+  password: ENV['ONEVIEWSDK_PASSWORD']
+}
 
-default_action :add
-
-action :add do
-  OneviewCookbook::Helper.do_resource_action(self, :SANManager, :add_or_edit)
-end
-
-action :add_if_missing do
-  OneviewCookbook::Helper.do_resource_action(self, :SANManager, :add_if_missing)
-end
-
-action :remove do
-  OneviewCookbook::Helper.do_resource_action(self, :SANManager, :remove)
+# Updates the DefaultFabric fabric reserved vlan range if the values do not match
+# Only available for API300 with Synergy
+oneview_fabric 'DefaultFabric' do
+  client my_client
+  api_version 300
+  api_variant 'Synergy'
+  reserved_vlan_range(
+    'start' => 3000,
+    'length' => 120
+  )
 end

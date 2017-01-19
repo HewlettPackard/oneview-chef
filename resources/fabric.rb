@@ -1,4 +1,4 @@
-# (c) Copyright 2016-2017 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11,16 +11,11 @@
 
 OneviewCookbook::ResourceBaseProperties.load(self)
 
-default_action :add
+# Vlan range containing the 'start' and the 'length' of the range
+property :reserved_vlan_range, Hash
 
-action :add do
-  OneviewCookbook::Helper.do_resource_action(self, :SANManager, :add_or_edit)
-end
+default_action :set_reserved_vlan_range
 
-action :add_if_missing do
-  OneviewCookbook::Helper.do_resource_action(self, :SANManager, :add_if_missing)
-end
-
-action :remove do
-  OneviewCookbook::Helper.do_resource_action(self, :SANManager, :remove)
+action :set_reserved_vlan_range do
+  OneviewCookbook::Helper.do_resource_action(self, :Fabric, :set_reserved_vlan_range)
 end
