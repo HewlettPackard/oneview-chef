@@ -1,4 +1,4 @@
-# (c) Copyright 2016-2017 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -9,21 +9,14 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-OneviewCookbook::ResourceBaseProperties.load(self)
+require_relative '../../api200/rack_provider'
 
-default_action :none
-
-action :set_refresh_state do
-  OneviewCookbook::Helper.do_resource_action(self, :ManagedSAN, :set_refresh_state)
-end
-
-action :set_policy do
-  OneviewCookbook::Helper.do_resource_action(self, :ManagedSAN, :set_policy)
-end
-
-action :set_public_attributes do
-  OneviewCookbook::Helper.do_resource_action(self, :ManagedSAN, :set_public_attributes)
-end
-
-action :none do
+module OneviewCookbook
+  module API300
+    module C7000
+      # Rack API300 C7000 provider
+      class RackProvider < API200::RackProvider
+      end
+    end
+  end
 end
