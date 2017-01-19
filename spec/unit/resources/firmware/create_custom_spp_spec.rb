@@ -13,6 +13,7 @@ describe 'oneview_test::firmware_create_custom_spp' do
   it 'does not exists' do
     allow_any_instance_of(OneviewSDK::FirmwareDriver).to receive(:exists?).and_return(false)
     allow_any_instance_of(OneviewSDK::FirmwareDriver).to receive(:retrieve!).and_return(true)
+    allow_any_instance_of(OneviewSDK::FirmwareDriver).to receive(:[]).and_call_original
     allow_any_instance_of(OneviewSDK::FirmwareDriver).to receive(:[]).with('uri').and_return('/rest/firmware-drivers/fw1')
     allow_any_instance_of(OneviewSDK::FirmwareDriver).to receive(:[]).with('hotfixUris')
       .and_return('/rest/firmware-drivers/fw2', '/rest/firmware-drivers/fw3')
@@ -26,6 +27,7 @@ describe 'oneview_test::firmware_create_custom_spp_invalid_spp' do
   include_context 'chef context'
 
   it 'spp not given' do
+    # allow_any_instance_of(OneviewSDK::FirmwareDriver).to receive(:exists?).and_return(false)
     expect { real_chef_run }.to raise_error(RuntimeError, /Unspecified property: 'spp_name'/)
   end
 end
@@ -35,6 +37,7 @@ describe 'oneview_test::firmware_create_custom_spp_invalid_hotfix' do
   include_context 'chef context'
 
   it 'hotfix not given' do
+    # allow_any_instance_of(OneviewSDK::FirmwareDriver).to receive(:exists?).and_return(false)
     expect { real_chef_run }.to raise_error(RuntimeError, /Unspecified property: 'hotfixes_names'/)
   end
 end
