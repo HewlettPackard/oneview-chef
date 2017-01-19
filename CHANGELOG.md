@@ -9,6 +9,7 @@
   - san_manager support for API300
   - rack support for API300
   - managed_san support for API300
+  - server_hardware_type resource for API300
 
 ### 1.1.0
   - Add support for client ENV variables
