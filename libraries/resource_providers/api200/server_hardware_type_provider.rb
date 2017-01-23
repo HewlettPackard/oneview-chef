@@ -1,4 +1,4 @@
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -9,14 +9,16 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-OneviewCookbook::ResourceBaseProperties.load(self)
+require_relative '../../resource_provider'
 
-default_action :edit
-
-action :edit do
-  OneviewCookbook::Helper.do_resource_action(self, :ServerHardwareType, :edit)
-end
-
-action :remove do
-  OneviewCookbook::Helper.do_resource_action(self, :ServerHardwareType, :remove)
+module OneviewCookbook
+  module API200
+    # ServerHardwareType API200 provider
+    class ServerHardwareTypeProvider < ResourceProvider
+      def edit
+        return add_or_edit if @item.exists?
+        raise "Resource not found: #{@resource_name} '#{@item['name']}'"
+      end
+    end
+  end
 end
