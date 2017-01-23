@@ -17,11 +17,6 @@ property :options, Hash
 
 default_action :add
 
-action_class do
-  include OneviewCookbook::Helper
-  include OneviewCookbook::ResourceBase
-end
-
 action :add do
   item = load_resource
   if enclosure_group
