@@ -1,4 +1,4 @@
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -9,16 +9,14 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-OneviewCookbook::ResourceBaseProperties.load(self)
+require_relative '../../api200/storage_pool_provider'
 
-property :storage_system, String
-
-default_action :add_if_missing
-
-action :add_if_missing do
-  OneviewCookbook::Helper.do_resource_action(self, :StoragePool, :add_if_missing)
-end
-
-action :remove do
-  OneviewCookbook::Helper.do_resource_action(self, :StoragePool, :remove)
+module OneviewCookbook
+  module API300
+    module C7000
+      # StoragePool API300 C7000 provider
+      class StoragePoolProvider < API200::StoragePoolProvider
+      end
+    end
+  end
 end
