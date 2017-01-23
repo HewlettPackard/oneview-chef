@@ -165,8 +165,6 @@ RSpec.describe OneviewCookbook::ResourceProvider do
     end
   end
 
-  # Private methods:
-
   describe '#save_res_info' do
     before :each do
       res.item.data['uri'] = '/rest/fake'
