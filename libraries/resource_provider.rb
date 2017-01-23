@@ -133,7 +133,7 @@ module OneviewCookbook
     # Gathers the OneviewSDK correct resource class
     # @param [Symbol | String] resource Resource name/type desired
     # @param [Integer] version Version of the SDK desired
-    # @param [Integer] variant Variant of the SDK desired
+    # @param [String] variant Variant of the SDK desired
     # @return [OneviewSDK::Resource] Returns the class of the resource in the loaded API version and variant
     def resource_named(resource, version = @sdk_api_version, variant = @sdk_variant)
       OneviewSDK.resource_named(resource, version, variant)
