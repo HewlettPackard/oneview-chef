@@ -14,6 +14,7 @@
   - unmanaged device support for API300
   - logical_interconnect support for API300
   - enclosure_group support for API300
+  - firmware support for API300
 
 ### 1.1.0
   - Add support for client ENV variables
