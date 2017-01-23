@@ -12,6 +12,9 @@
   - server_hardware_type resource for API300
   - power_device support for API300
   - unmanaged device support for API300
+  - logical_interconnect support for API300
+  - enclosure_group support for API300
+  - firmware support for API300
   - storage_system support for API300
 
 ### 1.1.0
