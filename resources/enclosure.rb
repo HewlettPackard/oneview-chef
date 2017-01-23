@@ -1,4 +1,4 @@
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2016-2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11,50 +11,32 @@
 
 OneviewCookbook::ResourceBaseProperties.load(self)
 
+# API200
 property :enclosure_group, String # Name of Enclosure Group
 property :state, String
 property :options, Hash
+property :operation, String # To be used with :patch action
+property :path, String # To be used with :patch action
+property :value, String # To be used with :patch action
 
 default_action :add
 
 action :add do
-  item = load_resource
-  if enclosure_group
-    eg = OneviewSDK::EnclosureGroup.new(item.client, name: enclosure_group)
-    item.set_enclosure_group(eg)
-  end
-  add_or_edit(item)
+  OneviewCookbook::Helper.do_resource_action(self, :Enclosure, :add_or_edit)
 end
 
 action :remove do
-  remove
+  OneviewCookbook::Helper.do_resource_action(self, :Enclosure, :remove)
 end
 
 action :reconfigure do
-  item = load_resource
-  item.retrieve!
-
-  if ['NotReapplyingConfiguration', 'ReapplyingConfigurationFailed', ''].include? item['reconfigurationState']
-    converge_by "#{resource_name} '#{name}' was reconfigured." do
-      item.configuration
-    end
-  else
-    Chef::Log.info("#{resource_name} '#{name}' configuration is already running.")
-  end
+  OneviewCookbook::Helper.do_resource_action(self, :Enclosure, :reconfigure)
 end
 
 action :refresh do
-  item = load_resource
-  item.retrieve!
+  OneviewCookbook::Helper.do_resource_action(self, :Enclosure, :refresh)
+end
 
-  refresh_state = state || 'RefreshPending'
-  refresh_options = options || {}
-
-  if ['RefreshFailed', 'NotRefreshing', ''].include? item['refreshState']
-    converge_by "#{resource_name} '#{name}' was refreshed." do
-      item.set_refresh_state(refresh_state, refresh_options)
-    end
-  else
-    Chef::Log.info("#{resource_name} '#{name}' refresh is already running.")
-  end
+action :patch do
+  OneviewCookbook::Helper.do_resource_action(self, :Enclosure, :patch)
 end
