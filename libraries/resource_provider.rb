@@ -125,10 +125,18 @@ module OneviewCookbook
     end
 
     # Remove the OneView resource if it exists
-    # @param [Symbol] method Remove method
     # @return [TrueClass, FalseClass] Returns true if the resource was removed
     def remove
       delete(:remove)
+    end
+
+    # Gathers the OneviewSDK correct resource class
+    # @param [Symbol | String] resource Resource name/type desired
+    # @param [Integer] version Version of the SDK desired
+    # @param [String] variant Variant of the SDK desired
+    # @return [OneviewSDK::Resource] Returns the class of the resource in the loaded API version and variant
+    def resource_named(resource, version = @sdk_api_version, variant = @sdk_variant)
+      OneviewSDK.resource_named(resource, version, variant)
     end
 
     # Save the data from a resource to a node attribute

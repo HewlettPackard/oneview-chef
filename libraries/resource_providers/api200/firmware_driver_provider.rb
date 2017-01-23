@@ -19,7 +19,7 @@ module OneviewCookbook
         return @item if @item.retrieve!
         filename ||= @name
         filename = ::File.basename(filename, ::File.extname(filename)).tr('.', '_')
-        firmware_list = OneviewSDK.resource_named(:FirmwareDriver, @sdk_api_version, @sdk_api_variant).find_by(@item.client, {})
+        firmware_list = resource_named(:FirmwareDriver).find_by(@item.client, {})
         firmware_list.find { |fw| filename == fw['resourceId'] }
       end
 
@@ -57,7 +57,7 @@ module OneviewCookbook
       # Verifies and loads the SPP
       def load_spp
         spp = nil
-        fd_klass = OneviewSDK.resource_named(:FirmwareDriver, @sdk_api_version, @sdk_api_variant)
+        fd_klass = resource_named(:FirmwareDriver)
         if @context.spp_name
           spp = fd_klass.new(@item.client, name: @context.spp_name)
           spp.retrieve!
@@ -70,7 +70,7 @@ module OneviewCookbook
       # Verifies and loads Hotfixes
       def load_hotfixes
         @item['hotfixUris'] = []
-        fd_klass = OneviewSDK.resource_named(:FirmwareDriver, @sdk_api_version, @sdk_api_variant)
+        fd_klass = resource_named(:FirmwareDriver)
         if @context.hotfixes_names
           @context.hotfixes_names.each do |hotfix|
             temp = fd_klass.new(@item.client, name: hotfix)

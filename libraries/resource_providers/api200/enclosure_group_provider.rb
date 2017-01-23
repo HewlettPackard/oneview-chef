@@ -17,7 +17,7 @@ module OneviewCookbook
     class EnclosureGroupProvider < ResourceProvider
       def load_lig
         return unless @context.logical_interconnect_group
-        lig_klass = OneviewSDK.resource_named(:LogicalInterconnectGroup, @sdk_api_version, @sdk_api_variant)
+        lig_klass = resource_named(:LogicalInterconnectGroup)
         @item.add_logical_interconnect_group(lig_klass.new(@item.client, name: @context.logical_interconnect_group))
       end
 

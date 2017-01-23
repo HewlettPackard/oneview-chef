@@ -146,7 +146,7 @@ RSpec.describe OneviewCookbook::ResourceProvider do
   end
 
   describe '#add_if_missing' do
-    it 'calls the create_or_update method with parameters' do
+    it 'calls the create_if_missing method with parameters' do
       expect(res).to receive(:create_if_missing).with(:add)
       res.add_if_missing
     end
@@ -165,7 +165,29 @@ RSpec.describe OneviewCookbook::ResourceProvider do
     end
   end
 
-  # Private methods:
+  describe '#remove' do
+    it 'calls the delete method with parameters' do
+      expect(res).to receive(:delete).with(:remove)
+      res.remove
+    end
+  end
+
+  describe '#resource_named' do
+    before :each do
+      res.sdk_api_version = -1
+      res.sdk_variant = '_test_'
+    end
+
+    it 'calls the OneviewSDK::resource_named method with the default parameters' do
+      expect(OneviewSDK).to receive(:resource_named).with(:ResourceType, -1, '_test_')
+      res.resource_named(:ResourceType)
+    end
+
+    it 'calls the OneviewSDK::resource_named method with overriden parameters' do
+      expect(OneviewSDK).to receive(:resource_named).with(:ResourceType, -5, '_override_test_')
+      res.resource_named(:ResourceType, -5, '_override_test_')
+    end
+  end
 
   describe '#save_res_info' do
     before :each do

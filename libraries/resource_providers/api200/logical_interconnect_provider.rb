@@ -18,8 +18,8 @@ module OneviewCookbook
       def interconnect_handler(present_block, absent_block)
         raise "Unspecified property: 'bay_number'. Please set it before attempting this action." unless @context.bay_number
         raise "Unspecified property: 'enclosure'. Please set it before attempting this action." unless @context.enclosure
-        interconnect_list = OneviewSDK.resource_named(:Interconnect, @sdk_api_version, @sdk_variant).find_by(@item.client, {})
-        enclosure_item = OneviewSDK.resource_named(:Enclosure, @sdk_api_version, @sdk_variant).find_by(@item.client, name: @context.enclosure).first
+        interconnect_list = resource_named(:Interconnect).find_by(@item.client, {})
+        enclosure_item = resource_named(:Enclosure).find_by(@item.client, name: @context.enclosure).first
         # Procedure to get (bay, enclosure) pairs and interconnect state
         listed_pairs = {}
         interconnect_list.each do |inter|
@@ -77,7 +77,7 @@ module OneviewCookbook
         fw_defined = @context.firmware || @context.firmware_data['sppName']
         raise "Unspecified property: 'firmware'. Please set it before attempting this action." unless fw_defined
         return Chef::Log.info("Firmware #{@context.firmware} from logical interconnect '#{@name}' is up to date") if dif_values.empty?
-        fd = OneviewSDK.resource_named(:FirmwareDriver, @sdk_api_version, @sdk_variant).find_by(@item.client, name: @context.firmware).first
+        fd = resource_named(:FirmwareDriver).find_by(@item.client, name: @context.firmware).first
         raise "Resource not found: Firmware action '#{action}' cannot be performed since the firmware '#{@context.firmware}' was not found." unless fd
         diff = get_diff(current_firmware, @context.firmware_data)
         Chef::Log.info "#{action.to_s.capitalize.tr('_', ' ')} #{@resource_name} '#{@name}'"
@@ -116,7 +116,7 @@ module OneviewCookbook
       def update_internal_networks
         @item.retrieve!
         @context.internal_networks.collect! do |n|
-          OneviewSDK.resource_named(:EthernetNetwork, @sdk_api_version, @sdk_variant).find_by(@item.client, name: n).first
+          resource_named(:EthernetNetwork).find_by(@item.client, name: n).first
         end
         if @item['internalNetworkUris'].sort == @context.internal_networks.collect { |x| x['uri'] }.sort
           Chef::Log.info("Internal networks for #{@resource_name} #{@name} are up to date")

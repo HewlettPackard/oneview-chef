@@ -16,7 +16,7 @@ module OneviewCookbook
     # NetworkSet API200 provider
     class NetworkSetProvider < ResourceProvider
       def load_resource_with_properties
-        eth_class = OneviewSDK.resource_named(:EthernetNetwork, @sdk_api_version, @sdk_variant)
+        eth_class = resource_named(:EthernetNetwork)
         if @context.native_network
           native_net = eth_class.find_by(@item.client, name: @context.native_network).first
           raise "Native network #{@context.native_network} not found!" unless native_net

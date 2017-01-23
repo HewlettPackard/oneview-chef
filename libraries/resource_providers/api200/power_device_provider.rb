@@ -16,7 +16,7 @@ module OneviewCookbook
     # PowerDevice API200 provider
     class PowerDeviceProvider < ResourceProvider
       def discover
-        pd_klass = OneviewSDK.resource_named(:PowerDevice, @sdk_api_version, @sdk_variant)
+        pd_klass = resource_named(:PowerDevice)
         power_devices_list = pd_klass.get_ipdu_devices(@item.client, @name)
         if power_devices_list.empty?
           Chef::Log.info "Discovering #{@resource_name} '#{@name}'"
@@ -31,7 +31,7 @@ module OneviewCookbook
       def remove
         # First try to remove by name, if it does not work it consider the power device is an iPDU
         return true if super
-        power_devices_list = OneviewSDK.resource_named(:PowerDevice, @sdk_api_version, @sdk_variant).get_ipdu_devices(@item.client, @name)
+        power_devices_list = resource_named(:PowerDevice).get_ipdu_devices(@item.client, @name)
         return false if power_devices_list.empty?
         @item = power_devices_list.first
         super
