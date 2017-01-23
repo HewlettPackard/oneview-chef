@@ -18,7 +18,7 @@ module OneviewCookbook
       def add_if_missing
         raise "Unspecified property: 'storage_system'. Please set it before attempting this action." unless @context.storage_system
         @item['poolName'] ||= @name
-        sto_sys_klass = OneviewSDK.resource_named(:StorageSystem, @sdk_api_version, @sdk_api_variant)
+        sto_sys_klass = resource_named(:StorageSystem)
         storage_system_resource = sto_sys_klass.new(@item.client, credentials: { ip_hostname: @context.storage_system })
         storage_system_resource = sto_sys_klass.new(@item.client, name: @context.storage_system) unless storage_system_resource.exists?
         storage_system_resource.retrieve!
