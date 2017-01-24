@@ -1,4 +1,4 @@
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2016-2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -30,6 +30,26 @@ oneview_enclosure 'Encl1' do
   action :add
 end
 
+# Rename enclosure
+# Warning: Operation persists in hardware
+oneview_enclosure 'Encl1' do
+  client my_client
+  operation 'replace'
+  path '/name'
+  value 'ChefEncl1'
+  action :patch
+end
+
+# Restoring its original name
+oneview_enclosure 'ChefEncl1' do
+  client my_client
+  operation 'replace'
+  path '/name'
+  value 'Encl1'
+  action :patch
+end
+
+# Removes it from the appliance
 oneview_enclosure 'Encl1' do
   client my_client
   action :remove
