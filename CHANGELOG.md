@@ -17,6 +17,7 @@
   - firmware support for API300
   - storage_system support for API300
   - storage_pool support for API300
+  - logical_switch_group support for API300
 
 ### 1.1.0
   - Add support for client ENV variables
