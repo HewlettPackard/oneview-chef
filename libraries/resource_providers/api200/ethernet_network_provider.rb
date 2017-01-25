@@ -29,7 +29,7 @@ module OneviewCookbook
 
       def update_connection_template(bandwidth)
         bandwidth = convert_keys(bandwidth, :to_s)
-        klass = OneviewSDK.resource_named(:ConnectionTemplate, @sdk_api_version, @sdk_variant)
+        klass = resource_named(:ConnectionTemplate)
         connection_template = klass.new(@item.client, uri: @item['connectionTemplateUri'])
         connection_template.retrieve!
         if connection_template.like? bandwidth
@@ -44,7 +44,7 @@ module OneviewCookbook
 
       def reset_connection_template
         @item.retrieve!
-        klass = OneviewSDK.resource_named(:ConnectionTemplate, @sdk_api_version, @sdk_variant)
+        klass = resource_named(:ConnectionTemplate)
         update_connection_template(bandwidth: klass.get_default(@item.client)['bandwidth'])
       end
     end

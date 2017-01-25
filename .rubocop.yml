@@ -7,7 +7,7 @@ AllCops:
     - 'bin/*'
 
 Metrics/ClassLength:
-  Max: 135
+  Max: 200
 
 Metrics/LineLength:
   Max: 150
