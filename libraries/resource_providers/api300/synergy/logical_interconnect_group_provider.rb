@@ -16,6 +16,17 @@ module OneviewCookbook
     module Synergy
       # LogicalInterconnectGroup API300 Synergy resource provider methods
       class LogicalInterconnectGroupProvider < API200::LogicalInterconnectGroupProvider
+        def load_interconnects
+          @context.interconnects.each do |location|
+            parsed_location = convert_keys(location, :to_sym)
+            @item.add_interconnect(
+              parsed_location[:bay],
+              parsed_location[:type],
+              parsed_location[:logical_downlink] || nil,
+              parsed_location[:enclosure_index] || 1
+            )
+          end
+        end
       end
     end
   end
