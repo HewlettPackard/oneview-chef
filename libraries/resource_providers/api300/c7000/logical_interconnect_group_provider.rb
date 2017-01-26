@@ -16,6 +16,9 @@ module OneviewCookbook
     module C7000
       # LogicalInterconnectGroup API300 C7000 provider
       class LogicalInterconnectGroupProvider < API200::LogicalInterconnectGroupProvider
+        # TODO: Inherit from API300::Synergy::LogicalInterconnectGroupProvider once the SDK
+        # API::C7000::LogicalInterconnectGroup #add_interconnect method accepts the
+        # logical_downlink & enclosure_index parameters. Update README when it does too.
       end
     end
   end
