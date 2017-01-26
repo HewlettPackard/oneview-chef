@@ -11,13 +11,16 @@
   - managed_san support for API300
   - server_hardware_type resource for API300
   - power_device support for API300
-  - unmanaged device support for API300
+  - unmanaged_device support for API300
   - logical_interconnect support for API300
   - enclosure_group support for API300
   - firmware support for API300
   - storage_system support for API300
   - storage_pool support for API300
   - logical_switch_group support for API300
+  - logical_interconnect_group support for API300
+  - Deprecate enclosure_group property 'logical_interconnect_group' (string) in favor of 'logical_interconnect_groups' (array)
+    - Also supports SAS LIGs for Synergy in this logical_interconnect_groups property
 
 ### 1.1.0
   - Add support for client ENV variables

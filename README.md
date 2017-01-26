@@ -381,10 +381,12 @@ Enclosure Group resource for HPE OneView.
 oneview_enclosure_group 'EnclosureGroup_1' do
   client <my_client>
   data <resource_data>
-  logical_interconnect_group <LIG_name>
+  logical_interconnect_groups [<LIG_name1>, <LIG_name2>]
   action [:create, :create_if_missing, :delete]
 end
 ```
+
+**logical_interconnect_groups:** Array of LIG names used to build the interconnect bay configuration
 
 ### oneview_enclosure
 
