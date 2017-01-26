@@ -15,19 +15,26 @@ module OneviewCookbook
   module API200
     # EnclosureGroup API200 provider
     class EnclosureGroupProvider < ResourceProvider
-      def load_lig
-        return unless @context.logical_interconnect_group
+      def load_ligs
         lig_klass = resource_named(:LogicalInterconnectGroup)
-        @item.add_logical_interconnect_group(lig_klass.new(@item.client, name: @context.logical_interconnect_group))
+        if @context.logical_interconnect_group # Deprecated property: logical_interconnect_group
+          dep_warn = "The 'logical_interconnect_group' property (string) is deprecated!"
+          Chef::Log.warn("#{dep_warn} Please use 'logical_interconnect_groups' property (array) instead")
+          @item.add_logical_interconnect_group(lig_klass.new(@item.client, name: @context.logical_interconnect_group))
+        end
+        return unless @context.logical_interconnect_groups
+        @context.logical_interconnect_groups.each do |lig|
+          @item.add_logical_interconnect_group(lig_klass.new(@item.client, name: lig))
+        end
       end
 
       def create_or_update
-        load_lig
+        load_ligs
         super
       end
 
       def create_if_missing
-        load_lig
+        load_ligs
         super
       end
 

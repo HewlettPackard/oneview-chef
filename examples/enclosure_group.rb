@@ -20,7 +20,7 @@ oneview_enclosure_group 'Eg2' do
     stackingMode: 'Enclosure',
     interconnectBayMappingCount: 8
   )
-  logical_interconnect_group 'lig1'
+  logical_interconnect_groups ['lig1']
   client my_client
   action :create
 end

@@ -20,5 +20,5 @@ oneview_enclosure_group 'EnclosureGroup1' do
     stackingMode: 'Enclosure',
     interconnectBayMappingCount: 8
   )
-  logical_interconnect_group 'LIG1'
+  logical_interconnect_groups ['LIG1', 'LIG2']
 end

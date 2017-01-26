@@ -18,6 +18,7 @@
   - storage_system support for API300
   - storage_pool support for API300
   - logical_interconnect_group support for API300
+  - deprecate enclosure_group property 'logical_interconnect_group' (string) in favor of 'logical_interconnect_groups' (array)
 
 ### 1.1.0
   - Add support for client ENV variables
