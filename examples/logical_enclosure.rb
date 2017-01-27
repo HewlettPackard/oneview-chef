@@ -15,7 +15,42 @@ my_client = {
   password: ENV['ONEVIEWSDK_PASSWORD']
 }
 
+# Example: Create a logical enclosure if it's missing
+oneview_logical_enclosure 'LE1' do
+  client my_client
+  data(
+    firmwareBaselineUri: nil
+  )
+  enclosures ['EN1', 'EN2', 'EN3'] # List of enclosure names, serial numbers or OA IPs
+  enclosure_group 'EG1'
+  action :create_if_missing # This is the default action, so you don't need to specify it
+end
+
+# Example: Make a logical enclosure consistent with the enclosure group
+# Note that this resource will do this action every time; it's meant to be notified to run,
+# not as a standalone resource like this.
 oneview_logical_enclosure 'Encl1' do
   client my_client
   action :update_from_group
+end
+
+# Example: Reapply the appliance's configuration on enclosures for a logical enclosure
+# Note that this resource will do this action every time; it's meant to be notified to run,
+# not as a standalone resource like this.
+oneview_logical_enclosure 'Encl1' do
+  client my_client
+  action :reconfigure
+end
+
+# Example: Set the configuration script of the logical enclosure and on all enclosures in the logical enclosure
+oneview_logical_enclosure 'Encl1' do
+  client my_client
+  script '# My script commands here'
+  action :set_script
+end
+
+# Example: Delete a logical enclosure, logical interconnects and put all attached enclosures and their components to the Monitored state
+oneview_logical_enclosure 'LE1' do
+  client my_client
+  action :delete
 end

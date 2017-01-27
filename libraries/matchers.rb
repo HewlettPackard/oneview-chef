@@ -28,7 +28,7 @@ if defined?(ChefSpec)
     oneview_fcoe_network:               standard_actions,
     oneview_firmware:                   [:add, :remove, :create_custom_spp],
     oneview_interconnect:               [:set_uid_light, :set_power_state, :reset, :reset_port_protection, :update_port],
-    oneview_logical_enclosure:          [:update_from_group, :reconfigure, :set_script],
+    oneview_logical_enclosure:          [:create_if_missing, :create, :update_from_group, :reconfigure, :set_script, :delete],
     oneview_logical_interconnect_group: standard_actions,
     oneview_logical_interconnect:       [:none, :add_interconnect, :remove_interconnect, :update_internal_networks, :update_settings,
                                          :update_ethernet_settings, :update_port_monitor, :update_qos_configuration, :update_telemetry_configuration,

@@ -1,4 +1,4 @@
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,50 +12,31 @@
 OneviewCookbook::ResourceBaseProperties.load(self)
 
 property :script, String # script for set_script action
+property :enclosures, Array # List of enclosure names (or serialNumbers or OA IPs) for create & create_if_missing actions
+property :enclosure_group, String # Name of enclosure group for create & create_if_missing actions
 
-default_action :update_from_group
+default_action :create_if_missing
 
-action_class do
-  include OneviewCookbook::Helper
-  include OneviewCookbook::ResourceBase
+action :create_if_missing do
+  OneviewCookbook::Helper.do_resource_action(self, :LogicalEnclosure, :create_if_missing)
+end
+
+action :create do
+  OneviewCookbook::Helper.do_resource_action(self, :LogicalEnclosure, :create_or_update)
 end
 
 action :update_from_group do
-  item = load_resource
-  raise "LogicalEnclosure '#{name}' not found!" unless item.retrieve!
-  return if item['state'] == 'Consistent'
-  converge_by "Update LogicalEnclosure '#{name}' from group" do
-    item.update_from_group
-  end
+  OneviewCookbook::Helper.do_resource_action(self, :LogicalEnclosure, :update_from_group)
 end
 
 action :reconfigure do
-  item = load_resource
-  item.retrieve!
-
-  item['enclosureUris'].each do |enclosure_uri|
-    enclosure = OneviewSDK::Enclosure.new(item.client, uri: enclosure_uri)
-    enclosure.retrieve!
-    next unless ['NotReapplyingConfiguration', 'ReapplyingConfigurationFailed', ''].include? enclosure['reconfigurationState']
-    converge_by "#{resource_name} '#{name}' was reconfigured." do
-      item.reconfigure
-    end
-    return true
-  end
-
-  Chef::Log.info("#{resource_name} '#{name}' is already reconfiguring.")
+  OneviewCookbook::Helper.do_resource_action(self, :LogicalEnclosure, :reconfigure)
 end
 
 action :set_script do
-  item = load_resource
-  item.retrieve!
+  OneviewCookbook::Helper.do_resource_action(self, :LogicalEnclosure, :set_script)
+end
 
-  if item.get_script.eql? script
-    Chef::Log.info("#{resource_name} '#{name}' script is up to date")
-  else
-    Chef::Log.debug "#{resource_name} '#{name}' Chef resource differs from OneView resource."
-    converge_by "Updated script for #{resource_name} '#{name}'" do
-      item.set_script(script)
-    end
-  end
+action :delete do
+  OneviewCookbook::Helper.do_resource_action(self, :LogicalEnclosure, :delete)
 end
