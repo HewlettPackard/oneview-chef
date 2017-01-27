@@ -6,6 +6,7 @@ describe 'oneview_test::storage_system_edit_credentials' do
 
   it 'does nothing when storage system does not exists' do
     allow_any_instance_of(OneviewSDK::StorageSystem).to receive(:retrieve!).and_return(false)
+    expect(Chef::Log).to receive(:error).with(/Credentials not edited/).and_return(true)
     expect_any_instance_of(OneviewSDK::StorageSystem).to_not receive(:update).and_return(true)
     expect(real_chef_run).to edit_oneview_storage_system_credentials('StorageSystem1')
   end

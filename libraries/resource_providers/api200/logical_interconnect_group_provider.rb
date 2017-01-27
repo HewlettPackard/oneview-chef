@@ -15,16 +15,19 @@ module OneviewCookbook
   module API200
     # LogicalInterconnectGroup API200 provider
     class LogicalInterconnectGroupProvider < ResourceProvider
-      def load_lig
+      def load_interconnects
         @context.interconnects.each do |location|
           parsed_location = convert_keys(location, :to_sym)
           @item.add_interconnect(parsed_location[:bay], parsed_location[:type])
         end
+      end
+
+      def load_uplink_sets
         @context.uplink_sets.each do |uplink_info|
           parsed_uplink_info = convert_keys(uplink_info, :to_sym)
           up = OneviewSDK.resource_named(:LIGUplinkSet, @sdk_api_version, @sdk_api_variant).new(@item.client, parsed_uplink_info[:data])
           parsed_uplink_info[:networks].each do |network_name|
-            net = case up[:networkType]
+            net = case up[:networkType].to_s
                   when 'Ethernet'
                     OneviewSDK.resource_named(:EthernetNetwork, @sdk_api_version, @sdk_api_variant).new(item.client, name: network_name)
                   when 'FibreChannel'
@@ -41,12 +44,14 @@ module OneviewCookbook
       end
 
       def create_or_update
-        load_lig
+        load_interconnects
+        load_uplink_sets
         super
       end
 
       def create_if_missing
-        load_lig
+        load_interconnects
+        load_uplink_sets
         super
       end
     end

@@ -77,7 +77,8 @@ oneview_resource 'name' do
 end
 ```
 
-**type:** String or Symbol corresponding to the name of the resource type. For example, `EthernetNetwork`, `Enclosure`, `Volume` etc. These should line up with the OneView SDK resource classes listed [here](https://github.com/HewlettPackard/oneview-sdk-ruby/tree/master/lib/oneview-sdk/resource).
+**type:** String or Symbol corresponding to the name of the resource type. For example, `EthernetNetwork`, `
+`, `Volume` etc. These should line up with the OneView SDK resource classes listed [here](https://github.com/HewlettPackard/oneview-sdk-ruby/tree/master/lib/oneview-sdk/resource).
 
 See the [example](examples/oneview_resource.rb) for more details.
 
@@ -243,11 +244,13 @@ end
 **interconnects:** Array containing a list of Hashes indicating whether the interconnects are and which type they correspond to. Each hash should contain the keys:
   - `:bay` - It specifies the location (bay) where this interconnect is attached to. The value should range from 1 to 8.
   - `:type` - The interconnect type name that is currently attached to your enclosure.
+  - `:enclosure_index` - enclosureIndex value for the interconnect. API300::Synergy only.
+  - `:logical_downlink` - Name of the LogicalDownlink for the interconnect. API300::Synergy only.
 
 ```ruby
 interconnects_data = [
-  {bay: 1, type: 'HP VC FlexFabric 10Gb/24-Port Module'},
-  {bay: 2, type: 'HP VC FlexFabric 10Gb/24-Port Module'}
+  { bay: 1, type: 'HP VC FlexFabric 10Gb/24-Port Module' },
+  { bay: 2, type: 'HP VC FlexFabric 10Gb/24-Port Module' }
 ]
 ```
 
@@ -271,8 +274,8 @@ interconnects_data = [
 
     ```ruby
     uplink_connections = [
-      {bay: 1, port: 'X5'},
-      {bay: 2, port: 'X7'}
+      { bay: 1, port: 'X5' },
+      { bay: 2, port: 'X7' }
     ]
     ```
 
@@ -381,10 +384,12 @@ Enclosure Group resource for HPE OneView.
 oneview_enclosure_group 'EnclosureGroup_1' do
   client <my_client>
   data <resource_data>
-  logical_interconnect_group <LIG_name>
-  action [:create, :create_if_missing, :patch, :delete]
+  logical_interconnect_groups [<LIG_name1>, <LIG_name2>]
+  action [:create, :create_if_missing, :delete]
 end
 ```
+
+**logical_interconnect_groups:** Array of LIG names used to build the interconnect bay configuration
 
 ### oneview_enclosure
 
@@ -395,7 +400,12 @@ oneview_enclosure 'Encl1' do
   client <my_client>
   data <resource_data>
   enclosure_group <enclosure_group_name> # String - Optional. Can also set enclosureGroupUri in data
-  action [:add, :remove]
+  state <state>                          # String - Optional. Used for refresh action only. Defaults to 'RefreshPending'
+  refresh_options <options>              # Hash - Optional. Force options for refresh action only
+  operation <op>                         # String. Used in patch action only. e.g., 'replace'
+  path <path>                            # String. Used in patch option only. e.g., '/name'
+  value <val>                            # String. Used in patch option only. e.g., 'New Name'
+  action [:add, :patch, :reconfigure, :refresh, :remove]
 end
 ```
 
