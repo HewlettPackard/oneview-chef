@@ -77,8 +77,7 @@ oneview_resource 'name' do
 end
 ```
 
-**type:** String or Symbol corresponding to the name of the resource type. For example, `EthernetNetwork`, `
-`, `Volume` etc. These should line up with the OneView SDK resource classes listed [here](https://github.com/HewlettPackard/oneview-sdk-ruby/tree/master/lib/oneview-sdk/resource).
+**type:** String or Symbol corresponding to the name of the resource type. For example, `EthernetNetwork`, `Enclosure`, `Volume` etc. These should line up with the OneView SDK resource classes listed [here](https://github.com/HewlettPackard/oneview-sdk-ruby/tree/master/lib/oneview-sdk/resource).
 
 See the [example](examples/oneview_resource.rb) for more details.
 
