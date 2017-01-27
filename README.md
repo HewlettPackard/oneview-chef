@@ -382,7 +382,7 @@ oneview_enclosure_group 'EnclosureGroup_1' do
   client <my_client>
   data <resource_data>
   logical_interconnect_group <LIG_name>
-  action [:create, :create_if_missing, :delete]
+  action [:create, :create_if_missing, :patch, :delete]
 end
 ```
 

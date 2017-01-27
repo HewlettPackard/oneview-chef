@@ -17,7 +17,7 @@
   - firmware support for API300
   - storage_system support for API300
   - storage_pool support for API300
-  - enclosure support for API300
+  - enclosure support for API300. Also added `:patch` action
   - logical_interconnect_group support for API300
 
 
