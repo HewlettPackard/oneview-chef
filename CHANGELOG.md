@@ -21,6 +21,8 @@
   - logical_interconnect_group support for API300
   - Deprecate enclosure_group property 'logical_interconnect_group' (string) in favor of 'logical_interconnect_groups' (array)
     - Also supports SAS LIGs for Synergy in this logical_interconnect_groups property
+  - volume support for API300
+  - volume_template support for API300
 
 ### 1.1.0
   - Add support for client ENV variables
