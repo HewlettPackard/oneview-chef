@@ -15,6 +15,12 @@ my_client = {
   password: ENV['ONEVIEWSDK_PASSWORD']
 }
 
+# This resource is only available for API300::Synergy, so we need to set these attributes
+# to ensure it loads the correct resource_provider module. You can also set the api_version
+# and api_variant properties on each resource definition below (see the README).
+node.default['oneview']['api_version'] = 300
+node.default['oneview']['api_variant'] = 'Synergy'
+
 # Example: Create a SAS LIG with interconnects
 oneview_sas_logical_interconnect_group 'SAS LIG' do
   my_client

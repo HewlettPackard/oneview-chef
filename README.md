@@ -233,7 +233,7 @@ The `:create` action will always update the Logical Interconnect Group if you us
 oneview_logical_interconnect_group 'LogicalInterconnectGroup_1' do
   client <my_client>
   data <resource_data>
-  interconnects <interconnect_data> # Array specifying the interconnects in the bays
+  interconnects <interconnects_data> # Array specifying the interconnects in the bays
   uplink_sets <uplink_set_map>      # Array containing information
   action [:create, :create_if_missing, :delete]
 end
@@ -296,7 +296,7 @@ SAS Logical Interconnect Group resource for HPE OneView (API300::Synergy only)
 oneview_sas_logical_interconnect_group 'SAS_LIG_1' do
   client <my_client>
   data <resource_data>
-  interconnects <interconnect_data> # Array specifying the interconnects in the bays
+  interconnects <interconnects_data> # Array specifying the interconnects in the bays
   action [:create, :create_if_missing, :delete]
 end
 ```
