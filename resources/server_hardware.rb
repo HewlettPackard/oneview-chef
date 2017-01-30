@@ -1,4 +1,4 @@
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2016-2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,6 +13,9 @@ OneviewCookbook::ResourceBaseProperties.load(self)
 
 property :power_state, [String, Symbol], regex: /^(on|off)$/i # Used in :set_power_state action only
 property :refresh_options, Hash, default: {}                  # Used in :refresh action only
+property :operation, String                                   # To be used with :patch action
+property :path, String                                        # To be used with :patch action
+property :value, String                                       # To be used with :patch action
 
 default_action :add_if_missing
 
@@ -34,4 +37,8 @@ end
 
 action :refresh do
   OneviewCookbook::Helper.do_resource_action(self, :ServerHardware, :refresh)
+end
+
+action :patch do
+  OneviewCookbook::Helper.do_resource_action(self, :ServerHardware, :patch)
 end
