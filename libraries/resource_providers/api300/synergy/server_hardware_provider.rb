@@ -9,13 +9,13 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-require_relative '../../api200/server_hardware_provider'
+require_relative '../c7000/server_hardware_provider'
 
 module OneviewCookbook
   module API300
     module Synergy
       # ServerHardware API300 Synergy provider
-      class ServerHardwareProvider < API200::ServerHardwareProvider
+      class ServerHardwareProvider < API300::C7000::ServerHardwareProvider
       end
     end
   end
