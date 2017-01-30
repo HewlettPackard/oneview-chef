@@ -50,7 +50,7 @@ module OneviewCookbook
         end
       end
 
-      def create
+      def create_or_update
         load_logical_switch
         super
       end
