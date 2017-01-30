@@ -26,6 +26,7 @@
   - volume support for API300
   - volume_template support for API300
   - enclosure support for API300. Also added `:patch` action
+  - Added support to SAS Logical Interconnects for API300::Synergy
 
 ### 1.1.0
   - Add support for client ENV variables
