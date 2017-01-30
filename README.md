@@ -400,7 +400,7 @@ oneview_enclosure 'Encl1' do
   data <resource_data>
   enclosure_group <enclosure_group_name> # String - Optional. Can also set enclosureGroupUri in data
   state <state>                          # String - Optional. Used for refresh action only. Defaults to 'RefreshPending'
-  refresh_options <options>              # Hash - Optional. Force options for refresh action only
+  options <options>                      # Hash - Optional. Force options for refresh action only. Defaults to `{}`
   operation <op>                         # String. Used in patch action only. e.g., 'replace'
   path <path>                            # String. Used in patch option only. e.g., '/name'
   value <val>                            # String. Used in patch option only. e.g., 'New Name'
