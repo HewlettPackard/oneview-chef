@@ -60,6 +60,15 @@ oneview_server_hardware '172.18.6.4' do
   action :update_ilo_firmware
 end
 
+# Example: Add the Scope with URI /rest/scopes/3b292baf-8b59-4671-9e5c-deca07496c60 to ServerHardware1
+oneview_server_hardware 'ServerHardware1' do
+  client node['oneview_test']['client']
+  operation 'add'
+  path '/scopeUris/-'
+  value '/rest/scopes/3b292baf-8b59-4671-9e5c-deca07496c60'
+  action :patch
+end
+
 # Example: Remove the server hardware from OneView
 oneview_server_hardware '172.18.6.4' do
   client my_client
