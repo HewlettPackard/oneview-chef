@@ -14,13 +14,13 @@ if defined?(ChefSpec)
   # To see a full list of the actual matchers, see spec/unit/resources/matchers_spec.rb
   standard_actions = [:create, :create_if_missing, :delete]
   # Lists all the possible action verbs
-  action_list = %w(create add delete remove set reset refresh update configure reconfigure edit none discover apply reapply activate stage new)
+  action_list = %w(create add delete remove set reset refresh update configure reconfigure edit none discover apply reapply activate stage new patch)
 
   oneview_resources = {
     oneview_resource:                   standard_actions,
     oneview_connection_template:        [:update, :reset],
     oneview_datacenter:                 [:add, :remove, :add_if_missing],
-    oneview_enclosure:                  [:add, :remove, :refresh, :reconfigure],
+    oneview_enclosure:                  [:add, :remove, :refresh, :reconfigure, :patch],
     oneview_enclosure_group:            standard_actions + [:set_script],
     oneview_ethernet_network:           standard_actions + [:reset_connection_template],
     oneview_fabric:                     [:set_reserved_vlan_range],
