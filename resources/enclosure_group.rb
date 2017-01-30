@@ -12,7 +12,8 @@
 OneviewCookbook::ResourceBaseProperties.load(self)
 
 property :script, String
-property :logical_interconnect_group, String # Name of LIG
+property :logical_interconnect_group, String # Name of LIG # DEPRECATED!
+property :logical_interconnect_groups, Array # Array of strings (names of LIGs)
 
 default_action :create
 

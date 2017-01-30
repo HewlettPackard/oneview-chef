@@ -16,6 +16,17 @@ module OneviewCookbook
     module Synergy
       # EnclosureGroup API300 Synergy resource provider methods
       class EnclosureGroupProvider < API200::EnclosureGroupProvider
+        def load_ligs
+          load_lig # Deprecated method
+          return unless @context.logical_interconnect_groups
+          lig_klass = resource_named(:LogicalInterconnectGroup)
+          sas_lig_klass = resource_named(:SASLogicalInterconnectGroup)
+          @context.logical_interconnect_groups.each do |lig|
+            ret = @item.add_logical_interconnect_group(lig_klass.new(@item.client, name: lig))
+            # Look for and add the SAS LIG if no standard LIG was found
+            @item.add_logical_interconnect_group(sas_lig_klass.new(@item.client, name: lig)) unless ret && !ret.empty?
+          end
+        end
       end
     end
   end

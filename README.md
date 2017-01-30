@@ -243,11 +243,13 @@ end
 **interconnects:** Array containing a list of Hashes indicating whether the interconnects are and which type they correspond to. Each hash should contain the keys:
   - `:bay` - It specifies the location (bay) where this interconnect is attached to. The value should range from 1 to 8.
   - `:type` - The interconnect type name that is currently attached to your enclosure.
+  - `:enclosure_index` - enclosureIndex value for the interconnect. API300::Synergy only.
+  - `:logical_downlink` - Name of the LogicalDownlink for the interconnect. API300::Synergy only.
 
 ```ruby
 interconnects_data = [
-  {bay: 1, type: 'HP VC FlexFabric 10Gb/24-Port Module'},
-  {bay: 2, type: 'HP VC FlexFabric 10Gb/24-Port Module'}
+  { bay: 1, type: 'HP VC FlexFabric 10Gb/24-Port Module' },
+  { bay: 2, type: 'HP VC FlexFabric 10Gb/24-Port Module' }
 ]
 ```
 
@@ -271,8 +273,8 @@ interconnects_data = [
 
     ```ruby
     uplink_connections = [
-      {bay: 1, port: 'X5'},
-      {bay: 2, port: 'X7'}
+      { bay: 1, port: 'X5' },
+      { bay: 2, port: 'X7' }
     ]
     ```
 
@@ -381,10 +383,12 @@ Enclosure Group resource for HPE OneView.
 oneview_enclosure_group 'EnclosureGroup_1' do
   client <my_client>
   data <resource_data>
-  logical_interconnect_group <LIG_name>
+  logical_interconnect_groups [<LIG_name1>, <LIG_name2>]
   action [:create, :create_if_missing, :delete]
 end
 ```
+
+**logical_interconnect_groups:** Array of LIG names used to build the interconnect bay configuration
 
 ### oneview_enclosure
 
