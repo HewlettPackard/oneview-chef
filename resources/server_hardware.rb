@@ -16,50 +16,22 @@ property :refresh_options, Hash, default: {}                  # Used in :refresh
 
 default_action :add_if_missing
 
-action_class do
-  include OneviewCookbook::Helper
-  include OneviewCookbook::ResourceBase
-end
-
 action :add_if_missing do
-  add_if_missing
+  OneviewCookbook::Helper.do_resource_action(self, :ServerHardware, :add_if_missing)
 end
 
 action :remove do
-  remove
+  OneviewCookbook::Helper.do_resource_action(self, :ServerHardware, :remove)
 end
 
 action :update_ilo_firmware do
-  item = load_resource
-  item.retrieve!
-  converge_by "Updating iLO firmware on #{resource_name} '#{item['name']}'" do
-    item.update_ilo_firmware
-  end
+  OneviewCookbook::Helper.do_resource_action(self, :ServerHardware, :update_ilo_firmware)
 end
 
 action :set_power_state do
-  raise "Unspecified property: 'power_state'. Please set it before attempting this action." unless power_state
-  ps = power_state.to_s.downcase
-  item = load_resource
-  raise "#{resource_name} '#{item['name']}' not found!" unless item.retrieve!
-  if item['powerState'].casecmp(ps) == 0
-    Chef::Log.info("#{resource_name} '#{item['name']}' is already powered #{ps}")
-  else
-    converge_by "Power #{ps} #{resource_name} '#{item['name']}'" do
-      item.public_send("power_#{ps}".to_sym)
-    end
-  end
+  OneviewCookbook::Helper.do_resource_action(self, :ServerHardware, :set_power_state)
 end
 
 action :refresh do
-  item = load_resource
-  raise "#{resource_name} '#{item['name']}' not found!" unless item.retrieve!
-
-  if ['RefreshFailed', 'NotRefreshing', ''].include? item['refreshState']
-    converge_by "Refresh #{resource_name} '#{item['name']}'." do
-      item.set_refresh_state('RefreshPending', refresh_options)
-    end
-  else
-    Chef::Log.info("#{resource_name} '#{item['name']}' refresh is already running.")
-  end
+  OneviewCookbook::Helper.do_resource_action(self, :ServerHardware, :refresh)
 end
