@@ -18,6 +18,8 @@
   - storage_system support for API300
   - storage_pool support for API300
   - logical_interconnect_group support for API300
+  - volume support for API300
+  - volume_template support for API300
 
 ### 1.1.0
   - Add support for client ENV variables
