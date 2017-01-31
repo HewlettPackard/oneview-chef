@@ -21,9 +21,13 @@
   - logical_interconnect_group support for API300
   - Deprecate enclosure_group property 'logical_interconnect_group' (string) in favor of 'logical_interconnect_groups' (array)
     - Also supports SAS LIGs for Synergy in this logical_interconnect_groups property
+  - logical_enclosure  support for API300
+  - Add `create`, `create_if_missing` and `delete` actions to logical_enclosure
   - volume support for API300
   - volume_template support for API300
   - enclosure support for API300. Also added `:patch` action
+  - logical_switch support for API300
+  - interconnect support for API300
   - server_hardware support for API300. Also added `:patch` action
 
 ### 1.1.0

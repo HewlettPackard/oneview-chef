@@ -523,9 +523,15 @@ Logical enclosure resource for HPE OneView.
 ```ruby
 oneview_logical_enclosure 'Encl1' do
   client <my_client>
-  action :update_from_group
+  data <data>
+  enclosures [<enclosure_names>] # Optional. Array of enclosure names (or serialNumbers or OA IPs) for :create & :create_if_missing actions only
+  enclosure_group 'EncGroup1'    # Optional. Name of enclosure group for :create & :create_if_missing actions only
+  script 'script'                # For :set_script action only
+  action [:create_if_missing, :create, :update_from_group, :reconfigure, :set_script, :delete]
 end
 ```
+
+Notes: The default action is `:create_if_missing`. Also, the creation process may take 30min or more.
 
 ### oneview_managed_san
 
