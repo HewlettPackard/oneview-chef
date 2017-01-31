@@ -1,4 +1,4 @@
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2016-2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -58,6 +58,15 @@ end
 oneview_server_hardware '172.18.6.4' do
   client my_client
   action :update_ilo_firmware
+end
+
+# Example: Add the Scope with URI /rest/scopes/3b292baf-8b59-4671-9e5c-deca07496c60 to ServerHardware1
+oneview_server_hardware 'ServerHardware1' do
+  client my_client
+  operation 'add'
+  path '/scopeUris/-'
+  value '/rest/scopes/3b292baf-8b59-4671-9e5c-deca07496c60'
+  action :patch
 end
 
 # Example: Remove the server hardware from OneView
