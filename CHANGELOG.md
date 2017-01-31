@@ -26,6 +26,7 @@
   - volume support for API300
   - volume_template support for API300
   - enclosure support for API300. Also added `:patch` action
+  - logical_switch support for API300
   - interconnect support for API300
 
 ### 1.1.0
