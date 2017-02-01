@@ -29,6 +29,7 @@
   - logical_switch support for API300
   - interconnect support for API300
   - server_hardware support for API300. Also added `:patch` action
+  - switch support for API300
 
 ### 1.1.0
   - Add support for client ENV variables
