@@ -233,12 +233,11 @@ The `:create` action will always update the Logical Interconnect Group if you us
 oneview_logical_interconnect_group 'LogicalInterconnectGroup_1' do
   client <my_client>
   data <resource_data>
-  interconnects <interconnect_map> # Array specifying the interconnects in the bays
-  uplink_sets <uplink_set_map>     # Array containing information
+  interconnects <interconnects_data> # Array specifying the interconnects in the bays
+  uplink_sets <uplink_set_map>      # Array containing information
   action [:create, :create_if_missing, :delete]
 end
 ```
-
 
 **interconnects:** Array containing a list of Hashes indicating whether the interconnects are and which type they correspond to. Each hash should contain the keys:
   - `:bay` - It specifies the location (bay) where this interconnect is attached to. The value should range from 1 to 8.
@@ -288,6 +287,30 @@ interconnects_data = [
     { data: uplink_data_2,  connections: connections_2, networks: ['FC_1']}
   ]
   ```
+
+### oneview_sas_logical_interconnect_group
+
+SAS Logical Interconnect Group resource for HPE OneView (API300::Synergy only)
+
+```ruby
+oneview_sas_logical_interconnect_group 'SAS_LIG_1' do
+  client <my_client>
+  data <resource_data>
+  interconnects <interconnects_data> # Array specifying the interconnects in the bays
+  action [:create, :create_if_missing, :delete]
+end
+```
+
+**interconnects:** Array containing a list of Hashes indicating whether the interconnects are and which type they correspond to. Each hash should contain the keys:
+  - `:bay` - It specifies the location (bay) where this interconnect is attached to. The value should range from 1 to 8.
+  - `:type` - The interconnect type name that is currently attached to your enclosure.
+
+```ruby
+interconnects_data = [
+  { bay: 1, type: 'Synergy 12Gb SAS Connection Module' },
+  { bay: 2, type: 'Synergy 12Gb SAS Connection Module' }
+]
+```
 
 ### oneview_logical_switch_group
 
@@ -590,7 +613,10 @@ oneview_server_hardware 'ServerHardware1' do
   data <data>
   power_state [:on, :off] # Only used with the :set_power_state action
   refresh_options <hash>  # Only used with the :refresh action. Optional
-  action [:add_if_missing, :remove, :refresh, :set_power_state, :update_ilo_firmware]
+  operation <op>          # String. Used in patch action only. e.g., 'replace'
+  path <path>             # String. Used in patch option only. e.g., '/name'
+  value <val>             # String. Used in patch option only. e.g., 'New Name'
+  action [:add_if_missing, :remove, :refresh, :set_power_state, :update_ilo_firmware, :patch]
 end
 ```
 
