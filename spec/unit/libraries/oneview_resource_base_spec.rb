@@ -38,7 +38,7 @@ RSpec.describe OneviewCookbook::ResourceBaseProperties do
     end
 
     it 'creates the :api_version property' do
-      expect(@context).to receive(:property).with(:api_version, Fixnum, default: @context.node['oneview']['api_version'])
+      expect(@context).to receive(:property).with(:api_version, Integer, default: @context.node['oneview']['api_version'])
       described_class.load(@context)
     end
 
@@ -49,7 +49,22 @@ RSpec.describe OneviewCookbook::ResourceBaseProperties do
     end
 
     it 'creates the :api_header_version property' do
-      expect(@context).to receive(:property).with(:api_header_version, Fixnum)
+      expect(@context).to receive(:property).with(:api_header_version, Integer)
+      described_class.load(@context)
+    end
+
+    it 'creates the :operation property' do
+      expect(@context).to receive(:property).with(:operation, String)
+      described_class.load(@context)
+    end
+
+    it 'creates the :path property' do
+      expect(@context).to receive(:property).with(:path, String)
+      described_class.load(@context)
+    end
+
+    it 'creates the :value property' do
+      expect(@context).to receive(:property).with(:value, [String, Array])
       described_class.load(@context)
     end
   end

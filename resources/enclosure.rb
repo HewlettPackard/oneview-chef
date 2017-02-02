@@ -15,9 +15,6 @@ OneviewCookbook::ResourceBaseProperties.load(self)
 property :enclosure_group, String # Name of Enclosure Group
 property :state, String, default: 'RefreshPending'
 property :options, Hash, default: {}
-property :operation, String # To be used with :patch action
-property :path, String # To be used with :patch action
-property :value, String # To be used with :patch action
 
 default_action :add
 

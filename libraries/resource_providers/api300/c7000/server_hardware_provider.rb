@@ -16,22 +16,6 @@ module OneviewCookbook
     module C7000
       # ServerHardware API300 C7000 provider
       class ServerHardwareProvider < API200::ServerHardwareProvider
-        # Description                         ||  Operation  ||  Path      ||  Value
-        # Reset iLO state                      |  replace    |  /mpState   |  Reset
-        # Set the server UID state on          |  replace    |  /uidState  |  On
-        # Set the server UID state off         |  replace    |  /uidState  |  Off
-        # Add one scopeUri to the server       |  add        |  /scopeUris/-|/scopeUris/[0-#index_of_scopes_on_current_server]  |  scopeUri
-        # Change the scopeUris of the server   |  replace    |  /scopeUris  |  a list of scopeUris
-        # Remove one scopeUri from the server  |  remove     |  /scopeUris/[0-#index_of_scopes_on_current_server]
-        def patch
-          invalid_param = @context.operation.nil? || @context.path.nil?
-          raise "InvalidParameters: Parameters 'operation' and 'path' must be set for patch" if invalid_param
-          # TODO: Add support to Scopes (Currently not supported by oneview-sdk gem 3.1.0)
-          @item.retrieve!
-          @context.converge_by "Performing '#{@context.operation}' at #{@context.path} with #{@context.value} in #{@resource_name} '#{@name}'" do
-            @item.patch(@context.operation, @context.path, @context.value)
-          end
-        end
       end
     end
   end

@@ -18,9 +18,12 @@ module OneviewCookbook
       context.property :name, [String, Symbol], required: true
       context.property :data, Hash, default: {}
       context.property :save_resource_info, [TrueClass, FalseClass, Array], default: context.node['oneview']['save_resource_info']
-      context.property :api_version, Fixnum, default: context.node['oneview']['api_version']
+      context.property :api_version, Integer, default: context.node['oneview']['api_version']
       context.property :api_variant, [String, Symbol], default: context.node['oneview']['api_variant']
-      context.property :api_header_version, Fixnum # Overrides X-API-Version headers in API requests
+      context.property :api_header_version, Integer    # Overrides X-API-Version headers in API requests
+      context.property :operation, String              # To be used with :patch action
+      context.property :path, String                   # To be used with :patch action
+      context.property :value, [String, Array]         # To be used with :patch action
     end
   end
 

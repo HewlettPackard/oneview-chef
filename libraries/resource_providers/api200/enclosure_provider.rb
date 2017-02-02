@@ -42,34 +42,6 @@ module OneviewCookbook
           @item.set_refresh_state(@context.state, @context.options)
         end
       end
-
-      # Sends the following operations to the Enclosure hardware
-      # Set the appliance bay power state on - operation: replace; path: /applianceBays/[1,2]/power; values: On
-      # Set the UID for the enclosure - operation: replace; path: /uidState; values: On|Off
-      # Set the UID for the Synergy Frame Link Module - operation: replace; path: /managerBays/[1,2]/uidState; values: On|Off
-      # Change the name of the enclosure - operation: replace; path: /name; values: new enclosure name
-      # Change the name of the rack - operation: replace; path: /rackName; values: new rack name
-      # E-Fuse or Reset the Synergy Frame Link Module bay in the path - operation: replace; path: /managerBays/[1,2]/bayPowerState;
-      #   values: E-Fuse|Reset
-      # E-Fuse the appliance bay in the path - operation: replace; path: /applianceBays/[1,2]/bayPowerState; values: E-Fuse
-      # E-Fuse or Reset the device bay in the path - operation: replace; path: /deviceBays/[1-#blades_in_enclosure]/bayPowerState;
-      #   values: E-Fuse|Reset
-      # E-Fuse the IC bay in the path - operation: replace; path: /interconnectBays/[1-8]/bayPowerState; values: E-Fuse
-      # Set the active Synergy Frame Link Module - operation: replace; path: /managerBays/[1,2]/role; values: active
-      # Release IPv4 address in the path - operation: remove; path: /deviceBays/[1-12]/ipv4Setting
-      # Release IPv4 address in the path - operation: remove; path: /interconnectBays/[1-6]/ipv4Setting
-      # Add one scopeUri to the enclosure - operation: add; path: /scopeUris/-|/scopeUris/[0-#index_of_scopes_on_current_enclosure]; values: scopeUri
-      # Remove one scopeUri from the enclosure - operation: remove; path: /scopeUris/[0-#index_of_scopes_on_current_enclosure]
-      # Change the scopeUris of the enclosure - operation: replace; path: /scopeUris; values: a list of scopeUris
-      def patch
-        invalid_param = @context.operation.nil? || @context.path.nil?
-        raise "InvalidParameters: Parameters 'operation' and 'path' must be set for patch" if invalid_param
-        # TODO: Add support to Scopes (Currently not supported by oneview-sdk gem 3.1.0)
-        @item.retrieve!
-        @context.converge_by "Performing '#{@context.operation}' at #{@context.path} with #{@context.value} in #{@resource_name} '#{@name}'" do
-          @item.patch(@context.operation, @context.path, @context.value)
-        end
-      end
     end
   end
 end
