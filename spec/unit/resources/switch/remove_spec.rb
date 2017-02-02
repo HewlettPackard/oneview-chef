@@ -17,10 +17,10 @@ describe 'oneview_test::switch_remove' do
     expect(real_chef_run).to remove_oneview_switch('Switch1')
   end
 
-  it 'removes it when it exists and is already in the inventory' do
+  it 'does not remove it when it exists and is already in the inventory' do
     allow_any_instance_of(klass).to receive(:retrieve!).and_return(true)
     allow_any_instance_of(klass).to receive(:[]).with('state').and_return('Inventory')
-    expect_any_instance_of(klass).to_not receive(:remove).and_return(true)
+    expect_any_instance_of(klass).to_not receive(:remove)
     expect(real_chef_run).to remove_oneview_switch('Switch1')
   end
 
