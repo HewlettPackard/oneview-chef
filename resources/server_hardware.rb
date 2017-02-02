@@ -13,9 +13,6 @@ OneviewCookbook::ResourceBaseProperties.load(self)
 
 property :power_state, [String, Symbol], regex: /^(on|off)$/i # Used in :set_power_state action only
 property :refresh_options, Hash, default: {}                  # Used in :refresh action only
-property :operation, String                                   # To be used with :patch action
-property :path, String                                        # To be used with :patch action
-property :value, String                                       # To be used with :patch action
 
 default_action :add_if_missing
 

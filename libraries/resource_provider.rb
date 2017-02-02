@@ -130,6 +130,20 @@ module OneviewCookbook
       delete(:remove)
     end
 
+    # Performs patch operation
+    # It needs the context properties 'operation' and 'path'.
+    # 'value' property is optional.
+    # @return [TrueClass] true if the resource was patched
+    def patch
+      invalid_params = @context.operation.nil? || @context.path.nil?
+      raise "InvalidParameters: Parameters 'operation' and 'path' must be set for patch" if invalid_params
+      @item.retrieve!
+      @context.converge_by "Performing '#{@context.operation}' at #{@context.path} with #{@context.value} in #{@resource_name} '#{@name}'" do
+        @item.patch(@context.operation, @context.path, @context.value)
+      end
+      true
+    end
+
     # Gathers the OneviewSDK correct resource class
     # @param [Symbol | String] resource Resource name/type desired
     # @param [Integer] version Version of the SDK desired
