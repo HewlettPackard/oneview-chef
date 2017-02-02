@@ -88,13 +88,30 @@ See the [example](examples/oneview_resource.rb) for more details.
 
 Ethernet network resource for HPE OneView.
 
+The `:bandwidth` can be defined inside `data` attribute. However, it will internally call the **oneview_connection_template** resource.
+
 ```Ruby
 oneview_ethernet_network 'Eth1' do
   client <my_client>
   data <resource_data>
-  action [:create, :create_if_missing, :delete]
+  action [:create, :create_if_missing, :delete, :reset_connection_template]
 end
 ```
+
+### oneview_connection_template
+
+Connection template resource for HPE OneView.
+
+```Ruby
+oneview_connection_template 'ConnectionTemplate1' do
+  client <my_client>
+  data <resource_data>
+  associated_ethernet_network <ethernet_name> # Optional
+  action [:update, :reset]
+end
+```
+
+Although the name of the `associated_ethernet_network` being an optional parameter, it must be set if the correct URI and Connection template name are not defined.
 
 ### oneview_fabric
 
@@ -688,13 +705,20 @@ You can specify the association of the server profile with each of the resources
 
 ### oneview_switch
 
-Switch resource for HPE OneView
+Switch resource for HPE OneView.
+
+Resource available only for C7000 variant.
+
+API300 includes patch operation.
 
 ```ruby
 oneview_switch 'Switch1' do
   client <my_client>
   data <data>
-  action [:remove, :none]
+  operation <op>   # String. Used in patch action only. e.g., 'replace'
+  path <path>      # String. Used in patch option only. e.g., '/name'
+  value <val>      # String. Used in patch option only. e.g., 'New Name'
+  action [:remove, :none, :patch]
 end
 ```
 
