@@ -1,4 +1,4 @@
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11,25 +11,18 @@
 
 OneviewCookbook::ResourceBaseProperties.load(self)
 
-property :server_hardware, String
-property :server_hardware_type, String
-property :enclosure_group, String
-property :enclosure, String
-property :firmware_driver, String
-property :ethernet_network_connections, Hash
-property :fc_network_connections, Hash
-property :network_set_connections, Hash
+property :interconnects, Array, default: []
 
 default_action :create
 
 action :create do
-  OneviewCookbook::Helper.do_resource_action(self, :ServerProfile, :create_or_update)
+  OneviewCookbook::Helper.do_resource_action(self, :SASLogicalInterconnectGroup, :create_or_update)
 end
 
 action :create_if_missing do
-  OneviewCookbook::Helper.do_resource_action(self, :ServerProfile, :create_if_missing)
+  OneviewCookbook::Helper.do_resource_action(self, :SASLogicalInterconnectGroup, :create_if_missing)
 end
 
 action :delete do
-  OneviewCookbook::Helper.do_resource_action(self, :ServerProfile, :delete)
+  OneviewCookbook::Helper.do_resource_action(self, :SASLogicalInterconnectGroup, :delete)
 end

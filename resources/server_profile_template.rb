@@ -21,58 +21,20 @@ property :network_set_connections, Hash
 property :fc_network_connections, Hash
 property :profile_name, String
 
-action_class do
-  include OneviewCookbook::Helper
-  include OneviewCookbook::ResourceBase
-
-  # Loads the Volume with all the external resources (if needed)
-  # @return [OneviewSDK::Volume] Loaded Volume resource
-  def load_with_properties
-    item = load_resource
-    set_resource(item, OneviewSDK::ServerHardwareType, server_hardware_type, :set_server_hardware_type)
-    set_resource(item, OneviewSDK::EnclosureGroup, enclosure_group, :set_enclosure_group)
-    set_resource(item, OneviewSDK::FirmwareDriver, firmware_driver, :set_firmware_driver)
-    set_connections(item, OneviewSDK::EthernetNetwork, ethernet_network_connections)
-    set_connections(item, OneviewSDK::FCNetwork, fc_network_connections)
-    set_connections(item, OneviewSDK::NetworkSet, network_set_connections)
-  end
-
-  def set_connections(item, type, connection_list)
-    return false unless connection_list
-    connection_list.each do |net_name, options|
-      res = type.find_by(item.client, name: net_name).first
-      raise "Resource not found: #{type} '#{net_name}' could not be found." unless res
-      item.add_connection(res, options)
-    end
-    true
-  end
-
-  def set_resource(item, type, name, method, args = nil)
-    return false unless name
-    res = type.find_by(item.client, name: name).first
-    raise "Resource not found: #{type} '#{name}' could not be found." unless res
-    item.public_send(method, res, *args)
-    true
-  end
-end
+default_action :create
 
 action :create do
-  create_or_update(load_with_properties)
+  OneviewCookbook::Helper.do_resource_action(self, :ServerProfileTemplate, :create_or_update)
 end
 
 action :create_if_missing do
-  create_if_missing(load_with_properties)
+  OneviewCookbook::Helper.do_resource_action(self, :ServerProfileTemplate, :create_if_missing)
 end
 
 action :delete do
-  delete
+  OneviewCookbook::Helper.do_resource_action(self, :ServerProfileTemplate, :delete)
 end
 
 action :new_profile do
-  raise "Unspecified property: 'profile_name'. Please set it before attempting this action." unless profile_name
-  item = load_resource
-  raise "Resource not found: '#{name}' could not be found." unless item.exists?
-  item.retrieve!
-  profile = item.new_profile(profile_name)
-  create_if_missing(profile)
+  OneviewCookbook::Helper.do_resource_action(self, :ServerProfileTemplate, :new_profile)
 end
