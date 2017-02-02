@@ -32,7 +32,8 @@
   - server_hardware support for API300. Also added `:patch` action
   - server_profile support for API300
   - server_profile_template support for API300
-
+  - connection_template support for API300
+  
 ### 1.1.0
   - Add support for client ENV variables
   - Fixed volume resource (#92) & examples
