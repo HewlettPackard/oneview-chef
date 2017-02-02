@@ -702,13 +702,20 @@ You can specify the association of the server profile with each of the resources
 
 ### oneview_switch
 
-Switch resource for HPE OneView
+Switch resource for HPE OneView.
+
+Resource available only for C7000 variant.
+
+API300 includes patch operation.
 
 ```ruby
 oneview_switch 'Switch1' do
   client <my_client>
   data <data>
-  action [:remove, :none]
+  operation <op>   # String. Used in patch action only. e.g., 'replace'
+  path <path>      # String. Used in patch option only. e.g., '/name'
+  value <val>      # String. Used in patch option only. e.g., 'New Name'
+  action [:remove, :none, :patch]
 end
 ```
 

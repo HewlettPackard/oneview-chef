@@ -1,4 +1,4 @@
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2016-2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11,27 +11,20 @@
 
 OneviewCookbook::ResourceBaseProperties.load(self)
 
+property :operation, String # To be used with :patch action
+property :path, String      # To be used with :patch action
+property :value, String     # To be used with :patch action
+
 # To prevent that the default action is remove
 default_action :none
 
-action_class do
-  include OneviewCookbook::Helper
-  include OneviewCookbook::ResourceBase
+action :none do
 end
 
 action :remove do
-  item = load_resource
-  found = item.retrieve!
-
-  # Checks if the switch was already removed from oneview
-  if found && 'Inventory' != item['state']
-    converge_by "#{resource_name} '#{name}'" do
-      item.remove
-    end
-  else
-    Chef::Log.info "#{resource_name} '#{name}' is already in the inventory."
-  end
+  OneviewCookbook::Helper.do_resource_action(self, :Switch, :remove)
 end
 
-action :none do
+action :patch do
+  OneviewCookbook::Helper.do_resource_action(self, :Switch, :patch)
 end

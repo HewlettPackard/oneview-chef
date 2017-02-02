@@ -30,6 +30,7 @@
   - logical_switch support for API300
   - interconnect support for API300
   - server_hardware support for API300. Also added `:patch` action
+  - switch support for API300 C7000. Added `:patch` action
   - server_profile support for API300
   - server_profile_template support for API300
   - connection_template support for API300
