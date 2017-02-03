@@ -224,7 +224,7 @@ SAS interconnect resource for HPE OneView.
 
 It is a Synergy-only resource.
 
-Perform the Interconnect actions:
+Performs the SAS interconnect actions:
   - **reset:** Soft resets the SAS interconnect. Reset the management processor and will not disrupt I/O.
   - **hard_reset:** Hard resets the SAS interconnect. Reset the interconnect and will interrupt active I/O.
   - **set_uid_light:** Sets the SAS interconnect UID indicator (UID light) to the specified value. The String property `uid_light_state` is required, and typically assumes the "On" and "Off" values.
@@ -253,7 +253,7 @@ Performs actions in the logical interconnect and associated interconnects.
 By default it performs the action `:none`.
 
 ```Ruby
-oneview_interconnect 'LogicalInterconnect1' do
+oneview_logical_interconnect 'LogicalInterconnect1' do
   client <my_client>
   data <resource_data>
   firmware <firmware_name>           # String: Optional for actions like :<action>_firwmare (can be replaced by data attribute 'sppName')
