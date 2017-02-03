@@ -36,6 +36,8 @@
   - server_profile_template support for API300
   - connection_template support for API300
   - Added generic `patch` method to the ResourceProvider
+  - oneview_resource (generic) support for API300
+  - Removed old (unused) helper methods and resource base class
 
 ### 1.1.0
   - Add support for client ENV variables

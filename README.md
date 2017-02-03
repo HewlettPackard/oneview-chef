@@ -66,8 +66,7 @@ The following are the standard properties available for all resources. Some reso
 ### oneview_resource
 
 This is a generic provider for managing any OneView resource.
-This really exists only for resources that don't have a specific provider; if a specific one exists, please use it instead
-(See [RELEASE_NOTES.md](RELEASE_NOTES.md)).
+This really exists only for resources that exist in the SDK but don't have a Chef resource provider. If a specific resource exists, please use it instead.
 
 The basic usage is as follows:
 
