@@ -26,7 +26,8 @@
   - volume support for API300
   - volume_template support for API300
   - enclosure support for API300. Also added `:patch` action
-  - Added support to SAS Logical Interconnects for API300::Synergy
+  - Added support to SAS interconnects for API300::Synergy
+  - Added support to SAS logical interconnect groups for API300::Synergy
   - logical_switch support for API300
   - interconnect support for API300
   - server_hardware support for API300. Also added `:patch` action

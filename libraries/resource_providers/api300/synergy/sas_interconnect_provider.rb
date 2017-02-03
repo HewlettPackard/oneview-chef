@@ -12,44 +12,46 @@
 require_relative 'interconnect_provider'
 
 module OneviewCookbook
-  module API200
-    # Interconnect API200 provider
-    class SASInterconnectProvider < InterconnectProvider
-      def reset
-        reset_handler('softReset/')
-      end
-
-      def hard_reset
-        reset_handler('hardReset/')
-      end
-
-      def refresh
-        @item.retrieve!
-        refresh_ready = ['RefreshFailed', 'NotRefreshing', ''].include? @item['refreshState']
-        return Chef::Log.info("#{@resource_name} '#{@name}' refresh is already running. State: #{@item['refreshState']}") unless refresh_ready
-        @context.converge_by "#{@resource_name} '#{@name}' was refreshed." do
-          @item.set_refresh_state(@context.state)
+  module API300
+    module Synergy
+      # SAS Interconnect API300 Synergy provider
+      class SASInterconnectProvider < InterconnectProvider
+        def reset
+          reset_handler('/softResetState')
         end
-      end
 
-      protected
-
-      def reset_handler(path)
-        @item.retrieve!
-        # Nothing to verify
-        @context.converge_by "#{path.delete('/').gsub(/([A-Z])/, ' \1').capitalize} #{@resource_name} '#{@name}'" do
-          @item.patch('replace', path, 'Reset')
+        def hard_reset
+          reset_handler('/hardResetState')
         end
-      end
 
-      private
+        def refresh
+          @item.retrieve!
+          refresh_ready = ['RefreshFailed', 'NotRefreshing', ''].include? @item['refreshState']
+          return Chef::Log.info("#{@resource_name} '#{@name}' refresh is already running. State: #{@item['refreshState']}") unless refresh_ready
+          @context.converge_by "#{@resource_name} '#{@name}' was refreshed." do
+            @item.set_refresh_state(@context.refresh_state)
+          end
+        end
 
-      def update_port
-        Chef::Log.error('InternalError: Method not supported by this resource')
-      end
+        protected
 
-      def reset_port_protection
-        Chef::Log.error('InternalError: Method not supported by this resource')
+        def reset_handler(path)
+          @item.retrieve!
+          # Nothing to verify
+          @context.converge_by "#{path.delete('/').gsub(/([A-Z])/, ' \1').capitalize} #{@resource_name} '#{@name}'" do
+            @item.patch('replace', path, 'Reset')
+          end
+        end
+
+        private
+
+        def update_port
+          Chef::Log.error('InternalError: Method not supported by this resource')
+        end
+
+        def reset_port_protection
+          Chef::Log.error('InternalError: Method not supported by this resource')
+        end
       end
     end
   end

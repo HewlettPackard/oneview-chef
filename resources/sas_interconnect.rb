@@ -13,33 +13,33 @@ OneviewCookbook::ResourceBaseProperties.load(self)
 
 property :uid_light_state, String
 property :power_state, String
-property :state, String, default: 'RefreshPending'
+property :refresh_state, String, default: 'RefreshPending'
 
 default_action :none
 
 action :none do
 end
 
-action :set_uid_light do
-  OneviewCookbook::Helper.do_resource_action(self, :Interconnect, :set_uid_light)
-end
-
-action :set_power_state do
-  OneviewCookbook::Helper.do_resource_action(self, :Interconnect, :set_power_state)
-end
-
-action :reset do
-  OneviewCookbook::Helper.do_resource_action(self, :Interconnect, :reset)
-end
-
 action :hard_reset do
-  OneviewCookbook::Helper.do_resource_action(self, :Interconnect, :hard_reset)
-end
-
-action :refresh do
-  OneviewCookbook::Helper.do_resource_action(self, :Interconnect, :refresh)
+  OneviewCookbook::Helper.do_resource_action(self, :SASInterconnect, :hard_reset)
 end
 
 action :patch do
-  OneviewCookbook::Helper.do_resource_action(self, :Interconnect, :patch)
+  OneviewCookbook::Helper.do_resource_action(self, :SASInterconnect, :patch)
+end
+
+action :refresh do
+  OneviewCookbook::Helper.do_resource_action(self, :SASInterconnect, :refresh)
+end
+
+action :reset do
+  OneviewCookbook::Helper.do_resource_action(self, :SASInterconnect, :reset)
+end
+
+action :set_power_state do
+  OneviewCookbook::Helper.do_resource_action(self, :SASInterconnect, :set_power_state)
+end
+
+action :set_uid_light do
+  OneviewCookbook::Helper.do_resource_action(self, :SASInterconnect, :set_uid_light)
 end

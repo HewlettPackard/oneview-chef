@@ -218,6 +218,34 @@ oneview_interconnect 'Interconnect1' do
 end
 ```
 
+### oneview_sas_interconnect
+
+SAS interconnect resource for HPE OneView.
+
+It is a Synergy-only resource.
+
+Perform the Interconnect actions:
+  - **reset:** Soft resets the SAS interconnect. Reset the management processor and will not disrupt I/O.
+  - **hard_reset:** Hard resets the SAS interconnect. Reset the interconnect and will interrupt active I/O.
+  - **set_uid_light:** Sets the SAS interconnect UID indicator (UID light) to the specified value. The String property `uid_light_state` is required, and typically assumes the "On" and "Off" values.
+  - **power_state:** Sets the SAS interconnect power state to the specified value. The String property `power_state` is required, and typically assumes the "On" and "Off" values.
+  - **patch:** Performs a patch operation. The properties `operation`, `path` and `value` are used for this action.
+  - **refresh:** Initiates a refresh process in the SAS interconnect. The default refresh process ('RefreshPending') can be overrided using the `refresh_state` property.
+
+```Ruby
+oneview_sas_interconnect 'SASInterconnect1' do
+  client <my_client>
+  data <resource_data>
+  uid_light_state <uid_light_state_string> # Required for :set_uid_light
+  power_state <power_state_string>         # Required for :set_power_state
+  refresh_state <refresh_state_string>     # Default: 'RefreshPending'. String that defines the desired refresh state in :refresh action
+  operation <op>                           # String. Used in patch action only. e.g., 'replace'
+  path <path>                              # String. Used in patch option only. e.g., '/name'
+  value <val>                              # String, Array. Used in patch option only. e.g., 'New Name'
+  action [:reset, :hard_reset, :set_uid_light, :set_power_state, :patch, :refresh]
+end
+```
+
 ### oneview_logical_interconnect
 
 Performs actions in the logical interconnect and associated interconnects.
