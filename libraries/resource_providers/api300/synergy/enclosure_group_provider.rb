@@ -22,9 +22,14 @@ module OneviewCookbook
           lig_klass = resource_named(:LogicalInterconnectGroup)
           sas_lig_klass = resource_named(:SASLogicalInterconnectGroup)
           @context.logical_interconnect_groups.each do |lig|
-            ret = @item.add_logical_interconnect_group(lig_klass.new(@item.client, name: lig))
-            # Look for and add the SAS LIG if no standard LIG was found
-            @item.add_logical_interconnect_group(sas_lig_klass.new(@item.client, name: lig)) unless ret && !ret.empty?
+            lig_name = lig.class == Hash ? convert_keys(lig, :to_s)['name'] : lig
+            index = lig.class == Hash ? convert_keys(lig, :to_s)['enclosureIndex'] : nil
+            begin
+              @item.add_logical_interconnect_group(lig_klass.new(@item.client, name: lig_name), index)
+            rescue OneviewSDK::NotFound
+              # Look for and add the SAS LIG if no standard LIG was found
+              @item.add_logical_interconnect_group(sas_lig_klass.new(@item.client, name: lig_name), index)
+            end
           end
         end
       end
