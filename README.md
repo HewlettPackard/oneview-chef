@@ -237,6 +237,25 @@ oneview_interconnect 'LogicalInterconnect1' do
 end
 ```
 
+### oneview_sas_logical_interconnect
+
+Performs actions in the SAS logical interconnect.
+
+By default it performs the action `:none`.
+
+```Ruby
+oneview_sas_logical_interconnect 'SASLogicalInterconnect1' do
+  client <my_client>
+  data <resource_data>
+  firmware <firmware_name>                      # String: Optional for actions like :<action>_firwmare (can be replaced by data attribute 'sppName')
+  firmware_data <firmware_data>                 # Hash: Optional for actions like :<action>_firwmare
+  old_drive_enclosure <old_drive_enclosure_id>  # String: (Optional) Old Drive enclosure name or serial number. It is used with the action :replace_drive_enclosure.
+  new_drive_enclosure <new_drive_enclosure_id>  # String: (Optional) New Drive enclosure name or serial number. It is used with the action :replace_drive_enclosure.
+  action [:none, :update_firmware, :stage_firmware, :activate_firmware, :update_from_group, :reapply_configuration, :replace_drive_enclosure]
+end
+```
+  - **replace_drive_enclosure:** After a drive enclosure is *physically replaced* it initiates the replace process. The `old_drive_enclosure` and `new_drive_enclosure` properties can be specified, they can be either the names or serial numbers of the drive enclosures. Additionally they can be replaced by specifying the serial number directly into the `data` property the keys `:oldSerialNumber` and `:newSerialNumber`. (This option has the best performance)
+
 ### oneview_logical_interconnect_group
 
 Logical Interconnect Group resource for HPE OneView.
