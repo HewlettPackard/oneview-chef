@@ -14,7 +14,8 @@ if defined?(ChefSpec)
   # To see a full list of the actual matchers, see spec/unit/resources/matchers_spec.rb
   standard_actions = [:create, :create_if_missing, :delete]
   # Lists all the possible action verbs
-  action_list = %w(create add delete remove set reset refresh update configure reconfigure edit none discover apply reapply activate stage new patch)
+  action_list = %w(create add delete remove set reset refresh update configure reconfigure edit none discover apply reapply activate
+                   stage new patch replace)
 
   oneview_resources = {
     oneview_resource:                   standard_actions,
@@ -41,6 +42,8 @@ if defined?(ChefSpec)
     oneview_power_device:               [:add, :add_if_missing, :discover, :remove],
     oneview_rack:                       [:add, :remove, :add_if_missing, :add_to_rack, :remove_from_rack],
     oneview_san_manager:                [:add, :add_if_missing, :remove],
+    oneview_sas_logical_interconnect:   [:none, :update_firmware, :stage_firmware, :activate_firmware, :update_from_group, :reapply_configuration,
+                                         :replace_drive_enclosure],
     oneview_sas_logical_interconnect_group: standard_actions,
     oneview_server_hardware:            [:add_if_missing, :remove, :refresh, :set_power_state, :update_ilo_firmware, :patch],
     oneview_server_hardware_type:       [:edit, :remove],
