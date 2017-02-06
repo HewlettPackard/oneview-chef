@@ -137,7 +137,7 @@ module OneviewCookbook
     def patch
       invalid_params = @context.operation.nil? || @context.path.nil?
       raise "InvalidParameters: Parameters 'operation' and 'path' must be set for patch" if invalid_params
-      return Chef::Log.error("Skipping patch since #{@resource_name} '#{@name}' does not exists") unless @item.retrieve!
+      raise "ResourceNotFound: Patch failed to apply since #{@resource_name} '#{@name}' does not exist" unless @item.retrieve!
       @context.converge_by "Performing '#{@context.operation}' at #{@context.path} with #{@context.value} in #{@resource_name} '#{@name}'" do
         @item.patch(@context.operation, @context.path, @context.value)
       end

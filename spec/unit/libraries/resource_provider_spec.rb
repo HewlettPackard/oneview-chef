@@ -214,7 +214,7 @@ RSpec.describe OneviewCookbook::ResourceProvider do
       allow(res.context).to receive(:value).and_return('VA')
       allow(res.item).to receive(:retrieve!).and_return(true)
       expect(res.item).to_not receive(:patch)
-      expect { res.patch }.to raise_error(/Parameters .+ must be set for patch/)
+      expect { res.patch }.to raise_error(/InvalidParameters: Parameters .+ must be set for patch/)
     end
 
     it 'does not perform patch without path' do
@@ -223,7 +223,7 @@ RSpec.describe OneviewCookbook::ResourceProvider do
       allow(res.context).to receive(:value).and_return('VA')
       allow(res.item).to receive(:retrieve!).and_return(true)
       expect(res.item).to_not receive(:patch)
-      expect { res.patch }.to raise_error(/Parameters .+ must be set for patch/)
+      expect { res.patch }.to raise_error(/InvalidParameters: Parameters .+ must be set for patch/)
     end
 
     it 'does not perform patch if resource does not exists' do
@@ -232,8 +232,7 @@ RSpec.describe OneviewCookbook::ResourceProvider do
       allow(res.context).to receive(:value).and_return('VA')
       allow(res.item).to receive(:retrieve!).and_return(false)
       expect(res.item).to_not receive(:patch)
-      expect(Chef::Log).to receive(:error).with(/Skipping patch since .+ does not exists/)
-      res.patch
+      expect { res.patch }.to raise_error(/ResourceNotFound: Patch failed/)
     end
   end
 
