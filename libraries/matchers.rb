@@ -41,6 +41,7 @@ if defined?(ChefSpec)
     oneview_power_device:               [:add, :add_if_missing, :discover, :remove],
     oneview_rack:                       [:add, :remove, :add_if_missing, :add_to_rack, :remove_from_rack],
     oneview_san_manager:                [:add, :add_if_missing, :remove],
+    oneview_sas_interconnect:           [:reset, :hard_reset, :patch, :refresh, :set_uid_light, :set_power_state],
     oneview_sas_logical_interconnect_group: standard_actions,
     oneview_server_hardware:            [:add_if_missing, :remove, :refresh, :set_power_state, :update_ilo_firmware, :patch],
     oneview_server_hardware_type:       [:edit, :remove],

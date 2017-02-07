@@ -189,6 +189,53 @@ RSpec.describe OneviewCookbook::ResourceProvider do
     end
   end
 
+  describe '#patch' do
+    it 'perform patch with operation, path and value' do
+      allow(res.context).to receive(:operation).and_return('OP')
+      allow(res.context).to receive(:path).and_return('PH')
+      allow(res.context).to receive(:value).and_return('VA')
+      allow(res.item).to receive(:retrieve!).and_return(true)
+      expect(res.item).to receive(:patch).with('OP', 'PH', 'VA').and_return(true)
+      res.patch
+    end
+
+    it 'perform patch with operation and path but no value' do
+      allow(res.context).to receive(:operation).and_return('OP')
+      allow(res.context).to receive(:path).and_return('PH')
+      allow(res.context).to receive(:value).and_return(nil)
+      allow(res.item).to receive(:retrieve!).and_return(true)
+      expect(res.item).to receive(:patch).with('OP', 'PH', nil).and_return(true)
+      res.patch
+    end
+
+    it 'does not perform patch without operation' do
+      allow(res.context).to receive(:operation).and_return(nil)
+      allow(res.context).to receive(:path).and_return('PH')
+      allow(res.context).to receive(:value).and_return('VA')
+      allow(res.item).to receive(:retrieve!).and_return(true)
+      expect(res.item).to_not receive(:patch)
+      expect { res.patch }.to raise_error(/InvalidParameters: Parameters .+ must be set for patch/)
+    end
+
+    it 'does not perform patch without path' do
+      allow(res.context).to receive(:operation).and_return('OP')
+      allow(res.context).to receive(:path).and_return(nil)
+      allow(res.context).to receive(:value).and_return('VA')
+      allow(res.item).to receive(:retrieve!).and_return(true)
+      expect(res.item).to_not receive(:patch)
+      expect { res.patch }.to raise_error(/InvalidParameters: Parameters .+ must be set for patch/)
+    end
+
+    it 'does not perform patch if resource does not exists' do
+      allow(res.context).to receive(:operation).and_return('OP')
+      allow(res.context).to receive(:path).and_return('PH')
+      allow(res.context).to receive(:value).and_return('VA')
+      allow(res.item).to receive(:retrieve!).and_return(false)
+      expect(res.item).to_not receive(:patch)
+      expect { res.patch }.to raise_error(/ResourceNotFound: Patch failed/)
+    end
+  end
+
   describe '#save_res_info' do
     before :each do
       res.item.data['uri'] = '/rest/fake'
