@@ -1,4 +1,6 @@
 # Release Notes
+## v1.2.0
+Adds the support to API300 to the existing resources and add some new resources and actions for API300.
 
 ## v1.0.0
 Now the cookbook can operate with all the supported OneView 2.0 resources. It adds also some bug fixes and minor improvements.
