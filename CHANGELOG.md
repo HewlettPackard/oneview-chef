@@ -40,6 +40,8 @@
   - oneview_resource (generic) support for API300
   - Removed old (unused) helper methods and resource base class
   - Added support to drive enclosures in API300::Synergy
+  - Added support to SAS Logical Interconnects for API300::Synergy
+
 
 ### 1.1.0
   - Add support for client ENV variables
