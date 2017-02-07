@@ -4,37 +4,37 @@ Adds new Synergy resources.
 
 ### Refactored code
   - The following already available API200 resources had their actions put in providers and given support to API300:
+    - oneview_connection_template
+    - oneview_datacenter
+    - oneview_enclosure
+    - oneview_enclosure_group
     - oneview_ethernet_network
     - oneview_fc_network
     - oneview_fcoe_network
-    - oneview_network_set
-    - oneview_datacenter
-    - oneview_san_manager
-    - oneview_rack
-    - oneview_managed_san
-    - oneview_server_hardware_type
-    - oneview_power_device
-    - oneview_unmanaged_device
-    - oneview_logical_interconnect
-    - oneview_enclosure_group
     - oneview_firmware
-    - oneview_storage_system
-    - oneview_storage_pool
-    - oneview_logical_switch_group
-    - oneview_logical_interconnect_group
-    - oneview_logical_enclosure
-    - oneview_volume
-    - oneview_volume_template
-    - oneview_uplink_set
-    - oneview_logical_switch
     - oneview_interconnect
+    - oneview_logical_enclosure
+    - oneview_logical_interconnect
+    - oneview_logical_interconnect_group
+    - oneview_logical_switch
+    - oneview_logical_switch_group
+    - oneview_managed_san
+    - oneview_network_set
+    - oneview_power_device
+    - oneview_rack
+    - oneview_resource
+    - oneview_san_manager
+    - oneview_server_hardware
+    - oneview_server_hardware_type
     - oneview_server_profile
     - oneview_server_profile_template
-    - oneview_connection_template
-    - oneview_resource
-    - oneview_server_hardware
+    - oneview_storage_pool
+    - oneview_storage_system
     - oneview_switch
-    - oneview_enclosure
+    - oneview_unmanaged_device
+    - oneview_uplink_set
+    - oneview_volume
+    - oneview_volume_template
 
 ### New features and resources
   - New actions and features in API200:
