@@ -57,7 +57,7 @@ describe 'oneview_test_api300_synergy::sas_logical_interconnect_replace_drive_en
     allow(base_sdk::DriveEnclosure).to receive(:find_by).with(anything, name: 'OLD_DRIVE')
       .and_return([base_sdk::DriveEnclosure.new(client300, serialNumber: nil)])
     expect_any_instance_of(klass).to_not receive(:replace_drive_enclosure)
-    expect { real_chef_run }.to raise_error(/InvalidParameters: Old drive enclosure/)
+    expect { real_chef_run }.to raise_error(RuntimeError, /InvalidParameters: Old drive enclosure/)
   end
 
   it 'fails if the new drive enclosure is not specified' do
@@ -67,7 +67,7 @@ describe 'oneview_test_api300_synergy::sas_logical_interconnect_replace_drive_en
     allow(base_sdk::DriveEnclosure).to receive(:find_by).with(anything, name: 'NEW_DRIVE')
       .and_return([base_sdk::DriveEnclosure.new(client300, serialNumber: nil)])
     expect_any_instance_of(klass).to_not receive(:replace_drive_enclosure)
-    expect { real_chef_run }.to raise_error(/InvalidParameters: New drive enclosure/)
+    expect { real_chef_run }.to raise_error(RuntimeError, /InvalidParameters: New drive enclosure/)
   end
 
   it 'fails if the SAS logical interconnect is not found' do
@@ -77,6 +77,6 @@ describe 'oneview_test_api300_synergy::sas_logical_interconnect_replace_drive_en
     expect_any_instance_of(klass).to receive(:retrieve!).and_return(false)
 
     expect_any_instance_of(klass).to_not receive(:replace_drive_enclosure)
-    expect { real_chef_run }.to raise_error(/ResourceNotFound/)
+    expect { real_chef_run }.to raise_error(RuntimeError, /ResourceNotFound/)
   end
 end

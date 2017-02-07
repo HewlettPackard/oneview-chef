@@ -22,6 +22,13 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not remove_oneview_datacenter('')
     expect(chef_run).to_not add_oneview_datacenter_if_missing('')
 
+    # oneview_drive_enclosure
+    expect(chef_run).to_not hard_reset_oneview_drive_enclosure('')
+    expect(chef_run).to_not patch_oneview_drive_enclosure('')
+    expect(chef_run).to_not refresh_oneview_drive_enclosure('')
+    expect(chef_run).to_not set_oneview_drive_enclosure_power_state('')
+    expect(chef_run).to_not set_oneview_drive_enclosure_uid_light('')
+
     # oneview_enclosure
     expect(chef_run).to_not add_oneview_enclosure('')
     expect(chef_run).to_not remove_oneview_enclosure('')
