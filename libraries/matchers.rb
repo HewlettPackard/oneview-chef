@@ -20,6 +20,7 @@ if defined?(ChefSpec)
     oneview_resource:                   standard_actions,
     oneview_connection_template:        [:update, :reset],
     oneview_datacenter:                 [:add, :remove, :add_if_missing],
+    oneview_drive_enclosure:            [:hard_reset, :patch, :refresh, :set_uid_light, :set_power_state],
     oneview_enclosure:                  [:add, :remove, :refresh, :reconfigure, :patch],
     oneview_enclosure_group:            standard_actions + [:set_script],
     oneview_ethernet_network:           standard_actions + [:reset_connection_template],
