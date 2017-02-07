@@ -133,6 +133,14 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not add_oneview_san_manager_if_missing('')
     expect(chef_run).to_not remove_oneview_san_manager('')
 
+    # oneview_sas_logical_interconnect
+    expect(chef_run).to_not reapply_oneview_sas_logical_interconnect_configuration('')
+    expect(chef_run).to_not update_oneview_sas_logical_interconnect_from_group('')
+    expect(chef_run).to_not activate_oneview_sas_logical_interconnect_firmware('')
+    expect(chef_run).to_not stage_oneview_sas_logical_interconnect_firmware('')
+    expect(chef_run).to_not update_oneview_sas_logical_interconnect_firmware('')
+    expect(chef_run).to_not replace_oneview_sas_logical_interconnect_drive_enclosure('')
+
     # oneview_sas_interconnect
     expect(chef_run).to_not hard_reset_oneview_sas_interconnect('')
     expect(chef_run).to_not patch_oneview_sas_interconnect('')
