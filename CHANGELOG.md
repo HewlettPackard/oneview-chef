@@ -1,3 +1,6 @@
+## Unreleased
+Adding support to newer unreleased features of HPE OneView Ruby SDK
+
 ## 1.2.0
 Adds support to API300 by creating providers to support API200 & API300 REST APIs simultaneously.
 Adds new Synergy resources.
