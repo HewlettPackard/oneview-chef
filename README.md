@@ -9,7 +9,7 @@ Chef cookbook that provides resources for managing HPE OneView.
 ## Requirements
 
  - Chef 12.0 or higher
- - HPE OneView 2.0 or 3.0 (may work with other versions too, but no guarantees)
+ - HPE OneView 2.0 or 3.0 (API versions 200 or 300). May work with other versions too, but no guarantees
 
 ## Usage
 
