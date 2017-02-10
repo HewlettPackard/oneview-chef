@@ -4,28 +4,29 @@
 [![Travis Build Status](https://travis-ci.org/HewlettPackard/oneview-chef.svg?branch=master)](https://travis-ci.org/HewlettPackard/oneview-chef)
 [![Chef Build Status](https://jenkins-01.eastus.cloudapp.azure.com/job/oneview-cookbook/badge/icon)](https://jenkins-01.eastus.cloudapp.azure.com/job/oneview-cookbook/)
 
-Chef cookbook that provides resources for managing OneView.
+Chef cookbook that provides resources for managing HPE OneView.
 
 ## Requirements
 
  - Chef 12.0 or higher
- - HPE OneView 2.0 (may work with other versions too, but no guarantees)
+ - HPE OneView 2.0 or 3.0 (API versions 200 or 300). May work with other versions too, but no guarantees
 
 ## Usage
 
 This cookbook is not intended to include any recipes.
 Use it by creating a new cookbook and specifying a dependency on this cookbook in your metadata.
+Then use any of the resources provided by this cookbook.
 
 ```ruby
 # my_cookbook/metadata.rb
 ...
-depends 'oneview'
+depends 'oneview', '~> 1.2'
 ```
 
 ### Credentials
 In order to manage HPE OneView resources, you'll need to provide authentication credentials. There are 2 ways to do this:
 
-1. Set the ONEVIEWSDK environment variables: ONEVIEWSDK_URL, ONEVIEWSDK_USER, ONEVIEWSDK_PASSWORD, and/or ONEVIEWSDK_TOKEN. See [this](https://github.com/HewlettPackard/oneview-sdk-ruby#environment-variables) for more info.
+1. Set the environment variables: ONEVIEWSDK_URL, ONEVIEWSDK_USER, ONEVIEWSDK_PASSWORD, and/or ONEVIEWSDK_TOKEN. See [this](https://github.com/HewlettPackard/oneview-sdk-ruby#environment-variables) for more info.
 2. Explicitly pass in the `client` property to each resource (see the [Resource Parameters](#resource-parameters) section below). This takes precedence over environment variables and allows you to set more client properties. This also allows you to get these credentials from other sources like encrypted databags, Vault, etc.
 
 ## Attributes
@@ -46,9 +47,9 @@ See [attributes/default.rb](attributes/default.rb) for more info.
 
 The following are the standard properties available for all resources. Some resources have additional properties or small differences; see their doc sections below for more details.
 
- - **client**: Hash or OneviewSDK::Client object that contains information about how to connect to the OneView instance. Required attributes are: `url` and `token` or `user`, and `password`. See [this](https://github.com/HewlettPackard/oneview-sdk-ruby#configuration) for more options.
+ - **client**: Hash or OneviewSDK::Client object that contains information about how to connect to the OneView instance. Required attributes are: `url` and `token` or `user` and `password`. See [this](https://github.com/HewlettPackard/oneview-sdk-ruby#configuration) for more options.
  - **data**: Hash specifying options for this resource. Refer to the OneView API docs for what's available and/or required. If no name attribute is given, it will use the name given to the Chef resource.
-   - In addition to the API docs, you can use the [oneview-sdk gem's CLI](https://github.com/HewlettPackard/oneview-sdk-ruby#cli) to quickly show information about resources. If you're wanting to know which data properties exist for a resource, it might make sense to create a resource on the Web UI, then view the data. For example, after creating a new ethernet network named `eth1`, run `$ oneview-sdk-ruby show EthernetNetwork eth1`
+   - :information_source: Tip: In addition to the API docs, you can use the [oneview-sdk gem's CLI](https://github.com/HewlettPackard/oneview-sdk-ruby#cli) to quickly show information about resources. If you're wanting to know which data properties exist for a resource, it might make sense to create a resource on the Web UI, then view the data. For example, after creating a new ethernet network named `eth1`, run `$ oneview-sdk-ruby show EthernetNetwork eth1`
  - **action**: Symbol specifying what to do with this resource. Options for most resources (**some may differ**):
    - `:create` - (Default) Ensure this resource exists and matches the data given.
    - `:create_if_missing` - Ensure this resource exists, but don't ensure it is up to date on subsequent chef-client runs.
@@ -892,7 +893,7 @@ end
   end
   ```
 
-  Note: The data hash is wrapped in a lazy block so that `node['oneview'][my_client.url]['Enclosure-Group-1']['uri']` will be set before the resource properties are parsed. However, the recommended way is to use the `enclosure_group` (name) property, where the uri will be fetched at runtime; this just shows how you can use `lazy` with the node attributes that are saved.
+  Note: The data hash is wrapped in a lazy block so that `node['oneview'][my_client.url]['Enclosure-Group-1']['uri']` will be set before the resource properties are parsed. However, the recommended way is to use the `enclosure_group` property, where the uri will be fetched at runtime; this just shows how you can use `lazy` with the node attributes that are saved.
 
  - **Delete a fibre channel network**
 
