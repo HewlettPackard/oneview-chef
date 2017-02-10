@@ -30,7 +30,7 @@ In order to manage HPE OneView resources, you'll need to provide authentication 
 
 ## Attributes
 
- - `node['oneview']['ruby_sdk_version']` - Set which version of the SDK to install and use. Defaults to `'~> 2.1'`
+ - `node['oneview']['ruby_sdk_version']` - Set which version of the SDK to install and use. Defaults to `'~> 4.0'`
  - `node['oneview']['save_resource_info']` - Save resource info to a node attribute? Defaults to `['uri']`. Possible values/types:
    - `true` - Save all info (Merged hash of OneView info and Chef resource properties). Warning: Resource credentials will be saved if specified.
    - `false` - Do not save any info
@@ -66,8 +66,7 @@ The following are the standard properties available for all resources. Some reso
 ### oneview_resource
 
 This is a generic provider for managing any OneView resource.
-This really exists only for resources that don't have a specific provider; if a specific one exists, please use it instead
-(See [RELEASE_NOTES.md](RELEASE_NOTES.md)).
+This really exists only for resources that exist in the SDK but don't have a Chef resource provider. If a specific resource exists, please use it instead.
 
 The basic usage is as follows:
 
@@ -218,6 +217,34 @@ oneview_interconnect 'Interconnect1' do
 end
 ```
 
+### oneview_sas_interconnect
+
+SAS interconnect resource for HPE OneView.
+
+It is a Synergy-only resource.
+
+Performs the SAS interconnect actions:
+  - **reset:** Soft resets the SAS interconnect. Reset the management processor and will not disrupt I/O.
+  - **hard_reset:** Hard resets the SAS interconnect. Reset the interconnect and will interrupt active I/O.
+  - **set_uid_light:** Sets the SAS interconnect UID indicator (UID light) to the specified value. The String property `uid_light_state` is required, and typically assumes the "On" and "Off" values.
+  - **power_state:** Sets the SAS interconnect power state to the specified value. The String property `power_state` is required, and typically assumes the "On" and "Off" values.
+  - **patch:** Performs a patch operation. The properties `operation`, `path` and `value` are used for this action.
+  - **refresh:** Initiates a refresh process in the SAS interconnect. The default refresh process ('RefreshPending') can be overrided using the `refresh_state` property.
+
+```Ruby
+oneview_sas_interconnect 'SASInterconnect1' do
+  client <my_client>
+  data <resource_data>
+  uid_light_state <uid_light_state_string> # Required for :set_uid_light
+  power_state <power_state_string>         # Required for :set_power_state
+  refresh_state <refresh_state_string>     # Default: 'RefreshPending'. String that defines the desired refresh state in :refresh action
+  operation <op>                           # String. Used in patch action only. e.g., 'replace'
+  path <path>                              # String. Used in patch option only. e.g., '/name'
+  value <val>                              # String, Array. Used in patch option only. e.g., 'New Name'
+  action [:reset, :hard_reset, :set_uid_light, :set_power_state, :patch, :refresh]
+end
+```
+
 ### oneview_logical_interconnect
 
 Performs actions in the logical interconnect and associated interconnects.
@@ -225,7 +252,7 @@ Performs actions in the logical interconnect and associated interconnects.
 By default it performs the action `:none`.
 
 ```Ruby
-oneview_interconnect 'LogicalInterconnect1' do
+oneview_logical_interconnect 'LogicalInterconnect1' do
   client <my_client>
   data <resource_data>
   firmware <firmware_name>           # String: Optional for actions like :<action>_firwmare (can be replaced by data attribute 'sppName')
@@ -237,6 +264,25 @@ oneview_interconnect 'LogicalInterconnect1' do
   action [:none, :add_interconnect, :remove_interconnect, :update_internal_networks, :update_settings,:update_ethernet_settings, :update_port_monitor, :update_qos_configuration, :update_telemetry_configuration, :update_snmp_configuration, :update_firmware, :stage_firmware, :activate_firmware, :update_from_group, :reapply_configuration]
 end
 ```
+
+### oneview_sas_logical_interconnect
+
+Performs actions in the SAS logical interconnect.
+
+By default it performs the action `:none`.
+
+```Ruby
+oneview_sas_logical_interconnect 'SASLogicalInterconnect1' do
+  client <my_client>
+  data <resource_data>
+  firmware <firmware_name>                      # String: Optional for actions like :<action>_firwmare (can be replaced by data attribute 'sppName')
+  firmware_data <firmware_data>                 # Hash: Optional for actions like :<action>_firwmare
+  old_drive_enclosure <old_drive_enclosure_id>  # String: (Optional) Old Drive enclosure name or serial number. It is used with the action :replace_drive_enclosure.
+  new_drive_enclosure <new_drive_enclosure_id>  # String: (Optional) New Drive enclosure name or serial number. It is used with the action :replace_drive_enclosure.
+  action [:none, :update_firmware, :stage_firmware, :activate_firmware, :update_from_group, :reapply_configuration, :replace_drive_enclosure]
+end
+```
+  - **replace_drive_enclosure:** After a drive enclosure is *physically replaced* it initiates the replace process. The `old_drive_enclosure` and `new_drive_enclosure` properties can be specified, they can be either the names or serial numbers of the drive enclosures. Additionally they can be replaced by specifying the serial number directly into the `data` property the keys `:oldSerialNumber` and `:newSerialNumber`. (This option has the best performance)
 
 ### oneview_logical_interconnect_group
 
@@ -448,6 +494,33 @@ oneview_enclosure 'Encl1' do
   path <path>                            # String. Used in patch option only. e.g., '/name'
   value <val>                            # String. Used in patch option only. e.g., 'New Name'
   action [:add, :patch, :reconfigure, :refresh, :remove]
+end
+```
+
+### oneview_drive_enclosure
+
+Drive enclosure resource for HPE OneView.
+
+It is a Synergy-only resource.
+
+Performs the drive enclosure actions:
+  - **hard_reset:** Hard resets the drive enclosure. Resets the drive enclosure and interrupt the active I/O.
+  - **set_uid_light:** Sets the drive enclosure UID indicator (UID light) to the specified value. The String property `uid_light_state` is required, and typically assumes the "On" and "Off" values.
+  - **power_state:** Sets the drive enclosure power state to the specified value. The String property `power_state` is required, and typically assumes the "On" and "Off" values.
+  - **patch:** Performs a patch operation. The properties `operation`, `path` and `value` are used for this action.
+  - **refresh:** Initiates a refresh process in the drive enclosure. The default refresh process ('RefreshPending') can be overrided using the `refresh_state` property.
+
+```Ruby
+oneview_drive_enclosure 'DriveEnclosure1' do
+  client <my_client>
+  data <resource_data>
+  uid_light_state <uid_light_state_string> # Required for :set_uid_light
+  power_state <power_state_string>         # Required for :set_power_state
+  refresh_state <refresh_state_string>     # Default: 'RefreshPending'. String that defines the desired refresh state in :refresh action
+  operation <op>                           # String. Used in patch action only. e.g., 'replace'
+  path <path>                              # String. Used in patch option only. e.g., '/name'
+  value <val>                              # String, Array. Used in patch option only. e.g., 'New Name'
+  action [:hard_reset, :set_uid_light, :set_power_state, :patch, :refresh]
 end
 ```
 

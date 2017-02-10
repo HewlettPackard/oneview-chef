@@ -1,4 +1,4 @@
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2016-2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,10 +13,10 @@ name             'oneview'
 maintainer       'Hewlett Packard Enterprise'
 maintainer_email 'chef-cookbooks@groups.ext.hpe.com'
 license          'Apache v2.0'
-description      'Provides OneView resources'
+description      'Provides HPE OneView resources'
 long_description 'Provides resources for configuring HPE OneView-managed devices'
 
-version          '1.1.0'
+version          '1.2.1'
 
 source_url       'https://github.com/HewlettPackard/oneview-chef' if respond_to?(:source_url)
 issues_url       'https://github.com/HewlettPackard/oneview-chef/issues' if respond_to?(:issues_url)

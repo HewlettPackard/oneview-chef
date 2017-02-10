@@ -1,3 +1,7 @@
+#
+# Cookbook Name:: oneview_test_api300_synergy
+# Recipe:: drive_enclosure_set_uid_light_invalid
+#
 # (c) Copyright 2016 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -8,20 +12,10 @@
 # under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
+#
 
-OneviewCookbook::ResourceBaseProperties.load(self)
-property :type, [String, Symbol], required: true # Additional type property
-
-default_action :create
-
-action :create do
-  OneviewCookbook::Helper.do_resource_action(self, :GenericResource, :create_or_update)
-end
-
-action :create_if_missing do
-  OneviewCookbook::Helper.do_resource_action(self, :GenericResource, :create_if_missing)
-end
-
-action :delete do
-  OneviewCookbook::Helper.do_resource_action(self, :GenericResource, :delete)
+oneview_drive_enclosure 'DriveEnclosure1' do
+  client node['oneview_test']['client']
+  api_variant 'Synergy'
+  action :set_uid_light
 end

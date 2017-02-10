@@ -22,6 +22,13 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not remove_oneview_datacenter('')
     expect(chef_run).to_not add_oneview_datacenter_if_missing('')
 
+    # oneview_drive_enclosure
+    expect(chef_run).to_not hard_reset_oneview_drive_enclosure('')
+    expect(chef_run).to_not patch_oneview_drive_enclosure('')
+    expect(chef_run).to_not refresh_oneview_drive_enclosure('')
+    expect(chef_run).to_not set_oneview_drive_enclosure_power_state('')
+    expect(chef_run).to_not set_oneview_drive_enclosure_uid_light('')
+
     # oneview_enclosure
     expect(chef_run).to_not add_oneview_enclosure('')
     expect(chef_run).to_not remove_oneview_enclosure('')
@@ -132,6 +139,22 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not add_oneview_san_manager('')
     expect(chef_run).to_not add_oneview_san_manager_if_missing('')
     expect(chef_run).to_not remove_oneview_san_manager('')
+
+    # oneview_sas_logical_interconnect
+    expect(chef_run).to_not reapply_oneview_sas_logical_interconnect_configuration('')
+    expect(chef_run).to_not update_oneview_sas_logical_interconnect_from_group('')
+    expect(chef_run).to_not activate_oneview_sas_logical_interconnect_firmware('')
+    expect(chef_run).to_not stage_oneview_sas_logical_interconnect_firmware('')
+    expect(chef_run).to_not update_oneview_sas_logical_interconnect_firmware('')
+    expect(chef_run).to_not replace_oneview_sas_logical_interconnect_drive_enclosure('')
+
+    # oneview_sas_interconnect
+    expect(chef_run).to_not hard_reset_oneview_sas_interconnect('')
+    expect(chef_run).to_not patch_oneview_sas_interconnect('')
+    expect(chef_run).to_not refresh_oneview_sas_interconnect('')
+    expect(chef_run).to_not reset_oneview_sas_interconnect('')
+    expect(chef_run).to_not set_oneview_sas_interconnect_power_state('')
+    expect(chef_run).to_not set_oneview_sas_interconnect_uid_light('')
 
     # oneview_sas_logical_interconnect_group
     expect(chef_run).to_not create_oneview_sas_logical_interconnect_group('')

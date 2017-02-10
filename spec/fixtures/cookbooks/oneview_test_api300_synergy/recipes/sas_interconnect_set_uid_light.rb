@@ -1,3 +1,7 @@
+#
+# Cookbook Name:: oneview_test_api300_synergy
+# Recipe:: sas_interconnect_set_uid_light
+#
 # (c) Copyright 2016 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -8,20 +12,11 @@
 # under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
+#
 
-OneviewCookbook::ResourceBaseProperties.load(self)
-property :type, [String, Symbol], required: true # Additional type property
-
-default_action :create
-
-action :create do
-  OneviewCookbook::Helper.do_resource_action(self, :GenericResource, :create_or_update)
-end
-
-action :create_if_missing do
-  OneviewCookbook::Helper.do_resource_action(self, :GenericResource, :create_if_missing)
-end
-
-action :delete do
-  OneviewCookbook::Helper.do_resource_action(self, :GenericResource, :delete)
+oneview_sas_interconnect 'SASInterconnect1' do
+  client node['oneview_test']['client']
+  api_variant 'Synergy'
+  uid_light_state 'On'
+  action :set_uid_light
 end

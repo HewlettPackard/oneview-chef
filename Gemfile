@@ -2,12 +2,12 @@ source 'https://rubygems.org'
 
 ruby RUBY_VERSION # Needed to consider & solve for Ruby version requirements
 
-gem 'chef', '~> 12.0'
 gem 'berkshelf'
-gem 'foodcritic'
+gem 'chef', '~> 12.0'
 gem 'chefspec'
-gem 'rubocop', '= 0.40.0'
-gem 'oneview-sdk', '~> 3.2'
+gem 'foodcritic'
+gem 'oneview-sdk', '~> 4.0'
 gem 'pry'
+gem 'rubocop', '= 0.40.0'
 gem 'simplecov'
 gem 'stove'

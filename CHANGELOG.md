@@ -1,43 +1,62 @@
-## Unreleased
-  - Support oneview-sdk v3.0 & different API versions/modules
-  - ethernet_network support for API300
-  - fc_network support for API300
-  - fcoe_network support for API300
-  - network_set support for API300
-  - datacenter support for API300
-  - fabric new resource support for API300 Synergy
-  - san_manager support for API300
-  - rack support for API300
-  - managed_san support for API300
-  - server_hardware_type resource for API300
-  - power_device support for API300
-  - unmanaged_device support for API300
-  - logical_interconnect support for API300
-  - enclosure_group support for API300
-  - firmware support for API300
-  - storage_system support for API300
-  - storage_pool support for API300
-  - logical_switch_group support for API300
-  - logical_interconnect_group support for API300
-  - Deprecate enclosure_group property 'logical_interconnect_group' (string) in favor of 'logical_interconnect_groups' (array)
-    - Also supports SAS LIGs for Synergy in this logical_interconnect_groups property
-  - logical_enclosure  support for API300
-  - Add `:create`, `:create_if_missing` and `:delete` actions to logical_enclosure
-  - volume support for API300
-  - volume_template support for API300
-  - enclosure support for API300. Also added `:patch` action
-  - uplink_set support for API300
-  - Added support to SAS Logical Interconnects for API300::Synergy
-  - logical_switch support for API300
-  - interconnect support for API300
-  - server_hardware support for API300. Also added `:patch` action
-  - switch support for API300 C7000. Added `:patch` action
-  - server_profile support for API300
-  - server_profile_template support for API300
-  - connection_template support for API300
-  - Added generic `patch` method to the ResourceProvider
+## 1.2.1
+ - Update to use v4.0.0 of oneview-sdk
+ - [#176](https://github.com/HewlettPackard/oneview-chef/issues/176) Support an enclosureIndex value in the oneview_enclosure_group resource's logical_interconnect_group property
 
-### 1.1.0
+## 1.2.0
+Adds support to API300 by creating providers to support API200 & API300 REST APIs simultaneously.
+Adds new Synergy resources.
+
+### Refactored code
+  - The following already available API200 resources had their actions put in providers and given support to API300:
+    - oneview_connection_template
+    - oneview_datacenter
+    - oneview_enclosure
+    - oneview_enclosure_group
+    - oneview_ethernet_network
+    - oneview_fc_network
+    - oneview_fcoe_network
+    - oneview_firmware
+    - oneview_interconnect
+    - oneview_logical_enclosure
+    - oneview_logical_interconnect
+    - oneview_logical_interconnect_group
+    - oneview_logical_switch
+    - oneview_logical_switch_group
+    - oneview_managed_san
+    - oneview_network_set
+    - oneview_power_device
+    - oneview_rack
+    - oneview_resource
+    - oneview_san_manager
+    - oneview_server_hardware
+    - oneview_server_hardware_type
+    - oneview_server_profile
+    - oneview_server_profile_template
+    - oneview_storage_pool
+    - oneview_storage_system
+    - oneview_switch
+    - oneview_unmanaged_device
+    - oneview_uplink_set
+    - oneview_volume
+    - oneview_volume_template
+
+### New features and resources
+  - New actions and features in API200:
+    - oneview_logical_enclosure `:create`, `:create_if_missing` and `:delete` actions
+  - New actions and features in API300:
+    - oneview_enclosure `:patch` action
+    - oneview_server_hardware `:patch` action
+    - oneview_switch `:patch` action (API300::C7000 only)
+    - oneview_enclosure_group `logical_interconnect_group` (String) property was marked for deprecation in favor of `logical_interconnect_groups` (Array)
+    - oneview_enclosure_group now supports SAS logical interconnect groups in property `logical_interconnect_groups`
+  - New resources in API300:
+    - oneview_fabric
+    - oneview_sas_interconnect (API300::Synergy only)
+    - oneview_sas_logical_interconnect (API300::Synergy only)
+    - oneview_sas_logical_interconnect_group (API300::Synergy only)
+    - oneview_drive_enclosure (API300::Synergy only)
+
+## 1.1.0
   - Add support for client ENV variables
   - Fixed volume resource (#92) & examples
 
