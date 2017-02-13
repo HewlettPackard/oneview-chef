@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: oneview_test
+# Cookbook Name:: oneview_test_api300_synergy
 # Recipe:: enclosure_group_create
 #
 # (c) Copyright 2016 Hewlett Packard Enterprise Development LP
@@ -18,7 +18,7 @@ oneview_enclosure_group 'EnclosureGroup1' do
   client node['oneview_test']['client']
   data(
     stackingMode: 'Enclosure',
-    interconnectBayMappingCount: 8
+    interconnectBayMappingCount: 6
   )
-  logical_interconnect_groups ['LIG1', { name: 'LIG2' }]
+  logical_interconnect_groups ['LIG1', { name: 'LIG2', enclosureIndex: 1 }]
 end

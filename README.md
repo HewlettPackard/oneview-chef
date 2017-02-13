@@ -31,7 +31,7 @@ In order to manage HPE OneView resources, you'll need to provide authentication 
 
 ## Attributes
 
- - `node['oneview']['ruby_sdk_version']` - Set which version of the SDK to install and use. Defaults to `'~> 3.0'`
+ - `node['oneview']['ruby_sdk_version']` - Set which version of the SDK to install and use. Defaults to `'~> 4.0'`
  - `node['oneview']['save_resource_info']` - Save resource info to a node attribute? Defaults to `['uri']`. Possible values/types:
    - `true` - Save all info (Merged hash of OneView info and Chef resource properties). Warning: Resource credentials will be saved if specified.
    - `false` - Do not save any info
@@ -473,12 +473,12 @@ Enclosure Group resource for HPE OneView.
 oneview_enclosure_group 'EnclosureGroup_1' do
   client <my_client>
   data <resource_data>
-  logical_interconnect_groups [<LIG_name1>, <LIG_name2>]
+  logical_interconnect_groups ['LIG_name1', { name: 'LIG_name2', enclosureIndex: 1 }]
   action [:create, :create_if_missing, :delete]
 end
 ```
 
-**logical_interconnect_groups:** Array of LIG names used to build the interconnect bay configuration
+**logical_interconnect_groups:** Array of data used to build the interconnect bay configuration. Each item can either be a string containing the LIG name or a hash containing the LIG name and enclosureIndex. Note that the enclosureIndex is not used on API200.
 
 ### oneview_enclosure
 
