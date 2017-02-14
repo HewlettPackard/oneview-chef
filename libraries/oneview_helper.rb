@@ -10,6 +10,8 @@
 # specific language governing permissions and limitations under the License.
 
 require 'logger'
+# Load all API-specific resources:
+Dir[File.dirname(__FILE__) + '/oneview/resource_providers/*.rb'].each { |file| require file }
 
 module OneviewCookbook
   # Helpers for Oneview Resources
