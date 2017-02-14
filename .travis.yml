@@ -1,10 +1,11 @@
 language: ruby
 rvm:
   - 2.1
+  - 2.2.5
   - 2.2.6
   - 2.3.1
 
 before_install: gem update bundler
 
 script:
-  - rake test
+  - bundle exec rake test
