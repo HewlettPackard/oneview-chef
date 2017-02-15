@@ -1,3 +1,6 @@
+## 1.3.0
+ - Added oneview_user resource
+
 ## 1.2.1
  - Update to use v4.0.0 of oneview-sdk
  - [#176](https://github.com/HewlettPackard/oneview-chef/issues/176) Support an enclosureIndex value in the oneview_enclosure_group resource's logical_interconnect_group property

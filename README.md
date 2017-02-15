@@ -20,7 +20,7 @@ Then use any of the resources provided by this cookbook.
 ```ruby
 # my_cookbook/metadata.rb
 ...
-depends 'oneview', '~> 1.2'
+depends 'oneview', '~> 1.3'
 ```
 
 ### Credentials
@@ -822,6 +822,18 @@ oneview_uplink_set 'UplinkSet1' do
   logical_interconnect # Name of the assigned Logical Interconnect - Optional
   native_network       # Name of the network that is designated as the native network - Optional
                        # The native network has to be added to one of the network arrays before being declared
+  action [:create, :create_if_missing, :delete]
+end
+```
+
+### oneview_user
+
+User resource for HPE OneView
+
+```ruby
+oneview_user 'User1' do
+  client <my_client>
+  data <data>
   action [:create, :create_if_missing, :delete]
 end
 ```

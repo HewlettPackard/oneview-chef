@@ -56,6 +56,7 @@ if defined?(ChefSpec)
     oneview_switch:                     [:remove, :none, :patch],
     oneview_unmanaged_device:           [:add, :remove, :add_if_missing],
     oneview_uplink_set:                 standard_actions,
+    oneview_user:                       standard_actions,
     oneview_volume:                     standard_actions + [:create_snapshot, :delete_snapshot],
     oneview_volume_template:            standard_actions
   }
