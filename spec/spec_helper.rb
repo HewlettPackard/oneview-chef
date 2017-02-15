@@ -5,7 +5,8 @@ SimpleCov.start do
   add_filter 'spec/'
   add_filter 'matchers.rb'
   add_filter '.direnv/'
-  add_filter 'libraries/resource_providers/'
+  add_filter 'libraries/oneview/'
+  add_filter 'libraries/image_streamer/'
   add_group 'Libraries', 'libraries'
   add_group 'Resources', 'resources'
   minimum_coverage 92 # Goal: A bit higher
