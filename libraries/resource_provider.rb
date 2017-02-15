@@ -19,35 +19,55 @@ module OneviewCookbook
       :item,          # The OneviewSDK resource instance
       :sdk_api_version,  # Keep track of the API version used for the SDK resource class
       :sdk_variant,      # Keep track of the variant used for the SDK resource class
-      :sdk_resource_type # Keep track of the SDK resource class name
+      :sdk_resource_type, # Keep track of the SDK resource class name
+      :sdk_secondary_api  # Keep track of the internal secondary API used by the SDK
 
     def initialize(context)
       @context = context
       @resource_name = context.resource_name
       @name = context.name
+      klass = namespace_handler
+      c = case @sdk_secondary_api
+          when /ImageStreamer/
+            OneviewCookbook::Helper.build_image_streamer_client(context.client)
+          else
+            OneviewCookbook::Helper.build_client(context.client)
+          end
+      new_data = JSON.parse(context.data.to_json) rescue context.data
+      @item = context.property_is_set?(:api_header_version) ? klass.new(c, new_data, context.api_header_version) : klass.new(c, new_data)
+      @item['name'] ||= context.name
+    end
+
+    # Helper method that analyzes the namespace and defines the class variables and the resource class itself
+    # @return [OneviewSDK::Resource] SDK resource class
+    # @raise [NameError] If for some reason the method could not resolve the namespace to a OneviewSDK::Resource
+    def namespace_handler
       name_arr = self.class.to_s.split('::')
       case name_arr.size
       when 2 # No variant or api version specified. (OneviewCookbook::ResourceProvider)
         # This case should really only be used for testing
         # Uses the SDK's default api version and variant
         @sdk_resource_type = name_arr.pop.gsub(/Provider$/i, '') # e.g., EthernetNetwork
-        klass = OneviewSDK.resource_named(@sdk_resource_type)
+        return OneviewSDK.resource_named(@sdk_resource_type)
       when 3 # No variant specified. e.g., OneviewCookbook::API200::EthernetNetworkProvider
         @sdk_resource_type = name_arr.pop.gsub(/Provider$/i, '') # e.g., EthernetNetwork
         @sdk_api_version = name_arr.pop.gsub(/API/i, '').to_i # e.g., 200
         @sdk_variant = nil # Not needed
-      when 4 # The variant is specified. e.g., OneviewCookbook::API200::C7000::EthernetNetworkProvider
+      when 4
         @sdk_resource_type = name_arr.pop.gsub(/Provider$/i, '') # e.g., EthernetNetwork
-        @sdk_variant = name_arr.pop # e.g., C7000
-        @sdk_api_version = name_arr.pop.gsub(/API/i, '').to_i # e.g., 200
+        if self.class.to_s =~ /ImageStreamer/
+          @sdk_api_version = name_arr.pop.gsub(/API/i, '').to_i # e.g., 300
+          @sdk_secondary_api = name_arr.pop # ImageStreamer
+        else # The variant is specified. e.g., OneviewCookbook::API200::C7000::EthernetNetworkProvider
+          @sdk_variant = name_arr.pop # e.g., C7000
+          @sdk_api_version = name_arr.pop.gsub(/API/i, '').to_i # e.g., 200
+        end
       else # Something is wrong
-        raise "Can't build a resource object from the class #{self.class}"
+        raise NameError, "Can't build a resource object from the class #{self.class}"
       end
-      klass ||= OneviewSDK.resource_named(@sdk_resource_type, @sdk_api_version, @sdk_variant)
-      c = OneviewCookbook::Helper.build_client(context.client)
-      new_data = JSON.parse(context.data.to_json) rescue context.data
-      @item = context.property_is_set?(:api_header_version) ? klass.new(c, new_data, context.api_header_version) : klass.new(c, new_data)
-      @item['name'] ||= context.name
+      base_sdk = @sdk_secondary_api ? OneviewSDK.const_get(@sdk_secondary_api) : OneviewSDK
+      klass ||= base_sdk.resource_named(@sdk_resource_type, @sdk_api_version, @sdk_variant)
+      klass
     end
 
     # Creates the OneView resource or updates it if exists
