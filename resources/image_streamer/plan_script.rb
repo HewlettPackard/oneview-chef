@@ -9,14 +9,20 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-require_relative '../../../resource_provider'
+OneviewCookbook::ResourceBaseProperties.load(self)
 
-module OneviewCookbook
-  module ImageStreamer
-    module API300
-      # OS Volume Provider resource methods
-      class OSVolumeProvider < ResourceProvider
-      end
-    end
-  end
+resource_name :image_streamer_plan_script
+
+default_action :create
+
+action :create do
+  OneviewCookbook::Helper.do_resource_action(self, :PlanScript, :create_or_update, :ImageStreamer)
+end
+
+action :create_if_missing do
+  OneviewCookbook::Helper.do_resource_action(self, :PlanScript, :create_if_missing, :ImageStreamer)
+end
+
+action :delete do
+  OneviewCookbook::Helper.do_resource_action(self, :PlanScript, :delete, :ImageStreamer)
 end

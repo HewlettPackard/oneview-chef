@@ -7,7 +7,7 @@ describe 'oneview_test::default' do
     chef_run # This should not raise an error
   end
 
-  it 'supports all matchers' do
+  it 'supports all oneview matchers' do
     # oneview_resource
     expect(chef_run).to_not create_oneview_resource('')
     expect(chef_run).to_not delete_oneview_resource('')
@@ -231,5 +231,12 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not create_oneview_volume_template('')
     expect(chef_run).to_not create_oneview_volume_template_if_missing('')
     expect(chef_run).to_not delete_oneview_volume_template('')
+  end
+
+  it 'supports all image streamer matchers' do
+    # image_streamer_plan_script
+    expect(chef_run).to_not create_image_streamer_plan_script('')
+    expect(chef_run).to_not delete_image_streamer_plan_script('')
+    expect(chef_run).to_not create_image_streamer_plan_script_if_missing('')
   end
 end

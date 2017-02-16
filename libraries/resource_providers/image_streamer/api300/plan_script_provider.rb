@@ -1,4 +1,4 @@
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -9,11 +9,14 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-source 'https://supermarket.chef.io'
-metadata
+require_relative '../../../resource_provider'
 
-group :test do
-  cookbook 'oneview_test', path: './spec/fixtures/cookbooks/oneview_test'
-  cookbook 'oneview_test_api300_synergy', path: './spec/fixtures/cookbooks/oneview_test_api300_synergy'
-  cookbook 'image_streamer_test_api300', path: './spec/fixtures/cookbooks/image_streamer_test_api300'
+module OneviewCookbook
+  module ImageStreamer
+    module API300
+      # PlanScript Provider resource methods
+      class PlanScriptProvider < ResourceProvider
+      end
+    end
+  end
 end
