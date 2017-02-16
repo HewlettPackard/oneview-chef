@@ -63,7 +63,7 @@ module OneviewCookbook
       def refresh
         @item = resource_named(:LogicalSwitch).find_by(@item.client, name: @item['name']).first
         @context.converge_by "Refreshing #{@resource_name} '#{@name}'" do
-          @item.refresh
+          @item.refresh_state
         end
       end
     end

@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: oneview_test
-# Recipe:: enclosure_group_create
+# Recipe:: user_delete
 #
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,11 +14,13 @@
 # specific language governing permissions and limitations under the License.
 #
 
-oneview_enclosure_group 'EnclosureGroup1' do
+oneview_user 'User3' do
   client node['oneview_test']['client']
   data(
-    stackingMode: 'Enclosure',
-    interconnectBayMappingCount: 8
+    password: 'secret123',
+    emailAddress: 'john.doe@example.com',
+    fullName: 'John Doe',
+    roles: ['Network administrator', 'Server administrator']
   )
-  logical_interconnect_groups ['LIG1', { name: 'LIG2' }]
+  action :delete
 end

@@ -16,6 +16,16 @@ module OneviewCookbook
     module C7000
       # EnclosureGroup API300 C7000 provider
       class EnclosureGroupProvider < API200::EnclosureGroupProvider
+        def load_ligs
+          load_lig # Deprecated method
+          return unless @context.logical_interconnect_groups
+          lig_klass = resource_named(:LogicalInterconnectGroup)
+          @context.logical_interconnect_groups.each do |lig|
+            lig_name = lig.class == Hash ? convert_keys(lig, :to_s)['name'] : lig
+            index = lig.class == Hash ? convert_keys(lig, :to_s)['enclosureIndex'] : nil
+            @item.add_logical_interconnect_group(lig_klass.new(@item.client, name: lig_name), index)
+          end
+        end
       end
     end
   end

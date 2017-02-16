@@ -28,7 +28,8 @@ module OneviewCookbook
         return unless @context.logical_interconnect_groups
         lig_klass = resource_named(:LogicalInterconnectGroup)
         @context.logical_interconnect_groups.each do |lig|
-          @item.add_logical_interconnect_group(lig_klass.new(@item.client, name: lig))
+          lig_name = lig.class == Hash ? convert_keys(lig, :to_s)['name'] : lig
+          @item.add_logical_interconnect_group(lig_klass.new(@item.client, name: lig_name))
         end
       end
 

@@ -27,7 +27,9 @@ module OneviewCookbook
         client = @item.client
         @item = load_firmware
         return Chef::Log.info "#{@resource_name} '#{@name}' is already up to date." if @item
+        Chef::Log.info "Adding #{@resource_name} '#{@name}'. This may take some time..."
         @context.converge_by "Add #{@resource_name} '#{@name}'" do
+          # resource_named(:FirmwareBundle).add(client, @name) # Waiting on SDK #176
           version = OneviewSDK.const_get("API#{@sdk_api_version}")
           version = version.const_get(@sdk_api_variant) if @sdk_api_variant
           version.const_get(:FirmwareBundle).add(client, @name)
@@ -47,8 +49,8 @@ module OneviewCookbook
         load_hotfixes
 
         @item['customBaselineName'] = @name
-        Chef::Log.info "Created custom #{@resource_name} '#{@name}'"
-        @context.converge_by "Created custom #{@resource_name} '#{@name}'" do
+        Chef::Log.info "Creating custom #{@resource_name} '#{@name}'"
+        @context.converge_by "Create custom #{@resource_name} '#{@name}'" do
           @item.data.delete('name')
           @item.create
         end
