@@ -79,6 +79,7 @@ module OneviewCookbook
     # @param [Hash, OneviewSDK::Client] client Appliance info hash or client object.
     # @return [OneviewSDK::Client] Client object
     def self.build_client(client = nil)
+      Chef::Log.debug("Building OneView client with:\n#{client}\n\n")
       case client
       when OneviewSDK::Client
         client
@@ -104,6 +105,7 @@ module OneviewCookbook
     # @param [Hash, OneviewSDK::ImageStreamer::Client] client Appliance info hash or client object.
     # @return [OneviewSDK::ImageStreamer::Client] Client object
     def self.build_image_streamer_client(client = nil)
+      Chef::Log.debug("Building Image Streamer client with:\n#{client}\n\n")
       case client
       when OneviewSDK::ImageStreamer::Client
         client
@@ -116,8 +118,7 @@ module OneviewCookbook
         options[:log_level] ||= Chef::Log.level
         return OneviewSDK::ImageStreamer::Client.new(options) unless options[:oneview_client] # Rely on token being set
         ov_client = build_client(options.delete(:oneview_client))
-        options.merge(token: ov_client.token)
-        OneviewSDK::ImageStreamer::Client.new(options)
+        OneviewSDK::ImageStreamer::Client.new(options.merge(token: ov_client.token))
       when NilClass
         options = {}
         options[:logger] = Chef::Log

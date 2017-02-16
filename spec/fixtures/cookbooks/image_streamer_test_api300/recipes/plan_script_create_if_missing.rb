@@ -1,3 +1,7 @@
+#
+# Cookbook Name:: image_streamer_test_api300
+# Recipe:: plan_script_create_if_missing
+#
 # (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -8,16 +12,14 @@
 # under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
+#
 
-OneviewCookbook::ResourceBaseProperties.load(self)
-
-default_action :none
-
-property :test_property, String
-
-action :none do
-end
-
-action :test do
-  OneviewCookbook::Helper.do_resource_action(self, :OSVolume, :test)
+image_streamer_plan_script 'PlanScript1' do
+  client node['image_streamer_test']['client']
+  data(
+    hpProvided: false,
+    planType: 'deploy',
+    content: 'f'
+  )
+  action :create_if_missing
 end
