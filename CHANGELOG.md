@@ -1,3 +1,7 @@
+## 1.X.0 - Image Streamer
+Adds support to API300 HPE Synergy Image Streamer resources:
+  - image_streamer_plan_script
+
 ## 1.3.0
  - Added oneview_user resource
 
