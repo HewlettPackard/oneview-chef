@@ -94,7 +94,7 @@ RSpec.describe OneviewCookbook::Helper do
 
   describe '#self.build_client' do
     it 'requires a valid oneview object' do
-      expect { described_class.build_client(1) }.to raise_error(/Invalid client/)
+      expect { described_class.build_client(1) }.to raise_error(/Invalid client .* OneviewSDK::Client/)
       expect { described_class.build_client(nil) }.to raise_error(OneviewSDK::InvalidClient, /Must set/)
     end
 
@@ -108,7 +108,7 @@ RSpec.describe OneviewCookbook::Helper do
       expect(ov.password).to eq(@ov_options[:password])
     end
 
-    it 'supports using OneviewSDK user/password environment variables' do
+    it 'supports using OneviewSDK token/ssl environment variables' do
       ENV['ONEVIEWSDK_URL'] = @ov_options[:url]
       ENV['ONEVIEWSDK_TOKEN'] = 'faketoken'
       ENV['ONEVIEWSDK_SSL_ENABLED'] = 'false'
@@ -153,6 +153,64 @@ RSpec.describe OneviewCookbook::Helper do
       ov = described_class.build_client(@ov_options.merge(logger: Logger.new(STDOUT), log_level: level))
       expect(ov.log_level).to eq(level)
       expect(ov.log_level).to_not eq(Chef::Log.level)
+    end
+  end
+
+  describe '#self.build_image_streamer_client' do
+    it 'requires a valid oneview object' do
+      expect { described_class.build_image_streamer_client('bananas') }.to raise_error(/Invalid client .* OneviewSDK::ImageStreamer::Client/)
+      expect { described_class.build_image_streamer_client(nil) }.to raise_error(OneviewSDK::InvalidClient, /Must set/)
+    end
+
+    it 'supports using Image Streamer url & token environment variables' do
+      ENV['I3S_URL'] = @i3s_options[:url]
+      ENV['I3S_TOKEN'] = @i3s_options[:token]
+      i3s_client = described_class.build_image_streamer_client
+      expect(i3s_client.url).to eq(@i3s_options[:url])
+      expect(i3s_client.token).to eq(@i3s_options[:token])
+    end
+
+    it 'accepts an OneviewSDK::Client object' do
+      i3s = described_class.build_image_streamer_client(@i3s_client)
+      expect(i3s).to eq(@i3s_client)
+    end
+
+    it 'accepts a hash with the token defined' do
+      i3s = described_class.build_image_streamer_client(@i3s_options)
+      expect(i3s.url).to eq(@i3s_options[:url])
+      expect(i3s.token).to eq(@i3s_options[:token])
+    end
+
+    it 'accepts a hash with the oneview client defined' do
+      expect(described_class).to receive(:build_client).with(@client).and_return(@client)
+      i3s = described_class.build_image_streamer_client(@i3s_options.merge(oneview_client: @client))
+      expect(i3s.url).to eq(@i3s_options[:url])
+      expect(i3s.token).to eq('secretToken')
+    end
+
+    it 'defaults the log level to what Chef is using' do
+      i3s = described_class.build_image_streamer_client(@i3s_options)
+      expect(i3s.log_level).to eq(Chef::Log.level)
+    end
+
+    it 'defaults to the Chef logger and log level' do
+      i3s = described_class.build_image_streamer_client(@i3s_options)
+      expect(i3s.logger).to eq(Chef::Log)
+      expect(i3s.log_level).to eq(Chef::Log.level)
+    end
+
+    it "doesn't allow the log level to be overridden when no logger is specified" do
+      level = Chef::Log.level == :warn ? :info : :warn
+      i3s = described_class.build_image_streamer_client(@i3s_options.merge(log_level: level))
+      expect(i3s.log_level).to_not eq(level)
+      expect(i3s.log_level).to eq(Chef::Log.level)
+    end
+
+    it 'allows the log level to be overridden if the logger is specified' do
+      level = Chef::Log.level == :warn ? :info : :warn
+      i3s = described_class.build_image_streamer_client(@i3s_options.merge(logger: Logger.new(STDOUT), log_level: level))
+      expect(i3s.log_level).to eq(level)
+      expect(i3s.log_level).to_not eq(Chef::Log.level)
     end
   end
 

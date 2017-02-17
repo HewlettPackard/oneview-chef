@@ -7,8 +7,8 @@ SimpleCov.start do
   add_filter '.direnv/'
   add_filter 'libraries/resource_providers/'
   add_group 'Libraries', 'libraries'
-  minimum_coverage 92 # Goal: A bit higher
-  minimum_coverage_by_file 30 # Goal: much higher
+  minimum_coverage 95 # Goal: A bit higher
+  minimum_coverage_by_file 90 # Goal: much higher
 end
 
 Dir[File.expand_path('../libraries/*.rb', File.dirname(__FILE__))].each { |file| require file }
@@ -33,7 +33,8 @@ RSpec.configure do |config|
     allow_any_instance_of(OneviewSDK::ImageStreamer::Client).to receive(:appliance_i3s_api_version).and_return(300)
 
     # Clear environment variables
-    %w(ONEVIEWSDK_URL ONEVIEWSDK_USER ONEVIEWSDK_PASSWORD ONEVIEWSDK_TOKEN ONEVIEWSDK_SSL_ENABLED I3S_URL I3S_TOKEN I3S_SSL_ENABLED).each do |name|
+    %w(ONEVIEWSDK_URL ONEVIEWSDK_USER ONEVIEWSDK_PASSWORD ONEVIEWSDK_TOKEN ONEVIEWSDK_SSL_ENABLED
+       I3S_URL I3S_TOKEN I3S_SSL_ENABLED).each do |name|
       ENV[name] = nil
     end
   end
