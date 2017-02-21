@@ -3,6 +3,8 @@
 [![Cookbook Version](https://img.shields.io/cookbook/v/oneview.svg)](https://supermarket.chef.io/cookbooks/oneview)
 [![Travis Build Status](https://travis-ci.org/HewlettPackard/oneview-chef.svg?branch=master)](https://travis-ci.org/HewlettPackard/oneview-chef)
 [![Chef Build Status](https://jenkins-01.eastus.cloudapp.azure.com/job/oneview-cookbook/badge/icon)](https://jenkins-01.eastus.cloudapp.azure.com/job/oneview-cookbook/)
+[![Code Climate](https://codeclimate.com/github/HewlettPackard/oneview-chef/badges/gpa.svg)](https://codeclimate.com/github/HewlettPackard/oneview-chef)
+[![Test Coverage](https://codeclimate.com/github/HewlettPackard/oneview-chef/badges/coverage.svg)](https://codeclimate.com/github/HewlettPackard/oneview-chef/coverage)
 
 Chef cookbook that provides resources for managing HPE OneView.
 
