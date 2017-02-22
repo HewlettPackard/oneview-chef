@@ -17,13 +17,13 @@ module OneviewCookbook
       # Scope API300 C7000 provider methods
       class ScopeProvider < ResourceProvider
         # Adds or removes resources to a specified scope
-        # @note Calls the parse_resource_values method to retrieve the resources
+        # @note Calls the build_resource_list method to retrieve the resources
         def change_resource_assignments
           add_or_remove = @context.add.any? || @context.remove.any?
           raise "Unspecified properties: 'add' and 'remove'. Please set at least one before attempting this action." unless add_or_remove
           @item.retrieve!
-          values_to_add = parse_resource_values
-          values_to_remove = parse_resource_values(:remove)
+          values_to_add = build_resource_list
+          values_to_remove = build_resource_list(:remove)
           return Chef::Log.info("#{@resource_name} '#{@name}' is up to date") if values_to_add.empty? && values_to_remove.empty?
           diff = ''
           diff << "\n  Adding: #{JSON.pretty_generate(values_to_add)}" unless values_to_add.empty?
@@ -36,13 +36,9 @@ module OneviewCookbook
 
         # Retrieves the resources listed on the add or remove fields and creates an array with their instances
         # @return [Array] containing the instances of all resources to be added or removed
-        def parse_resource_values(op = :add)
+        def build_resource_list(op = :add)
           retrieved_resources = []
-          context = if op == :add
-                      @context.add
-                    else
-                      @context.remove
-                    end
+          context = op == :add ? @context.add : @context.remove
           context.each do |resource_name, values|
             klass = resource_named(resource_name)
             values.each do |value|
