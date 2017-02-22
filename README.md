@@ -838,6 +838,22 @@ oneview_user 'User1' do
 end
 ```
 
+### oneview_scope
+
+Scope resource for HPE OneView.
+
+```Ruby
+oneview_scope 'Scope1' do
+  client <my_client>
+  data <resource_data>
+  add                        # Hash containing combinations of <resourcetype>: <Array of names> to be added to the scope - Optional
+  remove                     # Hash containing combinations of <resourcetype>: <Array of names> to be removed from the scope - Optional
+  action [:create, :create_if_missing, :delete, :change_resource_assignments]
+end
+```
+
+- **add** and **remove** (Hash) Optional - Specify resources to be added or removed. The Hashes should have `<resource_type> => [<resource_names>]` associations. See the examples for more information.
+
 ## Examples
 
 :information_source: There are plenty more examples in the [examples](examples) directory showing more detailed usage of each resource, but here's a few to get you started:

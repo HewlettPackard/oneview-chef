@@ -1,3 +1,6 @@
+## 1.4.0
+ - Added oneview_scope resource
+
 ## 1.3.0
  - Added oneview_user resource
 
