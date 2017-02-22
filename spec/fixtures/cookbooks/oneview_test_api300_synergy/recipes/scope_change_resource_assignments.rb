@@ -15,7 +15,6 @@
 #
 
 oneview_scope 'Scope-change_resource_assignments' do
-  api_version 300
   client node['oneview_test']['client']
   add(
     Enclosure: ['Encl1']

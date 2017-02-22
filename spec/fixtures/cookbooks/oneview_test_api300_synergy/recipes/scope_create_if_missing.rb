@@ -15,7 +15,6 @@
 #
 
 oneview_scope 'Scope2' do
-  api_version 300
   client node['oneview_test']['client']
   data(
     description: 'Sample Scope description'

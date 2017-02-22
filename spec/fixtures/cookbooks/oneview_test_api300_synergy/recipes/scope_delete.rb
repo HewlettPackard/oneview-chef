@@ -15,7 +15,6 @@
 #
 
 oneview_scope 'Scope3' do
-  api_version 300
   client node['oneview_test']['client']
   action :delete
 end

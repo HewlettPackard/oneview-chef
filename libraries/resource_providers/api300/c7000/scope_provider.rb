@@ -25,9 +25,11 @@ module OneviewCookbook
           values_to_add = parse_resource_values
           values_to_remove = parse_resource_values(:remove)
           return Chef::Log.info("#{@resource_name} '#{@name}' is up to date") if values_to_add.empty? && values_to_remove.empty?
-          Chef::Log.debug "Resources to be added: #{JSON.pretty_generate(values_to_add)}" unless values_to_add.empty?
-          Chef::Log.debug "Resources to be removed: #{JSON.pretty_generate(values_to_remove)}" unless values_to_remove.empty?
-          @context.converge_by "Performing resource assignments on #{@resource_name}: #{@item['name']}" do
+          diff = ''
+          diff << "\n  Adding: #{JSON.pretty_generate(values_to_add)}" unless values_to_add.empty?
+          diff << "\n  Removing: #{JSON.pretty_generate(values_to_remove)}" unless values_to_remove.empty?
+          Chef::Log.info "Performing resource assignments on #{@resource_name} '#{@item['name']}':#{diff}"
+          @context.converge_by "Performed resource assignments on #{@resource_name} '#{@item['name']}'" do
             @item.change_resource_assignments(add_resources: values_to_add, remove_resources: values_to_remove)
           end
         end
