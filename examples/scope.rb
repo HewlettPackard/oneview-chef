@@ -32,10 +32,10 @@ end
 oneview_scope 'Scope1' do
   client my_client
   api_version 300
-  add({
+  add(
     Enclosure: ['Encl1'],
     ServerHardware: ['Server1']
-  })
+  )
   action :change_resource_assignments
 end
 
@@ -44,14 +44,14 @@ end
 oneview_scope 'Scope1' do
   client my_client
   api_version 300
-  add({
+  add(
     Enclosure: ['Encl2'],
     ServerHardware: ['Server2']
-  })
-  remove({
+  )
+  remove(
     Enclosure: ['Encl1'],
     ServerHardware: ['Server1']
-  })
+  )
   action :change_resource_assignments
 end
 
@@ -59,9 +59,9 @@ end
 oneview_scope 'Scope1' do
   client my_client
   api_version 300
-  remove({
+  remove(
     Enclosure: ['Encl2'],
-  })
+  )
   action :change_resource_assignments
 end
 
