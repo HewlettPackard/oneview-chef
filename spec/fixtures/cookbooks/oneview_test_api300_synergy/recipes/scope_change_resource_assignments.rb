@@ -14,9 +14,9 @@
 # specific language governing permissions and limitations under the License.
 #
 
-oneview_scope 'Scope1' do
+oneview_scope 'Scope-change_resource_assignments' do
   api_version 300
-  client my_client
+  client node['oneview_test']['client']
   add(
     Enclosure: ['Encl1']
   )
