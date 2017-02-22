@@ -37,8 +37,8 @@ module OneviewCookbook
                     else
                       @context.remove
                     end
-          context.each do |chave, values|
-            klass = resource_named(chave)
+          context.each do |resource_name, values|
+            klass = resource_named(resource_name)
             values.each do |value|
               retrieved_resource = klass.new(@item.client, name: value)
               raise "#{klass} resource with name #{value} was not found in the appliance." unless retrieved_resource.retrieve!

@@ -842,17 +842,19 @@ end
 
 Scope resource for HPE OneView.
 
+Support only in API300 onwards.
+
 ```Ruby
 oneview_scope 'Scope1' do
   client <my_client>
   data <resource_data>
-  add                        # Hash containing combinations of <resourcetype>: <Array of names> to be added to the scope - Optional
-  remove                     # Hash containing combinations of <resourcetype>: <Array of names> to be removed from the scope - Optional
+  add     # Hash containing combinations of <resourcetype>: <Array of names> to be added to the scope - Optional
+  remove  # Hash containing combinations of <resourcetype>: <Array of names> to be removed from the scope - Optional
   action [:create, :create_if_missing, :delete, :change_resource_assignments]
 end
 ```
 
-- **add** and **remove** (Hash) Optional - Specify resources to be added or removed. The Hashes should have `<resource_type> => [<resource_names>]` associations. See the examples for more information.
+- **add** and **remove** (Hash) Optional - Specify resources to be added or removed. The Hashes should have `<resource_type> => [<resource_names>]` associations. See the [example](examples/scope.rb) for more information.
 
 ## Examples
 

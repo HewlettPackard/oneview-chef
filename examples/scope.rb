@@ -9,6 +9,8 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
+# NOTE: Support only in API300 onwards.
+
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
@@ -38,8 +40,22 @@ end
 oneview_scope 'Scope1' do
   api_version 300
   client my_client
+  add({
+    Enclosure: ['Encl2'],
+    ServerHardware: ['Server2']
+  })
   remove({
     Enclosure: ['Encl1'],
+    ServerHardware: ['Server1']
+  })
+  action :change_resource_assignments
+end
+
+oneview_scope 'Scope1' do
+  api_version 300
+  client my_client
+  remove({
+    Enclosure: ['Encl2'],
   })
   action :change_resource_assignments
 end
