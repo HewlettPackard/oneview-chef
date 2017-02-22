@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: oneview_test
+# Cookbook Name:: oneview_test_api300_synergy
 # Recipe:: scope_delete
 #
 # (c) Copyright 2017 Hewlett Packard Enterprise Development LP

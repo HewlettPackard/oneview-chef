@@ -1,4 +1,4 @@
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,18 +18,20 @@ my_client = {
   api_version: 300
 }
 
+# Example: Create a Scope with a simple description
 oneview_scope 'Scope1' do
+  client my_client
   api_version 300
   data(
     description: 'Sample Scope description'
   )
-  client my_client
-  action :create
 end
 
+# Example: Add an Enclosure and a ServerHardware to the scope
+ # previously created
 oneview_scope 'Scope1' do
-  api_version 300
   client my_client
+  api_version 300
   add({
     Enclosure: ['Encl1'],
     ServerHardware: ['Server1']
@@ -37,9 +39,11 @@ oneview_scope 'Scope1' do
   action :change_resource_assignments
 end
 
+# Example: Add a different Enclosure and ServerHardware to the scope
+ # previously created, while removing the first Enclosure and Server Hardware
 oneview_scope 'Scope1' do
-  api_version 300
   client my_client
+  api_version 300
   add({
     Enclosure: ['Encl2'],
     ServerHardware: ['Server2']
@@ -51,17 +55,19 @@ oneview_scope 'Scope1' do
   action :change_resource_assignments
 end
 
+# Example: Remove the second Enclosure added to the scope
 oneview_scope 'Scope1' do
-  api_version 300
   client my_client
+  api_version 300
   remove({
     Enclosure: ['Encl2'],
   })
   action :change_resource_assignments
 end
 
+# Example: Delete the Scope created in this example
 oneview_scope 'Scope1' do
-  api_version 300
   client my_client
+  api_version 300
   action :delete
 end

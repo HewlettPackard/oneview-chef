@@ -1,6 +1,6 @@
 #
-# Cookbook Name:: oneview_test
-# Recipe:: scope_create
+# Cookbook Name:: oneview_test_api300_synergy
+# Recipe:: scope_change_resource_assignments
 #
 # (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #

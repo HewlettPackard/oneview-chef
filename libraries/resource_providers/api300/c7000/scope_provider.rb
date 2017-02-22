@@ -18,7 +18,6 @@ module OneviewCookbook
       class ScopeProvider < ResourceProvider
         # Adds or removes resources to a specified scope
         # @note Calls the parse_resource_values method to retrieve the resources
-        # @return [<OneviewSDK::<APIVER>::<VARIANT>::Scope>] with the updated resources
         def change_resource_assignments
           add_or_remove = @context.add.any? || @context.remove.any?
           raise "Unspecified properties: 'add' and 'remove'. Please set at least one before attempting this action." unless add_or_remove
@@ -28,7 +27,7 @@ module OneviewCookbook
           return Chef::Log.info("#{@resource_name} '#{@name}' is up to date") if values_to_add.empty? && values_to_remove.empty?
           Chef::Log.debug "Resources to be added: #{JSON.pretty_generate(values_to_add)}" unless values_to_add.empty?
           Chef::Log.debug "Resources to be removed: #{JSON.pretty_generate(values_to_remove)}" unless values_to_remove.empty?
-          @context.converge_by "Performing resource assignments on #{@item['name']}" do
+          @context.converge_by "Performing resource assignments on #{@resource_name}: #{@item['name']}" do
             @item.change_resource_assignments(add_resources: values_to_add, remove_resources: values_to_remove)
           end
         end
@@ -48,8 +47,7 @@ module OneviewCookbook
               retrieved_resource = klass.new(@item.client, name: value)
               raise "#{klass} resource with name #{value} was not found in the appliance." unless retrieved_resource.retrieve!
               is_scope_present = retrieved_resource['scopeUris'].include?(@item['uri'])
-              next if op == :add && is_scope_present
-              next if op == :remove && !is_scope_present
+              next if (op == :add && is_scope_present) || (op == :remove && !is_scope_present)
               retrieved_resources.push(retrieved_resource)
             end
           end

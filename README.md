@@ -848,8 +848,10 @@ Support only in API300 onwards.
 oneview_scope 'Scope1' do
   client <my_client>
   data <resource_data>
-  add     # Hash containing combinations of <resourcetype>: <Array of names> to be added to the scope - Optional
-  remove  # Hash containing combinations of <resourcetype>: <Array of names> to be removed from the scope - Optional
+  add <resource_list> # Hash containing combinations of <resourcetype>: <Array of names> to be added to the scope. The resource types
+   # can be either Strings or Symbols, and should be in upper CamelCase. i.e.: ServerHardware, Enclosure - Optional
+  remove <resource_list> # Hash containing combinations of <resourcetype>: <Array of names> to be removed from the scope. The resource types
+   # can be either Strings or Symbols, and should be in upper CamelCase. i.e.: ServerHardware, Enclosure - Optional
   action [:create, :create_if_missing, :delete, :change_resource_assignments]
 end
 ```
