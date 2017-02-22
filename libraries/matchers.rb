@@ -15,7 +15,7 @@ if defined?(ChefSpec)
   standard_actions = [:create, :create_if_missing, :delete]
   # Lists all the possible action verbs
   action_list = %w(create add delete remove set reset refresh update configure reconfigure edit none discover apply reapply activate
-                   stage new patch replace)
+                   stage new patch replace change)
 
   oneview_resources = {
     oneview_resource:                   standard_actions,
