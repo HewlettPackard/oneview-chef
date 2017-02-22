@@ -1,6 +1,6 @@
 require_relative './../../../spec_helper'
 
-describe 'oneview_test::scope_create' do
+describe 'oneview_test_api300_synergy::scope_create' do
   let(:resource_name) { 'scope' }
   include_context 'chef context'
 

@@ -165,7 +165,7 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not create_oneview_scope('')
     expect(chef_run).to_not create_oneview_scope_if_missing('')
     expect(chef_run).to_not delete_oneview_scope('')
-    expect(chef_run).to_not change_resource_assignments('')
+    expect(chef_run).to_not change_oneview_scope_resource_assignments('')
 
     # oneview_server_hardware
     expect(chef_run).to_not add_oneview_server_hardware_if_missing('')
