@@ -11,7 +11,7 @@ describe 'oneview_test_api300_synergy::scope_change_resource_assignments' do
     expect_any_instance_of(klass).to receive(:retrieve!).and_return(true)
     expect_any_instance_of(en_klass).to receive(:retrieve!).and_return(true)
     expect_any_instance_of(sh_klass).to receive(:retrieve!).and_return(true)
-    expect_any_instance_of(klass).to receive(:[]).with('name').and_return(['fake'])
+    allow_any_instance_of(klass).to receive(:[]).with('name').and_return(['fake'])
     allow_any_instance_of(klass).to receive(:[]).with('uri').and_return(['/rest/fake-scope-uri'])
     expect_any_instance_of(en_klass).to receive(:[]).with('scopeUris').and_return([])
     expect_any_instance_of(sh_klass).to receive(:[]).with('scopeUris').and_return(['/rest/fake-scope-uri'])
