@@ -1,4 +1,4 @@
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2016-2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -47,6 +47,7 @@ if defined?(ChefSpec)
                                          :replace_drive_enclosure],
     oneview_sas_interconnect:           [:reset, :hard_reset, :patch, :refresh, :set_uid_light, :set_power_state],
     oneview_sas_logical_interconnect_group: standard_actions,
+    oneview_scope:                      standard_actions,
     oneview_server_hardware:            [:add_if_missing, :remove, :refresh, :set_power_state, :update_ilo_firmware, :patch],
     oneview_server_hardware_type:       [:edit, :remove],
     oneview_server_profile_template:    standard_actions + [:new_profile],
