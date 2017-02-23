@@ -18,7 +18,7 @@ RSpec.describe OneviewCookbook::Helper do
       context = FakeResource.new
       fake_class = Class.new
       fake_res = 'fake'
-      expect(described_class).to receive(:get_resource_class).with(context, resource_type, nil)
+      expect(described_class).to receive(:get_resource_class).with(context, resource_type, OneviewCookbook)
         .and_return(fake_class)
       expect(fake_class).to receive(:new).with(context).and_return(fake_res)
       expect(fake_res).to receive(:send).with(:delete).and_return(true)
