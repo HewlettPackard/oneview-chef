@@ -33,10 +33,7 @@ RSpec.configure do |config|
     allow_any_instance_of(OneviewSDK::ImageStreamer::Client).to receive(:appliance_i3s_api_version).and_return(300)
 
     # Clear environment variables
-    %w(ONEVIEWSDK_URL ONEVIEWSDK_USER ONEVIEWSDK_PASSWORD ONEVIEWSDK_TOKEN ONEVIEWSDK_SSL_ENABLED
-       I3S_URL I3S_TOKEN I3S_SSL_ENABLED).each do |name|
-      ENV[name] = nil
-    end
+    OneviewSDK::ENV_VARS.each { |name| ENV[name] = nil }
   end
 end
 
