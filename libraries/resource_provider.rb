@@ -20,7 +20,7 @@ module OneviewCookbook
       :sdk_api_version,  # Keep track of the API version used for the SDK resource class
       :sdk_variant,      # Keep track of the variant used for the SDK resource class
       :sdk_resource_type, # Keep track of the SDK resource class name
-      :sdk_base_module        # Keep track of the internal base SDK module
+      :sdk_base_module    # Keep track of the internal base SDK module
 
     def initialize(context)
       @sdk_base_module = OneviewSDK
