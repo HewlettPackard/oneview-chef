@@ -77,7 +77,11 @@ RSpec.describe OneviewCookbook::Helper do
     it 'attempts to install the gem if it is not found' do
       expect(described_class).to receive(:gem).once.and_raise LoadError
       expect(described_class).to receive(:gem).once.and_return true
-      expect(@context).to receive(:chef_gem).with('oneview-sdk').and_return true
+
+      # Mocks @context.chef_gem
+      expect(described_class).to receive(:version).with(sdk_version).and_return(true)
+      expect(described_class).to receive(:compile_time).with(true).and_return(true)
+
       expect(described_class).to receive(:require).with('oneview-sdk').and_return true
       described_class.load_sdk(@context)
     end

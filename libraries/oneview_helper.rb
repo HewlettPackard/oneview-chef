@@ -63,12 +63,10 @@ module OneviewCookbook
     rescue LoadError => e
       Chef::Log.debug("Could not load gem oneview-sdk #{node['oneview']['ruby_sdk_version']}. Message: #{e.message}")
       Chef::Log.info("Could not load gem oneview-sdk #{node['oneview']['ruby_sdk_version']}. Making sure it's installed...")
-      # :nocov:
       context.chef_gem 'oneview-sdk' do
         version node['oneview']['ruby_sdk_version']
         compile_time true if Chef::Resource::ChefGem.method_defined?(:compile_time)
       end
-      # :nocov:
       begin # Try to load the specified version of the oneview-sdk gem again
         gem 'oneview-sdk', node['oneview']['ruby_sdk_version']
         require 'oneview-sdk'

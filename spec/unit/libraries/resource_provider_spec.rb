@@ -21,7 +21,7 @@ RSpec.describe OneviewCookbook::ResourceProvider do
       expect(r.sdk_resource_type).to eq('Resource')
       expect(r.sdk_api_version).to eq(nil)
       expect(r.sdk_variant).to eq(nil)
-      expect(r.base_module).to eq(OneviewSDK)
+      expect(r.sdk_base_module).to eq(OneviewSDK)
       expect(r.item.client).to eq(@client)
       expect(r.item.data).to eq('name' => @context.name)
     end
@@ -66,7 +66,7 @@ RSpec.describe OneviewCookbook::ResourceProvider do
       expect(r.sdk_resource_type).to eq('PlanScript')
       expect(r.sdk_api_version).to eq(300)
       expect(r.sdk_variant).to eq(nil)
-      expect(r.base_module).to eq(OneviewSDK::ImageStreamer)
+      expect(r.sdk_base_module).to eq(OneviewSDK::ImageStreamer)
       expect(r.item.class).to eq(OneviewSDK::ImageStreamer::API300::PlanScript)
     end
 
@@ -219,7 +219,7 @@ RSpec.describe OneviewCookbook::ResourceProvider do
 
     it 'calls the OneviewSDK::ImageStreamer::resource_named method' do
       expect(OneviewSDK::ImageStreamer).to receive(:resource_named).with(:ResourceType, -1, '_variant_')
-      res.base_module = OneviewSDK::ImageStreamer
+      res.sdk_base_module = OneviewSDK::ImageStreamer
       res.resource_named(:ResourceType)
     end
   end
