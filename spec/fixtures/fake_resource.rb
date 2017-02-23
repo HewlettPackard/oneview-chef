@@ -35,9 +35,4 @@ class FakeResource
     yield
     Chef::Log.info(msg) if msg
   end
-
-  def chef_gem(msg = nil)
-    yield
-    Chef::Log.info(msg) if msg
-  end
 end
