@@ -12,6 +12,7 @@ Chef cookbook that provides resources for managing HPE OneView.
 
  - Chef 12.0 or higher
  - HPE OneView 2.0 or 3.0 (API versions 200 or 300). May work with other versions too, but no guarantees
+ - HPE Synergy Image Streamer appliance (API version 300)
 
 ## Usage
 
@@ -26,10 +27,15 @@ depends 'oneview', '~> 2.0'
 ```
 
 ### Credentials
-In order to manage HPE OneView resources, you will need to provide authentication credentials. There are 2 ways to do this:
+In order to manage HPE OneView and HPE Synergy Image Streamer resources, you will need to provide authentication credentials. There are 2 ways to do this:
 
-1. Set the environment variables: ONEVIEWSDK_URL, ONEVIEWSDK_USER, ONEVIEWSDK_PASSWORD, and/or ONEVIEWSDK_TOKEN. See [this](https://github.com/HewlettPackard/oneview-sdk-ruby#environment-variables) for more info.
+1. Set the environment variables:
+  - For HPE OneView: ONEVIEWSDK_URL, ONEVIEWSDK_USER, ONEVIEWSDK_PASSWORD, and/or ONEVIEWSDK_TOKEN.
+  - For HPE Synergy Image Streamer: I3S_URL, ONEVIEWSDK_USER, ONEVIEWSDK_PASSWORD, and/or ONEVIEWSDK_TOKEN.
+  See [this](https://github.com/HewlettPackard/oneview-sdk-ruby#environment-variables) for more info.
 2. Explicitly pass in the `client` property to each resource (see the [Resource Properties](#resource-properties) section below). This takes precedence over environment variables and allows you to set more client properties. This also allows you to get these credentials from other sources like encrypted databags, Vault, etc.
+
+HPE Synergy Image Streamer access token is the same as the HPE OneView associated appliance, so most of its credentials you may get from the HPE OneView.
 
 ### API version
 When using the resources a API version will be selected to interact with the resources in each HPE OneView correct API versions. To select the desired one, you may use one of the following methods:
@@ -45,8 +51,8 @@ Beware the precedence of these methods! The higher priority goes to setting the 
  - `node['oneview']['ruby_sdk_version']` - Set which version of the SDK to install and use. Defaults to `'~> 4.0'`
  - `node['oneview']['save_resource_info']` - Save resource info to a node attribute? Defaults to `['uri']`. Possible values/types:
    - `true` - Save all info (Merged hash of OneView info and Chef resource properties). Warning: Resource credentials will be saved if specified.
-   - `false` - Do not save any info
-   - `Array` - i.e. `['uri', 'status', 'created_at']` Save a subset of specified attributes
+   - `false` - Do not save any info.
+   - `Array` - i.e. `['uri', 'status', 'created_at']` Save a subset of specified attributes.
  - `node['oneview']['api_version']` - When looking for a matching Chef resource provider class, this version will be used as default. Defaults to `200`.
  - `node['oneview']['api_variant']` - When looking for a matching Chef resource provider class, this variant will be used as default. Defaults to `C7000`.
 
@@ -58,7 +64,10 @@ See [attributes/default.rb](attributes/default.rb) for more info.
 
 The following are the standard properties available for all resources. Some resources have additional properties or small differences; see their doc sections below for more details.
 
- - **client**: Hash or OneviewSDK::Client object that contains information about how to connect to the OneView instance. Required attributes are: `url` and `token` or `user` and `password`. See [this](https://github.com/HewlettPackard/oneview-sdk-ruby#configuration) for more options.
+ - **client**: Hash, OneviewSDK::Client or OneviewSDK::ImageStreamer::Client object that contains information about how to connect to the HPE OneView or HPE Synergy Image Streamer instances.
+   - For HPE OneView required attributes are: `url` and, `token` or `user` and `password`.
+   - For HPE Synergy Image Streamer required attributes are: `url` and, `token` or `oneview_client`.
+ See [this](https://github.com/HewlettPackard/oneview-sdk-ruby#configuration) for more options.
  - **data**: Hash specifying options for this resource. Refer to the OneView API docs for what's available and/or required. If no name attribute is given, it will use the name given to the Chef resource.
    - :information_source: Tip: In addition to the API docs, you can use the [oneview-sdk gem's CLI](https://github.com/HewlettPackard/oneview-sdk-ruby#cli) to quickly show information about resources. If you're wanting to know which data properties exist for a resource, it might make sense to create a resource on the Web UI, then view the data. For example, after creating a new ethernet network named `eth1`, run `$ oneview-sdk-ruby show EthernetNetwork eth1`
  - **action**: Symbol specifying what to do with this resource. Options for most resources (**some may differ**):
@@ -75,7 +84,9 @@ The following are the standard properties available for all resources. Some reso
  - **value**: (String, Array<String>) Specify the value for the `:patch` action. Optional for some operations.
 
 
-### oneview_resource
+### HPE OneView resources
+
+#### oneview_resource
 
 This is a generic provider for managing any OneView resource.
 This really exists only for resources that exist in the SDK but don't have a Chef resource provider. If a specific resource exists, please use it instead.
@@ -95,7 +106,7 @@ end
 
 See the [example](examples/oneview_resource.rb) for more details.
 
-### oneview_ethernet_network
+#### oneview_ethernet_network
 
 Ethernet network resource for HPE OneView.
 
@@ -109,7 +120,7 @@ oneview_ethernet_network 'Eth1' do
 end
 ```
 
-### oneview_connection_template
+#### oneview_connection_template
 
 Connection template resource for HPE OneView.
 
@@ -124,7 +135,7 @@ end
 
 Although the name of the `associated_ethernet_network` being an optional parameter, it must be set if the correct URI and Connection template name are not defined.
 
-### oneview_fabric
+#### oneview_fabric
 
 Fabric resource for HPE OneView.
 
@@ -141,7 +152,7 @@ oneview_fabric 'Fabric1' do
 end
 ```
 
-### oneview_fc_network
+#### oneview_fc_network
 
 FC network resource for HPE OneView.
 
@@ -154,7 +165,7 @@ end
 ```
 
 
-### oneview_fcoe_network
+#### oneview_fcoe_network
 
 FCoE network resource for HPE OneView.
 
@@ -166,7 +177,7 @@ oneview_fcoe_network 'FCoE1' do
 end
 ```
 
-### oneview_network_set
+#### oneview_network_set
 
 Network set resource for HPE OneView.
 
@@ -180,7 +191,7 @@ oneview_network_set 'NetSet1' do
 end
 ```
 
-### oneview_firmware
+#### oneview_firmware
 
 Firmware bundle and driver resource for HPE OneView.
 
@@ -207,7 +218,7 @@ oneview_firmware 'CustomSPP'  do
 end
 ```
 
-### oneview_interconnect
+#### oneview_interconnect
 
 Interconnect resource for HPE OneView.
 
@@ -229,7 +240,7 @@ oneview_interconnect 'Interconnect1' do
 end
 ```
 
-### oneview_sas_interconnect
+#### oneview_sas_interconnect
 
 SAS interconnect resource for HPE OneView.
 
@@ -257,7 +268,7 @@ oneview_sas_interconnect 'SASInterconnect1' do
 end
 ```
 
-### oneview_logical_interconnect
+#### oneview_logical_interconnect
 
 Performs actions in the logical interconnect and associated interconnects.
 
@@ -277,7 +288,7 @@ oneview_logical_interconnect 'LogicalInterconnect1' do
 end
 ```
 
-### oneview_sas_logical_interconnect
+#### oneview_sas_logical_interconnect
 
 Performs actions in the SAS logical interconnect.
 
@@ -296,7 +307,7 @@ end
 ```
   - **replace_drive_enclosure:** After a drive enclosure is *physically replaced* it initiates the replace process. The `old_drive_enclosure` and `new_drive_enclosure` properties can be specified, they can be either the names or serial numbers of the drive enclosures. Additionally they can be replaced by specifying the serial number directly into the `data` property the keys `:oldSerialNumber` and `:newSerialNumber`. (This option has the best performance)
 
-### oneview_logical_interconnect_group
+#### oneview_logical_interconnect_group
 
 Logical Interconnect Group resource for HPE OneView.
 
@@ -366,7 +377,7 @@ interconnects_data = [
   ]
   ```
 
-### oneview_sas_logical_interconnect_group
+#### oneview_sas_logical_interconnect_group
 
 SAS Logical Interconnect Group resource for HPE OneView (API300::Synergy only)
 
@@ -390,7 +401,7 @@ interconnects_data = [
 ]
 ```
 
-### oneview_logical_switch_group
+#### oneview_logical_switch_group
 
 Logical Switch Group resource for HPE OneView.
 
@@ -410,7 +421,7 @@ The `:create` and `create_if_missing` can be done in two different ways:
 
 :memo: **Note:** You are still able to specify the `switch_number` and `switch_type` properties even if you use the 'switchMapTemplate' attribute, but they will be **ignored**, only the values from 'switchMapTemplate' are going to be used.
 
-### oneview_logical_switch
+#### oneview_logical_switch
 
 Logical switch resource for HPE OneView.
 
@@ -430,7 +441,7 @@ end
 
 :memo: NOTE: The `credentials` may also be replaced by the entire data Hash or JSON. In this case the property will be ignored.
 
-### oneview_datacenter
+#### oneview_datacenter
 
 Datacenter resource for HPE OneView.
 
@@ -446,7 +457,7 @@ oneview_datacenter 'Datacenter_1' do
 end
 ```
 
-### oneview_rack
+#### oneview_rack
 
 Rack resource for HPE OneView.
 
@@ -476,7 +487,7 @@ oneview_rack 'Rack_1' do
 end
 ```
 
-### oneview_enclosure_group
+#### oneview_enclosure_group
 
 Enclosure Group resource for HPE OneView.
 
@@ -491,7 +502,7 @@ end
 
 **logical_interconnect_groups:** Array of data used to build the interconnect bay configuration. Each item can either be a string containing the LIG name or a hash containing the LIG name and enclosureIndex. Note that the enclosureIndex is not used on API200.
 
-### oneview_enclosure
+#### oneview_enclosure
 
 Enclosure resource for HPE OneView.
 
@@ -509,7 +520,7 @@ oneview_enclosure 'Encl1' do
 end
 ```
 
-### oneview_drive_enclosure
+#### oneview_drive_enclosure
 
 Drive enclosure resource for HPE OneView.
 
@@ -536,7 +547,7 @@ oneview_drive_enclosure 'DriveEnclosure1' do
 end
 ```
 
-### oneview_volume
+#### oneview_volume
 
 Volume resource for HPE OneView.
 
@@ -567,7 +578,7 @@ end
 :memo: **NOTE**: The OneView API has a provisioningParameters hash for creation, but not updates. In recipes, use same data as you would for an update, and this resource will handle creating the provisioningParameters for you if the volume needs created. (Define the desired state, not how to create it). See the [volume example](examples/volume.rb) for more on this.
 
 
-### oneview_volume_template
+#### oneview_volume_template
 
 Volume Template resource for HPE OneView.
 
@@ -596,7 +607,7 @@ end
     :requestedCapacity      | :capacity
 
 
-### oneview_storage_pool
+#### oneview_storage_pool
 
 Storage pool resource for HPE OneView.
 
@@ -608,7 +619,7 @@ oneview_storage_pool 'CPG_FC-AO' do
 end
 ```
 
-### oneview_storage_system
+#### oneview_storage_system
 
 Storage system resource for HPE OneView.
 
@@ -644,7 +655,7 @@ oneview_storage_system 'ThreePAR7200-81471' do
 end
 ```
 
-### oneview_logical_enclosure
+#### oneview_logical_enclosure
 
 Logical enclosure resource for HPE OneView.
 
@@ -661,7 +672,7 @@ end
 
 Notes: The default action is `:create_if_missing`. Also, the creation process may take 30min or more.
 
-### oneview_managed_san
+#### oneview_managed_san
 
 Managed SAN resource for HPE OneView.
 
@@ -673,7 +684,7 @@ oneview_managed_san 'SAN1_0' do
 end
 ```
 
-### oneview_power_device
+#### oneview_power_device
 
 Power device resource for HPE OneView.
 
@@ -696,7 +707,7 @@ oneview_power_device '<iPDU hostname>' do
 end
 ```
 
-### oneview_san_manager
+#### oneview_san_manager
 
 SAN manager resource for HPE OneView
 
@@ -708,7 +719,7 @@ oneview_san_manager '<host ip>' do
 end
 ```
 
-### oneview_server_hardware
+#### oneview_server_hardware
 
 Server hardware resource for HPE OneView
 
@@ -725,7 +736,7 @@ oneview_server_hardware 'ServerHardware1' do
 end
 ```
 
-### oneview_server_hardware_type
+#### oneview_server_hardware_type
 
 Server hardware type resource for HPE OneView
 
@@ -737,7 +748,7 @@ oneview_server_hardware_type 'ServerHardwareType1' do
 end
 ```
 
-### oneview_server_profile_template
+#### oneview_server_profile_template
 
 Server profile resource for HPE OneView
 
@@ -763,7 +774,7 @@ You can specify the association of the server profile with each of the resources
 - **<resource_name>_connections** (Hash) Optional - Specify connections with the desired resource type. The Hash should have `<network_name> => <connection_data>` associations. See the examples for more information.
 
 
-### oneview_server_profile
+#### oneview_server_profile
 
 Server profile resource for HPE OneView
 
@@ -788,7 +799,7 @@ You can specify the association of the server profile with each of the resources
 - **<resource_name>_connections** (Hash) Optional - Specify connections with the desired resource type. The Hash should have `<network_name> => <connection_data>` associations. See the examples for more information.
 
 
-### oneview_switch
+#### oneview_switch
 
 Switch resource for HPE OneView.
 
@@ -807,7 +818,7 @@ oneview_switch 'Switch1' do
 end
 ```
 
-### oneview_unmanaged_device
+#### oneview_unmanaged_device
 
 Unmanaged device resource for HPE OneView
 
@@ -819,7 +830,7 @@ oneview_unmanaged_device 'UnmanagedDevice1' do
 end
 ```
 
-### oneview_uplink_set
+#### oneview_uplink_set
 
 Uplink set resource for HPE OneView
 
@@ -837,7 +848,7 @@ oneview_uplink_set 'UplinkSet1' do
 end
 ```
 
-### oneview_user
+#### oneview_user
 
 User resource for HPE OneView
 
@@ -866,6 +877,18 @@ end
 ```
 
 - **add** and **remove** (Hash) Optional - Specify resources to be added or removed. The Hashes should have `<resource_type> => [<resource_names>]` associations. The `resource_types` can be either `Strings` or `Symbols`, and should be in upper CamelCase. i.e.: ServerHardware, Enclosure. See the [example](examples/scope.rb) for more information.
+
+#### image_streamer_plan_script
+
+HPE Synergy Image Streamer resource for Plan scripts.
+
+```ruby
+image_streamer_plan_script 'PlanScript1' do
+  client <my_client>   # Hash or OneviewSDK::ImageStreamer::Client
+  data <resource_data> # Hash
+  action [:create, :create_if_missing, :delete]
+end
+```
 
 ## Examples
 
