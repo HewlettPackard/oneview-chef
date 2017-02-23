@@ -22,14 +22,23 @@ Then use any of the resources provided by this cookbook.
 ```ruby
 # my_cookbook/metadata.rb
 ...
-depends 'oneview', '~> 1.4'
+depends 'oneview', '~> 2.0'
 ```
 
 ### Credentials
-In order to manage HPE OneView resources, you'll need to provide authentication credentials. There are 2 ways to do this:
+In order to manage HPE OneView resources, you will need to provide authentication credentials. There are 2 ways to do this:
 
 1. Set the environment variables: ONEVIEWSDK_URL, ONEVIEWSDK_USER, ONEVIEWSDK_PASSWORD, and/or ONEVIEWSDK_TOKEN. See [this](https://github.com/HewlettPackard/oneview-sdk-ruby#environment-variables) for more info.
-2. Explicitly pass in the `client` property to each resource (see the [Resource Parameters](#resource-parameters) section below). This takes precedence over environment variables and allows you to set more client properties. This also allows you to get these credentials from other sources like encrypted databags, Vault, etc.
+2. Explicitly pass in the `client` property to each resource (see the [Resource Properties](#resource-properties) section below). This takes precedence over environment variables and allows you to set more client properties. This also allows you to get these credentials from other sources like encrypted databags, Vault, etc.
+
+### API version
+When using the resources a API version will be selected to interact with the resources in each HPE OneView correct API versions. To select the desired one, you may use one of the following methods:
+
+1. Set the resource property `api_version`. See the [Resource Properties](#resource-properties) section below.
+2. Set the client parameter `api_version`. If this parameter is set, it will select the required API version based on the client. Notice if you choose to pass the client as an OneviewSDK object, it will have, by default, this attribute set, even if you do not directly specify it.
+3. If none of the previous alternatives are set, it defaults to the `node['oneview']['api_version']`. See the [Atributes](#attributes).
+
+Beware the precedence of these methods! The higher priority goes to setting the resource property, followed by the client parameter, and at last the node value as the default, i.e. *Property > Client > Node*. (e.g. If you set the resource property `api_version` to *200*, and set the client parameter `api_version` to *300*, it will use the module **API200**, since the resource property precedes over the client parameter)
 
 ## Attributes
 
@@ -37,9 +46,9 @@ In order to manage HPE OneView resources, you'll need to provide authentication 
  - `node['oneview']['save_resource_info']` - Save resource info to a node attribute? Defaults to `['uri']`. Possible values/types:
    - `true` - Save all info (Merged hash of OneView info and Chef resource properties). Warning: Resource credentials will be saved if specified.
    - `false` - Do not save any info
-   - `Array` - ie `['uri', 'status', 'created_at']` Save a subset of specified attributes
- - `node['oneview']['api_version']` - When looking for a matching Chef resource provider class, this version will be used. Defaults to `200`
- - `node['oneview']['api_variant']` - When looking for a matching Chef resource provider class, this variant will be used. Defaults to `C7000`
+   - `Array` - i.e. `['uri', 'status', 'created_at']` Save a subset of specified attributes
+ - `node['oneview']['api_version']` - When looking for a matching Chef resource provider class, this version will be used as default. Defaults to `200`.
+ - `node['oneview']['api_variant']` - When looking for a matching Chef resource provider class, this variant will be used as default. Defaults to `C7000`.
 
 See [attributes/default.rb](attributes/default.rb) for more info.
 
@@ -58,7 +67,7 @@ The following are the standard properties available for all resources. Some reso
    - `:delete` - Delete this resource from OneView. For this, you only need to specify the resource name or uri in the data section.
  - **save_resource_info**: Defaults to `node['oneview']['save_resource_info']` (see the attribute above). Doesn't apply to the `:delete` action
    - Once the resource is created, you can access this data at `node['oneview'][<oneview_url>][<resource_name>]`. This can be useful to extract URIs from other resources, etc.
- - **api_version**: (Integer) Specify the version of the [API module](libraries/resource_providers/) to use. Defaults to `node['oneview']['api_version']`
+ - **api_version**: (Integer) Specify the version of the [API module](libraries/resource_providers/) to use.
  - **api_variant**: (String) When looking for resources in the SDK's API module, this version will be used. Defaults to `node['oneview']['api_variant']`
  - **api_header_version**: (Integer) This will override the version used in API request headers. Only set this if you know what you're doing.
  - **operation**: (String) Specify the operation to be performed by a `:patch` action.
@@ -851,7 +860,7 @@ oneview_scope 'Scope1' do
   client <my_client>
   data <resource_data>
   add <resource_list> # Hash containing combinations of <resourcetype>: <Array of names> to be added to the scope. Used in change_resource_assignments option only - Optional
-  remove <resource_list> # Hash containing combinations of <resourcetype>: <Array of names> to be removed from the scope. Used in change_resource_assignments option only - Optional 
+  remove <resource_list> # Hash containing combinations of <resourcetype>: <Array of names> to be removed from the scope. Used in change_resource_assignments option only - Optional
   action [:create, :create_if_missing, :delete, :change_resource_assignments]
 end
 ```

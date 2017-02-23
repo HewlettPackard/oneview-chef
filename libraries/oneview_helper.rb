@@ -35,7 +35,10 @@ module OneviewCookbook
       # Loads the api version if the property was specified directly
       context_api_version = context.api_version if context.property_is_set?(:api_version)
       # Loads the api version if it was specified in the client
-      client_api_version = convert_keys(context.client, :to_sym)[:api_version] if context.property_is_set?(:client)
+      client_api_version = if context.property_is_set?(:client)
+                             context.client = convert_keys(context.client, :to_sym) if context.client.is_a?(Hash)
+                             context.client[:api_version]
+                           end
       # Loads the api version giving preference: property > client > node default
       api_version = context_api_version || client_api_version || context.node['oneview']['api_version']
       api_module = get_api_module(api_version, base_module)
