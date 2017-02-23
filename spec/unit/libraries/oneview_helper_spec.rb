@@ -79,7 +79,7 @@ RSpec.describe OneviewCookbook::Helper do
       expect(described_class).to receive(:gem).once.and_return true
 
       # Mocks @context.chef_gem
-      expect(@context).to receive(:chef_gem).with('oneview-sdk').and_call_original
+      expect(@context).to receive(:chef_gem).with('oneview-sdk').and_yield
       expect(described_class).to receive(:version).with(sdk_version).and_return(true)
       expect(described_class).to receive(:compile_time).with(true).and_return(true)
 
