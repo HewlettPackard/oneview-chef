@@ -22,7 +22,7 @@ Then use any of the resources provided by this cookbook.
 ```ruby
 # my_cookbook/metadata.rb
 ...
-depends 'oneview', '~> 1.3'
+depends 'oneview', '~> 1.4'
 ```
 
 ### Credentials
@@ -839,6 +839,24 @@ oneview_user 'User1' do
   action [:create, :create_if_missing, :delete]
 end
 ```
+
+### oneview_scope
+
+Scope resource for HPE OneView.
+
+Support only in API300 onwards.
+
+```Ruby
+oneview_scope 'Scope1' do
+  client <my_client>
+  data <resource_data>
+  add <resource_list> # Hash containing combinations of <resourcetype>: <Array of names> to be added to the scope. Used in change_resource_assignments option only - Optional
+  remove <resource_list> # Hash containing combinations of <resourcetype>: <Array of names> to be removed from the scope. Used in change_resource_assignments option only - Optional 
+  action [:create, :create_if_missing, :delete, :change_resource_assignments]
+end
+```
+
+- **add** and **remove** (Hash) Optional - Specify resources to be added or removed. The Hashes should have `<resource_type> => [<resource_names>]` associations. The `resource_types` can be either `Strings` or `Symbols`, and should be in upper CamelCase. i.e.: ServerHardware, Enclosure. See the [example](examples/scope.rb) for more information.
 
 ## Examples
 
