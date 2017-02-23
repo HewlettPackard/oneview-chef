@@ -28,7 +28,7 @@ oneview_scope 'Scope1' do
 end
 
 # Example: Add an Enclosure and a ServerHardware to the scope
- # previously created
+# previously created
 oneview_scope 'Scope1' do
   client my_client
   api_version 300
@@ -40,7 +40,7 @@ oneview_scope 'Scope1' do
 end
 
 # Example: Add a different Enclosure and ServerHardware to the scope
- # previously created, while removing the first Enclosure and Server Hardware
+# previously created, while removing the first Enclosure and Server Hardware
 oneview_scope 'Scope1' do
   client my_client
   api_version 300
