@@ -16,13 +16,13 @@ resource_name :image_streamer_plan_script
 default_action :create
 
 action :create do
-  OneviewCookbook::Helper.do_resource_action(self, :PlanScript, :create_or_update, :ImageStreamer)
+  OneviewCookbook::Helper.do_resource_action(self, :PlanScript, :create_or_update, OneviewCookbook::ImageStreamer)
 end
 
 action :create_if_missing do
-  OneviewCookbook::Helper.do_resource_action(self, :PlanScript, :create_if_missing, :ImageStreamer)
+  OneviewCookbook::Helper.do_resource_action(self, :PlanScript, :create_if_missing, OneviewCookbook::ImageStreamer)
 end
 
 action :delete do
-  OneviewCookbook::Helper.do_resource_action(self, :PlanScript, :delete, :ImageStreamer)
+  OneviewCookbook::Helper.do_resource_action(self, :PlanScript, :delete, OneviewCookbook::ImageStreamer)
 end

@@ -18,8 +18,9 @@ module OneviewCookbook
     # @param context Context from the resource action block (self)
     # @param [String, Symbol] type Name of the resource type. e.g., :EthernetNetwork
     # @param [String, Symbol] action Action method to call on the resource. e.g., :create_or_update
-    def self.do_resource_action(context, type, action, secondary_api = nil)
-      klass = OneviewCookbook::Helper.get_resource_class(context, type, secondary_api)
+    # @param [Module] base_module The base API module supported. e.g. OneviewCookbook::ImageStreamer
+    def self.do_resource_action(context, type, action, base_module = OneviewCookbook)
+      klass = OneviewCookbook::Helper.get_resource_class(context, type, base_module)
       res = klass.new(context)
       res.send(action)
     end
@@ -27,27 +28,29 @@ module OneviewCookbook
     # Get the resource class by name, taking into consideration the resource's properties
     # @param context Context from the resource action block (self)
     # @param [String, Symbol] type Name of the resource type. e.g., :EthernetNetwork
+    # @param [Module] base_module The base API module supported. e.g. OneviewCookbook::ImageStreamer
     # @return [Class] Resource class
-    def self.get_resource_class(context, resource_type, secondary_api = nil)
+    def self.get_resource_class(context, resource_type, base_module = OneviewCookbook)
       load_sdk(context)
-      api_version = context.property_is_set?(:api_version) ? context.api_version : context.node['oneview']['api_version']
-      api_module = get_api_module(api_version, secondary_api)
+      # Loads the api version if the property was specified directly
+      context_api_version = context.api_version if context.property_is_set?(:api_version)
+      # Loads the api version if it was specified in the client
+      client_api_version = convert_keys(context.client, :to_sym)[:api_version] if context.property_is_set?(:client)
+      # Loads the api version giving preference: property > client > node default
+      api_version = context_api_version || client_api_version || context.node['oneview']['api_version']
+      api_module = get_api_module(api_version, base_module)
       api_variant = context.property_is_set?(:api_variant) ? context.api_variant : context.node['oneview']['api_variant']
       api_module.provider_named(resource_type, api_variant)
     end
 
     # Get the API module given an api_version
     # @param [Fixnum, String] api_version
-    # @param [Symbol, String] secondary_api The additional API supported inside OneviewCookbook. e.g. ImageStreamer
+    # @param [Module] base_module The base API module supported. e.g. OneviewCookbook::ImageStreamer
     # @return [Module] Resource module
-    def self.get_api_module(api_version, secondary_api = nil)
-      base_sdk = secondary_api ? OneviewCookbook.const_get(secondary_api) : OneviewCookbook
-      base_sdk.const_get("API#{api_version}")
+    def self.get_api_module(api_version, base_module = OneviewCookbook)
+      base_module.const_get("API#{api_version}")
     rescue NameError
-      msg = "The api_version #{api_version} is not supported"
-      msg += secondary_api ? " in #{secondary_api}" : '.'
-      msg += ' Please use a supported version.'
-      raise NameError, msg
+      raise NameError, "The api_version #{api_version} is not supported in #{base_module}. Please use a supported version."
     end
 
     # Load (and install if necessary) the oneview-sdk
