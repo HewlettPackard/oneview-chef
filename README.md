@@ -29,7 +29,7 @@ In order to manage HPE OneView and HPE Synergy Image Streamer resources, you wil
 
 1. Set the environment variables:
   - For HPE OneView: ONEVIEWSDK_URL, ONEVIEWSDK_USER, ONEVIEWSDK_PASSWORD, and/or ONEVIEWSDK_TOKEN.
-  - For HPE Synergy Image Streamer: I3S_URL, ONEVIEWSDK_USER, ONEVIEWSDK_PASSWORD, and/or ONEVIEWSDK_TOKEN.
+  - For HPE Synergy Image Streamer: I3S_URL and ONEVIEWSDK_TOKEN, or ONEVIEWSDK_URL, ONEVIEWSDK_USER and ONEVIEWSDK_PASSWORD.
   See [this](https://github.com/HewlettPackard/oneview-sdk-ruby#environment-variables) for more info.
 2. Explicitly pass in the `client` property to each resource (see the [Resource Properties](#resource-properties) section below). This takes precedence over environment variables and allows you to set more client properties. This also allows you to get these credentials from other sources like encrypted databags, Vault, etc.
 
@@ -39,10 +39,10 @@ HPE Synergy Image Streamer access token is the same as the HPE OneView associate
 When using the resources a API version will be selected to interact with the resources in each HPE OneView correct API versions. To select the desired one, you may use one of the following methods:
 
 1. Set the resource property `api_version`. See the [Resource Properties](#resource-properties) section below.
-2. Set the client parameter `api_version`. If this parameter is set, it will select the required API version based on the client. Notice if you choose to pass the client as an OneviewSDK object, it will have, by default, this attribute set, even if you do not directly specify it.
+2. Set the client parameter `api_version`. If this parameter is set, it will select the required API version based on the client. Notice if you choose to pass the client as an OneviewSDK object, it will have, by default, the api_version set, even if you do not directly specify it.
 3. If none of the previous alternatives are set, it defaults to the `node['oneview']['api_version']`. See the [Atributes](#attributes).
 
-Beware the precedence of these methods! The higher priority goes to setting the resource property, followed by the client parameter, and at last the node value as the default, i.e. *Property > Client > Node*. (e.g. If you set the resource property `api_version` to *200*, and set the client parameter `api_version` to *300*, it will use the module **API200**, since the resource property precedes over the client parameter)
+Be aware of the precedence of these methods! The higher priority goes to setting the resource property, followed by the client parameter, and at last the node value as the default, i.e. *Property > Client > Attribute*. (e.g. If you set the resource property `api_version` to *200*, and set the client parameter `api_version` to *300*, it will use the module **API200**, since the resource property precedes over the client parameter)
 
 ## Attributes
 
@@ -75,7 +75,7 @@ The following are the standard properties available for all resources. Some reso
  - **save_resource_info**: Defaults to `node['oneview']['save_resource_info']` (see the attribute above). Doesn't apply to the `:delete` action
    - Once the resource is created, you can access this data at `node['oneview'][<oneview_url>][<resource_name>]`. This can be useful to extract URIs from other resources, etc.
  - **api_version**: (Integer) Specify the version of the [API module](libraries/resource_providers/) to use.
- - **api_variant**: (String) When looking for resources in the SDK's API module, this version will be used. Defaults to `node['oneview']['api_variant']`
+ - **api_variant**: (String) When looking for resources in the specied API module, this version will be used. Defaults to `node['oneview']['api_variant']`
  - **api_header_version**: (Integer) This will override the version used in API request headers. Only set this if you know what you're doing.
  - **operation**: (String) Specify the operation to be performed by a `:patch` action.
  - **path**: (String) Specify the path where the `:patch` action will be sent to.
