@@ -82,9 +82,7 @@ The following are the standard properties available for all resources. Some reso
  - **value**: (String, Array<String>) Specify the value for the `:patch` action. Optional for some operations.
 
 
-### HPE OneView resources
-
-#### oneview_resource
+### oneview_resource
 
 This is a generic provider for managing any OneView resource.
 This really exists only for resources that exist in the SDK but don't have a Chef resource provider. If a specific resource exists, please use it instead.
@@ -104,7 +102,7 @@ end
 
 See the [example](examples/oneview_resource.rb) for more details.
 
-#### oneview_ethernet_network
+### oneview_ethernet_network
 
 Ethernet network resource for HPE OneView.
 
@@ -118,7 +116,7 @@ oneview_ethernet_network 'Eth1' do
 end
 ```
 
-#### oneview_connection_template
+### oneview_connection_template
 
 Connection template resource for HPE OneView.
 
@@ -133,7 +131,7 @@ end
 
 Although the name of the `associated_ethernet_network` being an optional parameter, it must be set if the correct URI and Connection template name are not defined.
 
-#### oneview_fabric
+### oneview_fabric
 
 Fabric resource for HPE OneView.
 
@@ -150,7 +148,7 @@ oneview_fabric 'Fabric1' do
 end
 ```
 
-#### oneview_fc_network
+### oneview_fc_network
 
 FC network resource for HPE OneView.
 
@@ -163,7 +161,7 @@ end
 ```
 
 
-#### oneview_fcoe_network
+### oneview_fcoe_network
 
 FCoE network resource for HPE OneView.
 
@@ -175,7 +173,7 @@ oneview_fcoe_network 'FCoE1' do
 end
 ```
 
-#### oneview_network_set
+### oneview_network_set
 
 Network set resource for HPE OneView.
 
@@ -189,7 +187,7 @@ oneview_network_set 'NetSet1' do
 end
 ```
 
-#### oneview_firmware
+### oneview_firmware
 
 Firmware bundle and driver resource for HPE OneView.
 
@@ -216,7 +214,7 @@ oneview_firmware 'CustomSPP'  do
 end
 ```
 
-#### oneview_interconnect
+### oneview_interconnect
 
 Interconnect resource for HPE OneView.
 
@@ -238,7 +236,7 @@ oneview_interconnect 'Interconnect1' do
 end
 ```
 
-#### oneview_sas_interconnect
+### oneview_sas_interconnect
 
 SAS interconnect resource for HPE OneView.
 
@@ -266,7 +264,7 @@ oneview_sas_interconnect 'SASInterconnect1' do
 end
 ```
 
-#### oneview_logical_interconnect
+### oneview_logical_interconnect
 
 Performs actions in the logical interconnect and associated interconnects.
 
@@ -286,7 +284,7 @@ oneview_logical_interconnect 'LogicalInterconnect1' do
 end
 ```
 
-#### oneview_sas_logical_interconnect
+### oneview_sas_logical_interconnect
 
 Performs actions in the SAS logical interconnect.
 
@@ -305,7 +303,7 @@ end
 ```
   - **replace_drive_enclosure:** After a drive enclosure is *physically replaced* it initiates the replace process. The `old_drive_enclosure` and `new_drive_enclosure` properties can be specified, they can be either the names or serial numbers of the drive enclosures. Additionally they can be replaced by specifying the serial number directly into the `data` property the keys `:oldSerialNumber` and `:newSerialNumber`. (This option has the best performance)
 
-#### oneview_logical_interconnect_group
+### oneview_logical_interconnect_group
 
 Logical Interconnect Group resource for HPE OneView.
 
@@ -375,7 +373,7 @@ interconnects_data = [
   ]
   ```
 
-#### oneview_sas_logical_interconnect_group
+### oneview_sas_logical_interconnect_group
 
 SAS Logical Interconnect Group resource for HPE OneView (API300::Synergy only)
 
@@ -399,7 +397,7 @@ interconnects_data = [
 ]
 ```
 
-#### oneview_logical_switch_group
+### oneview_logical_switch_group
 
 Logical Switch Group resource for HPE OneView.
 
@@ -419,7 +417,7 @@ The `:create` and `create_if_missing` can be done in two different ways:
 
 :memo: **Note:** You are still able to specify the `switch_number` and `switch_type` properties even if you use the 'switchMapTemplate' attribute, but they will be **ignored**, only the values from 'switchMapTemplate' are going to be used.
 
-#### oneview_logical_switch
+### oneview_logical_switch
 
 Logical switch resource for HPE OneView.
 
@@ -439,7 +437,7 @@ end
 
 :memo: NOTE: The `credentials` may also be replaced by the entire data Hash or JSON. In this case the property will be ignored.
 
-#### oneview_datacenter
+### oneview_datacenter
 
 Datacenter resource for HPE OneView.
 
@@ -455,7 +453,7 @@ oneview_datacenter 'Datacenter_1' do
 end
 ```
 
-#### oneview_rack
+### oneview_rack
 
 Rack resource for HPE OneView.
 
@@ -485,7 +483,7 @@ oneview_rack 'Rack_1' do
 end
 ```
 
-#### oneview_enclosure_group
+### oneview_enclosure_group
 
 Enclosure Group resource for HPE OneView.
 
@@ -500,7 +498,7 @@ end
 
 **logical_interconnect_groups:** Array of data used to build the interconnect bay configuration. Each item can either be a string containing the LIG name or a hash containing the LIG name and enclosureIndex. Note that the enclosureIndex is not used on API200.
 
-#### oneview_enclosure
+### oneview_enclosure
 
 Enclosure resource for HPE OneView.
 
@@ -518,7 +516,7 @@ oneview_enclosure 'Encl1' do
 end
 ```
 
-#### oneview_drive_enclosure
+### oneview_drive_enclosure
 
 Drive enclosure resource for HPE OneView.
 
@@ -545,7 +543,7 @@ oneview_drive_enclosure 'DriveEnclosure1' do
 end
 ```
 
-#### oneview_volume
+### oneview_volume
 
 Volume resource for HPE OneView.
 
@@ -576,7 +574,7 @@ end
 :memo: **NOTE**: The OneView API has a provisioningParameters hash for creation, but not updates. In recipes, use same data as you would for an update, and this resource will handle creating the provisioningParameters for you if the volume needs created. (Define the desired state, not how to create it). See the [volume example](examples/volume.rb) for more on this.
 
 
-#### oneview_volume_template
+### oneview_volume_template
 
 Volume Template resource for HPE OneView.
 
@@ -605,7 +603,7 @@ end
     :requestedCapacity      | :capacity
 
 
-#### oneview_storage_pool
+### oneview_storage_pool
 
 Storage pool resource for HPE OneView.
 
@@ -617,7 +615,7 @@ oneview_storage_pool 'CPG_FC-AO' do
 end
 ```
 
-#### oneview_storage_system
+### oneview_storage_system
 
 Storage system resource for HPE OneView.
 
@@ -653,7 +651,7 @@ oneview_storage_system 'ThreePAR7200-81471' do
 end
 ```
 
-#### oneview_logical_enclosure
+### oneview_logical_enclosure
 
 Logical enclosure resource for HPE OneView.
 
@@ -670,7 +668,7 @@ end
 
 Notes: The default action is `:create_if_missing`. Also, the creation process may take 30min or more.
 
-#### oneview_managed_san
+### oneview_managed_san
 
 Managed SAN resource for HPE OneView.
 
@@ -682,7 +680,7 @@ oneview_managed_san 'SAN1_0' do
 end
 ```
 
-#### oneview_power_device
+### oneview_power_device
 
 Power device resource for HPE OneView.
 
@@ -705,7 +703,7 @@ oneview_power_device '<iPDU hostname>' do
 end
 ```
 
-#### oneview_san_manager
+### oneview_san_manager
 
 SAN manager resource for HPE OneView
 
@@ -717,7 +715,7 @@ oneview_san_manager '<host ip>' do
 end
 ```
 
-#### oneview_server_hardware
+### oneview_server_hardware
 
 Server hardware resource for HPE OneView
 
@@ -734,7 +732,7 @@ oneview_server_hardware 'ServerHardware1' do
 end
 ```
 
-#### oneview_server_hardware_type
+### oneview_server_hardware_type
 
 Server hardware type resource for HPE OneView
 
@@ -746,7 +744,7 @@ oneview_server_hardware_type 'ServerHardwareType1' do
 end
 ```
 
-#### oneview_server_profile_template
+### oneview_server_profile_template
 
 Server profile resource for HPE OneView
 
@@ -772,7 +770,7 @@ You can specify the association of the server profile with each of the resources
 - **<resource_name>_connections** (Hash) Optional - Specify connections with the desired resource type. The Hash should have `<network_name> => <connection_data>` associations. See the examples for more information.
 
 
-#### oneview_server_profile
+### oneview_server_profile
 
 Server profile resource for HPE OneView
 
@@ -797,7 +795,7 @@ You can specify the association of the server profile with each of the resources
 - **<resource_name>_connections** (Hash) Optional - Specify connections with the desired resource type. The Hash should have `<network_name> => <connection_data>` associations. See the examples for more information.
 
 
-#### oneview_switch
+### oneview_switch
 
 Switch resource for HPE OneView.
 
@@ -816,7 +814,7 @@ oneview_switch 'Switch1' do
 end
 ```
 
-#### oneview_unmanaged_device
+### oneview_unmanaged_device
 
 Unmanaged device resource for HPE OneView
 
@@ -828,7 +826,7 @@ oneview_unmanaged_device 'UnmanagedDevice1' do
 end
 ```
 
-#### oneview_uplink_set
+### oneview_uplink_set
 
 Uplink set resource for HPE OneView
 
@@ -846,7 +844,7 @@ oneview_uplink_set 'UplinkSet1' do
 end
 ```
 
-#### oneview_user
+### oneview_user
 
 User resource for HPE OneView
 
@@ -858,9 +856,7 @@ oneview_user 'User1' do
 end
 ```
 
-### HPE Synergy Image Streamer resources
-
-#### image_streamer_plan_script
+### image_streamer_plan_script
 
 HPE Synergy Image Streamer resource for Plan scripts.
 
