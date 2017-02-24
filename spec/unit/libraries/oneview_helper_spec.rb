@@ -48,6 +48,22 @@ RSpec.describe OneviewCookbook::Helper do
       klass = described_class.get_resource_class(context, resource_type)
       expect(klass).to eq(OneviewCookbook::API300::Synergy::EthernetNetworkProvider)
     end
+
+    it "respects the client's api_version parameter when the client is a Hash" do
+      context = FakeResource.new(client: { api_version: 300 })
+      klass = described_class.get_resource_class(context, resource_type)
+      expect(klass).to eq(OneviewCookbook::API300::C7000::EthernetNetworkProvider)
+    end
+
+    it "respects the client's api_version parameter when the client is a OneviewSDK::Client" do
+      fake_client = Object.new
+      allow(fake_client).to receive(:is_a?).with(Hash).and_return(false)
+      allow(fake_client).to receive(:is_a?).with(OneviewSDK::Client).and_return(true)
+      allow(fake_client).to receive(:api_version).and_return(300)
+      context = FakeResource.new(client: fake_client)
+      klass = described_class.get_resource_class(context, resource_type)
+      expect(klass).to eq(OneviewCookbook::API300::C7000::EthernetNetworkProvider)
+    end
   end
 
   describe '#self.get_api_module' do
@@ -56,6 +72,11 @@ RSpec.describe OneviewCookbook::Helper do
         klass = described_class.get_api_module(version)
         expect(klass.to_s).to eq("OneviewCookbook::API#{version}")
       end
+    end
+
+    it 'gets the module for a valid api version with a different base module' do
+      klass = described_class.get_api_module(300, OneviewCookbook::ImageStreamer)
+      expect(klass).to eq(OneviewCookbook::ImageStreamer::API300)
     end
 
     it 'fails if the version is invalid' do
