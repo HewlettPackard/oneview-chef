@@ -2,6 +2,9 @@
 Adds support to API300 HPE Synergy Image Streamer resources:
   - image_streamer_plan_script
 
+### Breaking changes
+ - The resource api version selector now consider using the client's api version above the node default. (Precedende order: resource property > client attribute > node default)
+
 ## 1.3.0
  - Added oneview_user resource
 
