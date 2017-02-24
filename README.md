@@ -678,7 +678,8 @@ Managed SAN resource for HPE OneView.
 oneview_managed_san 'SAN1_0' do
   client <my_client>
   data <data>
-  action [:none, :set_refresh_state, :set_policy, :set_public_attributes]
+  refresh_state <state>  # Optional <String> - Used in :refresh action. It defaults to 'RefreshPending'.
+  action [:none, :refresh, :set_policy, :set_public_attributes]
 end
 ```
 

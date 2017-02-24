@@ -11,10 +11,12 @@
 
 OneviewCookbook::ResourceBaseProperties.load(self)
 
+property :refresh_state, String, default: 'RefreshPending'
+
 default_action :none
 
-action :set_refresh_state do
-  OneviewCookbook::Helper.do_resource_action(self, :ManagedSAN, :set_refresh_state)
+action :refresh do
+  OneviewCookbook::Helper.do_resource_action(self, :ManagedSAN, :refresh)
 end
 
 action :set_policy do

@@ -8,6 +8,7 @@ Adds support to API300 HPE Synergy Image Streamer resources:
 ### Breaking changes
  - The resource api version selector now considers using the client's api version before falling back to the node['oneview']['api_version'] attribute as a default. (Order of precedence: resource api_version property > client's api_version attribute > node attribute)
  - oneview_enclosure's property `state` renamed to `refresh_state`
+ - oneview_managed_san's action `:set_refresh_state` renamed to `:refresh`. Also it gained the property `refresh_state`
 
 ## 1.3.0
  - Added oneview_user resource

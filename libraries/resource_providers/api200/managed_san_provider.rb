@@ -15,18 +15,12 @@ module OneviewCookbook
   module API200
     # ManagedSAN API200 provider
     class ManagedSANProvider < ResourceProvider
-      def set_refresh_state
-        temp = @item['refreshState']
-        raise "Resource not found: #{@resource_name} '#{@item['name']}'" unless @item.exists?
-
+      def refresh
         @item.retrieve!
-        if @item['refreshState'] != temp
-          Chef::Log.info "Refreshing #{@resource_name} '#{@name}'"
-          @context.converge_by "#{@resource_name} '#{@name}' refreshed" do
-            @item.set_refresh_state(temp)
-          end
-        else
-          Chef::Log.info "#{@resource_name} '#{@name}' is already #{temp}"
+        refresh_ready = ['RefreshFailed', 'NotRefreshing', ''].include? @item['refreshState']
+        return Chef::Log.info("#{@resource_name} '#{@name}' refresh is already running. State: #{@item['refreshState']}") unless refresh_ready
+        @context.converge_by "#{@resource_name} '#{@name}' was refreshed." do
+          @item.set_refresh_state(@context.refresh_state)
         end
       end
 

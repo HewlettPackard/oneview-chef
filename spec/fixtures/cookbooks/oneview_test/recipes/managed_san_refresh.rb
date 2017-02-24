@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: oneview_test
-# Recipe:: managed_san_set_refresh_state
+# Recipe:: managed_san_refresh
 #
 # (c) Copyright 2016 Hewlett Packard Enterprise Development LP
 #
@@ -16,8 +16,5 @@
 
 oneview_managed_san 'ManagedSAN1' do
   client node['oneview_test']['client']
-  data(
-    refreshState: 'RefreshPending'
-  )
-  action :set_refresh_state
+  action :refresh
 end

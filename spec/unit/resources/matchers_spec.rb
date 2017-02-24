@@ -116,7 +116,7 @@ describe 'oneview_test::default' do
     # oneview_managed_san
     expect(chef_run).to_not set_oneview_managed_san_public_attributes('')
     expect(chef_run).to_not set_oneview_managed_san_policy('')
-    expect(chef_run).to_not set_refresh_oneview_managed_san_state('')
+    expect(chef_run).to_not refresh_oneview_managed_san('')
 
     # oneview_network_set
     expect(chef_run).to_not create_oneview_network_set('')
