@@ -1,4 +1,4 @@
-# (c) Copyright 2016-2017 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11,21 +11,18 @@
 
 OneviewCookbook::ResourceBaseProperties.load(self)
 
-property :refresh_state, String, default: 'RefreshPending'
+resource_name :image_streamer_plan_script
 
-default_action :none
+default_action :create
 
-action :refresh do
-  OneviewCookbook::Helper.do_resource_action(self, :ManagedSAN, :refresh)
+action :create do
+  OneviewCookbook::Helper.do_resource_action(self, :PlanScript, :create_or_update, OneviewCookbook::ImageStreamer)
 end
 
-action :set_policy do
-  OneviewCookbook::Helper.do_resource_action(self, :ManagedSAN, :set_policy)
+action :create_if_missing do
+  OneviewCookbook::Helper.do_resource_action(self, :PlanScript, :create_if_missing, OneviewCookbook::ImageStreamer)
 end
 
-action :set_public_attributes do
-  OneviewCookbook::Helper.do_resource_action(self, :ManagedSAN, :set_public_attributes)
-end
-
-action :none do
+action :delete do
+  OneviewCookbook::Helper.do_resource_action(self, :PlanScript, :delete, OneviewCookbook::ImageStreamer)
 end

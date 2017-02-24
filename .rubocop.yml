@@ -14,7 +14,7 @@ Metrics/LineLength:
 
 Metrics/MethodLength:
   CountComments: false
-  Max: 26
+  Max: 25
 
 Metrics/ModuleLength:
   Max: 210

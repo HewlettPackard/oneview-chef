@@ -16,7 +16,7 @@ license          'Apache v2.0'
 description      'Provides HPE OneView resources'
 long_description 'Provides resources for configuring HPE OneView-managed devices'
 
-version          '1.4.0'
+version          '2.0.0'
 
 source_url       'https://github.com/HewlettPackard/oneview-chef' if respond_to?(:source_url)
 issues_url       'https://github.com/HewlettPackard/oneview-chef/issues' if respond_to?(:issues_url)

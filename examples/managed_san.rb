@@ -20,13 +20,10 @@ oneview_managed_san 'SAN1_0' do
   client my_client
 end
 
-# Example: set managed san refresh state
+# Example: Refreshes Managed SAN
 oneview_managed_san 'SAN1_0' do
   client my_client
-  data(
-    refreshState: 'RefreshPending'
-  )
-  action :set_refresh_state
+  action :refresh
 end
 
 # Example: set managed san policy

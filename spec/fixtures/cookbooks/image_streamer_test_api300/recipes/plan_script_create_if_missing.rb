@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: oneview_test
-# Recipe:: managed_san_set_refresh_state
+# Cookbook Name:: image_streamer_test_api300
+# Recipe:: plan_script_create_if_missing
 #
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,10 +14,12 @@
 # specific language governing permissions and limitations under the License.
 #
 
-oneview_managed_san 'ManagedSAN1' do
-  client node['oneview_test']['client']
+image_streamer_plan_script 'PlanScript1' do
+  client node['image_streamer_test']['client']
   data(
-    refreshState: 'RefreshPending'
+    hpProvided: false,
+    planType: 'deploy',
+    content: 'f'
   )
-  action :set_refresh_state
+  action :create_if_missing
 end

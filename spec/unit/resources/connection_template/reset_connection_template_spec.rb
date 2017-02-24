@@ -1,6 +1,6 @@
 require_relative './../../../spec_helper'
 
-describe 'oneview_test::ethernet_network_reset_connection_template' do
+describe 'oneview_test::connection_template_reset' do
   let(:resource_name) { 'connection_template' }
   include_context 'chef context'
   include_context 'shared context'
@@ -8,7 +8,7 @@ describe 'oneview_test::ethernet_network_reset_connection_template' do
   it 'updates it searching by the Ethernet Network' do
     fake_ethernet = OneviewSDK::EthernetNetwork.new(@client, connectionTemplateUri: 'fake/connection-template')
     allow(OneviewSDK::EthernetNetwork).to receive(:find_by).and_return([fake_ethernet])
-    expect_any_instance_of(OneviewSDK::ConnectionTemplate).to receive(:get_default).and_return({})
+    allow(OneviewSDK::ConnectionTemplate).to receive(:get_default).and_return({})
     allow_any_instance_of(OneviewSDK::ConnectionTemplate).to receive(:exists?).and_return(true)
     allow_any_instance_of(OneviewSDK::ConnectionTemplate).to receive(:retrieve!).and_return(true)
     allow_any_instance_of(OneviewSDK::ConnectionTemplate).to receive(:like?).and_return(false)
@@ -19,7 +19,7 @@ describe 'oneview_test::ethernet_network_reset_connection_template' do
   it 'leave it as is since it is up to date' do
     fake_ethernet = OneviewSDK::EthernetNetwork.new(@client, connectionTemplateUri: 'fake/connection-template')
     allow(OneviewSDK::EthernetNetwork).to receive(:find_by).and_return([fake_ethernet])
-    expect_any_instance_of(OneviewSDK::ConnectionTemplate).to receive(:get_default).and_return({})
+    allow(OneviewSDK::ConnectionTemplate).to receive(:get_default).and_return({})
     allow_any_instance_of(OneviewSDK::ConnectionTemplate).to receive(:exists?).and_return(true)
     allow_any_instance_of(OneviewSDK::ConnectionTemplate).to receive(:retrieve!).and_return(true)
     allow_any_instance_of(OneviewSDK::ConnectionTemplate).to receive(:like?).and_return(true)

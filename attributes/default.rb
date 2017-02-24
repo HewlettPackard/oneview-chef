@@ -12,7 +12,7 @@
 # Set which version of the SDK to install and use:
 # Warning: Changing the SDK version may cause issues within the Cookbook
 # Edit only if you know exactly what are you doing
-default['oneview']['ruby_sdk_version'] = '~> 4.0'
+default['oneview']['ruby_sdk_version'] = '~> 4.1'
 
 # Save resource info to a node attribute? Possible values/types:
 #  - true  : Save all info (Merged hash of OneView info and Chef resource properties)
@@ -21,6 +21,8 @@ default['oneview']['ruby_sdk_version'] = '~> 4.0'
 default['oneview']['save_resource_info'] = ['uri']
 
 # When looking for a matching Chef resource provider class, this version will be the default.
+# This default value will be overriden if the the property `api_version` is defined or if the client parameter `api_version`
+#   is specified (If the client is a OneviewSDK object, by default it has this parameter defined)
 # A resource provider must be defined for this version. For example, when set to 200, it will look
 # for the resource in OneviewCookbook::API200. When 300, it will look in OneviewCookbook::API300
 # See the libraries/resources directory for more info on supported API versions
