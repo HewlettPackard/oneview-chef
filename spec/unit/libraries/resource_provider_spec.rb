@@ -8,6 +8,7 @@ RSpec.describe OneviewCookbook::ResourceProvider do
 
   before :each do
     allow(OneviewCookbook::Helper).to receive(:build_client).and_return @client
+    allow(OneviewCookbook::Helper).to receive(:build_image_streamer_client).and_return @i3s_client
     @context = FakeResource.new
   end
 
@@ -20,6 +21,7 @@ RSpec.describe OneviewCookbook::ResourceProvider do
       expect(r.sdk_resource_type).to eq('Resource')
       expect(r.sdk_api_version).to eq(nil)
       expect(r.sdk_variant).to eq(nil)
+      expect(r.sdk_base_module).to eq(OneviewSDK)
       expect(r.item.client).to eq(@client)
       expect(r.item.data).to eq('name' => @context.name)
     end
@@ -57,6 +59,33 @@ RSpec.describe OneviewCookbook::ResourceProvider do
       expect(r.sdk_api_version).to eq(300)
       expect(r.sdk_variant).to eq('Synergy')
       expect(r.item.class).to eq(OneviewSDK::API300::Synergy::EthernetNetwork)
+    end
+
+    it 'builds valid ImageStreamer::API300 resources' do
+      r = OneviewCookbook::ImageStreamer::API300::PlanScriptProvider.new(@context)
+      expect(r.sdk_resource_type).to eq('PlanScript')
+      expect(r.sdk_api_version).to eq(300)
+      expect(r.sdk_variant).to eq(nil)
+      expect(r.sdk_base_module).to eq(OneviewSDK::ImageStreamer)
+      expect(r.item.class).to eq(OneviewSDK::ImageStreamer::API300::PlanScript)
+    end
+
+    it 'fails to build valid resource due to some unpredictable and catastrophicly wrong provider namespace' do
+      module What
+        module Are
+          module You
+            module Trying
+              module To
+                module Do
+                  class CatastrophicProvider < OneviewCookbook::ResourceProvider
+                  end
+                end
+              end
+            end
+          end
+        end
+      end
+      expect { What::Are::You::Trying::To::Do::CatastrophicProvider.new(@context) }.to raise_error(NameError, /Can\'t build a resource object/)
     end
   end
 
@@ -175,17 +204,23 @@ RSpec.describe OneviewCookbook::ResourceProvider do
   describe '#resource_named' do
     before :each do
       res.sdk_api_version = -1
-      res.sdk_variant = '_test_'
+      res.sdk_variant = '_variant_'
     end
 
     it 'calls the OneviewSDK::resource_named method with the default parameters' do
-      expect(OneviewSDK).to receive(:resource_named).with(:ResourceType, -1, '_test_')
+      expect(OneviewSDK).to receive(:resource_named).with(:ResourceType, -1, '_variant_')
       res.resource_named(:ResourceType)
     end
 
     it 'calls the OneviewSDK::resource_named method with overriden parameters' do
-      expect(OneviewSDK).to receive(:resource_named).with(:ResourceType, -5, '_override_test_')
-      res.resource_named(:ResourceType, -5, '_override_test_')
+      expect(OneviewSDK).to receive(:resource_named).with(:ResourceType, -5, '_override_variant_')
+      res.resource_named(:ResourceType, -5, '_override_variant_')
+    end
+
+    it 'calls the OneviewSDK::ImageStreamer::resource_named method' do
+      expect(OneviewSDK::ImageStreamer).to receive(:resource_named).with(:ResourceType, -1, '_variant_')
+      res.sdk_base_module = OneviewSDK::ImageStreamer
+      res.resource_named(:ResourceType)
     end
   end
 

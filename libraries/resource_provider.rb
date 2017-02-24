@@ -19,36 +19,70 @@ module OneviewCookbook
       :item,          # The OneviewSDK resource instance
       :sdk_api_version,  # Keep track of the API version used for the SDK resource class
       :sdk_variant,      # Keep track of the variant used for the SDK resource class
-      :sdk_resource_type # Keep track of the SDK resource class name
+      :sdk_resource_type, # Keep track of the SDK resource class name
+      :sdk_base_module    # Keep track of the internal base SDK module
 
     def initialize(context)
+      @sdk_base_module = OneviewSDK
       @context = context
       @resource_name = context.resource_name
       @name = context.name
-      name_arr = self.class.to_s.split('::')
-      case name_arr.size
-      when 2 # No variant or api version specified. (OneviewCookbook::ResourceProvider)
-        # This case should really only be used for testing
-        # Uses the SDK's default api version and variant
-        @sdk_resource_type = name_arr.pop.gsub(/Provider$/i, '') # e.g., EthernetNetwork
-        klass = OneviewSDK.resource_named(@sdk_resource_type)
-      when 3 # No variant specified. e.g., OneviewCookbook::API200::EthernetNetworkProvider
-        @sdk_resource_type = name_arr.pop.gsub(/Provider$/i, '') # e.g., EthernetNetwork
-        @sdk_api_version = name_arr.pop.gsub(/API/i, '').to_i # e.g., 200
-        @sdk_variant = nil # Not needed
-      when 4 # The variant is specified. e.g., OneviewCookbook::API200::C7000::EthernetNetworkProvider
-        @sdk_resource_type = name_arr.pop.gsub(/Provider$/i, '') # e.g., EthernetNetwork
-        @sdk_variant = name_arr.pop # e.g., C7000
-        @sdk_api_version = name_arr.pop.gsub(/API/i, '').to_i # e.g., 200
-      else # Something is wrong
-        raise "Can't build a resource object from the class #{self.class}"
-      end
-      klass ||= OneviewSDK.resource_named(@sdk_resource_type, @sdk_api_version, @sdk_variant)
-      c = OneviewCookbook::Helper.build_client(context.client)
+      klass = parse_namespace
+      c = if @sdk_base_module == OneviewSDK::ImageStreamer
+            OneviewCookbook::Helper.build_image_streamer_client(context.client)
+          else
+            OneviewCookbook::Helper.build_client(context.client)
+          end
       new_data = JSON.parse(context.data.to_json) rescue context.data
       @item = context.property_is_set?(:api_header_version) ? klass.new(c, new_data, context.api_header_version) : klass.new(c, new_data)
       @item['name'] ||= context.name
     end
+
+    # rubocop:disable Metrics/MethodLength
+    # Helper method that analyzes the namespace and defines the class variables and the resource class itself
+    # @return [OneviewSDK::Resource] SDK resource class
+    # @raise [NameError] If for some reason the method could not resolve the namespace to a OneviewSDK::Resource
+    def parse_namespace
+      klass_name = self.class.to_s
+      Chef::Log.debug("Resource '#{@resource_name}' received with the '#{klass_name}' class name")
+      name_arr = klass_name.split('::')
+      @sdk_resource_type = name_arr.pop.gsub(/Provider$/i, '') # e.g., EthernetNetwork
+      case name_arr.size
+      when 1
+        Chef::Log.debug("Resource '#{klass_name}' has no variant or api version specified.")
+        # This case should really only be used for testing
+        # Uses the SDK's default api version and variant
+        return OneviewSDK.resource_named(@sdk_resource_type)
+      when 2 # No variant specified. e.g., OneviewCookbook::API200::EthernetNetworkProvider
+        Chef::Log.debug("Resource '#{klass_name}' has no variant specified.")
+        @sdk_api_version = name_arr.pop.gsub(/API/i, '').to_i # e.g., 200
+        @sdk_variant = nil # Not needed
+      when 3
+        # Parses all the namespace when it is fully specified with API version, variant or base module
+        case klass_name
+        when /ImageStreamer/
+          Chef::Log.debug("Resource '#{klass_name}' is a Image Streamer resource.")
+          @sdk_api_version = name_arr.pop.gsub(/API/i, '').to_i # e.g., 300
+          @sdk_base_module = OneviewSDK.const_get(name_arr.pop) # ImageStreamer
+          @sdk_variant = nil # Not needed
+        else # The variant is specified. e.g., OneviewCookbook::API200::C7000::EthernetNetworkProvider
+          Chef::Log.debug("Resource '#{klass_name}' has variant and api version specified.")
+          @sdk_variant = name_arr.pop # e.g., C7000
+          @sdk_api_version = name_arr.pop.gsub(/API/i, '').to_i # e.g., 200
+        end
+      else # Something is wrong
+        raise NameError, "Can't build a resource object from the class #{self.class}"
+      end
+      klass = @sdk_base_module.resource_named(@sdk_resource_type, @sdk_api_version, @sdk_variant)
+      Chef::Log.debug("#{@resource_name} namespace parsed:
+        > SDK Base Module: #{@sdk_base_module} <#{@sdk_base_module.class}>
+        > SDK API Version: #{@sdk_api_version} <#{@sdk_api_version.class}>
+        > SDK Variant: #{@sdk_variant} <#{@sdk_variant.class}>
+        > SDK Resource Type: #{@sdk_resource_type} <#{@sdk_resource_type.class}>
+      ")
+      klass
+    end
+    # rubocop:enable Metrics/MethodLength
 
     # Creates the OneView resource or updates it if exists
     # @param [Symbol] method_1 Create or add method
@@ -150,7 +184,7 @@ module OneviewCookbook
     # @param [String] variant Variant of the SDK desired
     # @return [OneviewSDK::Resource] Returns the class of the resource in the loaded API version and variant
     def resource_named(resource, version = @sdk_api_version, variant = @sdk_variant)
-      OneviewSDK.resource_named(resource, version, variant)
+      @sdk_base_module.resource_named(resource, version, variant)
     end
 
     # Save the data from a resource to a node attribute

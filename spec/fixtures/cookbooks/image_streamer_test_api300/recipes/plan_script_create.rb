@@ -1,4 +1,8 @@
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+#
+# Cookbook Name:: image_streamer_test_api300
+# Recipe:: plan_script_create
+#
+# (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -8,12 +12,14 @@
 # under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
+#
 
-source 'https://supermarket.chef.io'
-metadata
-
-group :test do
-  cookbook 'oneview_test', path: './spec/fixtures/cookbooks/oneview_test'
-  cookbook 'oneview_test_api300_synergy', path: './spec/fixtures/cookbooks/oneview_test_api300_synergy'
-  cookbook 'image_streamer_test_api300', path: './spec/fixtures/cookbooks/image_streamer_test_api300'
+image_streamer_plan_script 'PlanScript1' do
+  client node['image_streamer_test']['client']
+  data(
+    hpProvided: false,
+    planType: 'deploy',
+    content: 'f'
+  )
+  action :create
 end
