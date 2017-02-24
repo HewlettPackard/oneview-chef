@@ -190,7 +190,7 @@ RSpec.describe OneviewCookbook::Helper do
 
     it 'supports using Image Streamer url & token environment variables' do
       ENV['I3S_URL'] = @i3s_options[:url]
-      ENV['I3S_TOKEN'] = @i3s_options[:token]
+      ENV['ONEVIEWSDK_TOKEN'] = @i3s_options[:token]
       i3s_client = described_class.build_image_streamer_client
       expect(i3s_client.url).to eq(@i3s_options[:url])
       expect(i3s_client.token).to eq(@i3s_options[:token])
