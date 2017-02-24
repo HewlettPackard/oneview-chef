@@ -7,9 +7,8 @@ SimpleCov.start do
   add_filter '.direnv/'
   add_filter 'libraries/resource_providers/'
   add_group 'Libraries', 'libraries'
-  add_group 'Resources', 'resources'
-  minimum_coverage 92 # Goal: A bit higher
-  minimum_coverage_by_file 30 # Goal: much higher
+  minimum_coverage 95 # Goal: A bit higher
+  minimum_coverage_by_file 90 # Goal: much higher
 end
 
 Dir[File.expand_path('../libraries/*.rb', File.dirname(__FILE__))].each { |file| require file }
@@ -30,10 +29,11 @@ RSpec.configure do |config|
     allow_any_instance_of(OneviewSDK::Client).to receive(:login).and_return('secretToken')
     allow(OneviewSDK::SSLHelper).to receive(:load_trusted_certs).and_return(nil)
 
+    # Mock Image stremaer appliance version
+    allow_any_instance_of(OneviewSDK::ImageStreamer::Client).to receive(:appliance_i3s_api_version).and_return(300)
+
     # Clear environment variables
-    %w(ONEVIEWSDK_URL ONEVIEWSDK_USER ONEVIEWSDK_PASSWORD ONEVIEWSDK_TOKEN ONEVIEWSDK_SSL_ENABLED).each do |name|
-      ENV[name] = nil
-    end
+    OneviewSDK::ENV_VARS.each { |name| ENV[name] = nil }
   end
 end
 
@@ -43,6 +43,10 @@ RSpec.shared_context 'shared context', a: :b do
     @ov_options = { url: 'https://oneview.example.com', user: 'Administrator', password: 'secret123' }
     @client = OneviewSDK::Client.new(@ov_options)
     @resource = OneviewSDK::Resource.new(@client)
+
+    @i3s_options = { url: 'https://i3s.example.com', token: 'token123' }
+    @i3s_client = OneviewSDK::ImageStreamer::Client.new(@i3s_options)
+    @i3s_resource = OneviewSDK::ImageStreamer::Resource.new(@i3s_client)
   end
 end
 
@@ -54,8 +58,14 @@ RSpec.shared_context 'chef context', a: :b do
   end
 
   let(:real_chef_run) do
-    # NOTE: Must define resource_name in each spec file to use this
-    runner = ChefSpec::SoloRunner.new(step_into: ["oneview_#{resource_name}"])
+    # NOTE: Must define resource_name or complete_resource_name in each spec file to use this
+    chef_resource_name = resource_name if defined?(resource_name)
+    chef_complete_resource_name = complete_resource_name if defined?(complete_resource_name)
+    unless chef_resource_name || chef_complete_resource_name
+      Chef::Log.warn("Internal error: Undefined 'resource_name' and 'complete_resource_name'. '#{described_recipe}' is very likely to fail!")
+    end
+    chef_complete_resource_name ||= "oneview_#{chef_resource_name}"
+    runner = ChefSpec::SoloRunner.new(step_into: [chef_complete_resource_name])
     runner.converge(described_recipe)
   end
 
@@ -65,5 +75,9 @@ RSpec.shared_context 'chef context', a: :b do
 
   let(:client300) do
     OneviewSDK::Client.new(url: 'https://oneview.example.com', user: 'Administrator', password: 'secret123', api_version: 300)
+  end
+
+  let(:i3s_client300) do
+    OneviewSDK::ImageStreamer::Client.new(url: 'https://i3s.example.com', token: 'token123', api_version: 300)
   end
 end

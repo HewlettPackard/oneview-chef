@@ -18,8 +18,9 @@ module OneviewCookbook
     # @param context Context from the resource action block (self)
     # @param [String, Symbol] type Name of the resource type. e.g., :EthernetNetwork
     # @param [String, Symbol] action Action method to call on the resource. e.g., :create_or_update
-    def self.do_resource_action(context, type, action)
-      klass = OneviewCookbook::Helper.get_resource_class(context, type)
+    # @param [Module] base_module The base API module supported. e.g. OneviewCookbook::ImageStreamer
+    def self.do_resource_action(context, type, action, base_module = OneviewCookbook)
+      klass = OneviewCookbook::Helper.get_resource_class(context, type, base_module)
       res = klass.new(context)
       res.send(action)
     end
@@ -27,22 +28,35 @@ module OneviewCookbook
     # Get the resource class by name, taking into consideration the resource's properties
     # @param context Context from the resource action block (self)
     # @param [String, Symbol] type Name of the resource type. e.g., :EthernetNetwork
+    # @param [Module] base_module The base API module supported. e.g. OneviewCookbook::ImageStreamer
     # @return [Class] Resource class
-    def self.get_resource_class(context, resource_type)
+    def self.get_resource_class(context, resource_type, base_module = OneviewCookbook)
       load_sdk(context)
-      api_version = context.property_is_set?(:api_version) ? context.api_version : context.node['oneview']['api_version']
-      api_module = get_api_module(api_version)
+      # Loads the api version if the property was specified directly
+      context_api_version = context.api_version if context.property_is_set?(:api_version)
+      # Loads the api version if it was specified in the client
+      client_api_version = if context.property_is_set?(:client)
+                             if context.client.is_a?(Hash)
+                               convert_keys(context.client, :to_sym)[:api_version]
+                             elsif context.client.is_a?(OneviewSDK::Client) # It works for both Image Streamer and OneView
+                               context.client.api_version
+                             end
+                           end
+      # Loads the api version giving preference: property > client > node default
+      api_version = context_api_version || client_api_version || context.node['oneview']['api_version']
+      api_module = get_api_module(api_version, base_module)
       api_variant = context.property_is_set?(:api_variant) ? context.api_variant : context.node['oneview']['api_variant']
       api_module.provider_named(resource_type, api_variant)
     end
 
     # Get the API module given an api_version
     # @param [Fixnum, String] api_version
+    # @param [Module] base_module The base API module supported. e.g. OneviewCookbook::ImageStreamer
     # @return [Module] Resource module
-    def self.get_api_module(api_version)
-      OneviewCookbook.const_get("API#{api_version}")
+    def self.get_api_module(api_version, base_module = OneviewCookbook)
+      base_module.const_get("API#{api_version}")
     rescue NameError
-      raise NameError, "The api_version #{api_version} is not supported. Please use a supported version."
+      raise NameError, "The api_version #{api_version} is not supported in #{base_module}. Please use a supported version."
     end
 
     # Load (and install if necessary) the oneview-sdk
@@ -74,9 +88,10 @@ module OneviewCookbook
     # @param [Hash, OneviewSDK::Client] client Appliance info hash or client object.
     # @return [OneviewSDK::Client] Client object
     def self.build_client(client = nil)
+      Chef::Log.debug("Building OneView client with:\n#{client}\n\n")
       case client
       when OneviewSDK::Client
-        return client
+        client
       when Hash
         options = Hash[client.map { |k, v| [k.to_sym, v] }] # Convert string keys to symbols
         unless options[:logger] # Use the Chef logger
@@ -84,14 +99,42 @@ module OneviewCookbook
           options[:log_level] = Chef::Log.level
         end
         options[:log_level] ||= Chef::Log.level
-        return OneviewSDK::Client.new(options)
+        OneviewSDK::Client.new(options)
       when NilClass
         options = {}
         options[:logger] = Chef::Log
         options[:log_level] = Chef::Log.level
-        return OneviewSDK::Client.new(options) # Rely on the ENV variables being set
+        OneviewSDK::Client.new(options) # Rely on the ENV variables being set
       else
         raise "Invalid client #{client}. Must be a hash or OneviewSDK::Client"
+      end
+    end
+
+    # Makes it easy to build a Image Streamer Client object
+    # @param [Hash, OneviewSDK::ImageStreamer::Client] client Appliance info hash or client object.
+    # @return [OneviewSDK::ImageStreamer::Client] Client object
+    def self.build_image_streamer_client(client = nil)
+      Chef::Log.debug("Building Image Streamer client with:\n#{client}\n\n")
+      case client
+      when OneviewSDK::ImageStreamer::Client
+        client
+      when Hash
+        options = Hash[client.map { |k, v| [k.to_sym, v] }] # Convert string keys to symbols
+        unless options[:logger] # Use the Chef logger
+          options[:logger] = Chef::Log
+          options[:log_level] = Chef::Log.level
+        end
+        options[:log_level] ||= Chef::Log.level
+        return OneviewSDK::ImageStreamer::Client.new(options) unless options[:oneview_client] # Rely on token being set
+        ov_client = build_client(options.delete(:oneview_client))
+        OneviewSDK::ImageStreamer::Client.new(options.merge(token: ov_client.token))
+      when NilClass
+        options = {}
+        options[:logger] = Chef::Log
+        options[:log_level] = Chef::Log.level
+        OneviewSDK::ImageStreamer::Client.new(options) # Rely on the ENV variables being set
+      else
+        raise "Invalid client #{client}. Must be a hash or OneviewSDK::ImageStreamer::Client"
       end
     end
 

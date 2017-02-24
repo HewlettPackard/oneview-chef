@@ -28,7 +28,7 @@ module OneviewCookbook
         name = klass.name.split('::').last.downcase.delete('_').delete('-')
         return klass if new_type =~ /^#{name}$/
       end
-      raise "The '#{type}' resource does not exist for API version 300, variant #{variant}."
+      raise "The '#{type}' resource does not exist for OneView API version 300, variant #{variant}."
     end
   end
 end

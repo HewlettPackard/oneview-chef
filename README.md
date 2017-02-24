@@ -10,6 +10,7 @@ Chef cookbook that provides resources for managing HPE OneView.
 
  - Chef 12.0 or higher
  - HPE OneView 2.0 or 3.0 (API versions 200 or 300). May work with other versions too, but no guarantees
+ - HPE Synergy Image Streamer appliance (API version 300)
 
 ## Usage
 
@@ -20,24 +21,38 @@ Then use any of the resources provided by this cookbook.
 ```ruby
 # my_cookbook/metadata.rb
 ...
-depends 'oneview', '~> 1.3'
+depends 'oneview', '~> 2.0'
 ```
 
 ### Credentials
-In order to manage HPE OneView resources, you'll need to provide authentication credentials. There are 2 ways to do this:
+In order to manage HPE OneView and HPE Synergy Image Streamer resources, you will need to provide authentication credentials. There are 2 ways to do this:
 
-1. Set the environment variables: ONEVIEWSDK_URL, ONEVIEWSDK_USER, ONEVIEWSDK_PASSWORD, and/or ONEVIEWSDK_TOKEN. See [this](https://github.com/HewlettPackard/oneview-sdk-ruby#environment-variables) for more info.
-2. Explicitly pass in the `client` property to each resource (see the [Resource Parameters](#resource-parameters) section below). This takes precedence over environment variables and allows you to set more client properties. This also allows you to get these credentials from other sources like encrypted databags, Vault, etc.
+1. Set the environment variables:
+  - For HPE OneView: ONEVIEWSDK_URL, ONEVIEWSDK_USER, ONEVIEWSDK_PASSWORD, and/or ONEVIEWSDK_TOKEN.
+  - For HPE Synergy Image Streamer: I3S_URL and ONEVIEWSDK_TOKEN, or ONEVIEWSDK_URL, ONEVIEWSDK_USER and ONEVIEWSDK_PASSWORD.
+  See [this](https://github.com/HewlettPackard/oneview-sdk-ruby#environment-variables) for more info.
+2. Explicitly pass in the `client` property to each resource (see the [Resource Properties](#resource-properties) section below). This takes precedence over environment variables and allows you to set more client properties. This also allows you to get these credentials from other sources like encrypted databags, Vault, etc.
+
+HPE Synergy Image Streamer access token is the same as the HPE OneView associated appliance, so most of its credentials you may get from the HPE OneView.
+
+### API version
+When using the resources a API version will be selected to interact with the resources in each HPE OneView correct API versions. To select the desired one, you may use one of the following methods:
+
+1. Set the resource property `api_version`. See the [Resource Properties](#resource-properties) section below.
+2. Set the client parameter `api_version`. If this parameter is set, it will select the required API version based on the client. Notice if you choose to pass the client as an OneviewSDK object, it will have, by default, the api_version set, even if you do not directly specify it.
+3. If none of the previous alternatives are set, it defaults to the `node['oneview']['api_version']`. See the [Atributes](#attributes).
+
+Be aware of the precedence of these methods! The higher priority goes to setting the resource property, followed by the client parameter, and at last the node value as the default, i.e. *Property > Client > Attribute*. (e.g. If you set the resource property `api_version` to *200*, and set the client parameter `api_version` to *300*, it will use the module **API200**, since the resource property takes precedence over the client parameter)
 
 ## Attributes
 
  - `node['oneview']['ruby_sdk_version']` - Set which version of the SDK to install and use. Defaults to `'~> 4.0'`
  - `node['oneview']['save_resource_info']` - Save resource info to a node attribute? Defaults to `['uri']`. Possible values/types:
    - `true` - Save all info (Merged hash of OneView info and Chef resource properties). Warning: Resource credentials will be saved if specified.
-   - `false` - Do not save any info
-   - `Array` - ie `['uri', 'status', 'created_at']` Save a subset of specified attributes
- - `node['oneview']['api_version']` - When looking for a matching Chef resource provider class, this version will be used. Defaults to `200`
- - `node['oneview']['api_variant']` - When looking for a matching Chef resource provider class, this variant will be used. Defaults to `C7000`
+   - `false` - Do not save any info.
+   - `Array` - i.e. `['uri', 'status', 'created_at']` Save a subset of specified attributes.
+ - `node['oneview']['api_version']` - When looking for a matching Chef resource provider class, this version will be used as default. Defaults to `200`.
+ - `node['oneview']['api_variant']` - When looking for a matching Chef resource provider class, this variant will be used as default. Defaults to `C7000`.
 
 See [attributes/default.rb](attributes/default.rb) for more info.
 
@@ -47,7 +62,10 @@ See [attributes/default.rb](attributes/default.rb) for more info.
 
 The following are the standard properties available for all resources. Some resources have additional properties or small differences; see their doc sections below for more details.
 
- - **client**: Hash or OneviewSDK::Client object that contains information about how to connect to the OneView instance. Required attributes are: `url` and `token` or `user` and `password`. See [this](https://github.com/HewlettPackard/oneview-sdk-ruby#configuration) for more options.
+ - **client**: Hash, OneviewSDK::Client or OneviewSDK::ImageStreamer::Client object that contains information about how to connect to the HPE OneView or HPE Synergy Image Streamer instances.
+   - For HPE OneView required attributes are: `url` and, `token` or `user` and `password`.
+   - For HPE Synergy Image Streamer required attributes are: `url` and, `token` or `oneview_client`.
+ See [this](https://github.com/HewlettPackard/oneview-sdk-ruby#configuration) for more options.
  - **data**: Hash specifying options for this resource. Refer to the OneView API docs for what's available and/or required. If no name attribute is given, it will use the name given to the Chef resource.
    - :information_source: Tip: In addition to the API docs, you can use the [oneview-sdk gem's CLI](https://github.com/HewlettPackard/oneview-sdk-ruby#cli) to quickly show information about resources. If you're wanting to know which data properties exist for a resource, it might make sense to create a resource on the Web UI, then view the data. For example, after creating a new ethernet network named `eth1`, run `$ oneview-sdk-ruby show EthernetNetwork eth1`
  - **action**: Symbol specifying what to do with this resource. Options for most resources (**some may differ**):
@@ -56,8 +74,8 @@ The following are the standard properties available for all resources. Some reso
    - `:delete` - Delete this resource from OneView. For this, you only need to specify the resource name or uri in the data section.
  - **save_resource_info**: Defaults to `node['oneview']['save_resource_info']` (see the attribute above). Doesn't apply to the `:delete` action
    - Once the resource is created, you can access this data at `node['oneview'][<oneview_url>][<resource_name>]`. This can be useful to extract URIs from other resources, etc.
- - **api_version**: (Integer) Specify the version of the [API module](libraries/resource_providers/) to use. Defaults to `node['oneview']['api_version']`
- - **api_variant**: (String) When looking for resources in the SDK's API module, this version will be used. Defaults to `node['oneview']['api_variant']`
+ - **api_version**: (Integer) Specify the version of the [API module](libraries/resource_providers/) to use.
+ - **api_variant**: (String) When looking for resources in the specified API module, this version will be used. Defaults to `node['oneview']['api_variant']`
  - **api_header_version**: (Integer) This will override the version used in API request headers. Only set this if you know what you're doing.
  - **operation**: (String) Specify the operation to be performed by a `:patch` action.
  - **path**: (String) Specify the path where the `:patch` action will be sent to.
@@ -834,6 +852,18 @@ User resource for HPE OneView
 oneview_user 'User1' do
   client <my_client>
   data <data>
+  action [:create, :create_if_missing, :delete]
+end
+```
+
+### image_streamer_plan_script
+
+HPE Synergy Image Streamer resource for Plan scripts.
+
+```ruby
+image_streamer_plan_script 'PlanScript1' do
+  client <my_client>   # Hash or OneviewSDK::ImageStreamer::Client
+  data <resource_data> # Hash
   action [:create, :create_if_missing, :delete]
 end
 ```

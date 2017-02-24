@@ -18,7 +18,7 @@ RSpec.describe OneviewCookbook::Helper do
       context = FakeResource.new
       fake_class = Class.new
       fake_res = 'fake'
-      expect(described_class).to receive(:get_resource_class).with(context, resource_type)
+      expect(described_class).to receive(:get_resource_class).with(context, resource_type, OneviewCookbook)
         .and_return(fake_class)
       expect(fake_class).to receive(:new).with(context).and_return(fake_res)
       expect(fake_res).to receive(:send).with(:delete).and_return(true)
@@ -48,6 +48,22 @@ RSpec.describe OneviewCookbook::Helper do
       klass = described_class.get_resource_class(context, resource_type)
       expect(klass).to eq(OneviewCookbook::API300::Synergy::EthernetNetworkProvider)
     end
+
+    it "respects the client's api_version parameter when the client is a Hash" do
+      context = FakeResource.new(client: { api_version: 300 })
+      klass = described_class.get_resource_class(context, resource_type)
+      expect(klass).to eq(OneviewCookbook::API300::C7000::EthernetNetworkProvider)
+    end
+
+    it "respects the client's api_version parameter when the client is a OneviewSDK::Client" do
+      fake_client = Object.new
+      allow(fake_client).to receive(:is_a?).with(Hash).and_return(false)
+      allow(fake_client).to receive(:is_a?).with(OneviewSDK::Client).and_return(true)
+      allow(fake_client).to receive(:api_version).and_return(300)
+      context = FakeResource.new(client: fake_client)
+      klass = described_class.get_resource_class(context, resource_type)
+      expect(klass).to eq(OneviewCookbook::API300::C7000::EthernetNetworkProvider)
+    end
   end
 
   describe '#self.get_api_module' do
@@ -56,6 +72,11 @@ RSpec.describe OneviewCookbook::Helper do
         klass = described_class.get_api_module(version)
         expect(klass.to_s).to eq("OneviewCookbook::API#{version}")
       end
+    end
+
+    it 'gets the module for a valid api version with a different base module' do
+      klass = described_class.get_api_module(300, OneviewCookbook::ImageStreamer)
+      expect(klass).to eq(OneviewCookbook::ImageStreamer::API300)
     end
 
     it 'fails if the version is invalid' do
@@ -77,7 +98,12 @@ RSpec.describe OneviewCookbook::Helper do
     it 'attempts to install the gem if it is not found' do
       expect(described_class).to receive(:gem).once.and_raise LoadError
       expect(described_class).to receive(:gem).once.and_return true
-      expect(@context).to receive(:chef_gem).with('oneview-sdk').and_return true
+
+      # Mocks @context.chef_gem
+      expect(@context).to receive(:chef_gem).with('oneview-sdk').and_yield
+      expect(described_class).to receive(:version).with(sdk_version).and_return(true)
+      expect(described_class).to receive(:compile_time).with(true).and_return(true)
+
       expect(described_class).to receive(:require).with('oneview-sdk').and_return true
       described_class.load_sdk(@context)
     end
@@ -94,7 +120,7 @@ RSpec.describe OneviewCookbook::Helper do
 
   describe '#self.build_client' do
     it 'requires a valid oneview object' do
-      expect { described_class.build_client(1) }.to raise_error(/Invalid client/)
+      expect { described_class.build_client(1) }.to raise_error(/Invalid client .* OneviewSDK::Client/)
       expect { described_class.build_client(nil) }.to raise_error(OneviewSDK::InvalidClient, /Must set/)
     end
 
@@ -108,7 +134,7 @@ RSpec.describe OneviewCookbook::Helper do
       expect(ov.password).to eq(@ov_options[:password])
     end
 
-    it 'supports using OneviewSDK user/password environment variables' do
+    it 'supports using OneviewSDK token/ssl environment variables' do
       ENV['ONEVIEWSDK_URL'] = @ov_options[:url]
       ENV['ONEVIEWSDK_TOKEN'] = 'faketoken'
       ENV['ONEVIEWSDK_SSL_ENABLED'] = 'false'
@@ -153,6 +179,64 @@ RSpec.describe OneviewCookbook::Helper do
       ov = described_class.build_client(@ov_options.merge(logger: Logger.new(STDOUT), log_level: level))
       expect(ov.log_level).to eq(level)
       expect(ov.log_level).to_not eq(Chef::Log.level)
+    end
+  end
+
+  describe '#self.build_image_streamer_client' do
+    it 'requires a valid oneview object' do
+      expect { described_class.build_image_streamer_client('bananas') }.to raise_error(/Invalid client .* OneviewSDK::ImageStreamer::Client/)
+      expect { described_class.build_image_streamer_client(nil) }.to raise_error(OneviewSDK::InvalidClient, /Must set/)
+    end
+
+    it 'supports using Image Streamer url & token environment variables' do
+      ENV['I3S_URL'] = @i3s_options[:url]
+      ENV['I3S_TOKEN'] = @i3s_options[:token]
+      i3s_client = described_class.build_image_streamer_client
+      expect(i3s_client.url).to eq(@i3s_options[:url])
+      expect(i3s_client.token).to eq(@i3s_options[:token])
+    end
+
+    it 'accepts an OneviewSDK::Client object' do
+      i3s = described_class.build_image_streamer_client(@i3s_client)
+      expect(i3s).to eq(@i3s_client)
+    end
+
+    it 'accepts a hash with the token defined' do
+      i3s = described_class.build_image_streamer_client(@i3s_options)
+      expect(i3s.url).to eq(@i3s_options[:url])
+      expect(i3s.token).to eq(@i3s_options[:token])
+    end
+
+    it 'accepts a hash with the oneview client defined' do
+      expect(described_class).to receive(:build_client).with(@client).and_return(@client)
+      i3s = described_class.build_image_streamer_client(@i3s_options.merge(oneview_client: @client))
+      expect(i3s.url).to eq(@i3s_options[:url])
+      expect(i3s.token).to eq('secretToken')
+    end
+
+    it 'defaults the log level to what Chef is using' do
+      i3s = described_class.build_image_streamer_client(@i3s_options)
+      expect(i3s.log_level).to eq(Chef::Log.level)
+    end
+
+    it 'defaults to the Chef logger and log level' do
+      i3s = described_class.build_image_streamer_client(@i3s_options)
+      expect(i3s.logger).to eq(Chef::Log)
+      expect(i3s.log_level).to eq(Chef::Log.level)
+    end
+
+    it "doesn't allow the log level to be overridden when no logger is specified" do
+      level = Chef::Log.level == :warn ? :info : :warn
+      i3s = described_class.build_image_streamer_client(@i3s_options.merge(log_level: level))
+      expect(i3s.log_level).to_not eq(level)
+      expect(i3s.log_level).to eq(Chef::Log.level)
+    end
+
+    it 'allows the log level to be overridden if the logger is specified' do
+      level = Chef::Log.level == :warn ? :info : :warn
+      i3s = described_class.build_image_streamer_client(@i3s_options.merge(logger: Logger.new(STDOUT), log_level: level))
+      expect(i3s.log_level).to eq(level)
+      expect(i3s.log_level).to_not eq(Chef::Log.level)
     end
   end
 

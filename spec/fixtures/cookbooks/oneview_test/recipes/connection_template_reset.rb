@@ -17,5 +17,5 @@
 oneview_connection_template 'ConnectionTemplate2' do
   client node['oneview_test']['client']
   associated_ethernet_network 'EthernetNetwork2'
-  action :refresh
+  action :reset
 end

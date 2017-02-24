@@ -1,4 +1,4 @@
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2016-2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -61,21 +61,30 @@ if defined?(ChefSpec)
     oneview_volume_template:            standard_actions
   }
 
-  oneview_resources.each do |resource_type, actions|
-    actions.each do |action|
-      # Each action should follow <action_clause>_<resource_type>[_<object_complement>] naming standards
-      description = action.to_s.split('_')
-      # Finds the last action cited in the action description
-      action_indexes = action_list.map { |action_word| description.rindex(action_word) }
-      last_action_index = action_indexes.compact.max
-      # Inserts the resource type after the action
-      description.insert(last_action_index + 1, resource_type.to_s)
-      # Rejoin everything
-      method_name = description.join('_')
+  image_streamer_resources = {
+    image_streamer_plan_script: standard_actions
+  }
 
-      define_method(method_name) do |resource_name|
-        ChefSpec::Matchers::ResourceMatcher.new(resource_type, action, resource_name)
+  def define_chefspec_matchers(resource_map, recognized_actions)
+    resource_map.each do |resource_type, actions|
+      actions.each do |action|
+        # Each action should follow <action_clause>_<resource_type>[_<object_complement>] naming standards
+        description = action.to_s.split('_')
+        # Finds the last action cited in the action description
+        action_indexes = recognized_actions.map { |action_word| description.rindex(action_word) }
+        last_action_index = action_indexes.compact.max
+        # Inserts the resource type after the action
+        description.insert(last_action_index + 1, resource_type.to_s)
+        # Rejoin everything
+        method_name = description.join('_')
+
+        define_method(method_name) do |resource_name|
+          ChefSpec::Matchers::ResourceMatcher.new(resource_type, action, resource_name)
+        end
       end
     end
   end
+
+  define_chefspec_matchers(oneview_resources, action_list)
+  define_chefspec_matchers(image_streamer_resources, action_list)
 end
