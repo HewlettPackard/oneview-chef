@@ -3,6 +3,8 @@
 [![Cookbook Version](https://img.shields.io/cookbook/v/oneview.svg)](https://supermarket.chef.io/cookbooks/oneview)
 [![Travis Build Status](https://travis-ci.org/HewlettPackard/oneview-chef.svg?branch=master)](https://travis-ci.org/HewlettPackard/oneview-chef)
 [![Chef Build Status](https://jenkins-01.eastus.cloudapp.azure.com/job/oneview-cookbook/badge/icon)](https://jenkins-01.eastus.cloudapp.azure.com/job/oneview-cookbook/)
+[![Code Climate](https://codeclimate.com/github/HewlettPackard/oneview-chef/badges/gpa.svg)](https://codeclimate.com/github/HewlettPackard/oneview-chef)
+[![Test Coverage](https://codeclimate.com/github/HewlettPackard/oneview-chef/badges/coverage.svg)](https://codeclimate.com/github/HewlettPackard/oneview-chef/coverage)
 
 Chef cookbook that provides resources for managing HPE OneView.
 
@@ -855,6 +857,24 @@ oneview_user 'User1' do
   action [:create, :create_if_missing, :delete]
 end
 ```
+
+### oneview_scope
+
+Scope resource for HPE OneView.
+
+Support only in API300 onwards.
+
+```Ruby
+oneview_scope 'Scope1' do
+  client <my_client>
+  data <resource_data>
+  add <resource_list> # Hash containing combinations of <resourcetype>: <Array of names> to be added to the scope. Used in change_resource_assignments option only - Optional
+  remove <resource_list> # Hash containing combinations of <resourcetype>: <Array of names> to be removed from the scope. Used in change_resource_assignments option only - Optional
+  action [:create, :create_if_missing, :delete, :change_resource_assignments]
+end
+```
+
+- **add** and **remove** (Hash) Optional - Specify resources to be added or removed. The Hashes should have `<resource_type> => [<resource_names>]` associations. The `resource_types` can be either `Strings` or `Symbols`, and should be in upper CamelCase. i.e.: ServerHardware, Enclosure. See the [example](examples/scope.rb) for more information.
 
 ### image_streamer_plan_script
 
