@@ -83,9 +83,6 @@ The following are the standard properties available for all resources. Some reso
  - **path**: (String) Specify the path where the `:patch` action will be sent to.
  - **value**: (String, Array<String>) Specify the value for the `:patch` action. Optional for some operations.
 
-
-### HPE OneView resources
-
 ### oneview_resource
 
 This is a generic provider for managing any OneView resource.
