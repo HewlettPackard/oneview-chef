@@ -223,13 +223,13 @@ module OneviewCookbook
     end
 
     # Generic method to retrieve and return a resource from different resources using the type and name of the resource
-    # @param [String, Symbol] resource_type Type of resource to be retrieved. e.g., :GoldenImage, :FCNetwork.
-    # @param [String] resource_name Name of the resource from context.
-    def load_resource(resource_type, resource_name)
-      return unless resource_name
-      resource_instance = resource_named(resource_type).new(@item.client, name: resource_name)
-      raise "#{resource_type} resource with name '#{resource_name}' was not found in the appliance." unless resource_instance.retrieve!
-      resource_instance
+    # @param [String, Symbol] resource_class_type Type of resource to be retrieved. e.g., :GoldenImage, :FCNetwork.
+    # @param [String] resource_id Name for this resource. 'Resource1'
+    def load_resource_uri(resource_class_type, resource_id)
+      return unless resource_id
+      resource_instance = resource_named(resource_class_type).new(@item.client, name: resource_id)
+      raise "#{resource_class_type} resource with name '#{resource_id}' was not found in the appliance." unless resource_instance.retrieve!
+      resource_instance['uri']
     end
   end
 end
