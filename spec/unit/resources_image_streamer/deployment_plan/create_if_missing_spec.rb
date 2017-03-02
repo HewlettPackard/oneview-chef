@@ -9,9 +9,9 @@ describe 'image_streamer_test_api300::deployment_plan_create_if_missing' do
   context 'given a valid #golden_image & #build_plan' do
     before(:each) do
       expect_any_instance_of(base_sdk::GoldenImage).to receive(:retrieve!).and_return(true)
-      expect_any_instance_of(base_sdk::GoldenImage).to receive(:[]).with('uri').and_return('/rest/fake-golden-image')
+      expect_any_instance_of(base_sdk::GoldenImage).to receive(:[]).with(:uri).and_return('/rest/fake-golden-image')
       expect_any_instance_of(base_sdk::BuildPlan).to receive(:retrieve!).and_return(true)
-      expect_any_instance_of(base_sdk::BuildPlan).to receive(:[]).with('uri').and_return('/rest/fake-build-plan')
+      expect_any_instance_of(base_sdk::BuildPlan).to receive(:[]).with(:uri).and_return('/rest/fake-build-plan')
     end
 
     it 'creates it when it does not exist' do

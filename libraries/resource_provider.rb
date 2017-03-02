@@ -231,7 +231,7 @@ module OneviewCookbook
       resource_instance = resource_named(resource_class_type).new(@item.client, name: resource_id)
       raise "#{resource_class_type} resource with name '#{resource_id}' was not found in the appliance." unless resource_instance.retrieve!
       return resource_instance if ret_attribute.to_sym == :resource
-      resource_instance[ret_attribute.to_sym]
+      resource_instance[ret_attribute]
     end
   end
 end
