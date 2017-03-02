@@ -16,25 +16,15 @@ module OneviewCookbook
     module API300
       # DeploymentPlan Provider resource methods
       class DeploymentPlanProvider < ResourceProvider
-        # Generic method to retrieve and return the URI from different image streamer resources using the name of the resource
-        # @param [String, Symbol] i3s_resource_type Type of image streamer resource to be retrieved. e.g., ':GoldenImage'.
-        # @param [String] i3s_resource_name Name of the resource from context.
-        def load_i3s_resource(i3s_resource_type, i3s_resource_name)
-          return unless i3s_resource_name
-          resource_instance = resource_named(i3s_resource_type).new(@item.client, name: i3s_resource_name)
-          raise "#{i3s_resource_type} resource with name '#{i3s_resource_name}' was not found in the appliance." unless resource_instance.retrieve!
-          resource_instance['uri']
-        end
-
         def create_or_update
-          @item['goldenImageURI'] = load_i3s_resource(:GoldenImage, @context.golden_image)
-          @item['oeBuildPlanURI'] = load_i3s_resource(:BuildPlan, @context.build_plan)
+          @item['goldenImageURI'] = load_resource(:GoldenImage, @context.golden_image)['uri']
+          @item['oeBuildPlanURI'] = load_resource(:BuildPlan, @context.build_plan)['uri']
           super
         end
 
         def create_if_missing
-          @item['goldenImageURI'] = load_i3s_resource(:GoldenImage, @context.golden_image)
-          @item['oeBuildPlanURI'] = load_i3s_resource(:BuildPlan, @context.build_plan)
+          @item['goldenImageURI'] = load_resource(:GoldenImage, @context.golden_image)['uri']
+          @item['oeBuildPlanURI'] = load_resource(:BuildPlan, @context.build_plan)['uri']
           super
         end
       end

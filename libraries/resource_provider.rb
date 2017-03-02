@@ -221,6 +221,16 @@ module OneviewCookbook
     def recursive_diff(data, desired_data, str = '', indent = '')
       OneviewCookbook::Helper.recursive_diff(data, desired_data, str, indent)
     end
+
+    # Generic method to retrieve and return a resource from different resources using the type and name of the resource
+    # @param [String, Symbol] resource_type Type of resource to be retrieved. e.g., :GoldenImage, :FCNetwork.
+    # @param [String] resource_name Name of the resource from context.
+    def load_resource(resource_type, resource_name)
+      return unless resource_name
+      resource_instance = resource_named(resource_type).new(@item.client, name: resource_name)
+      raise "#{resource_type} resource with name '#{resource_name}' was not found in the appliance." unless resource_instance.retrieve!
+      resource_instance
+    end
   end
 end
 
