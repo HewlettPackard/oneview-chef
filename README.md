@@ -23,7 +23,7 @@ Then use any of the resources provided by this cookbook.
 ```ruby
 # my_cookbook/metadata.rb
 ...
-depends 'oneview', '~> 2.0'
+depends 'oneview', '~> 2.1'
 ```
 
 ### Credentials

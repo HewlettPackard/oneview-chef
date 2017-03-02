@@ -17,25 +17,24 @@ module OneviewCookbook
       # DeploymentPlan Provider resource methods
       class DeploymentPlanProvider < ResourceProvider
         # Generic method to retrieve and return the URI from different image streamer resources using the name of the resource
-        # @param [String, Symbol] resource_field Name of the field which will be receiving a resource name. e.g., 'golden_image'
-        def load_i3s_resource(resource_field)
-          return unless @context.method(resource_field).call
-          resource_name = @context.method(resource_field).call
-          klass_name = resource_field.to_s.split('_').collect(&:capitalize).join
-          resource_instance = resource_named(klass_name).new(@item.client, name: resource_name)
-          raise "#{klass_name} resource with name '#{resource_name}' was not found in the appliance." unless resource_instance.retrieve!
+        # @param [String, Symbol] i3s_resource_type Type of image streamer resource to be retrieved. e.g., ':GoldenImage'.
+        # @param [String] i3s_resource_name Name of the resource from context.
+        def load_i3s_resource(i3s_resource_type, i3s_resource_name)
+          return unless i3s_resource_name
+          resource_instance = resource_named(i3s_resource_type).new(@item.client, name: i3s_resource_name)
+          raise "#{i3s_resource_type} resource with name '#{i3s_resource_name}' was not found in the appliance." unless resource_instance.retrieve!
           resource_instance['uri']
         end
 
         def create_or_update
-          @item['goldenImageURI'] = load_i3s_resource(:golden_image) if @context.golden_image
-          @item['oeBuildPlanURI'] = load_i3s_resource(:build_plan) if @context.build_plan
+          @item['goldenImageURI'] = load_i3s_resource(:GoldenImage, @context.golden_image)
+          @item['oeBuildPlanURI'] = load_i3s_resource(:BuildPlan, @context.build_plan)
           super
         end
 
         def create_if_missing
-          @item['goldenImageURI'] = load_i3s_resource(:golden_image) if @context.golden_image
-          @item['oeBuildPlanURI'] = load_i3s_resource(:build_plan) if @context.build_plan
+          @item['goldenImageURI'] = load_i3s_resource(:GoldenImage, @context.golden_image)
+          @item['oeBuildPlanURI'] = load_i3s_resource(:BuildPlan, @context.build_plan)
           super
         end
       end

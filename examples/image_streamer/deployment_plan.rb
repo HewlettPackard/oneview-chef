@@ -41,8 +41,28 @@ image_streamer_deployment_plan 'DeploymentPlan1' do
   )
 end
 
+# Create the Deployment Plan named 'DeploymentPlan2' only if does not exist
+image_streamer_deployment_plan 'DeploymentPlan2' do
+  client i3s_client
+  api_version 300
+  data(
+    description: 'example of create_if_missing action',
+    hpProvided: false
+  )
+  build_plan 'ChefBP01'
+  golden_image 'ChefGI01'
+  action :create_if_missing
+end
+
 # Delete the Deployment Plan named 'DeploymentPlan1' if it exists
 image_streamer_deployment_plan 'DeploymentPlan1' do
+  client i3s_client
+  api_version 300
+  action :delete
+end
+
+# Delete the Deployment Plan named 'DeploymentPlan2' if it exists
+image_streamer_deployment_plan 'DeploymentPlan2' do
   client i3s_client
   api_version 300
   action :delete
