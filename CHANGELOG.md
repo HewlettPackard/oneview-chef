@@ -76,6 +76,7 @@ Adds new Synergy resources.
   - Fixed volume resource (#92) & examples
 
 # 1.0.0
+Now the cookbook can operate with all the supported OneView 2.0 resources. Also added some bug fixes and minor improvements.
   - Added support to Volume actions `:create_snapshot` and `:delete_snapshot`
   - Added support to SAN manager actions
   - Added support to Uplink set actions
@@ -84,6 +85,7 @@ Adds new Synergy resources.
   - Added support to Server profile template actions
 
 ### 0.2.0
+Adds new resources, shared features and bug fixes. Also upgrades the Ruby SDK version to ~> 2.1.
   - Upgraded Ruby SDK version to ~> 2.1
   - Fixed add/create, delete/remove for resources
   - Added diff output for updating resources
@@ -113,6 +115,18 @@ Adds new Synergy resources.
 ## 0.1.1
   - Fixed Ruby SDK version to 1.0.0
   - Added Stove support (using `rake`)
+  - Fixed the oneview-sdk gem to `v1.0.0` (the version can be changed in the `/attributes/default.rb`, but doing this may result in failures in some actions for some resources)
 
-## 0.1.0
-  - Initial release
+## 0.1.0 (Initial release)
+In the future, there will be individual Chef resources for each OneView resource.
+However, at this beta stage, only a subset of specific resources and a generic `oneview_resource` are available.
+(The generic one will continue to exist, so don't worry about having to rewrite everything when additional resources are added.)
+With the generic model, you may find that particular resources don't support certain actions or have slightly different behaviors.
+Here are some known issues with different resource types:
+ - **EnclosureGroup** - Since the script is at a separate API endpoint, we can't set that here.
+
+ - **FCNetwork** - Fails when action is `:create` and `connectionTemplateUri` is set to `nil` (because OV sets it). Leave it out instead of setting it to `nil`.
+
+ - **FCoENetwork** - Fails when action is `:create` and `connectionTemplateUri` is set to `nil` (because OV sets it). Leave it out instead of setting it to `nil`.
+
+ - **ServerHardware** - Requires Chef `name` parameter to be set to the hostname/IP in order to work. Also, updates won't work because the resource doesn't support it. Use `:create_if_missing` action only
