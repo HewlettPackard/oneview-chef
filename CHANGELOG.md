@@ -3,6 +3,7 @@ Adds support to the following HPE OneView resources:
   - Added oneview_scope resource (API 300 only)
 
 Adds support to API300 HPE Synergy Image Streamer resources:
+  - image_streamer_deployment_plan
   - image_streamer_plan_script
 
 ### Breaking changes
