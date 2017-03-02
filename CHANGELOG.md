@@ -3,7 +3,10 @@ Adds support to the following HPE OneView resources:
   - Added oneview_scope resource (API 300 only)
 
 Adds support to API300 HPE Synergy Image Streamer resources:
+<<<<<<< HEAD
   - image_streamer_deployment_plan
+=======
+>>>>>>> master
   - image_streamer_plan_script
 
 ### Breaking changes
@@ -76,7 +79,7 @@ Adds new Synergy resources.
   - Add support for client ENV variables
   - Fixed volume resource (#92) & examples
 
-## 1.0.0
+# 1.0.0
   - Added support to Volume actions `:create_snapshot` and `:delete_snapshot`
   - Added support to SAN manager actions
   - Added support to Uplink set actions
@@ -111,9 +114,9 @@ Adds new Synergy resources.
   - Added support to Managed SAN actions
   - Added support to Unmanaged device actions
 
-#### 0.1.1
+## 0.1.1
   - Fixed Ruby SDK version to 1.0.0
   - Added Stove support (using `rake`)
 
-### 0.1.0
+## 0.1.0
   - Initial release

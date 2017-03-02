@@ -39,7 +39,7 @@ module OneviewCookbook
         refresh_ready = ['RefreshFailed', 'NotRefreshing', ''].include? @item['refreshState']
         return Chef::Log.info("#{@resource_name} '#{@name}' refresh is already running. State: #{@item['refreshState']}") unless refresh_ready
         @context.converge_by "#{@resource_name} '#{@name}' was refreshed." do
-          @item.set_refresh_state(@context.state, @context.options)
+          @item.set_refresh_state(@context.refresh_state, @context.options)
         end
       end
     end

@@ -49,6 +49,12 @@ oneview_enclosure 'ChefEncl1' do
   action :patch
 end
 
+# Refreshes the enclosure
+oneview_enclosure 'Encl1' do
+  client my_client
+  action :refresh
+end
+
 # Removes it from the appliance
 oneview_enclosure 'Encl1' do
   client my_client

@@ -36,8 +36,11 @@ module OneviewCookbook
       context_api_version = context.api_version if context.property_is_set?(:api_version)
       # Loads the api version if it was specified in the client
       client_api_version = if context.property_is_set?(:client)
-                             context.client = convert_keys(context.client, :to_sym) if context.client.is_a?(Hash)
-                             context.client[:api_version]
+                             if context.client.is_a?(Hash)
+                               convert_keys(context.client, :to_sym)[:api_version]
+                             elsif context.client.is_a?(OneviewSDK::Client) # It works for both Image Streamer and OneView
+                               context.client.api_version
+                             end
                            end
       # Loads the api version giving preference: property > client > node default
       api_version = context_api_version || client_api_version || context.node['oneview']['api_version']
