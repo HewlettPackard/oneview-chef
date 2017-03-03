@@ -63,6 +63,7 @@ if defined?(ChefSpec)
   }
 
   image_streamer_resources = {
+    image_streamer_deployment_plan: standard_actions,
     image_streamer_plan_script: standard_actions
   }
 
