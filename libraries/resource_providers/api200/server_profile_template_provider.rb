@@ -9,12 +9,14 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-require_relative 'server_profile_provider'
+require_relative 'server_profile_provider' # For the ServerProfileProviderHelpers
 
 module OneviewCookbook
   module API200
     # ServerProfileTemplate API200 provider
-    class ServerProfileTemplateProvider < ServerProfileProvider
+    class ServerProfileTemplateProvider < ResourceProvider
+      include ServerProfileProviderHelpers
+
       def load_with_properties
         set_resource(:ServerHardwareType, @context.server_hardware_type, :set_server_hardware_type)
         set_resource(:EnclosureGroup, @context.enclosure_group, :set_enclosure_group)
@@ -22,6 +24,16 @@ module OneviewCookbook
         set_connections(:EthernetNetwork, @context.ethernet_network_connections)
         set_connections(:FCNetwork, @context.fc_network_connections)
         set_connections(:NetworkSet, @context.network_set_connections)
+      end
+
+      def create_or_update
+        load_with_properties
+        super
+      end
+
+      def create_if_missing
+        load_with_properties
+        super
       end
 
       def new_profile

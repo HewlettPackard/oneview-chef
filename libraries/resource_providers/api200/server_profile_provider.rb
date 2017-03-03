@@ -13,20 +13,8 @@ require_relative '../../resource_provider'
 
 module OneviewCookbook
   module API200
-    # ServerProfile API200 provider
-    class ServerProfileProvider < ResourceProvider
-      # Loads the Server profile with all the external resources (if needed)
-      def load_with_properties
-        set_resource(:ServerHardware, @context.server_hardware, :set_server_hardware)
-        set_resource(:ServerHardwareType, @context.server_hardware_type, :set_server_hardware_type)
-        set_resource(:EnclosureGroup, @context.enclosure_group, :set_enclosure_group)
-        set_resource(:Enclosure, @context.enclosure, :set_enclosure)
-        set_resource(:FirmwareDriver, @context.firmware_driver, :set_firmware_driver)
-        set_connections(:EthernetNetwork, @context.ethernet_network_connections)
-        set_connections(:FCNetwork, @context.fc_network_connections)
-        set_connections(:NetworkSet, @context.network_set_connections)
-      end
-
+    # Helper module for
+    module ServerProfileProviderHelpers
       def set_connections(type, connection_list)
         return false unless connection_list
         type = resource_named(type) unless type.respond_to?(:const_get)
@@ -45,6 +33,34 @@ module OneviewCookbook
         raise "Resource not found: #{type} '#{name}' could not be found." unless res
         @item.public_send(method, res, *args)
         true
+      end
+    end
+
+    # ServerProfile API200 provider
+    class ServerProfileProvider < ResourceProvider
+      include ServerProfileProviderHelpers
+      # Loads the Server profile with all the external resources (if needed)
+      def load_with_properties
+        set_resource(:ServerHardware, @context.server_hardware, :set_server_hardware)
+        set_resource(:ServerHardwareType, @context.server_hardware_type, :set_server_hardware_type)
+        set_resource(:EnclosureGroup, @context.enclosure_group, :set_enclosure_group)
+        set_resource(:Enclosure, @context.enclosure, :set_enclosure)
+        set_resource(:FirmwareDriver, @context.firmware_driver, :set_firmware_driver)
+        set_connections(:EthernetNetwork, @context.ethernet_network_connections)
+        set_connections(:FCNetwork, @context.fc_network_connections)
+        set_connections(:NetworkSet, @context.network_set_connections)
+      end
+
+      # Override create method to allow creation from a template
+      def create(method)
+        if @context.server_profile_template
+          template = resource_named(:ServerProfileTemplate).new(@item.client, name: @context.server_profile_template)
+          raise "Template '#{@context.server_profile_template}' not found" unless template.retrieve!
+          Chef::Log.info "Using template '#{@context.server_profile_template}' to #{method} #{@resource_name} '#{@name}'"
+          new_profile_data = template.new_profile(@item['name']).data
+          @item.data = new_profile_data.merge(@item.data)
+        end
+        super
       end
 
       def create_or_update

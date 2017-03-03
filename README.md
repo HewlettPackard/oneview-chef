@@ -781,6 +781,7 @@ Server profile resource for HPE OneView
 oneview_server_profile 'ServerProfile1' do
   client <my_client>
   data <data>
+  server_profile_template <server_profile_template_name>
   server_hardware <server_hardware_name>
   server_hardware_type <server_hardware_type_name>
   enclosure_group <enclosure_group_name>
@@ -795,7 +796,7 @@ end
 
 You can specify the association of the server profile with each of the resources using the resource properties. Also it is easy to add connections using the connection properties:
 
-- **<resource_name>_connections** (Hash) Optional - Specify connections with the desired resource type. The Hash should have `<network_name> => <connection_data>` associations. See the examples for more information.
+- **\<network_type\>_connections** (Hash) Optional - Specify connections with the desired resource type. The Hash should have `<network_name> => <connection_data>` associations. See the [examples](examples/server_profile.rb) for more information.
 
 
 ### oneview_switch
