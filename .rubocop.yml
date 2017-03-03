@@ -32,12 +32,6 @@ Style/EmptyLineBetweenDefs:
   Exclude:
     - 'libraries/matchers.rb'
 
-Metrics/CyclomaticComplexity:
-  Enabled: false
-
-Metrics/PerceivedComplexity:
-  Enabled: false
-
 Style/RescueModifier:
   Enabled: false
 
