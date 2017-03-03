@@ -1,5 +1,6 @@
 # 2.1.0
 - [#162](https://github.com/HewlettPackard/oneview-chef/issues/162) Add server_profile_template property to oneview_server_profile
+- Add :update_from_template action to oneview_server_profile
 Adds support to API300 HPE Synergy Image Streamer resources:
   - image_streamer_deployment_plan
 

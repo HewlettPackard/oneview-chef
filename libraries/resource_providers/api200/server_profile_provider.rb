@@ -72,6 +72,19 @@ module OneviewCookbook
         load_with_properties
         super
       end
+
+      def update_from_template
+        raise "#{@resource_name} '#{@item['name']}' was not found!" unless @item.retrieve!
+        if @item['templateCompliance'] == 'Compliant'
+          Chef::Log.info("#{@resource_name} '#{@item['name']}' is up to date")
+        else
+          preview = JSON.pretty_generate(@item.get_compliance_preview) rescue 'ERROR: Failed to retrieve compliance preview.'
+          Chef::Log.info "Updating #{@resource_name} '#{@item['name']}' from template. Compliance Preview: #{preview}"
+          @context.converge_by "Update #{@resource_name} '#{@item['name']}' from template" do
+            @item.update_from_template
+          end
+        end
+      end
     end
   end
 end

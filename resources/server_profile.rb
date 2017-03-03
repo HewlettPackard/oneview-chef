@@ -34,3 +34,7 @@ end
 action :delete do
   OneviewCookbook::Helper.do_resource_action(self, :ServerProfile, :delete)
 end
+
+action :update_from_template do
+  OneviewCookbook::Helper.do_resource_action(self, :ServerProfile, :update_from_template)
+end

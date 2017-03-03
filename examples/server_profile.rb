@@ -40,6 +40,16 @@ oneview_server_profile 'ServerProfile2' do
   server_hardware 'Enclosure1, bay 3'
 end
 
+# If a profile does get in an inconsistent state, you can update it from it's template. Note that this action
+# only works on profiles that already exist. It also does not consider any properties beside the name; it
+# purely finds it by name and ensures it is consistent with the template. If the update requires the server to
+# go offline, it should fail; you'll need to explicitly power off the server, then try the update again.
+oneview_server_profile 'update ServerProfile2 from template' do
+  client my_client
+  data(name: 'ServerProfile2')
+  action :update_from_template
+end
+
 # Creates a server profile with the desired Enclosure group and Server hardware type and some connections
 oneview_server_profile 'ServerProfile3' do
   client my_client
