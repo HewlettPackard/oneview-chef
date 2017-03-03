@@ -23,7 +23,7 @@ Then use any of the resources provided by this cookbook.
 ```ruby
 # my_cookbook/metadata.rb
 ...
-depends 'oneview', '~> 2.0'
+depends 'oneview', '~> 2.1'
 ```
 
 ### Credentials
@@ -82,7 +82,6 @@ The following are the standard properties available for all resources. Some reso
  - **operation**: (String) Specify the operation to be performed by a `:patch` action.
  - **path**: (String) Specify the path where the `:patch` action will be sent to.
  - **value**: (String, Array<String>) Specify the value for the `:patch` action. Optional for some operations.
-
 
 ### oneview_resource
 
@@ -877,6 +876,20 @@ end
 ```
 
 - **add** and **remove** (Hash) Optional - Specify resources to be added or removed. The Hashes should have `<resource_type> => [<resource_names>]` associations. The `resource_types` can be either `Strings` or `Symbols`, and should be in upper CamelCase. i.e.: ServerHardware, Enclosure. See the [example](examples/scope.rb) for more information.
+
+### image_streamer_deployment_plan
+
+HPE Synergy Image Streamer resource for Deployment plans.
+
+```ruby
+image_streamer_deployment_plan 'DeploymentPlan1' do
+  client <my_client>   # Hash or OneviewSDK::ImageStreamer::Client
+  data <resource_data> # Hash
+  build_plan <os_build_plan_name> # String containing the name of the OS Build Plan to be associated to this deployment plan - Optional
+  golden_image <golden_image_name> # String containing the name of the Golden Image to be associated to this deployment plan - Optional
+  action [:create, :create_if_missing, :delete]
+end
+```
 
 ### image_streamer_plan_script
 

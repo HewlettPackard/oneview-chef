@@ -332,4 +332,26 @@ RSpec.describe OneviewCookbook::ResourceProvider do
       expect(res.send(:recursive_diff, :data, :desired_data)).to eq(:value)
     end
   end
+
+  describe '#load_resource' do
+    let(:base_sdk) { OneviewSDK::ImageStreamer::API300 }
+
+    it 'retrieves a resource successfully when it exists' do
+      res = OneviewCookbook::ImageStreamer::API300::DeploymentPlanProvider.new(@context)
+      expect_any_instance_of(base_sdk::GoldenImage).to receive(:retrieve!).and_return(true)
+      res.load_resource(:GoldenImage, 'fake_golden_image_name')
+    end
+
+    it 'returns complete resource when called with :resource option' do
+      res = OneviewCookbook::ImageStreamer::API300::DeploymentPlanProvider.new(@context)
+      expect_any_instance_of(base_sdk::GoldenImage).to receive(:retrieve!).and_return(true)
+      res.load_resource(:GoldenImage, 'fake_golden_image_name', :resource)
+    end
+
+    it 'fails when resource does not exist' do
+      res = OneviewCookbook::ImageStreamer::API300::DeploymentPlanProvider.new(@context)
+      expect_any_instance_of(base_sdk::GoldenImage).to receive(:retrieve!).and_return(false)
+      expect { res.load_resource(:GoldenImage, 'fake_golden_image_name') }.to raise_error RuntimeError, / was not found in the appliance./
+    end
+  end
 end
