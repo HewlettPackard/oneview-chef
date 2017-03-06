@@ -183,6 +183,7 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not create_oneview_server_profile('')
     expect(chef_run).to_not create_oneview_server_profile_if_missing('')
     expect(chef_run).to_not delete_oneview_server_profile('')
+    expect(chef_run).to_not update_oneview_server_profile_from_template('')
 
     # oneview_server_profile_template
     expect(chef_run).to_not create_oneview_server_profile_template('')
