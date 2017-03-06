@@ -885,7 +885,7 @@ HPE Synergy Image Streamer resource for Deployment plans.
 image_streamer_deployment_plan 'DeploymentPlan1' do
   client <my_client>   # Hash or OneviewSDK::ImageStreamer::Client
   data <resource_data> # Hash
-  build_plan <os_build_plan_name> # String containing the name of the OS Build Plan to be associated to this deployment plan - Optional
+  os_build_plan <os_build_plan_name> # String containing the name of the OS Build Plan to be associated to this deployment plan - Optional
   golden_image <golden_image_name> # String containing the name of the Golden Image to be associated to this deployment plan - Optional
   action [:create, :create_if_missing, :delete]
 end

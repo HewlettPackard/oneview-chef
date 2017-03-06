@@ -235,6 +235,11 @@ describe 'oneview_test::default' do
   end
 
   it 'supports all image streamer matchers' do
+    # image_streamer_deployment_plan
+    expect(chef_run).to_not create_image_streamer_deployment_plan('')
+    expect(chef_run).to_not delete_image_streamer_deployment_plan('')
+    expect(chef_run).to_not create_image_streamer_deployment_plan_if_missing('')
+
     # image_streamer_plan_script
     expect(chef_run).to_not create_image_streamer_plan_script('')
     expect(chef_run).to_not delete_image_streamer_plan_script('')
