@@ -85,31 +85,28 @@ module OneviewCookbook
     # rubocop:enable Metrics/MethodLength
 
     # Creates the OneView resource or updates it if exists
-    # @param [Symbol] method_1 Create or add method
-    # @param [Symbol] method_2 Update or edit method
+    # @param [Symbol] method_1 Method used to create/add
+    # @param [Symbol] method_2 Method used to update/edit
     # @return [TrueClass, FalseClass] Returns true if the resource was created, false if updated or unchanged
     def create_or_update(method_1 = :create, method_2 = :update)
       ret_val = false
-      temp = Marshal.load(Marshal.dump(@item.data))
+      desired_state = Marshal.load(Marshal.dump(@item.data))
       if @item.exists?
         @item.retrieve!
-        if @item.like? temp
+        if @item.like? desired_state
           Chef::Log.info("#{@resource_name} '#{@name}' is up to date")
         else
           Chef::Log.info "#{method_2.to_s.capitalize} #{@resource_name} '#{@name}'"
           Chef::Log.debug "#{@resource_name} '#{@name}' Chef resource differs from OneView resource."
           Chef::Log.debug "Current state: #{JSON.pretty_generate(@item.data)}"
-          Chef::Log.debug "Desired state: #{JSON.pretty_generate(temp)}"
-          diff = get_diff(@item, temp)
+          Chef::Log.debug "Desired state: #{JSON.pretty_generate(desired_state)}"
+          diff = get_diff(@item, desired_state)
           @context.converge_by "#{method_2.to_s.capitalize} #{@resource_name} '#{@name}'#{diff}" do
-            @item.update(temp)
+            @item.update(desired_state)
           end
         end
       else
-        Chef::Log.info "#{method_1.to_s.capitalize} #{@resource_name} '#{@name}'"
-        @context.converge_by "#{method_1.to_s.capitalize} #{@resource_name} '#{@name}'" do
-          @item.send(method_1)
-        end
+        create(method_1)
         ret_val = true
       end
       save_res_info
@@ -131,10 +128,7 @@ module OneviewCookbook
         Chef::Log.info("#{@resource_name} '#{@name}' exists. Skipping")
         @item.retrieve! if @context.save_resource_info
       else
-        Chef::Log.info "#{method.to_s.capitalize} #{@resource_name} '#{@name}'"
-        @context.converge_by "#{method.to_s.capitalize} #{@resource_name} '#{@name}'" do
-          @item.send(method)
-        end
+        create(method)
         ret_val = true
       end
       save_res_info
@@ -178,8 +172,18 @@ module OneviewCookbook
       true
     end
 
+    # This method is shared between multiple actions and takes care of the creation of the resource.
+    # Only call this method if the resource does not exist and needs to be created.
+    # @param [Symbol] method Create method
+    def create(method = :create)
+      Chef::Log.info "#{method.to_s.capitalize} #{@resource_name} '#{@name}'"
+      @context.converge_by "#{method.to_s.capitalize} #{@resource_name} '#{@name}'" do
+        @item.send(method)
+      end
+    end
+
     # Gathers the OneviewSDK correct resource class
-    # @param [Symbol | String] resource Resource name/type desired
+    # @param [Symbol, String] resource Resource name/type desired
     # @param [Integer] version Version of the SDK desired
     # @param [String] variant Variant of the SDK desired
     # @return [OneviewSDK::Resource] Returns the class of the resource in the loaded API version and variant
@@ -223,15 +227,15 @@ module OneviewCookbook
     end
 
     # Generic method to retrieve and return a resource from different resources using the type and name of the resource
-    # @param [String, Symbol] resource_class_type Type of resource to be retrieved. e.g., :GoldenImage, :FCNetwork.
+    # @param [String, Symbol] resource_class_type Type of resource to be retrieved. e.g., :GoldenImage, :FCNetwork
     # @param [String] resource_id Name for this resource. 'Resource1'
-    # @param [String, Symbol] ret_attribute Attribute of resource to be returned by this method. Use :resource for returning complete resource.
-    def load_resource(resource_class_type, resource_id, ret_attribute = :uri)
+    # @param [NilClass, String, Symbol] ret_attribute Attribute of resource to be returned by this method. Use nil to return the complete resource
+    def load_resource(resource_class_type, resource_id, ret_attribute = nil)
       return unless resource_id
-      resource_instance = resource_named(resource_class_type).new(@item.client, name: resource_id)
-      raise "#{resource_class_type} resource with name '#{resource_id}' was not found in the appliance." unless resource_instance.retrieve!
-      return resource_instance if ret_attribute.to_sym == :resource
-      resource_instance[ret_attribute]
+      r = resource_named(resource_class_type).new(@item.client, name: resource_id)
+      raise "#{resource_class_type} '#{resource_id}' was not found in the appliance." unless r.retrieve!
+      return r unless ret_attribute
+      r[ret_attribute]
     end
   end
 end

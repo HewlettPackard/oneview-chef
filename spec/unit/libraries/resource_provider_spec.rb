@@ -334,24 +334,39 @@ RSpec.describe OneviewCookbook::ResourceProvider do
   end
 
   describe '#load_resource' do
-    let(:base_sdk) { OneviewSDK::ImageStreamer::API300 }
+    let(:sdk_klass) { OneviewSDK::API200::VolumeTemplate }
+    let(:sdk_klass2) { OneviewSDK::ImageStreamer::API300::GoldenImage }
+
+    before :each do
+      @res = OneviewCookbook::API200::VolumeProvider.new(@context)
+      @other_res = sdk_klass.new(@client, name: 'T1', description: 'Blah', uri: '/fake')
+    end
 
     it 'retrieves a resource successfully when it exists' do
-      res = OneviewCookbook::ImageStreamer::API300::DeploymentPlanProvider.new(@context)
-      expect_any_instance_of(base_sdk::GoldenImage).to receive(:retrieve!).and_return(true)
-      res.load_resource(:GoldenImage, 'fake_golden_image_name')
+      expect(sdk_klass).to receive(:find_by).and_return([@other_res])
+      r = @res.load_resource(:VolumeTemplate, 'T1')
+      expect(r).to be_a(sdk_klass)
+      expect(r.data).to eq(@other_res.data)
     end
 
-    it 'returns complete resource when called with :resource option' do
+    it 'retrieves image streamer resources when they exist' do
       res = OneviewCookbook::ImageStreamer::API300::DeploymentPlanProvider.new(@context)
-      expect_any_instance_of(base_sdk::GoldenImage).to receive(:retrieve!).and_return(true)
-      res.load_resource(:GoldenImage, 'fake_golden_image_name', :resource)
+      g_image = sdk_klass2.new(@client, name: 'I1', description: 'Image')
+      expect(sdk_klass2).to receive(:find_by).and_return([g_image])
+      r = res.load_resource(:GoldenImage, 'I1')
+      expect(r).to be_a(sdk_klass2)
+      expect(r.data).to eq(g_image.data)
     end
 
-    it 'fails when resource does not exist' do
-      res = OneviewCookbook::ImageStreamer::API300::DeploymentPlanProvider.new(@context)
-      expect_any_instance_of(base_sdk::GoldenImage).to receive(:retrieve!).and_return(false)
-      expect { res.load_resource(:GoldenImage, 'fake_golden_image_name') }.to raise_error RuntimeError, / was not found in the appliance./
+    it 'fails when the resource does not exist' do
+      expect_any_instance_of(sdk_klass).to receive(:retrieve!).and_return(false)
+      expect { @res.load_resource(:VolumeTemplate, 'T2') }.to raise_error(RuntimeError, /not found/)
+    end
+
+    it 'returns a resource attribute when called with the ret_attribute' do
+      expect(sdk_klass).to receive(:find_by).and_return([@other_res])
+      r = @res.load_resource(:VolumeTemplate, 'T1', :uri)
+      expect(r).to eq('/fake')
     end
   end
 end
