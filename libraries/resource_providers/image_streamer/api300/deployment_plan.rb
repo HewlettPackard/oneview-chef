@@ -18,13 +18,13 @@ module OneviewCookbook
       class DeploymentPlanProvider < ResourceProvider
         def create_or_update
           @item['goldenImageURI'] ||= load_resource(:GoldenImage, @context.golden_image)
-          @item['oeBuildPlanURI'] ||= load_resource(:BuildPlan, @context.build_plan)
+          @item['oeBuildPlanURI'] ||= load_resource(:BuildPlan, @context.os_build_plan)
           super
         end
 
         def create_if_missing
           @item['goldenImageURI'] ||= load_resource(:GoldenImage, @context.golden_image)
-          @item['oeBuildPlanURI'] ||= load_resource(:BuildPlan, @context.build_plan)
+          @item['oeBuildPlanURI'] ||= load_resource(:BuildPlan, @context.os_build_plan)
           super
         end
       end

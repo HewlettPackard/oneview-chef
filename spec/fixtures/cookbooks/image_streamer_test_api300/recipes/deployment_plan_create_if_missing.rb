@@ -20,7 +20,7 @@ image_streamer_deployment_plan 'DeploymentPlan1' do
     description: 'AnyDescription',
     hpProvided: false
   )
-  build_plan 'ChefBP01'
+  os_build_plan 'ChefBP01'
   golden_image 'ChefGI01'
   action :create_if_missing
 end
