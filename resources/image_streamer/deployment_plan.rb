@@ -12,7 +12,7 @@
 OneviewCookbook::ResourceBaseProperties.load(self)
 
 property :golden_image, String
-property :build_plan, String
+property :os_build_plan, String
 
 resource_name :image_streamer_deployment_plan
 
