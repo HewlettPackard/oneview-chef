@@ -898,9 +898,9 @@ HPE Synergy Image Streamer resource for Golden images.
 ```ruby
 image_streamer_golden_image 'GoldenImage1' do
   client <my_client>          # Hash or OneviewSDK::ImageStreamer::Client
-  data <resource_data>        # Hash - Notice the parameter imageCapture may chnage the way you create this resource.
-  os_volume <os_volume_name>  # String - Optional - OS Volume name to associate with the resource
-  os_build_plan <os_build_plan_name>  # String - Optional - OS Build Plan name to associate with the resource
+  data <resource_data>        # Hash - Depending on the parameter imageCapture value some properties here may or may not be required.
+  os_volume <os_volume_name>  # String - Optional - OS Volume name to associate with the resource.
+  os_build_plan <os_build_plan_name>  # String - Optional - OS Build Plan name to associate with the resource. The type of the OS Build Plan must match the mode (Capture or Deploy), specified in `data` in the parameter :imageCapture
   file_path <local_file_path> # String - Path to file to perform any download or upload like actions (Required in these actions)
   timeout <time_in_seconds>   # Integer - Optional - Time to timeout the request in the :download and :upload_if_missing actions. Defaults to the default resource value (Usualy 300 seconds)
   action [:create, :create_if_missing, :delete, :download, :download_details_archive, :upload_if_missing]

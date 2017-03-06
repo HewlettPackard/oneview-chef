@@ -9,6 +9,9 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
+# Defaults API version to 300
+node.default['oneview']['api_version'] = 300
+
 oneview_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
@@ -23,7 +26,6 @@ i3s_client = {
 # Create or update the Golden Image 'GoldenImage1'
 image_streamer_golden_image 'GoldenImage1' do
   client i3s_client
-  api_version 300
   os_build_plan 'ESXi - Capture OS Build Plan'
   data(
     description: 'Chef created Golden Image',
@@ -34,7 +36,6 @@ end
 # Create Golden Image 'GoldenImage2' if missing
 image_streamer_golden_image 'GoldenImage2' do
   client i3s_client
-  api_version 300
   os_volume 'OSVolume1'
   data(
     description: 'Chef created Golden Image',
@@ -46,7 +47,6 @@ end
 # Download the 'GoldenImage1' with timeout of 1200 seconds (20 minutes).
 image_streamer_golden_image 'GoldenImage1' do
   client i3s_client
-  api_version 300
   file_path 'path/to/file/GoldenImage1_download.zip'
   timeout 20 * 60
   action :download
@@ -55,7 +55,6 @@ end
 # Download the 'GoldenImage1' details archive.
 image_streamer_golden_image 'GoldenImage1' do
   client i3s_client
-  api_version 300
   file_path 'path/to/file/GoldenImage1_details_archive.txt'
   action :download_details_archive
 end
@@ -63,13 +62,11 @@ end
 # Delete the 'GoldenImage1' and 'GoldenImage2'
 image_streamer_golden_image 'GoldenImage1' do
   client i3s_client
-  api_version 300
   action :delete
 end
 
 image_streamer_golden_image 'GoldenImage2' do
   client i3s_client
-  api_version 300
   action :delete
 end
 
@@ -77,7 +74,6 @@ end
 # If it already exists it won't upload.
 image_streamer_golden_image 'GoldenImage1' do
   client i3s_client
-  api_version 300
   file_path 'path/to/file/GoldenImage1_download.zip'
   timeout 30 * 60
   action :upload_if_missing
