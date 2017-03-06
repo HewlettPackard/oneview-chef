@@ -234,6 +234,14 @@ describe 'oneview_test::default' do
   end
 
   it 'supports all image streamer matchers' do
+    # image_streamer_golden_image
+    expect(chef_run).to_not create_image_streamer_golden_image('')
+    expect(chef_run).to_not delete_image_streamer_golden_image('')
+    expect(chef_run).to_not create_image_streamer_golden_image_if_missing('')
+    expect(chef_run).to_not upload_image_streamer_golden_image_if_missing('')
+    expect(chef_run).to_not download_image_streamer_golden_image('')
+    expect(chef_run).to_not download_image_streamer_golden_image_details_archive('')
+
     # image_streamer_plan_script
     expect(chef_run).to_not create_image_streamer_plan_script('')
     expect(chef_run).to_not delete_image_streamer_plan_script('')
