@@ -769,7 +769,7 @@ end
 
 You can specify the association of the server profile with each of the resources using the resource properties. Also it is easy to add connections using the connection properties:
 
-- **<resource_name>_connections** (Hash) Optional - Specify connections with the desired resource type. The Hash should have `<network_name> => <connection_data>` associations. See the examples for more information.
+- **\<resource_name\>_connections** (Hash) Optional - Specify connections with the desired resource type. The Hash should have `<network_name> => <connection_data>` associations. See the examples for more information.
 
 
 ### oneview_server_profile
@@ -780,6 +780,7 @@ Server profile resource for HPE OneView
 oneview_server_profile 'ServerProfile1' do
   client <my_client>
   data <data>
+  server_profile_template <server_profile_template_name>
   server_hardware <server_hardware_name>
   server_hardware_type <server_hardware_type_name>
   enclosure_group <enclosure_group_name>
@@ -794,7 +795,7 @@ end
 
 You can specify the association of the server profile with each of the resources using the resource properties. Also it is easy to add connections using the connection properties:
 
-- **<resource_name>_connections** (Hash) Optional - Specify connections with the desired resource type. The Hash should have `<network_name> => <connection_data>` associations. See the examples for more information.
+- **\<network_type\>_connections** (Hash) Optional - Specify connections with the desired resource type. The Hash should have `<network_name> => <connection_data>` associations. See the [examples](examples/server_profile.rb) for more information.
 
 
 ### oneview_switch
@@ -884,7 +885,7 @@ HPE Synergy Image Streamer resource for Deployment plans.
 image_streamer_deployment_plan 'DeploymentPlan1' do
   client <my_client>   # Hash or OneviewSDK::ImageStreamer::Client
   data <resource_data> # Hash
-  build_plan <os_build_plan_name> # String containing the name of the OS Build Plan to be associated to this deployment plan - Optional
+  os_build_plan <os_build_plan_name> # String containing the name of the OS Build Plan to be associated to this deployment plan - Optional
   golden_image <golden_image_name> # String containing the name of the Golden Image to be associated to this deployment plan - Optional
   action [:create, :create_if_missing, :delete]
 end

@@ -1,6 +1,6 @@
 #
-# Cookbook Name:: image_streamer_test_api300
-# Recipe:: deployment_plan_create
+# Cookbook Name:: oneview_test
+# Recipe:: server_profile_create_from_template
 #
 # (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
@@ -14,13 +14,8 @@
 # specific language governing permissions and limitations under the License.
 #
 
-image_streamer_deployment_plan 'DeploymentPlan1' do
-  client node['image_streamer_test']['client']
-  data(
-    description: 'AnyDescription',
-    hpProvided: false
-  )
-  os_build_plan 'ChefBP01'
-  golden_image 'ChefGI01'
-  action :create
+oneview_server_profile 'ServerProfile1' do
+  client node['oneview_test']['client']
+  data(description: 'Something') # Will override template default
+  server_profile_template 'Template1'
 end

@@ -13,10 +13,10 @@ name             'oneview'
 maintainer       'Hewlett Packard Enterprise'
 maintainer_email 'chef-cookbooks@groups.ext.hpe.com'
 license          'Apache v2.0'
-description      'Provides HPE OneView resources'
-long_description 'Provides resources for configuring HPE OneView-managed devices'
+description      'Provides HPE OneView & Image Streamer resources'
+long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 
-version          '2.0.0'
+version          '2.1.0'
 
 source_url       'https://github.com/HewlettPackard/oneview-chef' if respond_to?(:source_url)
 issues_url       'https://github.com/HewlettPackard/oneview-chef/issues' if respond_to?(:issues_url)
