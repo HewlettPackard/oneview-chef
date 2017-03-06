@@ -36,7 +36,8 @@ module OneviewCookbook
           raise "InvalidFilePath: Could not find the file '#{@context.file_path}'" unless File.exist?(@context.file_path)
           return Chef::Log.info("#{@resource_type} '#{@name}' already exist") if @item.exists?
           connection_timeout = @context.timeout || resource_named(:GoldenImage)::READ_TIMEOUT
-          @context.converge_by("Upload' #{@resource_type} '#{@name}' from '#{@context.file_path}'. Timeout is #{connection_timeout} seconds") do
+          Chef::Log.info("Uploading #{@resource_type} '#{@name}' from '#{@context.file_path}'. Timeout is #{connection_timeout} seconds")
+          @context.converge_by("Upload #{@resource_type} '#{@name}' from '#{@context.file_path}'") do
             resource_named(:GoldenImage).add(@item.client, @context.file_path, @item.data, connection_timeout)
           end
         end
@@ -50,14 +51,16 @@ module OneviewCookbook
         def download
           download_validation
           connection_timeout = @context.timeout || resource_named(:GoldenImage)::READ_TIMEOUT
-          @context.converge_by("Download' #{@resource_type} '#{@name}' to '#{@context.file_path}'. Timeout is #{connection_timeout} seconds") do
+          Chef::Log.info("Downloading #{@resource_type} '#{@name}' to '#{@context.file_path}'. Timeout is #{connection_timeout} seconds")
+          @context.converge_by("Download #{@resource_type} '#{@name}' to '#{@context.file_path}'") do
             @item.download(@context.file_path, connection_timeout)
           end
         end
 
         def download_details_archive
           download_validation
-          @context.converge_by("Downloading' #{@resource_type} '#{@name}' details to '#{@context.file_path}'") do
+          Chef::Log.info("Downloading' #{@resource_type} '#{@name}' details to '#{@context.file_path}'")
+          @context.converge_by("Download' #{@resource_type} '#{@name}' details to '#{@context.file_path}'") do
             @item.download_details_archive(@context.file_path)
           end
         end
