@@ -11,8 +11,8 @@ Chef cookbook that provides resources for managing HPE OneView.
 ## Requirements
 
  - Chef 12.0 or higher
- - HPE OneView 2.0 or 3.0 (API versions 200 or 300). May work with other versions too, but no guarantees
- - Optional: HPE Synergy Image Streamer appliance (API version 300)
+ - For oneview resources: HPE OneView 2.0 or 3.0 (API versions 200 or 300). May work with other versions too, but no guarantees
+ - For image_streamer resources: HPE Synergy Image Streamer appliance (API version 300)
 
 ## Usage
 
