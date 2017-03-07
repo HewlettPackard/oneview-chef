@@ -891,6 +891,22 @@ image_streamer_deployment_plan 'DeploymentPlan1' do
 end
 ```
 
+### image_streamer_golden_image
+
+HPE Synergy Image Streamer resource for Golden images.
+
+```ruby
+image_streamer_golden_image 'GoldenImage1' do
+  client <my_client>          # Hash or OneviewSDK::ImageStreamer::Client
+  data <resource_data>        # Hash - Note: The value of data['imageCapture'] determines whether or not certain other key/value pairs are required here
+  os_volume <os_volume_name>  # String - Optional - OS Volume name to associate with the resource
+  os_build_plan <plan_name>   # String - Optional - OS Build Plan name to associate with the resource. The type of the OS Build Plan must match the mode (Capture or Deploy), specified in data['imageCapture']
+  file_path <local_file_path> # String - Path to file to perform any download or upload like actions (Required in these actions)
+  timeout <time_in_seconds>   # Integer - Optional - Time to timeout the request in the :download and :upload_if_missing actions. Defaults to the default resource value (Usualy 300 seconds)
+  action [:create, :create_if_missing, :delete, :download, :download_details_archive, :upload_if_missing]
+end
+```
+
 ### image_streamer_plan_script
 
 HPE Synergy Image Streamer resource for Plan scripts.

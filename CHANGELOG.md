@@ -3,6 +3,7 @@
 - Add :update_from_template action to oneview_server_profile
 - Adds support to API300 HPE Synergy Image Streamer resources:
   - image_streamer_deployment_plan
+  - image_streamer_golden_image
 
 # 2.0.0
 Adds support to the following HPE OneView resources:
