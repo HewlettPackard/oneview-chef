@@ -26,7 +26,6 @@ i3s_client = {
 # Creates or updates a simple OS Build Plan named 'Chef-BuildPlan1'
 image_streamer_os_build_plan 'Chef-OSBuildPlan1' do
   client i3s_client
-  api_version 300
   data(
     description: 'Chef created OS Build Plan',
     oeBuildPlanType: 'Deploy'
@@ -38,7 +37,6 @@ end
 # The second uses the plan 'PlanScript2' with the parameter 'deploy'
 image_streamer_os_build_plan 'Chef-OSBuildPlan1' do
   client i3s_client
-  api_version 300
   data(
     description: 'Chef created OS Build Plan',
     oeBuildPlanType: 'Deploy',
@@ -52,7 +50,6 @@ end
 # Creates a simple OS Build Plan named 'Chef-BuildPlan2' only if it does not exist
 image_streamer_os_build_plan 'Chef-OSBuildPlan2' do
   client i3s_client
-  api_version 300
   data(
     description: 'Chef created OS Build Plan',
     oeBuildPlanType: 'Deploy'
