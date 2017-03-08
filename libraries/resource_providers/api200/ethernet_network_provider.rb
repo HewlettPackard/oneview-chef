@@ -30,6 +30,7 @@ module OneviewCookbook
       def update_connection_template(bandwidth)
         bandwidth = convert_keys(bandwidth, :to_s)
         klass = resource_named(:ConnectionTemplate)
+        # TODO: Refactor the load_resource method first to load it by uri
         connection_template = klass.new(@item.client, uri: @item['connectionTemplateUri'])
         connection_template.retrieve!
         if connection_template.like? bandwidth

@@ -77,7 +77,7 @@ module OneviewCookbook
         fw_defined = @context.firmware || @context.firmware_data['sppName']
         raise "Unspecified property: 'firmware'. Please set it before attempting this action." unless fw_defined
         return Chef::Log.info("Firmware #{@context.firmware} from logical interconnect '#{@name}' is up to date") if dif_values.empty?
-        fd = resource_named(:FirmwareDriver).find_by(@item.client, name: @context.firmware).first
+        fd = load_resource(:FirmwareDriver).find_by(@item.client, name: @context.firmware).first
         raise "Resource not found: Firmware action '#{action}' cannot be performed since the firmware '#{@context.firmware}' was not found." unless fd
         diff = get_diff(current_firmware, @context.firmware_data)
         Chef::Log.info "#{action.to_s.capitalize.tr('_', ' ')} #{@resource_name} '#{@name}'"

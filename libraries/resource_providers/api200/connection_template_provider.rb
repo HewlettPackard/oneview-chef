@@ -18,8 +18,7 @@ module OneviewCookbook
       def load_resource_from_ethernet
         return unless @context.associated_ethernet_network
         @item.data.delete('name')
-        ethernet = resource_named(:EthernetNetwork).find_by(@item.client, name: @context.associated_ethernet_network).first
-        @item['uri'] = ethernet['connectionTemplateUri']
+        @item['uri'] = load_resource(:EthernetNetwork, @context.associated_ethernet_network, 'connectionTemplateUri')
       end
 
       def create_or_update
