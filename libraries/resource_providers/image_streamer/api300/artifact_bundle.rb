@@ -20,22 +20,20 @@ module OneviewCookbook
         # @param [String, Symbol] resource_type Type of resource to be loaded. e.g., :GoldenImage, :FCNetwork.
         # @param [Array] resource_array Array containing the names of the resources and whether they are readonly or not. e.g., 'DP', false
         # @param [String] add_method String containing the name of the method which adds the arrays of resources to the artifact bundle.
-        # NOTE: Option 1: using the add_method parameter to receive which will be the add method to be used
-        def load_expected_resources(resource_type, resource_array, add_method)
+        def load_expected_resources(resource_type, resource_array, add_method = nil)
           return unless resource_array.any?
           resource_array.each do |resource_name, read_only = true|
             resource = load_resource(resource_type, resource_name)
-            # NOTE: Option 2: using this add method to auto generate the add_resource_type using the resource_type
-            add_method = 'add_' + resource_type.to_s.gsub(/([a-z\d])([A-Z])/, '\1_\2').downcase
+            add_method = 'add_' + resource_type.to_s.gsub(/([a-z\d])([A-Z])/, '\1_\2').downcase if add_method.nil?
             @item.method(add_method).call(resource, read_only)
           end
         end
 
         def create_if_missing
-          load_expected_resources(:BuildPlan, @context.os_build_plans, 'add_build_plan')
-          load_expected_resources(:DeploymentPlan, @context.deployment_plans, 'add_deployment_plan')
-          load_expected_resources(:GoldenImage, @context.golden_images, 'add_golden_image')
-          load_expected_resources(:PlanScript, @context.plan_scripts, 'add_plan_script')
+          load_expected_resources(:BuildPlan, @context.os_build_plans)
+          load_expected_resources(:DeploymentPlan, @context.deployment_plans)
+          load_expected_resources(:GoldenImage, @context.golden_images)
+          load_expected_resources(:PlanScript, @context.plan_scripts)
           super
         end
 
