@@ -227,13 +227,16 @@ module OneviewCookbook
     end
 
     # Generic method to retrieve and return a resource from different resources using the type and name of the resource
+    # Note: The resource class base API module is the one used by the current provider
     # @param [String, Symbol] resource_class_type Type of resource to be retrieved. e.g., :GoldenImage, :FCNetwork
     # @param [String] resource_id Name for this resource. 'Resource1'
     # @param [NilClass, String, Symbol] ret_attribute Attribute of resource to be returned by this method. Use nil to return the complete resource
+    # @return [OneviewSDK::Resource] if the `ret_attribute` is nil
+    # @return [String, Array, Hash] that is the value of the attribute defined by the `ret_attribute` for the requested resource
     def load_resource(resource_class_type, resource_id, ret_attribute = nil)
       return unless resource_id
       r = resource_named(resource_class_type).new(@item.client, name: resource_id)
-      raise "#{resource_class_type} '#{resource_id}' was not found in the appliance." unless r.retrieve!
+      raise "ResourceNotFound: #{resource_class_type} '#{resource_id}' was not found in the appliance." unless r.retrieve!
       return r unless ret_attribute
       r[ret_attribute]
     end

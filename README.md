@@ -23,7 +23,7 @@ Then use any of the resources provided by this cookbook.
 ```ruby
 # my_cookbook/metadata.rb
 ...
-depends 'oneview', '~> 2.1'
+depends 'oneview', '~> 2.2'
 ```
 
 ### Credentials
@@ -904,6 +904,17 @@ image_streamer_golden_image 'GoldenImage1' do
   file_path <local_file_path> # String - Path to file to perform any download or upload like actions (Required in these actions)
   timeout <time_in_seconds>   # Integer - Optional - Time to timeout the request in the :download and :upload_if_missing actions. Defaults to the default resource value (Usualy 300 seconds)
   action [:create, :create_if_missing, :delete, :download, :download_details_archive, :upload_if_missing]
+end
+```
+### image_streamer_os_build_plan
+
+HPE Synergy Image Streamer resource for OS Build plan.
+
+```ruby
+image_streamer_os_build_plan 'OSBuildPlan1' do
+  client <my_client>   # Hash or OneviewSDK::ImageStreamer::Client
+  data <resource_data> # Hash
+  action [:create, :create_if_missing, :delete]
 end
 ```
 
