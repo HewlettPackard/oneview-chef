@@ -342,9 +342,16 @@ RSpec.describe OneviewCookbook::ResourceProvider do
       @other_res = sdk_klass.new(@client, name: 'T1', description: 'Blah', uri: '/fake')
     end
 
-    it 'retrieves a resource successfully when it exists' do
+    it 'retrieves a resource successfully when it exists (default by name)' do
       expect(sdk_klass).to receive(:find_by).and_return([@other_res])
       r = @res.load_resource(:VolumeTemplate, 'T1')
+      expect(r).to be_a(sdk_klass)
+      expect(r.data).to eq(@other_res.data)
+    end
+
+    it 'retrieves a resource successfully when it exists (by data Hash)' do
+      expect(sdk_klass).to receive(:find_by).and_return([@other_res])
+      r = @res.load_resource(:VolumeTemplate, uri: '/fake')
       expect(r).to be_a(sdk_klass)
       expect(r.data).to eq(@other_res.data)
     end
@@ -360,7 +367,7 @@ RSpec.describe OneviewCookbook::ResourceProvider do
 
     it 'fails when the resource does not exist' do
       expect_any_instance_of(sdk_klass).to receive(:retrieve!).and_return(false)
-      expect { @res.load_resource(:VolumeTemplate, 'T2') }.to raise_error(RuntimeError, /not found/)
+      expect { @res.load_resource(:VolumeTemplate, 'T2') }.to raise_error(RuntimeError, /ResourceNotFound/)
     end
 
     it 'returns a resource attribute when called with the ret_attribute' do
