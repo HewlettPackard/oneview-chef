@@ -885,10 +885,10 @@ HPE Synergy Image Streamer resource for Artifact bundles.
 image_streamer_artifact_bundle 'ArtifactBundle1' do
   client <my_client>   # Hash or OneviewSDK::ImageStreamer::Client
   data <resource_data> # Hash
-  deployment_plans <deployment_plan_names> # Array containing the names of the Deployment plans to be associated to this artifact bundle - Optional
-  golden_images <golden_image_names> # Array containing the names of the Golden Images to be associated to this artifact bundle - Optional
-  os_build_plans <os_build_plan_names> # Array containing the names of the OS Build Plans to be associated to this artifact bundle - Optional
-  plan_scripts <plan_script_names> # Array containing the names of the Plan scripts to be associated to this artifact bundle - Optional
+  deployment_plans <deployment_plan_names> # Array containing Hashes with the names of the Deployment plans to be associated to this artifact bundle and if they should be read-only or write-permitted - Optional
+  golden_images <golden_image_names> # Array containing Hashes with the names of the Golden Images to be associated to this artifact bundle and if they should be read-only or write-permitted - Optional
+  os_build_plans <os_build_plan_names> # Array containing the names of the OS Build Plans to be associated to this artifact bundle and if they should be read-only or write-permitted - Optional
+  plan_scripts <plan_script_names> # Array containing the names of the Plan scripts to be associated to this artifact bundle and if they should be read-only or write-permitted - Optional
   new_name <artifact_bundle_name> # String containing the name desired for an existing artifact bundle - Optional
   file_path <local_file_path> # String - Path to file to perform any download, upload like actions (Required in these actions)
   deployment_group <deployment_group_name> # String containing the name of the deployment group on which to perform a backup operation. (Required for :backup_from_file action)
@@ -896,7 +896,7 @@ image_streamer_artifact_bundle 'ArtifactBundle1' do
   action [:create_if_missing, :update_name, :delete, :download, :upload, :extract, :backup, :backup_from_file, :download_backup, :extract_backup]
 end
 ```
-- **deployment_plans**, **golden_images**, **os_build_plans** and **plan_scripts** Array Optional - Specify resources to be associated with the artifact bundle. The Arrays can follow one of the following syntaxes: `[<resource_names>]` for read-ony resources, or `[[<resource_name>, false]]` for write-permitted resources. See the [example](examples/image_streamer/artifact_bundle.rb) for more information.
+- **deployment_plans**, **golden_images**, **os_build_plans** and **plan_scripts** Array Optional - Specify resources to be associated with the artifact bundle. The Arrays should contain hashes with the following syntaxes: `{name: <resource_name>}, read_only: <true/false>`. The `read_only` field may be ommited for resources which are read-only. See the [example](examples/image_streamer/artifact_bundle.rb) for more information.
 
 
 ### image_streamer_deployment_plan
