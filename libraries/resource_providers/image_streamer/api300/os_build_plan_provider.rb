@@ -22,9 +22,7 @@ module OneviewCookbook
             step = convert_keys(build_step, :to_s)
             next step if step['planScriptUri']
             raise "InvalidResourceData: Must specify the 'planScriptName' or 'planScriptUri' for each build step" unless step['planScriptName']
-            plan = resource_named(:PlanScript).new(@item.client, name: step['planScriptName'])
-            raise "ResourceNotFound: The '#{resource_named(:PlanScript).class}' '#{plan['name']}' could not be found." unless plan.retrieve!
-            step['planScriptUri'] = plan['uri']
+            step['planScriptUri'] = load_resource(:PlanScript, step['planScriptName'], 'uri')
             step
           end
         end
