@@ -19,9 +19,9 @@ image_streamer_artifact_bundle 'ArtifactBundle1' do
   data(
     description: 'AnyDescription'
   )
-  os_build_plans [['BP', false]]
-  deployment_plans [['DP', false]]
-  golden_images [['GI', false]]
-  plan_scripts [['PS', false]]
+  os_build_plans [{ name: 'BP', read_only: false }]
+  deployment_plans [{ name: 'DP', read_only: false }]
+  golden_images [{ name: 'GI', read_only: false }]
+  plan_scripts [{ name: 'PS', read_only: false }]
   action :create_if_missing
 end
