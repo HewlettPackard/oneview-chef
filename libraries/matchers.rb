@@ -15,7 +15,7 @@ if defined?(ChefSpec)
   standard_actions = [:create, :create_if_missing, :delete]
   # Lists all the possible action verbs
   action_list = %w(create add delete remove set reset refresh update configure reconfigure edit none discover apply reapply activate
-                   stage new patch replace change load download upload)
+                   stage new patch replace change load download upload extract backup)
 
   oneview_resources = {
     oneview_resource:                   standard_actions,
@@ -63,6 +63,8 @@ if defined?(ChefSpec)
   }
 
   image_streamer_resources = {
+    image_streamer_artifact_bundle: [:create_if_missing, :update_name, :delete, :download, :upload, :extract,
+                                     :backup, :backup_from_file, :download_backup, :extract_backup],
     image_streamer_deployment_plan: standard_actions,
     image_streamer_golden_image:    standard_actions + [:upload_if_missing, :download, :download_details_archive],
     image_streamer_plan_script:     standard_actions

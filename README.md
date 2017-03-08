@@ -877,6 +877,28 @@ end
 
 - **add** and **remove** (Hash) Optional - Specify resources to be added or removed. The Hashes should have `<resource_type> => [<resource_names>]` associations. The `resource_types` can be either `Strings` or `Symbols`, and should be in upper CamelCase. i.e.: ServerHardware, Enclosure. See the [example](examples/scope.rb) for more information.
 
+### image_streamer_artifact_bundle
+
+HPE Synergy Image Streamer resource for Artifact bundles.
+
+```ruby
+image_streamer_artifact_bundle 'ArtifactBundle1' do
+  client <my_client>   # Hash or OneviewSDK::ImageStreamer::Client
+  data <resource_data> # Hash
+  deployment_plans <deployment_plan_names> # Array containing the names of the Deployment plans to be associated to this artifact bundle - Optional
+  golden_images <golden_image_names> # Array containing the names of the Golden Images to be associated to this artifact bundle - Optional
+  os_build_plans <os_build_plan_names> # Array containing the names of the OS Build Plans to be associated to this artifact bundle - Optional
+  plan_scripts <plan_script_names> # Array containing the names of the Plan scripts to be associated to this artifact bundle - Optional
+  new_name <artifact_bundle_name> # String containing the name desired for an existing artifact bundle - Optional
+  file_path <local_file_path> # String - Path to file to perform any download, upload like actions (Required in these actions)
+  deployment_group <deployment_group_name> # String containing the name of the deployment group on which to perform a backup operation. (Required for :backup_from_file action)
+  timeout <timeout_value> # Integer containing the time in seconds for the :backup_from_file action to timeout if it is not finished. - Optional
+  action [:create_if_missing, :update_name, :delete, :download, :upload, :extract, :backup, :backup_from_file, :download_backup, :extract_backup]
+end
+```
+- **deployment_plans**, **golden_images**, **os_build_plans** and **plan_scripts** Array Optional - Specify resources to be associated with the artifact bundle. The Arrays can follow one of the following syntaxes: `[<resource_names>]` for read-ony resources, or `[[<resource_name>, false]]` for write-permitted resources. See the [example](examples/image_streamer/artifact_bundle.rb) for more information.
+
+
 ### image_streamer_deployment_plan
 
 HPE Synergy Image Streamer resource for Deployment plans.

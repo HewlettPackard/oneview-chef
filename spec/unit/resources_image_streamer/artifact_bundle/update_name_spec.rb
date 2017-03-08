@@ -1,0 +1,27 @@
+require_relative './../../../spec_helper'
+
+describe 'image_streamer_test_api300::artifact_bundle_update_name' do
+  let(:complete_resource_name) { 'image_streamer_artifact_bundle' }
+  include_context 'chef context'
+
+  let(:base_sdk) { OneviewSDK::ImageStreamer::API300 }
+
+  # it 'updates it when it exists but is not alike' do
+  #   allow_any_instance_of(base_sdk::ArtifactBundle).to receive(:retrieve!).and_return(true)
+  #   expect_any_instance_of(base_sdk::ArtifactBundle).to receive(:retrieve!).with(anything, name: 'ArtifactBundle2').and_return(true)
+  #   expect_any_instance_of(base_sdk::ArtifactBundle).to receive(:update_name)
+  #   expect(real_chef_run).to update_image_streamer_artifact_bundle_name('ArtifactBundle1')
+  # end
+
+  it 'does nothing when it exists and is alike' do
+    expect_any_instance_of(base_sdk::ArtifactBundle).to receive(:retrieve!).and_return(true)
+    expect_any_instance_of(base_sdk::ArtifactBundle).to receive(:[]).twice.and_return('ArtifactBundle2')
+    expect_any_instance_of(base_sdk::ArtifactBundle).to_not receive(:update_name)
+    expect(real_chef_run).to update_image_streamer_artifact_bundle_name('ArtifactBundle1')
+  end
+
+  it 'raises an error when a resource passed in does not exist' do
+    expect_any_instance_of(base_sdk::ArtifactBundle).to receive(:retrieve!).and_return(false)
+    expect { real_chef_run }.to raise_error(RuntimeError, /ArtifactBundle1 does not exist in the appliance. Cannot run update_name action./)
+  end
+end
