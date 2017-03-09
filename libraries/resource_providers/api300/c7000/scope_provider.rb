@@ -40,10 +40,8 @@ module OneviewCookbook
           retrieved_resources = []
           context = op == :add ? @context.add : @context.remove
           context.each do |resource_name, values|
-            klass = resource_named(resource_name)
             values.each do |value|
-              retrieved_resource = klass.new(@item.client, name: value)
-              raise "#{klass} resource with name #{value} was not found in the appliance." unless retrieved_resource.retrieve!
+              retrieved_resource = load_resource(resource_name, value)
               is_scope_present = retrieved_resource['scopeUris'].include?(@item['uri'])
               next if (op == :add && is_scope_present) || (op == :remove && !is_scope_present)
               retrieved_resources.push(retrieved_resource)

@@ -22,6 +22,6 @@ describe 'oneview_test_api300_synergy::scope_change_resource_assignments' do
   it 'Fails if one of the resources listed does not exist' do
     expect_any_instance_of(klass).to receive(:retrieve!).and_return(true)
     expect_any_instance_of(en_klass).to receive(:retrieve!).and_return(false)
-    expect { real_chef_run }.to raise_error(RuntimeError, /resource with name Encl1 was not found in the appliance./)
+    expect { real_chef_run }.to raise_error(RuntimeError, /ResourceNotFound:.+Encl1/)
   end
 end
