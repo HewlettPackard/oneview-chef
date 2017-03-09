@@ -1028,6 +1028,7 @@ This feedback is crucial for us to deliver a useful product. Do not assume we ha
  - Style (Rubocop & Foodcritic): `$ rake style`
  - Unit: `$ rake unit`
  - Run all tests: `$ rake test`
+ - Optional: Start guard to run tests automatically on file changes: `$ bundle exec guard`
 
 ## Authors
 
