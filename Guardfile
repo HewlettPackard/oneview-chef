@@ -13,7 +13,7 @@ guard :rspec, cmd: 'bundle exec rspec --color', first_match: true do
   watch('spec/spec_helper.rb') { 'spec' }
   watch(%r{^(spec\/.+_spec\.rb)$}) { |m| m[1] }
   watch(%r{^libraries\/(\w+)\.rb$}) { |m| "spec/unit/libraries/#{m[1]}_spec.rb" }
-  
+
   # Resources:
   watch(%r{^resources\/(\w+)\.rb$}) { |m| "spec/unit/resources/#{m[1]}" }
   watch(%r{^resources\/image_streamer\/(\w+)\.rb$}) { |m| "spec/unit/resources_image_streamer/#{m[1]}" }
