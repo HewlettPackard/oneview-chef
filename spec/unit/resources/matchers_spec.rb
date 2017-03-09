@@ -248,6 +248,11 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not download_image_streamer_golden_image('')
     expect(chef_run).to_not download_image_streamer_golden_image_details_archive('')
 
+    # image_streamer_os_build_plan
+    expect(chef_run).to_not create_image_streamer_os_build_plan('')
+    expect(chef_run).to_not delete_image_streamer_os_build_plan('')
+    expect(chef_run).to_not create_image_streamer_os_build_plan_if_missing('')
+
     # image_streamer_plan_script
     expect(chef_run).to_not create_image_streamer_plan_script('')
     expect(chef_run).to_not delete_image_streamer_plan_script('')

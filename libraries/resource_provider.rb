@@ -227,13 +227,21 @@ module OneviewCookbook
     end
 
     # Generic method to retrieve and return a resource from different resources using the type and name of the resource
+    # Note: The resource class base API module is the one used by the current provider
     # @param [String, Symbol] resource_class_type Type of resource to be retrieved. e.g., :GoldenImage, :FCNetwork
-    # @param [String] resource_id Name for this resource. 'Resource1'
+    # @param [Hash, String, NilClass] resource_id data containing unique IDs for this resource. e.g. uri: 'rest/fake/123456ABCDEF'
+    #   If a String is passed, it assumes the attribute is the `name` for this resource. e.g. 'Resource1' is interpreted as `name: 'Resource1'`.
+    #   If nothing or nil is passed, the method returns nil since there is nothing to be retrieved.
     # @param [NilClass, String, Symbol] ret_attribute Attribute of resource to be returned by this method. Use nil to return the complete resource
+    # @return [OneviewSDK::Resource] if the `ret_attribute` is nil
+    # @return [String, Array, Hash] that is the value of the attribute defined by the `ret_attribute` for the requested resource
+    # @raise [RuntimeError] ResourceNotFound if the resource cannot be found
+    # @raise [OneviewSDK::IncompleteResource] If you don't specify any unique identifiers in resource_id
     def load_resource(resource_class_type, resource_id, ret_attribute = nil)
       return unless resource_id
-      r = resource_named(resource_class_type).new(@item.client, name: resource_id)
-      raise "#{resource_class_type} '#{resource_id}' was not found in the appliance." unless r.retrieve!
+      data = resource_id.is_a?(Hash) ? resource_id : { name: resource_id }
+      r = resource_named(resource_class_type).new(@item.client, data)
+      raise "ResourceNotFound: #{resource_class_type} with data '#{data}' was not found in the appliance." unless r.retrieve!
       return r unless ret_attribute
       r[ret_attribute]
     end
