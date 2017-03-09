@@ -22,11 +22,10 @@ module OneviewCookbook
         # @param [String] add_method String containing the name of the method which adds the arrays of resources to the artifact bundle.
         def load_expected_resources(resource_type, resource_array, add_method = nil)
           resource_array.each do |resource|
-            puts "\n\n\n\n\n\n\n\nresource: #{resource}"
-            resource[:read_only] ||= true
+            read_only = resource[:read_only] ||= true
             resource = load_resource(resource_type, resource[:name])
             add_method = 'add_' + resource_type.to_s.gsub(/([a-z\d])([A-Z])/, '\1_\2').downcase if add_method.nil?
-            @item.method(add_method).call(resource, resource[:read_only])
+            @item.method(add_method).call(resource, read_only)
           end
         end
 
@@ -41,9 +40,9 @@ module OneviewCookbook
         def update_name
           raise 'This action requires the new_name field to be specified.' unless @context.new_name
           raise "#{@resource_name} #{@name} does not exist in the appliance. Cannot run update_name action." unless @item.retrieve!
-          return Chef::Log.info("#{@resource_name} '#{@name}' is up to date") if @item[:name] == @context.new_name
+          return Chef::Log.info("#{@resource_name} '#{@name}' is up to date") if @item['name'] == @context.new_name
           new_name_in_use = resource_named(:ArtifactBundle).new(@item.client, name: @context.new_name).exists?
-          raise "#{@resource_name} name '#{@context.new_name}' is already in use." if new_name_in_use
+          raise "ArtifactBundle name '#{@context.new_name}' is already in use." if new_name_in_use
           Chef::Log.debug "New name #{@context.new_name} differs from current name'#{@name}' for resource."
           @context.converge_by "Update #{@resource_name}'s name from '#{@name}' to #{@context.new_name} completed successfully" do
             @item.update_name(@context.new_name)
@@ -60,7 +59,7 @@ module OneviewCookbook
         end
 
         def upload
-          raise "#{@resource_name} '#{@context.file_path}' file does not exist." unless File.file?(@context.file_path)
+          raise "'#{@context.file_path}' file does not exist." unless File.file?(@context.file_path)
           return Chef::Log.info("#{@resource_name} #{@name} already exists in the appliance.") if @item.exists?
           @context.converge_by "Upload of #{@resource_name}'s '#{@name}' completed successfully" do
             @item.class.create_from_file(@item.client, @context.file_path, @name)
@@ -106,7 +105,7 @@ module OneviewCookbook
 
         def extract_backup
           backup = @item.class.get_backups(@item.client).first
-          raise 'There are no backups present in the appliance. Cannot run download_backup action.' unless backup
+          raise 'There are no backups present in the appliance. Cannot run extract_backup action.' unless backup
           deployment_group = load_resource(:DeploymentGroup, @name)
           @context.converge_by "Extract backup operation from Deployment Group '#{@name}'completed successfully" do
             @item.class.extract_backup(@item.client, deployment_group, backup)
