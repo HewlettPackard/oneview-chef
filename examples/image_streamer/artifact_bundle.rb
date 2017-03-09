@@ -9,6 +9,9 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
+# Defaults API version to 300
+node.default['oneview']['api_version'] = 300
+
 oneview_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
@@ -22,7 +25,7 @@ i3s_client = {
 
 # Creates the artifact bundle and assigns resources to it.
 image_streamer_artifact_bundle 'ArtifactBundle1' do
-  client node['image_streamer_test']['client']
+  client i3s_client
   data(
     description: 'AnyDescription'
   )
@@ -35,47 +38,47 @@ end
 
 # Downloads the artifact bundle to the path specified
 image_streamer_artifact_bundle 'ArtifactBundle1' do
-  client node['image_streamer_test']['client']
+  client i3s_client
   file_path '/tmp/AB01.zip'
   action :download
 end
 
 # Updates the name of the Artifact Bundle 'ArtifactBundle1' to 'ArtifactBundle2'
 image_streamer_artifact_bundle 'ArtifactBundle1' do
-  client node['image_streamer_test']['client']
+  client i3s_client
   new_name 'ArtifactBundle2'
   action :update_name
 end
 
 # Uploads the artifact bundle downloaded before, recreating 'ArtifactBundle1'
 image_streamer_artifact_bundle 'ArtifactBundle1' do
-  client node['image_streamer_test']['client']
+  client i3s_client
   file_path '/tmp/AB01.zip'
   action :upload
 end
 
 # Extracts the selected artifact bundle and creates the artifacts on the appliance.
 image_streamer_artifact_bundle 'ArtifactBundle1' do
-  client node['image_streamer_test']['client']
+  client i3s_client
   action :extract
 end
 
 # Creates a backup bundle with all the artifacts present on the appliance. At any given point only one backup bundle will exist on the appliance.
 image_streamer_artifact_bundle 'DeploymentGroup1' do
-  client node['image_streamer_test']['client']
+  client i3s_client
   action :backup
 end
 
 # Downloads the backup bundle from the appliance to the path specified.
 image_streamer_artifact_bundle 'BKP01' do
-  client node['image_streamer_test']['client']
+  client i3s_client
   file_path '/tmp/BKP01.zip'
   action :download_backup
 end
 
 # Upload a backup bundle from a local drive and extract all the artifacts present in the uploaded file.
 image_streamer_artifact_bundle 'BKP01' do
-  client node['image_streamer_test']['client']
+  client i3s_client
   file_path '/tmp/BKP01.zip'
   deployment_group 'DeploymentGroup1'
   timeout 300
@@ -84,13 +87,13 @@ end
 
 # Extracts the existing backup bundle on the appliance and creates all the artifacts.
 image_streamer_artifact_bundle 'BKP01' do
-  client node['image_streamer_test']['client']
+  client i3s_client
   file_path '/tmp/BKP01.zip'
   action :extract_backup
 end
 
 # Deletes the artifacts bundle specified.
 image_streamer_artifact_bundle 'ArtifactBundle1' do
-  client node['image_streamer_test']['client']
+  client i3s_client
   action :delete
 end
