@@ -239,11 +239,7 @@ module OneviewCookbook
     # @raise [OneviewSDK::IncompleteResource] If you don't specify any unique identifiers in resource_id
     def load_resource(resource_class_type, resource_id, ret_attribute = nil)
       return unless resource_id
-      data = if resource_id.is_a?(Hash)
-               resource_id
-             else
-               { name: resource_id }
-             end
+      data = resource_id.is_a?(Hash) ? resource_id : { name: resource_id }
       r = resource_named(resource_class_type).new(@item.client, data)
       raise "ResourceNotFound: #{resource_class_type} with data '#{data}' was not found in the appliance." unless r.retrieve!
       return r unless ret_attribute
