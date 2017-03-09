@@ -17,21 +17,13 @@ module OneviewCookbook
     module ServerProfileProviderHelpers
       def set_connections(type, connection_list)
         return false unless connection_list
-        type = resource_named(type) unless type.respond_to?(:const_get)
-        connection_list.each do |net_name, options|
-          res = type.find_by(@item.client, name: net_name).first
-          raise "Resource not found: #{type} '#{net_name}' could not be found." unless res
-          @item.add_connection(res, options)
-        end
+        connection_list.each { |net_name, options| @item.add_connection(load_resource(type, net_name), options) }
         true
       end
 
       def set_resource(type, name, method, args = [])
         return false unless name
-        type = resource_named(type) unless type.respond_to?(:const_get)
-        res = type.find_by(@item.client, name: name).first
-        raise "Resource not found: #{type} '#{name}' could not be found." unless res
-        @item.public_send(method, res, *args)
+        @item.public_send(method, load_resource(type, name), *args)
         true
       end
     end
@@ -54,8 +46,7 @@ module OneviewCookbook
       # Override create method to allow creation from a template
       def create(method)
         if @context.server_profile_template
-          template = resource_named(:ServerProfileTemplate).new(@item.client, name: @context.server_profile_template)
-          raise "Template '#{@context.server_profile_template}' not found" unless template.retrieve!
+          template = load_resource(:ServerProfileTemplate, @context.server_profile_template)
           Chef::Log.info "Using template '#{@context.server_profile_template}' to #{method} #{@resource_name} '#{@name}'"
           new_profile_data = template.new_profile(@item['name']).data
           @item.data = new_profile_data.merge(@item.data)

@@ -19,7 +19,7 @@ module OneviewCookbook
         lsg_defined = @context.logical_switch_group || @item['LogicalSwitchGroupUri']
         raise "Undefined Property: 'logical_switch_group'. Please set it before attempting this action" unless lsg_defined
         unless @item['LogicalSwitchGroupUri']
-          @item.set_logical_switch_group(resource_named(:LogicalSwitchGroup).find_by(@item.client, name: @context.logical_switch_group).first)
+          @item.set_logical_switch_group(load_resource(:LogicalSwitchGroup, @context.logical_switch_group))
         end
         # This will avoid overriding the 'logicalSwitchCredentials' if already specified in data
         return if @item['logicalSwitchCredentials']
@@ -61,8 +61,8 @@ module OneviewCookbook
       end
 
       def refresh
-        @item = resource_named(:LogicalSwitch).find_by(@item.client, name: @item['name']).first
-        @context.converge_by "Refreshing #{@resource_name} '#{@name}'" do
+        raise "ResourceNotFound: #{@resource_name} '#{@name}' could not be found" unless @item.retrieve!
+        @context.converge_by "Refreshed #{@resource_name} '#{@name}'" do
           @item.refresh_state
         end
       end

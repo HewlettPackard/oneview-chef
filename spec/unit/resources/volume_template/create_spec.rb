@@ -7,11 +7,9 @@ describe 'oneview_test::volume_template_create' do
   it 'creates it when it does not exist' do
     allow_any_instance_of(OneviewSDK::VolumeTemplate).to receive(:exists?).and_return(false)
     allow_any_instance_of(OneviewSDK::VolumeTemplate).to receive(:retrieve!).and_return(false)
-    allow(OneviewSDK::StorageSystem).to receive(:find_by).and_return(
-      [
-        OneviewSDK::StorageSystem.new(client, credentials: { ip_hostname: '172.18.11.11' })
-      ]
-    )
+    allow_any_instance_of(OneviewCookbook::API200::VolumeTemplateProvider).to receive(:load_resource).and_call_original
+    allow_any_instance_of(OneviewCookbook::API200::VolumeTemplateProvider).to receive(:load_resource).with(:StorageSystem, anything)
+      .and_return(OneviewSDK::StorageSystem.new(client, name: 'StorageSystem1', uri: '/rest/storage-systems/1'))
     allow_any_instance_of(OneviewSDK::StorageSystem).to receive(:exists?).and_return(true)
     allow_any_instance_of(OneviewSDK::StorageSystem).to receive(:retrieve!).and_return(true)
     allow(OneviewSDK::StoragePool).to receive(:find_by)
@@ -23,11 +21,9 @@ describe 'oneview_test::volume_template_create' do
   it 'updates it when it exists but not alike' do
     allow_any_instance_of(OneviewSDK::VolumeTemplate).to receive(:exists?).and_return(true)
     allow_any_instance_of(OneviewSDK::VolumeTemplate).to receive(:retrieve!).and_return(true)
-    allow(OneviewSDK::StorageSystem).to receive(:find_by).and_return(
-      [
-        OneviewSDK::StorageSystem.new(client, credentials: { ip_hostname: '172.18.11.11' })
-      ]
-    )
+    allow_any_instance_of(OneviewCookbook::API200::VolumeTemplateProvider).to receive(:load_resource).and_call_original
+    allow_any_instance_of(OneviewCookbook::API200::VolumeTemplateProvider).to receive(:load_resource).with(:StorageSystem, anything)
+      .and_return(OneviewSDK::StorageSystem.new(client, name: 'StorageSystem1', uri: '/rest/storage-systems/1'))
     allow_any_instance_of(OneviewSDK::StorageSystem).to receive(:exists?).and_return(true)
     allow_any_instance_of(OneviewSDK::StorageSystem).to receive(:retrieve!).and_return(true)
     allow(OneviewSDK::StoragePool).to receive(:find_by)
@@ -40,11 +36,9 @@ describe 'oneview_test::volume_template_create' do
   it 'does nothing when it exists and its alike' do
     allow_any_instance_of(OneviewSDK::VolumeTemplate).to receive(:exists?).and_return(true)
     allow_any_instance_of(OneviewSDK::VolumeTemplate).to receive(:retrieve!).and_return(true)
-    allow(OneviewSDK::StorageSystem).to receive(:find_by).and_return(
-      [
-        OneviewSDK::StorageSystem.new(client, credentials: { ip_hostname: '172.18.11.11' })
-      ]
-    )
+    allow_any_instance_of(OneviewCookbook::API200::VolumeTemplateProvider).to receive(:load_resource).and_call_original
+    allow_any_instance_of(OneviewCookbook::API200::VolumeTemplateProvider).to receive(:load_resource).with(:StorageSystem, anything)
+      .and_return(OneviewSDK::StorageSystem.new(client, name: 'StorageSystem1', uri: '/rest/storage-systems/1'))
     allow_any_instance_of(OneviewSDK::StorageSystem).to receive(:exists?).and_return(true)
     allow_any_instance_of(OneviewSDK::StorageSystem).to receive(:retrieve!).and_return(true)
     allow(OneviewSDK::StoragePool).to receive(:find_by)

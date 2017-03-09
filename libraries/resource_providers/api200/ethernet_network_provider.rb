@@ -29,10 +29,7 @@ module OneviewCookbook
 
       def update_connection_template(bandwidth)
         bandwidth = convert_keys(bandwidth, :to_s)
-        klass = resource_named(:ConnectionTemplate)
-        # TODO: Refactor the load_resource method first to load it by uri
-        connection_template = klass.new(@item.client, uri: @item['connectionTemplateUri'])
-        connection_template.retrieve!
+        connection_template = load_resource(:ConnectionTemplate, uri: @item['connectionTemplateUri'])
         if connection_template.like? bandwidth
           Chef::Log.info("#{@resource_name} '#{@name}' connection template is up to date")
         else

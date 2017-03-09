@@ -17,12 +17,7 @@ module OneviewCookbook
     class RackProvider < ResourceProvider
       def load_mount_item
         options = convert_keys(@context.mount_options, :to_s)
-        mount_api_version = @context.api_header_version if @context.property_is_set?(:api_header_version)
-        mount_api_version ||= @sdk_api_version
-        klass = OneviewSDK.resource_named(options['type'], mount_api_version, @sdk_variant)
-        mount_item = klass.new(@item.client, name: options['name'])
-        mount_item.retrieve!
-        mount_item
+        load_resource(options['type'], options['name'])
       end
 
       def add_or_edit

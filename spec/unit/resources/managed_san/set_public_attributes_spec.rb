@@ -5,12 +5,11 @@ describe 'oneview_test::managed_san_set_public_attributes' do
   include_context 'chef context'
 
   it 'fails whe it does not exist' do
-    allow_any_instance_of(OneviewSDK::ManagedSAN).to receive(:exists?).and_return(false)
-    expect { real_chef_run }.to raise_error(RuntimeError, /Resource not found: oneview_managed_san 'ManagedSAN1'/)
+    allow_any_instance_of(OneviewSDK::ManagedSAN).to receive(:retrieve!).and_return(false)
+    expect { real_chef_run }.to raise_error(RuntimeError, /ResourceNotFound/)
   end
 
   it 'sets public attributes if it is no alike' do
-    allow_any_instance_of(OneviewSDK::ManagedSAN).to receive(:exists?).and_return(true)
     allow_any_instance_of(OneviewSDK::ManagedSAN).to receive(:retrieve!).and_call_original
     allow(OneviewSDK::ManagedSAN).to receive(:find_by).and_return(
       [
@@ -33,7 +32,6 @@ describe 'oneview_test::managed_san_set_public_attributes' do
   end
 
   it 'does nothing when it exists and is alike' do
-    allow_any_instance_of(OneviewSDK::ManagedSAN).to receive(:exists?).and_return(true)
     allow_any_instance_of(OneviewSDK::ManagedSAN).to receive(:retrieve!).and_call_original
     allow(OneviewSDK::ManagedSAN).to receive(:find_by).and_return(
       [

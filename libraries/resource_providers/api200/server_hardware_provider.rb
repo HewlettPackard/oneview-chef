@@ -17,7 +17,7 @@ module OneviewCookbook
     class ServerHardwareProvider < ResourceProvider
       def update_ilo_firmware
         @item.retrieve!
-        @context.converge_by "Updating iLO firmware on #{@resource_name} '#{@item['name']}'" do
+        @context.converge_by "Updated iLO firmware on #{@resource_name} '#{@name}'" do
           @item.update_ilo_firmware
         end
       end
@@ -25,21 +25,21 @@ module OneviewCookbook
       def set_power_state
         raise "Unspecified property: 'power_state'. Please set it before attempting this action." unless @context.power_state
         ps = @context.power_state.to_s.downcase
-        raise "#{@resource_name} '#{@item['name']}' not found!" unless @item.retrieve!
+        raise "#{@resource_name} '#{@name}' not found!" unless @item.retrieve!
         if @item['powerState'].casecmp(ps).zero?
-          Chef::Log.info("#{@resource_name} '#{@item['name']}' is already powered #{ps}")
+          Chef::Log.info("#{@resource_name} '#{@name}' is already powered #{ps}")
         else
-          @context.converge_by "Power #{ps} #{@resource_name} '#{@item['name']}'" do
+          @context.converge_by "Power #{ps} #{@resource_name} '#{@name}'" do
             @item.public_send("power_#{ps}".to_sym)
           end
         end
       end
 
       def refresh
-        raise "#{@resource_name} '#{@item['name']}' not found!" unless @item.retrieve!
+        raise "#{@resource_name} '#{@name}' not found!" unless @item.retrieve!
         refresh_ready = ['RefreshFailed', 'NotRefreshing', ''].include? @item['refreshState']
-        return Chef::Log.info("#{@resource_name} '#{@item['name']}' refresh is already running.") unless refresh_ready
-        @context.converge_by "Refresh #{@resource_name} '#{@item['name']}'." do
+        return Chef::Log.info("#{@resource_name} '#{@name}' refresh is already running.") unless refresh_ready
+        @context.converge_by "Refresh #{@resource_name} '#{@name}'." do
           @item.set_refresh_state('RefreshPending', @context.refresh_options)
         end
       end

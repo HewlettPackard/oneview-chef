@@ -17,7 +17,7 @@ module OneviewCookbook
     class ServerHardwareTypeProvider < ResourceProvider
       def edit
         return add_or_edit if @item.exists?
-        raise "Resource not found: #{@resource_name} '#{@item['name']}'"
+        raise "ResourceNotFound: #{@resource_name} '#{@name}'"
       end
     end
   end

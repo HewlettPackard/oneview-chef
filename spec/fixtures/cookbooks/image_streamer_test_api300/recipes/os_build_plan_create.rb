@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: oneview_test
-# Recipe:: storage_pool_add_with_name
+# Cookbook Name:: image_streamer_test_api300
+# Recipe:: os_build_plan_create
 #
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +14,11 @@
 # specific language governing permissions and limitations under the License.
 #
 
-oneview_storage_pool 'StoragePool2' do
-  client node['oneview_test']['client']
-  storage_system 'StorageSystem1'
+image_streamer_os_build_plan 'OSBuildPlan1' do
+  client node['image_streamer_test']['client']
+  data(
+    description: 'Chef created OS Build Plan',
+    oeBuildPlanType: 'Deploy'
+  )
+  action :create
 end

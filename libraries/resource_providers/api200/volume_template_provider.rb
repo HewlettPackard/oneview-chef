@@ -32,12 +32,11 @@ module OneviewCookbook
       # Hostname or storage system name can be used
       # @return [resource_named(:VolumeTemplate)] VolumeTemplate with Storage System parameters updated
       def load_storage_system
-        storage_system_resource = resource_named(:StorageSystem).new(@item.client, credentials: { ip_hostname: @context.storage_system })
-        unless storage_system_resource.exists?
-          storage_system_resource = resource_named(:StorageSystem).new(@item.client, name: @context.storage_system)
-        end
-        raise "Storage system '#{@context.storage_system}' not found" unless storage_system_resource.retrieve!
-        @item.set_storage_system(storage_system_resource)
+        data = {
+          credentials: { ip_hostname: @context.storage_system },
+          name: @context.storage_system
+        }
+        @item.set_storage_system(load_resource(:StorageSystem, data))
       end
 
       def create_or_update

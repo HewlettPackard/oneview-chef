@@ -18,8 +18,8 @@ module OneviewCookbook
       def interconnect_handler(present_block, absent_block)
         raise "Unspecified property: 'bay_number'. Please set it before attempting this action." unless @context.bay_number
         raise "Unspecified property: 'enclosure'. Please set it before attempting this action." unless @context.enclosure
-        interconnect_list = resource_named(:Interconnect).find_by(@item.client, {})
-        enclosure_item = resource_named(:Enclosure).find_by(@item.client, name: @context.enclosure).first
+        interconnect_list = resource_named(:Interconnect).get_all(@item.client)
+        enclosure_item = load_resource(:Enclosure, @context.enclosure)
         # Procedure to get (bay, enclosure) pairs and interconnect state
         listed_pairs = {}
         interconnect_list.each do |inter|
@@ -50,13 +50,8 @@ module OneviewCookbook
 
       # Handle the most types of updates
       def update_handler(action, key = nil)
-        temp = if key
-                 { key.to_s => Marshal.load(Marshal.dump(@item[key])) }
-               else
-                 Marshal.load(Marshal.dump(@item.data))
-               end
-        raise "Resource not found: Action '#{action}' cannot be performed since #{@resource_name} '#{@name}' was not found." unless @item.exists?
-        @item.retrieve!
+        temp = key ? { key.to_s => Marshal.load(Marshal.dump(@item[key])) } : Marshal.load(Marshal.dump(@item.data))
+        raise "Resource not found: Action '#{action}' cannot be performed since #{@resource_name} '#{@name}' was not found." unless @item.retrieve!
         return Chef::Log.info("#{@resource_name} '#{@name}' is up to date") if @item.like?(temp)
         Chef::Log.info "#{action.to_s.capitalize.tr('_', ' ')} #{@resource_name} '#{@name}'"
         Chef::Log.debug "#{@resource_name} '#{@name}' Chef resource differs from OneView resource."
@@ -77,7 +72,7 @@ module OneviewCookbook
         fw_defined = @context.firmware || @context.firmware_data['sppName']
         raise "Unspecified property: 'firmware'. Please set it before attempting this action." unless fw_defined
         return Chef::Log.info("Firmware #{@context.firmware} from logical interconnect '#{@name}' is up to date") if dif_values.empty?
-        fd = load_resource(:FirmwareDriver).find_by(@item.client, name: @context.firmware).first
+        fd = load_resource(:FirmwareDriver, @context.firmware)
         raise "Resource not found: Firmware action '#{action}' cannot be performed since the firmware '#{@context.firmware}' was not found." unless fd
         diff = get_diff(current_firmware, @context.firmware_data)
         Chef::Log.info "#{action.to_s.capitalize.tr('_', ' ')} #{@resource_name} '#{@name}'"
@@ -115,9 +110,7 @@ module OneviewCookbook
 
       def update_internal_networks
         @item.retrieve!
-        @context.internal_networks.collect! do |n|
-          resource_named(:EthernetNetwork).find_by(@item.client, name: n).first
-        end
+        @context.internal_networks.collect! { |n| load_resource(:EthernetNetwork, n) }
         if @item['internalNetworkUris'].sort == @context.internal_networks.collect { |x| x['uri'] }.sort
           Chef::Log.info("Internal networks for #{@resource_name} #{@name} are up to date")
         else

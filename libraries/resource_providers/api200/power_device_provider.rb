@@ -18,13 +18,10 @@ module OneviewCookbook
       def discover
         pd_klass = resource_named(:PowerDevice)
         power_devices_list = pd_klass.get_ipdu_devices(@item.client, @name)
-        if power_devices_list.empty?
-          Chef::Log.info "Discovering #{@resource_name} '#{@name}'"
-          @context.converge_by "Discovered #{@resource_name} '#{@name}'" do
-            pd_klass.discover(@item.client, hostname: @name, username: @context.username, password: @context.password)
-          end
-        else
-          Chef::Log.info("#{@resource_name} '#{@name}' is up to date")
+        return Chef::Log.info("#{@resource_name} '#{@name}' is up to date") unless power_devices_list.empty?
+        Chef::Log.info "Discovering #{@resource_name} '#{@name}'"
+        @context.converge_by "Discovered #{@resource_name} '#{@name}'" do
+          pd_klass.discover(@item.client, hostname: @name, username: @context.username, password: @context.password)
         end
       end
 

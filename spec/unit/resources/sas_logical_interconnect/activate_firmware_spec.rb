@@ -3,6 +3,7 @@ require_relative './../../../spec_helper'
 describe 'oneview_test_api300_synergy::sas_logical_interconnect_activate_firmware' do
   let(:resource_name) { 'sas_logical_interconnect' }
   let(:base_sdk) { OneviewSDK::API300::Synergy }
+  let(:provider) { OneviewCookbook::API300::Synergy::SASLogicalInterconnectProvider }
   include_context 'chef context'
   include_context 'shared context'
 
@@ -11,7 +12,7 @@ describe 'oneview_test_api300_synergy::sas_logical_interconnect_activate_firmwar
     @firmware_driver = base_sdk::FirmwareDriver.new(client300, name: 'Unit SPP', uri: 'rest/firmware/fake')
     allow_any_instance_of(base_sdk::SASLogicalInterconnect).to receive(:retrieve!).and_return(true)
     allow_any_instance_of(base_sdk::SASLogicalInterconnect).to receive(:get_firmware).and_return({})
-    allow(base_sdk::FirmwareDriver).to receive(:find_by).and_return([@firmware_driver])
+    allow_any_instance_of(provider).to receive(:load_resource).with(:FirmwareDriver, anything).and_return(@firmware_driver)
   end
 
   it 'activates the current firmware' do

@@ -26,40 +26,28 @@ module OneviewCookbook
 
       def set_policy
         temp = Marshal.load(Marshal.dump(@item['sanPolicy']))
-        raise "Resource not found: #{@resource_name} '#{@item['name']}'" unless @item.exists?
-
-        @item.retrieve!
-        if temp.all? { |k, v| v == @item['sanPolicy'][k] }
-          Chef::Log.info "#{@resource_name} '#{@name}' san policy is up to date"
-        else
-          Chef::Log.info "Updating #{@resource_name} '#{@name}' san policy"
-          @context.converge_by "#{@resource_name} '#{@name}' san policy updated" do
-            @item.set_san_policy(temp)
-          end
+        raise "ResourceNotFound: #{@resource_name} '#{@name}' could not be found" unless @item.retrieve!
+        return Chef::Log.info "#{@resource_name} '#{@name}' san policy is up to date" if temp.all? { |k, v| v == @item['sanPolicy'][k] }
+        Chef::Log.info "Updating #{@resource_name} '#{@name}' san policy"
+        @context.converge_by "#{@resource_name} '#{@name}' san policy updated" do
+          @item.set_san_policy(temp)
         end
       end
 
       def set_public_attributes
         temp = Marshal.load(Marshal.dump(@item['publicAttributes']))
-        raise "Resource not found: #{@resource_name} '#{@item['name']}'" unless @item.exists?
-
-        @item.retrieve!
+        raise "ResourceNotFound: #{@resource_name} '#{@name}' could not be found" unless @item.retrieve!
         # compares two hashes
         results = []
         temp_attributes = temp.sort_by { |element| element['name'] }
         item_attributes = @item['publicAttributes'].sort_by { |element| element['name'] }
-
         temp_attributes = temp_attributes.each_with_index do |element, index|
           results << element.all? { |k, v| v == item_attributes[index][k] }
         end
-
-        if results.all?
-          Chef::Log.info "#{@resource_name} '#{@name}' public attributes are up to date"
-        else
-          Chef::Log.info "Updating #{@resource_name} '#{@name}' public attributes"
-          @context.converge_by "#{@resource_name} '#{@name}' public attributes updated" do
-            @item.set_public_attributes(temp_attributes)
-          end
+        return Chef::Log.info "#{@resource_name} '#{@name}' public attributes are up to date" if results.all?
+        Chef::Log.info "Updating #{@resource_name} '#{@name}' public attributes"
+        @context.converge_by "#{@resource_name} '#{@name}' public attributes updated" do
+          @item.set_public_attributes(temp_attributes)
         end
       end
     end

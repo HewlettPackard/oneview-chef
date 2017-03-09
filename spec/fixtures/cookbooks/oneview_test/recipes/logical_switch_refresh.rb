@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: oneview_test
-# Recipe:: logical_switch_reset_connection_template
+# Recipe:: logical_switch_refresh
 #
 # (c) Copyright 2016 Hewlett Packard Enterprise Development LP
 #

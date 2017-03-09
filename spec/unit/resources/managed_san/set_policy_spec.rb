@@ -5,12 +5,11 @@ describe 'oneview_test::managed_san_set_policy' do
   include_context 'chef context'
 
   it 'fails whe it does not exist' do
-    allow_any_instance_of(OneviewSDK::ManagedSAN).to receive(:exists?).and_return(false)
-    expect { real_chef_run }.to raise_error(RuntimeError, /Resource not found: oneview_managed_san 'ManagedSAN1'/)
+    allow_any_instance_of(OneviewSDK::ManagedSAN).to receive(:retrieve!).and_return(false)
+    expect { real_chef_run }.to raise_error(RuntimeError, /ResourceNotFound/)
   end
 
-  it 'sets the policy if it is no alike' do
-    allow_any_instance_of(OneviewSDK::ManagedSAN).to receive(:exists?).and_return(true)
+  it 'sets the policy if it is not alike' do
     allow_any_instance_of(OneviewSDK::ManagedSAN).to receive(:retrieve!).and_call_original
     allow(OneviewSDK::ManagedSAN).to receive(:find_by).and_return(
       [
@@ -20,7 +19,7 @@ describe 'oneview_test::managed_san_set_policy' do
           sanPolicy: {
             'zoningPolicy' => 'SingleInitiatorAllTargets',
             'zoneNameFormat' => '{hostName}_{initiatorWwn}',
-            'enableAliasing' => false,
+            'enableAliasing' => false, # Edited to be not alike
             'initiatorNameFormat' => '{hostName}_{initiatorWwn}',
             'targetNameFormat' => '{storageSystemName}_{targetName}',
             'targetGroupNameFormat' => '{storageSystemName}_{targetGroupName}'
@@ -33,7 +32,6 @@ describe 'oneview_test::managed_san_set_policy' do
   end
 
   it 'does nothing when it exists and is alike' do
-    allow_any_instance_of(OneviewSDK::ManagedSAN).to receive(:exists?).and_return(true)
     allow_any_instance_of(OneviewSDK::ManagedSAN).to receive(:retrieve!).and_call_original
     allow(OneviewSDK::ManagedSAN).to receive(:find_by).and_return(
       [

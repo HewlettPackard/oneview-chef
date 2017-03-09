@@ -9,22 +9,20 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-require_relative '../../resource_provider'
+OneviewCookbook::ResourceBaseProperties.load(self)
 
-module OneviewCookbook
-  module API200
-    # StoragePool API200 provider
-    class StoragePoolProvider < ResourceProvider
-      def add_if_missing
-        raise "Unspecified property: 'storage_system'. Please set it before attempting this action." unless @context.storage_system
-        @item['poolName'] ||= @name
-        data = {
-          credentials: { ip_hostname: @context.storage_system },
-          name: @context.storage_system
-        }
-        @item.set_storage_system(load_resource(:StorageSystem, data))
-        super
-      end
-    end
-  end
+resource_name :image_streamer_os_build_plan
+
+default_action :create
+
+action :create do
+  OneviewCookbook::Helper.do_resource_action(self, :BuildPlan, :create_or_update, OneviewCookbook::ImageStreamer)
+end
+
+action :create_if_missing do
+  OneviewCookbook::Helper.do_resource_action(self, :BuildPlan, :create_if_missing, OneviewCookbook::ImageStreamer)
+end
+
+action :delete do
+  OneviewCookbook::Helper.do_resource_action(self, :BuildPlan, :delete, OneviewCookbook::ImageStreamer)
 end

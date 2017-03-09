@@ -47,16 +47,14 @@ module OneviewCookbook
       def reconfigure
         @item.retrieve!
         @item['enclosureUris'].each do |enclosure_uri|
-          enclosure = resource_named(:Enclosure).new(@item.client, uri: enclosure_uri)
-          enclosure.retrieve!
-          next unless ['NotReapplyingConfiguration', 'ReapplyingConfigurationFailed', ''].include? enclosure['reconfigurationState']
+          enc_state = load_resource(:Enclosure, { uri: enclosure_uri }, 'reconfigurationState')
+          next unless ['NotReapplyingConfiguration', 'ReapplyingConfigurationFailed', ''].include?(enc_state)
           Chef::Log.info "Reconfiguring #{@resource_name} '#{@name}'"
           @context.converge_by "#{@resource_name} '#{@name}' was reconfigured." do
             @item.reconfigure
           end
           return true
         end
-
         Chef::Log.info("#{@resource_name} '#{@name}' is currently being reconfigured")
       end
 

@@ -25,17 +25,16 @@ module OneviewCookbook
       def load_uplink_sets
         @context.uplink_sets.each do |uplink_info|
           parsed_uplink_info = convert_keys(uplink_info, :to_sym)
-          up = OneviewSDK.resource_named(:LIGUplinkSet, @sdk_api_version, @sdk_api_variant).new(@item.client, parsed_uplink_info[:data])
+          up = resource_named(:LIGUplinkSet).new(@item.client, parsed_uplink_info[:data])
           parsed_uplink_info[:networks].each do |network_name|
             net = case up[:networkType].to_s
                   when 'Ethernet'
-                    OneviewSDK.resource_named(:EthernetNetwork, @sdk_api_version, @sdk_api_variant).new(item.client, name: network_name)
+                    load_resource(:EthernetNetwork, network_name)
                   when 'FibreChannel'
-                    OneviewSDK.resource_named(:FCNetwork, @sdk_api_version, @sdk_api_variant).new(item.client, name: network_name)
+                    load_resource(:FCNetwork, network_name)
                   else
-                    raise "Type #{up[:networkType]} not supported"
+                    raise "Type '#{up[:networkType]}' not supported"
                   end
-            raise "#{up[:networkType]} #{network_name} not found" unless net.retrieve!
             up.add_network(net)
           end
           parsed_uplink_info[:connections].each { |link| up.add_uplink(link[:bay], link[:port]) }
