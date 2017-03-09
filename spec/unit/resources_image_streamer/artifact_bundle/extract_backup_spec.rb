@@ -19,7 +19,7 @@ describe 'image_streamer_test_api300::artifact_bundle_extract_backup' do
     expect(base_sdk::ArtifactBundle).to receive(:find_by).and_return([fake_artifact_bundle_backup])
     expect_any_instance_of(base_sdk::DeploymentGroup).to receive(:retrieve!).and_return(false)
     expect(base_sdk::ArtifactBundle).not_to receive(:extract_backup)
-    expect { real_chef_run }.to raise_error(RuntimeError, /DeploymentGroup 'BKP01' was not found in the appliance./)
+    expect { real_chef_run }.to raise_error(RuntimeError, /DeploymentGroup with data '{:name=>"BKP01"}' was not found in the appliance./)
   end
 
   it 'raises an error when backup does not exist' do

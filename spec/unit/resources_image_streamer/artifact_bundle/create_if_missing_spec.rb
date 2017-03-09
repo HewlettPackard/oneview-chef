@@ -34,6 +34,6 @@ describe 'image_streamer_test_api300::artifact_bundle_create_if_missing' do
 
   it 'Should raise an error when a resource passed in does not exist' do
     allow_any_instance_of(base_sdk::BuildPlan).to receive(:retrieve!).and_return(false)
-    expect { real_chef_run }.to raise_error RuntimeError, /BuildPlan 'BP' was not found in the appliance./
+    expect { real_chef_run }.to raise_error RuntimeError, /BuildPlan with data '{:name=>"BP"}' was not found in the appliance./
   end
 end
