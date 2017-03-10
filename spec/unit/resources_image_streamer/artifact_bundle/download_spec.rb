@@ -10,7 +10,7 @@ describe 'image_streamer_test_api300::artifact_bundle_download' do
     expect_any_instance_of(base_sdk::ArtifactBundle).to receive(:retrieve!).and_return(true)
     allow(File).to receive(:file?).and_call_original
     allow(File).to receive(:file?).with('/tmp/AB01.zip').and_return(false)
-    expect_any_instance_of(base_sdk::ArtifactBundle).to receive(:download).with('/tmp/AB01.zip')
+    expect_any_instance_of(base_sdk::ArtifactBundle).to receive(:download).with('/tmp/AB01.zip').and_return(true)
     expect(real_chef_run).to download_image_streamer_artifact_bundle('ArtifactBundle1')
   end
 

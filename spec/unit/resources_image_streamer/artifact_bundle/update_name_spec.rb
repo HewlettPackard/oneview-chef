@@ -9,7 +9,7 @@ describe 'image_streamer_test_api300::artifact_bundle_update_name' do
   it 'updates it when it exists but is not alike' do
     allow_any_instance_of(base_sdk::ArtifactBundle).to receive(:retrieve!).and_return(true)
     allow_any_instance_of(base_sdk::ArtifactBundle).to receive(:exists?).and_return(false)
-    expect_any_instance_of(base_sdk::ArtifactBundle).to receive(:update_name)
+    expect_any_instance_of(base_sdk::ArtifactBundle).to receive(:update_name).and_return(true)
     expect(real_chef_run).to update_image_streamer_artifact_bundle_name('ArtifactBundle1')
   end
 

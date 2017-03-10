@@ -8,7 +8,7 @@ describe 'image_streamer_test_api300::artifact_bundle_backup' do
 
   it 'backups resource when it exists' do
     expect_any_instance_of(base_sdk::DeploymentGroup).to receive(:retrieve!).and_return(true)
-    expect(base_sdk::ArtifactBundle).to receive(:create_backup)
+    expect(base_sdk::ArtifactBundle).to receive(:create_backup).and_return(true)
     expect(real_chef_run).to backup_image_streamer_artifact_bundle('DeploymentGroup1')
   end
 

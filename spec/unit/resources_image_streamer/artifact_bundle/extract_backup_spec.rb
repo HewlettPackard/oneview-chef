@@ -11,7 +11,7 @@ describe 'image_streamer_test_api300::artifact_bundle_extract_backup' do
   it 'extracts backup when backup and deployment group exist' do
     expect(base_sdk::ArtifactBundle).to receive(:find_by).and_return([fake_artifact_bundle_backup])
     expect_any_instance_of(base_sdk::DeploymentGroup).to receive(:retrieve!).and_return(true)
-    expect(base_sdk::ArtifactBundle).to receive(:extract_backup)
+    expect(base_sdk::ArtifactBundle).to receive(:extract_backup).and_return(true)
     expect(real_chef_run).to extract_backup_image_streamer_artifact_bundle('BKP01')
   end
 

@@ -10,7 +10,7 @@ describe 'image_streamer_test_api300::artifact_bundle_upload' do
     allow(File).to receive(:file?).and_call_original
     allow(File).to receive(:file?).with('/tmp/AB01.zip').and_return(true)
     expect_any_instance_of(base_sdk::ArtifactBundle).to receive(:exists?).and_return(false)
-    expect(base_sdk::ArtifactBundle).to receive(:create_from_file)
+    expect(base_sdk::ArtifactBundle).to receive(:create_from_file).and_return(true)
     expect(real_chef_run).to upload_image_streamer_artifact_bundle('ArtifactBundle1')
   end
 

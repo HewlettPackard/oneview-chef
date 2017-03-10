@@ -12,7 +12,7 @@ describe 'image_streamer_test_api300::artifact_bundle_download_backup' do
     allow(File).to receive(:file?).and_call_original
     allow(File).to receive(:file?).with('/tmp/BKP01.zip').and_return(false)
     expect(base_sdk::ArtifactBundle).to receive(:find_by).and_return([fake_artifact_bundle_backup])
-    expect(base_sdk::ArtifactBundle).to receive(:download_backup)
+    expect(base_sdk::ArtifactBundle).to receive(:download_backup).and_return(true)
     expect(real_chef_run).to download_backup_image_streamer_artifact_bundle('BKP01')
   end
 

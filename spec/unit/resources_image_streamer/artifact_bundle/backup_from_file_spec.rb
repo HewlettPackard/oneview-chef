@@ -10,7 +10,7 @@ describe 'image_streamer_test_api300::artifact_bundle_backup_from_file' do
     allow(File).to receive(:file?).and_call_original
     allow(File).to receive(:file?).with('/tmp/BKP01.zip').and_return(true)
     expect_any_instance_of(base_sdk::DeploymentGroup).to receive(:retrieve!).and_return(true)
-    expect(base_sdk::ArtifactBundle).to receive(:create_backup_from_file!)
+    expect(base_sdk::ArtifactBundle).to receive(:create_backup_from_file!).and_return(true)
     expect(real_chef_run).to backup_image_streamer_artifact_bundle_from_file('BKP01')
   end
 
