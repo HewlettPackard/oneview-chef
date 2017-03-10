@@ -17,36 +17,26 @@ module OneviewCookbook
     class UplinkSetProvider < ResourceProvider
       # Checks for external resources to be loaded within the @item
       def load_native_network
-        unless @context.native_network
-          @item['nativeNetworkUri'] = nil
-          return
-        end
+        return @item['nativeNetworkUri'] = nil unless @context.native_network
         # Retrieves the uplink set type based on the declared networkType parameter
         # Takes either Ethernet (default) or FibreChannel
         network_type = @item['networkType'] == 'Ethernet' ? 'EthernetNetwork' : 'FCNetwork'
-        native_net = resource_named(network_type.to_sym).find_by(@item.client, name: native_network).first
-        raise "Network #{native_network} not found." unless native_net
-        @item['nativeNetworkUri'] = native_net['uri']
+        @item['nativeNetworkUri'] = load_resource(network_type, native_network, 'uri')
       end
 
       def load_networks(network_list, type)
         return unless network_list
-        type = resource_named(type.to_sym) unless type.respond_to?(:find_by)
         return @item['networkUris'] = [] if network_list.empty?
         network_list.each do |net_name|
-          net = type.find_by(@item.client, name: net_name).first
-          raise "#{type} #{net_name} not found." unless net
-          @item.add_network(net) if type == resource_named(:EthernetNetwork)
-          @item.add_fcnetwork(net) if type == resource_named(:FCNetwork)
-          @item.add_fcoenetwork(net) if type == resource_named(:FCoENetwork)
+          net = load_resource(type, net_name)
+          case type.to_sym
+          when :EthernetNetwork then @item.add_network(net)
+          when :FCNetwork then @item.add_fcnetwork(net)
+          when :FCoENetwork then @item.add_fcoenetwork(net)
+          else
+            raise "UnsuportedType: The #{type} is not supported for #{@resource_name}"
+          end
         end
-      end
-
-      def load_logical_interconnect
-        return unless @context.logical_interconnect
-        li = resource_named(:LogicalInterconnect).find_by(@item.client, name: @context.logical_interconnect).first
-        raise "Logical Interconnect #{@context.logical_interconnect} not found." unless li
-        @item.set_logical_interconnect(li)
       end
 
       # Looks for enclosures within Location Entries
@@ -57,9 +47,7 @@ module OneviewCookbook
           # Checks whether the Enclosure has been declared, and sets its URI in case the user has referenced it by name
           # If the URI is already present, the following block is simply skipped
           next unless entry && entry['type'] == 'Enclosure' && !entry['value'].to_s[0..17].include?('/rest/enclosures/')
-          enclosure = resource_named(:Enclosure).find_by(@item.client, name: entry['value']).first
-          raise "Enclosure #{entry['value']} not found." unless enclosure
-          entry['value'] = enclosure['uri']
+          entry['value'] = load_resource(:Enclosure, { name: entry['value'], uri: entry['value'] }, 'uri')
         end
       end
 
@@ -69,7 +57,7 @@ module OneviewCookbook
         load_networks(@context.networks, :EthernetNetwork)
         load_networks(@context.fc_networks, :FCNetwork)
         load_networks(@context.fcoe_networks, :FCoENetwork)
-        load_logical_interconnect
+        @item.set_logical_interconnect(load_resource(:LogicalInterconnect, @context.logical_interconnect)) if @context.logical_interconnect
         load_enclosure
       end
 

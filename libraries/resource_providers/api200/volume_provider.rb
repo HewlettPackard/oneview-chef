@@ -37,11 +37,11 @@ module OneviewCookbook
       # Loads Storage System into the given Volume resource.
       # The storage_system property needs to be set to a name or IP in order to use this method
       def load_storage_system
-        storage_system_resource = resource_named(:StorageSystem).new(@item.client, credentials: { ip_hostname: @context.storage_system })
-        unless storage_system_resource.exists?
-          storage_system_resource = resource_named(:StorageSystem).new(@item.client, name: @context.storage_system)
-        end
-        @item.set_storage_system(storage_system_resource)
+        data = {
+          credentials: { ip_hostname: @context.storage_system },
+          name: @context.storage_system
+        }
+        @item.set_storage_system(load_resource(:StorageSystem, data))
       end
 
       def load_storage_pool
@@ -78,34 +78,28 @@ module OneviewCookbook
       end
 
       def create_snapshot
-        raise "Unspecified property: 'snapshot_data'. Please set it before attempting this action." unless @context.snapshot_data
-        raise "Resource not found: #{@resource_name} '#{@item['name']}'" unless @item.exists?
+        raise "UnspecifiedProperty: 'snapshot_data'. Please set it before attempting this action." unless @context.snapshot_data
+        raise "ResourceNotFound: #{@resource_name} '#{@item['name']}'" unless @item.exists?
         temp = convert_keys(Marshal.load(Marshal.dump(@context.snapshot_data)), :to_s)
         @item.retrieve!
         snapshot = @item.get_snapshot(temp['name'])
-        if snapshot.empty?
-          Chef::Log.info "Creating oneview_volume '#{@name}' snapshot"
-          @context.converge_by "Created oneview_volume '#{@name}' snapshot" do
-            @item.create_snapshot(temp)
-          end
-        else
-          Chef::Log.info "Volume snapshot '#{temp['name']}' already exists"
+        return Chef::Log.info "Volume snapshot '#{temp['name']}' already exists" unless snapshot.empty?
+        Chef::Log.info "Creating oneview_volume '#{@name}' snapshot"
+        @context.converge_by "Created oneview_volume '#{@name}' snapshot" do
+          @item.create_snapshot(temp)
         end
       end
 
       def delete_snapshot
-        raise "Unspecified property: 'snapshot_data'. Please set it before attempting this action." unless @context.snapshot_data
-        raise "Resource not found: #{@resource_name} '#{@item['name']}'" unless @item.exists?
+        raise "UnspecifiedProperty: 'snapshot_data'. Please set it before attempting this action." unless @context.snapshot_data
+        raise "ResourceNotFound: #{@resource_name} '#{@item['name']}'" unless @item.exists?
         temp = convert_keys(Marshal.load(Marshal.dump(@context.snapshot_data)), :to_s)
         @item.retrieve!
         snapshot = @item.get_snapshot(temp['name'])
-        if snapshot.empty?
-          Chef::Log.info "Volume snapshot '#{temp['name']}' is already deleted"
-        else
-          Chef::Log.info "Deleting oneview_volume_snapshot '#{@name}'"
-          @context.converge_by "Deleted oneview_volume_snapshot '#{@name}'" do
-            @item.delete_snapshot(temp['name'])
-          end
+        return Chef::Log.info "Volume snapshot '#{temp['name']}' already exists" if snapshot.empty?
+        Chef::Log.info "Deleting oneview_volume_snapshot '#{@name}'"
+        @context.converge_by "Deleted oneview_volume_snapshot '#{@name}'" do
+          @item.delete_snapshot(temp['name'])
         end
       end
     end

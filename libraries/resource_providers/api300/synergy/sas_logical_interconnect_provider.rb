@@ -18,9 +18,11 @@ module OneviewCookbook
       class SASLogicalInterconnectProvider < API200::LogicalInterconnectProvider
         def get_serial_number(drive_id)
           return unless drive_id
-          temp_res = resource_named(:DriveEnclosure).find_by(@item.client, name: drive_id).first
-          return temp_res['serialNumber'] if temp_res
-          drive_id
+          begin
+            load_resource(:DriveEnclosure, drive_id, 'serialNumber')
+          rescue RuntimeError
+            drive_id
+          end
         end
 
         def replace_drive_enclosure

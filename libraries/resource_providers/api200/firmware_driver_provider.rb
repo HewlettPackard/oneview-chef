@@ -19,7 +19,7 @@ module OneviewCookbook
         return @item if @item.retrieve!
         filename ||= @name
         filename = ::File.basename(filename, ::File.extname(filename)).tr('.', '_')
-        firmware_list = resource_named(:FirmwareDriver).find_by(@item.client, {})
+        firmware_list = resource_named(:FirmwareDriver).get_all(@item.client)
         firmware_list.find { |fw| filename == fw['resourceId'] }
       end
 
@@ -29,10 +29,7 @@ module OneviewCookbook
         return Chef::Log.info "#{@resource_name} '#{@name}' is already up to date." if @item
         Chef::Log.info "Adding #{@resource_name} '#{@name}'. This may take some time..."
         @context.converge_by "Add #{@resource_name} '#{@name}'" do
-          # resource_named(:FirmwareBundle).add(client, @name) # Waiting on SDK #176
-          version = OneviewSDK.const_get("API#{@sdk_api_version}")
-          version = version.const_get(@sdk_api_variant) if @sdk_api_variant
-          version.const_get(:FirmwareBundle).add(client, @name)
+          resource_named(:FirmwareBundle).add(client, @name)
         end
       end
 
@@ -59,12 +56,12 @@ module OneviewCookbook
       # Verifies and loads the SPP
       def load_spp
         spp = nil
-        fd_klass = resource_named(:FirmwareDriver)
         if @context.spp_name
-          spp = fd_klass.new(@item.client, name: @context.spp_name)
-          spp.retrieve!
+          spp = load_resource(:FirmwareDriver, @context.spp_name)
         elsif @context.spp_file
           spp = load_firmware(@context.spp_file)
+        else
+          raise "InvalidProperties: The property 'spp_name' or 'spp_file' must be specified."
         end
         @item['baselineUri'] = spp['uri']
       end
@@ -72,13 +69,8 @@ module OneviewCookbook
       # Verifies and loads Hotfixes
       def load_hotfixes
         @item['hotfixUris'] = []
-        fd_klass = resource_named(:FirmwareDriver)
         if @context.hotfixes_names
-          @context.hotfixes_names.each do |hotfix|
-            temp = fd_klass.new(@item.client, name: hotfix)
-            temp.retrieve!
-            @item['hotfixUris'] << temp['uri'] if temp['uri']
-          end
+          @context.hotfixes_names.each { |hotfix| @item['hotfixUris'] << load_resource(:FirmwareDriver, hotfix, 'uri') }
         elsif @context.hotfixes_files
           @context.hotfixes_files.each do |hotfix|
             temp = load_firmware(hotfix)

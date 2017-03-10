@@ -17,21 +17,12 @@ module OneviewCookbook
     class LogicalEnclosureProvider < ResourceProvider
       # Load the enclosure_group & enclosures properties
       def load_logical_enclosure
-        if @context.enclosure_group
-          eg_klass = resource_named(:EnclosureGroup)
-          eg = eg_klass.find_by(@item.client, name: @context.enclosure_group).first
-          raise "EnclosureGroup '#{@context.enclosure_group}' not found!" unless eg
-          @item['enclosureGroupUri'] = eg['uri']
-        end
-
+        @item['enclosureGroupUri'] = load_resource(:EnclosureGroup, @context.enclosure_group, 'uri') if @context.enclosure_group
         @item['enclosureUris'] ||= []
-        if @context.enclosures
-          enc_klass = resource_named(:Enclosure)
-          @context.enclosures.each do |e|
-            enc = enc_klass.new(@item.client, name: e, serialNumber: e, activeOaPreferredIP: e, standbyOaPreferredIP: e)
-            raise "Enclosure '#{e}' not found!" unless enc.retrieve!
-            @item['enclosureUris'].push enc['uri']
-          end
+        return unless @context.enclosures
+        @context.enclosures.each do |e|
+          data = { name: e, serialNumber: e, activeOaPreferredIP: e, standbyOaPreferredIP: e }
+          @item['enclosureUris'].push(load_resource(:Enclosure, data, 'uri'))
         end
       end
 
@@ -56,16 +47,14 @@ module OneviewCookbook
       def reconfigure
         @item.retrieve!
         @item['enclosureUris'].each do |enclosure_uri|
-          enclosure = resource_named(:Enclosure).new(@item.client, uri: enclosure_uri)
-          enclosure.retrieve!
-          next unless ['NotReapplyingConfiguration', 'ReapplyingConfigurationFailed', ''].include? enclosure['reconfigurationState']
+          enc_state = load_resource(:Enclosure, { uri: enclosure_uri }, 'reconfigurationState')
+          next unless ['NotReapplyingConfiguration', 'ReapplyingConfigurationFailed', ''].include?(enc_state)
           Chef::Log.info "Reconfiguring #{@resource_name} '#{@name}'"
           @context.converge_by "#{@resource_name} '#{@name}' was reconfigured." do
             @item.reconfigure
           end
           return true
         end
-
         Chef::Log.info("#{@resource_name} '#{@name}' is currently being reconfigured")
       end
 

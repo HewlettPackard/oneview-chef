@@ -6,7 +6,7 @@ describe 'oneview_test::volume_delete_snapshot' do
 
   it 'raises error when resource does not exists' do
     expect_any_instance_of(OneviewSDK::Volume).to receive(:exists?).and_return(false)
-    expect { real_chef_run }.to raise_error(RuntimeError, /Resource not found: oneview_volume 'Volume1'/)
+    expect { real_chef_run }.to raise_error(RuntimeError, /ResourceNotFound: oneview_volume 'Volume1'/)
   end
 
   it 'does nothin when it does not exists' do

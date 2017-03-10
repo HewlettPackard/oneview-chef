@@ -24,24 +24,23 @@ module OneviewCookbook
       def create_or_update
         pw = @item.exists? ? @item.data.delete('password') : nil
         super
-        if pw
-          opts = {
-            api_version: @item.client.api_version,
-            url: @item.client.url,
-            user: @item['userName'],
-            password: pw,
-            ssl_enabled: @item.client.ssl_enabled,
-            log_level: :error
-          }
-          begin
-            OneviewCookbook::Helper.build_client(opts)
-            Chef::Log.info "#{@resource_name} '#{@name}' password is up to date"
-          rescue StandardError => e
-            raise e unless e.message =~ /Invalid username or password/
-            Chef::Log.info "Setting #{@resource_name} '#{@name}' password"
-            @context.converge_by "Set password for #{@resource_name} '#{@name}'\n" do
-              @item.update(password: pw)
-            end
+        return unless pw
+        opts = {
+          api_version: @item.client.api_version,
+          url: @item.client.url,
+          user: @item['userName'],
+          password: pw,
+          ssl_enabled: @item.client.ssl_enabled,
+          log_level: :error
+        }
+        begin
+          OneviewCookbook::Helper.build_client(opts)
+          Chef::Log.info "#{@resource_name} '#{@name}' password is up to date"
+        rescue StandardError => e
+          raise e unless e.message =~ /Invalid username or password/
+          Chef::Log.info "Setting #{@resource_name} '#{@name}' password"
+          @context.converge_by "Set password for #{@resource_name} '#{@name}'\n" do
+            @item.update(password: pw)
           end
         end
       end
