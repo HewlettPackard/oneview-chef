@@ -32,7 +32,7 @@ guard :rspec, cmd: 'bundle exec rspec --color', first_match: true do
 end
 
 group :style, halt_on_fail: true, first_match: true do
-  guard :rubocop, cli: ['-D'] do
+  guard :rubocop, cmd: 'bundle exec rubocop', cli: ['-D'] do
     watch('.rubocop.yml')
     watch(/(.+\.rb)$/) { |m| m[1] }
     watch(/^(Gemfile|Rakefile|Guardfile)$/) { |m| m[1] }
