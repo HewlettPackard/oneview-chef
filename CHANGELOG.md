@@ -1,5 +1,6 @@
 ## 2.2.0
-- Adds support to API300 HPE Synergy Image Streamer resources:
+Adds support to API300 HPE Synergy Image Streamer resources:
+  - image_streamer_artifact_bundle
   - image_streamer_os_build_plan
 
 ## 2.1.0
