@@ -15,34 +15,26 @@ module OneviewCookbook
   module API200
     # ConnectionTemplate API200 provider
     class ConnectionTemplateProvider < ResourceProvider
-      def load_connection_template
-        if @context.associated_ethernet_network
-          resource_class_name = :EthernetNetwork
-          resource_name = @context.associated_ethernet_network
-        elsif @context.associated_fc_network
-          resource_class_name = :FcNetwork
-          resource_name = @context.associated_fc_network
-        elsif @context.associated_network_set
-          resource_class_name = :NetworkSet
-          resource_name = @context.associated_network_set
-        elsif @context.associated_fcoe_network
-          resource_class_name = :FCoENetwork
-          resource_name = @context.associated_fcoe_network
-        else
-          return
-        end
+      def load_connection_template(resource_type, resource_name)
+        return unless resource_name
         @item.data.delete('name')
-        res = load_resource(resource_class_name, resource_name)
-        @item['uri'] = res['connectionTemplateUri']
+        @item['uri'] = load_resource(resource_type, resource_name, :connectionTemplateUri)
+      end
+
+      def load_connection_templates
+        load_connection_template(:EthernetNetwork, @context.associated_ethernet_network)
+        load_connection_template(:FCoENetwork, @context.associated_fcoe_network)
+        load_connection_template(:FCNetwork, @context.associated_fc_network)
+        load_connection_template(:NetworkSet, @context.associated_network_set)
       end
 
       def create_or_update
-        load_connection_template
+        load_connection_templates
         super
       end
 
       def reset
-        load_connection_template
+        load_connection_templates
         @item['bandwidth'] = resource_named(:ConnectionTemplate).get_default(@item.client)['bandwidth']
         create_or_update
       end

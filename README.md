@@ -125,12 +125,17 @@ Connection template resource for HPE OneView.
 oneview_connection_template 'ConnectionTemplate1' do
   client <my_client>
   data <resource_data>
-  associated_ethernet_network <ethernet_name> # Optional
+  associated_ethernet_network <ethernet_network_name> # Or
+  associated_fcoe_network <fcoe_network_name> # Or
+  associated_fc_network <fc_network_name> # Or
+  associated_network_set <network_set_name>
   action [:update, :reset]
 end
 ```
 
-Although the name of the `associated_ethernet_network` being an optional parameter, it must be set if the correct URI and Connection template name are not defined.
+:memo: **Note:** This resource can be used to set connection template parameters within four OneView entities: `EthernetNetwork`, `FCoENetwork`, `FCNetwork` and `NetworkSet`. However you shall not manipulate with more that one connection template in the single resource.
+
+Although the names of the associated resources (`associated_ethernet_network`, `associated_fcoe_network`, `associated_fc_network` and `associated_network_set`) are optional parameters, they must be set if the correct URI and Connection template name are not defined.
 
 ### oneview_fabric
 
