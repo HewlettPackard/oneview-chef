@@ -15,17 +15,17 @@ module OneviewCookbook
   module API200
     # ConnectionTemplate API200 provider
     class ConnectionTemplateProvider < ResourceProvider
-      def load_connection_template(resource_type, resource_name)
+      def load_template_from_resource(resource_type, resource_name)
         return unless resource_name
         @item.data.delete('name')
         @item['uri'] = load_resource(resource_type, resource_name, :connectionTemplateUri)
       end
 
       def load_connection_templates
-        load_connection_template(:EthernetNetwork, @context.associated_ethernet_network)
-        load_connection_template(:FCoENetwork, @context.associated_fcoe_network)
-        load_connection_template(:FCNetwork, @context.associated_fc_network)
-        load_connection_template(:NetworkSet, @context.associated_network_set)
+        load_template_from_resource(:EthernetNetwork, @context.associated_ethernet_network)
+        load_template_from_resource(:FCoENetwork, @context.associated_fcoe_network)
+        load_template_from_resource(:FCNetwork, @context.associated_fc_network)
+        load_template_from_resource(:NetworkSet, @context.associated_network_set)
       end
 
       def create_or_update
