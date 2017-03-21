@@ -30,6 +30,22 @@ oneview_ethernet_network 'ChefEthernet_3001' do
   )
 end
 
+# Network set that we'll use for the examples below
+oneview_network_set 'NetworkSet_3001' do
+  client oneview_sdk_client
+  ethernet_network_list ['ChefEthernet_3001']
+end
+
+
+# FC network that we'll use for the examples below
+oneview_fc_network 'Fibre Channel A' do
+  client client
+  data(
+    fabricType: 'FabricAttach',
+    autoLoginRedistribution: true
+  )
+end
+
 oneview_connection_template 'Reset connection ChefEthernet_3001' do
   client client
   associated_ethernet_network 'ChefEthernet_3001'
@@ -55,4 +71,35 @@ end
 oneview_ethernet_network 'ChefEthernet_3001' do
   client client
   action :delete
+end
+
+# Reset FC Network bandwidth parameters
+oneview_connection_template 'Reset connection Fibre Channel A' do
+  client client
+  associated_fc_network 'Fibre Channel A'
+  action :reset
+end
+
+# Set FC Network bandwidth parameters
+oneview_connection_template 'Update connection Fibre Channel A' do
+  client client
+  associated_fc_network 'Fibre Channel A'
+  data(
+    bandwidth: {
+      maximumBandwidth: 1000 * 8, # 8Gb/s
+      typicalBandwidth: 1000 * 8
+    }
+  )
+end
+
+# Set Network Set bandwidth parameters
+oneview_connection_template 'Update network set NetworkSet_3001' do
+  client client
+  associated_network_set 'NetworkSet_3001'
+  data(
+    bandwidth: {
+      maximumBandwidth: 13500,
+      typicalBandwidth: 2200
+    }
+  )
 end
