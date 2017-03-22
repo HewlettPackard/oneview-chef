@@ -133,7 +133,7 @@ oneview_connection_template 'ConnectionTemplate1' do
 end
 ```
 
-:memo: **Note:** This resource can be used to set connection template parameters within four OneView entities: `EthernetNetwork`, `FCoENetwork`, `FCNetwork` and `NetworkSet`. However you shall not manipulate with more that one connection template in the single resource.
+:memo: **Note:** This resource can be used to set connection template parameters within four OneView entities: `EthernetNetwork`, `FCoENetwork`, `FCNetwork` and `NetworkSet`. However you cannot manipulate more than one associated resource in a single connection template.
 
 Although the names of the associated resources (`associated_ethernet_network`, `associated_fcoe_network`, `associated_fc_network` and `associated_network_set`) are optional parameters, they must be set if the correct URI and Connection template name are not defined.
 
