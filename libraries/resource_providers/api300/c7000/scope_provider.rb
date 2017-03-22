@@ -21,7 +21,7 @@ module OneviewCookbook
         def change_resource_assignments
           add_or_remove = @context.add.any? || @context.remove.any?
           raise "Unspecified properties: 'add' and 'remove'. Please set at least one before attempting this action." unless add_or_remove
-          @item.retrieve!
+          @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
           values_to_add = build_resource_list
           values_to_remove = build_resource_list(:remove)
           return Chef::Log.info("#{@resource_name} '#{@name}' is up to date") if values_to_add.empty? && values_to_remove.empty?

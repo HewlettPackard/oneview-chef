@@ -5,7 +5,6 @@ describe 'oneview_test::server_profile_template_new_profile' do
   include_context 'chef context'
 
   it 'creates it when it does not exist' do
-    expect_any_instance_of(OneviewSDK::ServerProfileTemplate).to receive(:exists?).and_return(true)
     expect_any_instance_of(OneviewSDK::ServerProfileTemplate).to receive(:retrieve!).and_return(true)
     expect_any_instance_of(OneviewSDK::ServerProfileTemplate).to receive(:new_profile).and_return(OneviewSDK::ServerProfile.new(client))
     expect_any_instance_of(OneviewSDK::ServerProfile).to receive(:exists?).and_return(false)

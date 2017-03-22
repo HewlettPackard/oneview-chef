@@ -20,4 +20,9 @@ describe 'oneview_test_api300_synergy::sas_interconnect_refresh' do
     expect_any_instance_of(klass).to receive(:set_refresh_state).and_return(true)
     expect(real_chef_run).to refresh_oneview_sas_interconnect('SASInterconnect1')
   end
+
+  it 'fails if the resource is not found' do
+    expect_any_instance_of(klass).to receive(:retrieve!).and_return(false)
+    expect { real_chef_run }.to raise_error(RuntimeError, /not found/)
+  end
 end

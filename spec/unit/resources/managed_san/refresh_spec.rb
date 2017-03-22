@@ -23,4 +23,9 @@ describe 'oneview_test::managed_san_refresh' do
     expect_any_instance_of(OneviewSDK::ManagedSAN).to receive(:set_refresh_state).and_return(true)
     expect(real_chef_run).to refresh_oneview_managed_san('ManagedSAN1')
   end
+
+  it 'fails if the resource is not found' do
+    expect_any_instance_of(OneviewSDK::ManagedSAN).to receive(:retrieve!).and_return(false)
+    expect { real_chef_run }.to raise_error(RuntimeError, /not found/)
+  end
 end

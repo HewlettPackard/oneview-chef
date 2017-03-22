@@ -17,7 +17,7 @@ module OneviewCookbook
     class SwitchProvider < ResourceProvider
       def remove
         # Checks if the switch was already removed from oneview
-        return Chef::Log.info "#{@resource_name} '#{@name}' is already in the inventory." unless @item.retrieve! && 'Inventory' != @item['state']
+        return Chef::Log.info "#{@resource_name} '#{@name}' is already in the inventory." unless @item.retrieve! && @item['state'] != 'Inventory'
         @context.converge_by "Removed #{@resource_name} '#{@name}'" do
           @item.remove
         end

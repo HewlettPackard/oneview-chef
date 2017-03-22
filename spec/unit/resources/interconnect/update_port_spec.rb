@@ -44,6 +44,11 @@ describe 'oneview_test::interconnect_update_port' do
     allow_any_instance_of(OneviewSDK::Interconnect).to receive(:[]).with('ports').and_return(ports)
     expect { real_chef_run }.to raise_error(RuntimeError, /Could not find port/)
   end
+
+  it 'fails if the resource is not found' do
+    expect_any_instance_of(OneviewSDK::Interconnect).to receive(:retrieve!).and_return(false)
+    expect { real_chef_run }.to raise_error(RuntimeError, /not found/)
+  end
 end
 
 describe 'oneview_test::interconnect_update_port_invalid' do

@@ -24,7 +24,7 @@ module OneviewCookbook
           invalid_param = @context.operation.nil? || @context.path.nil?
           raise "InvalidParameters: Parameters 'operation' and 'path' must be set for patch" if invalid_param
           # TODO: Add support to Scopes (Currently not supported by oneview-sdk gem 3.1.0)
-          @item.retrieve!
+          @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
           @context.converge_by "Performing '#{@context.operation}' at #{@context.path} with #{@context.value} in #{@resource_name} '#{@name}'" do
             body = if @context.value
                      { op: @context.operation, path: @context.path, value: @context.value }

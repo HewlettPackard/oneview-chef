@@ -25,7 +25,7 @@ module OneviewCookbook
         end
 
         def refresh
-          @item.retrieve!
+          @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
           refresh_ready = ['RefreshFailed', 'NotRefreshing', ''].include? @item['refreshState']
           return Chef::Log.info("#{@resource_name} '#{@name}' refresh is already running. State: #{@item['refreshState']}") unless refresh_ready
           @context.converge_by "#{@resource_name} '#{@name}' was refreshed." do
@@ -36,7 +36,7 @@ module OneviewCookbook
         protected
 
         def reset_handler(path)
-          @item.retrieve!
+          @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
           # Nothing to verify
           @context.converge_by "#{path.delete('/').gsub(/([A-Z])/, ' \1').capitalize} #{@resource_name} '#{@name}'" do
             @item.patch('replace', path, 'Reset')

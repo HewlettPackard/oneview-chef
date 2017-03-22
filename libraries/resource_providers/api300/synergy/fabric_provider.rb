@@ -17,7 +17,7 @@ module OneviewCookbook
       # Fabric API300 Synergy provider
       class FabricProvider < ResourceProvider
         def set_reserved_vlan_range
-          @item.retrieve!
+          @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
           options = { 'reservedVlanRange' => convert_keys(@context.reserved_vlan_range, :to_s) }
           options['reservedVlanRange']['type'] ||= 'vlan-pool'
           if @item.like? options
