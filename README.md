@@ -659,13 +659,22 @@ Note: Supported only in API300 onwards.
 oneview_scope 'Scope1' do
   client <my_client>
   data <resource_data>
-  add <resource_list> # Hash containing combinations of <resourcetype>: <Array of names> to be added to the scope. Used in change_resource_assignments option only - Optional
-  remove <resource_list> # Hash containing combinations of <resourcetype>: <Array of names> to be removed from the scope. Used in change_resource_assignments option only - Optional
+  add <resource_list>
+  remove <resource_list>
   action [:create, :create_if_missing, :delete, :change_resource_assignments]
 end
 ```
 
-- **add** and **remove** (Hash) Optional - Specify resources to be added or removed. The Hashes should have `<resource_type> => [<resource_names>]` associations. The `resource_types` can be either `Strings` or `Symbols`, and should be in upper CamelCase. i.e.: ServerHardware, Enclosure. See the [example](examples/scope.rb) for more information.
+- **add** and **remove** (Hash) Optional - Used in the `:change_resource_assignments` action only. Specify resources to be added or removed. The Hash should have `<resource_type> => [<resource_names>]` associations. The `resource_type` can be a `String` or `Symbol`, and should be in upper CamelCase (i.e., ServerHardware, Enclosure):
+  
+  ```ruby
+  resource_list = {
+    Enclosure: ['Encl1'],
+    ServerHardware: ['Server1']
+  }
+  ```
+  
+  See the [example](examples/scope.rb) for more information.
 
 ### [oneview_server_hardware](examples/server_hardware.rb)
 
@@ -799,18 +808,19 @@ HPE Synergy Image Streamer resource for Artifact bundles.
 image_streamer_artifact_bundle 'ArtifactBundle1' do
   client <my_client>   # Hash or OneviewSDK::ImageStreamer::Client
   data <resource_data> # Hash
-  deployment_plans <deployment_plan_names> # Array containing Hashes with the names of the Deployment plans to be associated to this artifact bundle and if they should be read-only or write-permitted - Optional
-  golden_images <golden_image_names> # Array containing Hashes with the names of the Golden Images to be associated to this artifact bundle and if they should be read-only or write-permitted - Optional
-  os_build_plans <os_build_plan_names> # Array containing the names of the OS Build Plans to be associated to this artifact bundle and if they should be read-only or write-permitted - Optional
-  plan_scripts <plan_script_names> # Array containing the names of the Plan scripts to be associated to this artifact bundle and if they should be read-only or write-permitted - Optional
-  new_name <artifact_bundle_name> # String containing the name desired for an existing artifact bundle - Optional
-  file_path <local_file_path> # String - Path to file to perform any download, upload like actions (Required in these actions)
-  deployment_group <deployment_group_name> # String containing the name of the deployment group on which to perform a backup operation. (Required for :backup_from_file action)
-  timeout <timeout_value> # Integer containing the time in seconds for the :backup_from_file action to timeout if it is not finished. - Optional
-  action [:create_if_missing, :update_name, :delete, :download, :upload, :extract, :backup, :backup_from_file, :download_backup, :extract_backup]
+  deployment_plans <deployment_plan_names>
+  golden_images <golden_image_names>
+  os_build_plans <os_build_plan_names>
+  plan_scripts <plan_script_names>
+  new_name <artifact_bundle_name>          # String - The desired name for an existing artifact bundle - Optional
+  file_path <local_file_path>              # String - File path for download & upload actions (Required for these actions)
+  deployment_group <deployment_group_name> # String - Name of the deployment group on which to perform a backup. (Required for :backup_from_file action)
+  timeout <timeout_value> # Integer - Time in seconds for the :backup_from_file action to timeout if it is not finished. - Optional
+  action [:create_if_missing, :update_name, :delete, :download, :upload, :extract, :backup,
+          :backup_from_file, :download_backup, :extract_backup]
 end
 ```
-- **deployment_plans**, **golden_images**, **os_build_plans** and **plan_scripts** Array Optional - Specify resources to be associated with the artifact bundle. The Arrays should contain hashes with the following syntaxes: `{name: <resource_name>}, read_only: <true/false>`. The `read_only` field may be ommited for resources which are read-only. See the [example](examples/image_streamer/artifact_bundle.rb) for more information.
+- **deployment_plans**, **golden_images**, **os_build_plans** and **plan_scripts** (Array) Optional - Specify resources to be associated with the artifact bundle. The Array should contain Hashes in the following format: `{ name: <resource_name>, read_only: <true/false>} `. The `read_only` field may be ommited for resources which are read-only. See the [example](examples/image_streamer/artifact_bundle.rb) for more information.
 
 
 ### [image_streamer_deployment_plan](examples/image_streamer/deployment_plan.rb)
@@ -820,8 +830,8 @@ HPE Synergy Image Streamer resource for Deployment plans.
 image_streamer_deployment_plan 'DeploymentPlan1' do
   client <my_client>   # Hash or OneviewSDK::ImageStreamer::Client
   data <resource_data> # Hash
-  os_build_plan <os_build_plan_name> # String containing the name of the OS Build Plan to be associated to this deployment plan - Optional
-  golden_image <golden_image_name> # String containing the name of the Golden Image to be associated to this deployment plan - Optional
+  os_build_plan <os_build_plan_name> # String - Name of the OS Build Plan to be associated to this deployment plan - Optional
+  golden_image <golden_image_name> # String - Name of the Golden Image to be associated to this deployment plan - Optional
   action [:create, :create_if_missing, :delete]
 end
 ```
@@ -835,7 +845,7 @@ image_streamer_golden_image 'GoldenImage1' do
   data <resource_data>        # Hash - Note: The value of data['imageCapture'] determines whether or not certain other key/value pairs are required here
   os_volume <os_volume_name>  # String - Optional - OS Volume name to associate with the resource
   os_build_plan <plan_name>   # String - Optional - OS Build Plan name to associate with the resource. The type of the OS Build Plan must match the mode (Capture or Deploy), specified in data['imageCapture']
-  file_path <local_file_path> # String - Path to file to perform any download or upload like actions (Required in these actions)
+  file_path <local_file_path> # String - File path for download or upload actions (Required in these actions)
   timeout <time_in_seconds>   # Integer - Optional - Time to timeout the request in the :download and :upload_if_missing actions. Defaults to the default resource value (Usualy 300 seconds)
   action [:create, :create_if_missing, :delete, :download, :download_details_archive, :upload_if_missing]
 end
