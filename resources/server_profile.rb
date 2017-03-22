@@ -20,6 +20,7 @@ property :ethernet_network_connections, Hash
 property :fc_network_connections, Hash
 property :network_set_connections, Hash
 property :server_profile_template, String
+property :os_deployment_plan, String
 
 default_action :create
 
