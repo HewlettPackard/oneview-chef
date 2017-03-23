@@ -3,6 +3,10 @@ Adds support to API300 HPE Synergy Image Streamer resources:
   - image_streamer_artifact_bundle
   - image_streamer_os_build_plan
 
+Bug Fixes:
+- [#98](https://github.com/HewlettPackard/oneview-chef/issues/98) Fix get_diff for comparisons of alike data
+- [#145](https://github.com/HewlettPackard/oneview-chef/issues/145) Show diff on log statement before actual update
+
 ## 2.1.0
 - [#162](https://github.com/HewlettPackard/oneview-chef/issues/162) Add server_profile_template property to oneview_server_profile
 - Add :update_from_template action to oneview_server_profile
