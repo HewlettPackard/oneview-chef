@@ -16,7 +16,7 @@ module OneviewCookbook
     # ServerHardware API200 provider
     class ServerHardwareProvider < ResourceProvider
       def update_ilo_firmware
-        @item.retrieve!
+        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         @context.converge_by "Updated iLO firmware on #{@resource_name} '#{@name}'" do
           @item.update_ilo_firmware
         end
@@ -25,7 +25,7 @@ module OneviewCookbook
       def set_power_state
         raise "Unspecified property: 'power_state'. Please set it before attempting this action." unless @context.power_state
         ps = @context.power_state.to_s.downcase
-        raise "#{@resource_name} '#{@name}' not found!" unless @item.retrieve!
+        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         if @item['powerState'].casecmp(ps).zero?
           Chef::Log.info("#{@resource_name} '#{@name}' is already powered #{ps}")
         else
@@ -36,7 +36,7 @@ module OneviewCookbook
       end
 
       def refresh
-        raise "#{@resource_name} '#{@name}' not found!" unless @item.retrieve!
+        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         refresh_ready = ['RefreshFailed', 'NotRefreshing', ''].include? @item['refreshState']
         return Chef::Log.info("#{@resource_name} '#{@name}' refresh is already running.") unless refresh_ready
         @context.converge_by "Refresh #{@resource_name} '#{@name}'." do

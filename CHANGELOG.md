@@ -1,11 +1,13 @@
-## 2.2.0
+## Unreleased (proposed: 2.2.0)
 Adds support to API300 HPE Synergy Image Streamer resources:
   - image_streamer_artifact_bundle
   - image_streamer_os_build_plan
 
+Bug Fixes:
+- [#220](https://github.com/HewlettPackard/oneview-chef/issues/220) Raise "not found" error after failed retrieval of resource
+
 Enhancements:
 - [#218](https://github.com/HewlettPackard/oneview-chef/issues/218) connection_template resource does not support NetworkSet, FCoENetwork and FCNetwork
-
 
 ## 2.1.0
 - [#162](https://github.com/HewlettPackard/oneview-chef/issues/162) Add server_profile_template property to oneview_server_profile

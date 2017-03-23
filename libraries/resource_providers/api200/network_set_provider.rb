@@ -30,7 +30,7 @@ module OneviewCookbook
         if @item.exists?
           create_if_exists(temp)
         else
-          Chef::Log.info "Create #{resource_name} '#{name}'"
+          Chef::Log.info "Creating #{resource_name} '#{name}'"
           @context.converge_by "Create #{resource_name} '#{name}'" do
             @item.create
           end

@@ -28,7 +28,7 @@ module OneviewCookbook
 
       def add_to_rack
         raise "Unspecified property: 'mount_options'. Please set it before attempting this action." unless @context.mount_options
-        @item.retrieve!
+        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         mount_item = load_mount_item
         rack_uris = @item['rackMounts'].collect { |i| i['mountUri'] }
         options = convert_keys(@context.mount_options, :to_s).reject! { |i| ['type', 'name'].include?(i) }
@@ -50,7 +50,7 @@ module OneviewCookbook
 
       def remove_from_rack
         raise "Unspecified property: 'mount_options'. Please set it before attempting this action." unless @context.mount_options
-        @item.retrieve!
+        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         mount_item = load_mount_item
         rack_uris = @item['rackMounts'].collect { |i| i['mountUri'] }
         return Chef::Log.info("Item '#{mount_item['name']}' in '#{@name}' is up to date") unless rack_uris.include? mount_item['uri']

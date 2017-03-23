@@ -56,4 +56,9 @@ describe 'oneview_test::logical_enclosure_reconfigure' do
     expect_any_instance_of(OneviewSDK::LogicalEnclosure).to_not receive(:reconfigure)
     expect(real_chef_run).to reconfigure_oneview_logical_enclosure('LogicalEnclosure1')
   end
+
+  it 'fails if the resource is not found' do
+    expect_any_instance_of(OneviewSDK::LogicalEnclosure).to receive(:retrieve!).and_return(false)
+    expect { real_chef_run }.to raise_error(RuntimeError, /not found/)
+  end
 end

@@ -44,4 +44,9 @@ describe 'oneview_test::rack_add_to_rack' do
     expect_any_instance_of(OneviewSDK::Rack).to_not receive(:update)
     expect(real_chef_run).to add_oneview_rack_to_rack('Rack1')
   end
+
+  it 'fails if the resource is not found' do
+    expect_any_instance_of(OneviewSDK::Rack).to receive(:retrieve!).and_return(false)
+    expect { real_chef_run }.to raise_error(RuntimeError, /not found/)
+  end
 end

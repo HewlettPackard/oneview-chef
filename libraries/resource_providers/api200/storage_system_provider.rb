@@ -48,7 +48,7 @@ module OneviewCookbook
       def edit_credentials
         temp = {}
         temp['credentials'] = Marshal.load(Marshal.dump(@item.data))
-        return Chef::Log.error("\nCredentials not edited. #{@resource_name} '#{@name}' could not be found.\n") unless @item.retrieve!
+        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         temp['credentials']['ip_hostname'] ||= @item['credentials']['ip_hostname']
         Chef::Log.info "Updating #{@resource_name} '#{@name}' credentials"
         @context.converge_by "Update #{@resource_name} '#{@name}' credentials" do

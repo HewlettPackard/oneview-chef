@@ -38,8 +38,7 @@ module OneviewCookbook
 
       def new_profile
         raise "Unspecified property: 'profile_name'. Please set it before attempting this action." unless @context.profile_name
-        raise "Resource not found: '#{@name}' could not be found." unless @item.exists?
-        @item.retrieve!
+        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         @item = @item.new_profile(@context.profile_name)
         create_if_missing
       end

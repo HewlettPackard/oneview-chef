@@ -28,8 +28,8 @@ describe 'oneview_test::server_profile_update_from_template' do
     expect(Chef::Log).to have_received(:info).with(/Updating.*from template.*Preview:[\s\S]*stuff/)
   end
 
-  it 'fails if the profile cannot be found' do
-    expect(klass).to receive(:find_by).and_return([])
+  it 'fails if the resource is not found' do
+    expect_any_instance_of(klass).to receive(:retrieve!).and_return(false)
     expect { real_chef_run }.to raise_error(RuntimeError, /not found/)
   end
 end
