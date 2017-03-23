@@ -10,6 +10,11 @@ describe 'oneview_test_api300_synergy::sas_interconnect_set_power_state' do
     expect_any_instance_of(klass).to receive(:patch).with('replace', '/powerState', anything)
     expect(real_chef_run).to set_oneview_sas_interconnect_power_state('SASInterconnect1')
   end
+
+  it 'fails if the resource is not found' do
+    expect_any_instance_of(klass).to receive(:retrieve!).and_return(false)
+    expect { real_chef_run }.to raise_error(RuntimeError, /not found/)
+  end
 end
 
 describe 'oneview_test_api300_synergy::sas_interconnect_set_power_state_invalid' do

@@ -6,7 +6,7 @@ describe 'oneview_test::managed_san_set_policy' do
 
   it 'fails whe it does not exist' do
     allow_any_instance_of(OneviewSDK::ManagedSAN).to receive(:retrieve!).and_return(false)
-    expect { real_chef_run }.to raise_error(RuntimeError, /ResourceNotFound/)
+    expect { real_chef_run }.to raise_error(RuntimeError, /not found/)
   end
 
   it 'sets the policy if it is not alike' do

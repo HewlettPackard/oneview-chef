@@ -79,9 +79,8 @@ module OneviewCookbook
 
       def create_snapshot
         raise "UnspecifiedProperty: 'snapshot_data'. Please set it before attempting this action." unless @context.snapshot_data
-        raise "ResourceNotFound: #{@resource_name} '#{@item['name']}'" unless @item.exists?
         temp = convert_keys(Marshal.load(Marshal.dump(@context.snapshot_data)), :to_s)
-        @item.retrieve!
+        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         snapshot = @item.get_snapshot(temp['name'])
         return Chef::Log.info "Volume snapshot '#{temp['name']}' already exists" unless snapshot.empty?
         Chef::Log.info "Creating oneview_volume '#{@name}' snapshot"
@@ -92,9 +91,8 @@ module OneviewCookbook
 
       def delete_snapshot
         raise "UnspecifiedProperty: 'snapshot_data'. Please set it before attempting this action." unless @context.snapshot_data
-        raise "ResourceNotFound: #{@resource_name} '#{@item['name']}'" unless @item.exists?
         temp = convert_keys(Marshal.load(Marshal.dump(@context.snapshot_data)), :to_s)
-        @item.retrieve!
+        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         snapshot = @item.get_snapshot(temp['name'])
         return Chef::Log.info "Volume snapshot '#{temp['name']}' already exists" if snapshot.empty?
         Chef::Log.info "Deleting oneview_volume_snapshot '#{@name}'"

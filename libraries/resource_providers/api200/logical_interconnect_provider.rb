@@ -51,7 +51,7 @@ module OneviewCookbook
       # Handle the most types of updates
       def update_handler(action, key = nil)
         temp = key ? { key.to_s => Marshal.load(Marshal.dump(@item[key])) } : Marshal.load(Marshal.dump(@item.data))
-        raise "Resource not found: Action '#{action}' cannot be performed since #{@resource_name} '#{@name}' was not found." unless @item.retrieve!
+        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         return Chef::Log.info("#{@resource_name} '#{@name}' is up to date") if @item.like?(temp)
         Chef::Log.info "#{action.to_s.capitalize.tr('_', ' ')} #{@resource_name} '#{@name}'"
         Chef::Log.debug "#{@resource_name} '#{@name}' Chef resource differs from OneView resource."
@@ -65,7 +65,7 @@ module OneviewCookbook
       end
 
       def firmware_handler(action)
-        @item.retrieve!
+        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         current_firmware = @item.get_firmware
         @context.firmware_data['command'] = action
         dif_values = @context.firmware_data.select { |k, v| current_firmware[k] != v }
@@ -109,7 +109,7 @@ module OneviewCookbook
       end
 
       def update_internal_networks
-        @item.retrieve!
+        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         @context.internal_networks.collect! { |n| load_resource(:EthernetNetwork, n) }
         if @item['internalNetworkUris'].sort == @context.internal_networks.collect { |x| x['uri'] }.sort
           Chef::Log.info("Internal networks for #{@resource_name} #{@name} are up to date")
@@ -166,7 +166,7 @@ module OneviewCookbook
       end
 
       def update_from_group
-        @item.retrieve!
+        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         # Nothing to verify
         @context.converge_by "Update #{@resource_name} '#{@name}' from group" do
           @item.compliance
@@ -174,7 +174,7 @@ module OneviewCookbook
       end
 
       def reapply_configuration
-        @item.retrieve!
+        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         # Nothing to verify
         @context.converge_by "Reapply configuration in #{@resource_name} '#{@name}'" do
           @item.configuration

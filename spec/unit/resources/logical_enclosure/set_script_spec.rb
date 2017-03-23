@@ -17,4 +17,9 @@ describe 'oneview_test::logical_enclosure_set_script' do
     expect_any_instance_of(OneviewSDK::LogicalEnclosure).to receive(:set_script).with('script commands')
     expect(real_chef_run).to set_oneview_logical_enclosure_script('LogicalEnclosure1')
   end
+
+  it 'fails if the resource is not found' do
+    expect_any_instance_of(OneviewSDK::LogicalEnclosure).to receive(:retrieve!).and_return(false)
+    expect { real_chef_run }.to raise_error(RuntimeError, /not found/)
+  end
 end

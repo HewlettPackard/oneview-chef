@@ -17,4 +17,9 @@ describe 'oneview_test_api300_synergy::switch_patch' do
 
     expect(real_chef_run).to patch_oneview_switch('Switch1')
   end
+
+  it 'fails if the resource is not found' do
+    expect_any_instance_of(api::Switch).to receive(:retrieve!).and_return(false)
+    expect { real_chef_run }.to raise_error(RuntimeError, /not found/)
+  end
 end

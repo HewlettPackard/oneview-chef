@@ -45,7 +45,7 @@ module OneviewCookbook
         def download_validation
           raise 'InvalidFilePath: The file_path was not specified. Please set it and try again' unless @context.file_path
           return Chef::Log.info("#{@resource_type} '#{@name}' file '#{@context.file_path}' already exist") if File.exist?(@context.file_path)
-          raise "ResourceNotFound: #{@resource_type} '#{@name}' could not be found" unless @item.retrieve!
+          @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         end
 
         def download

@@ -22,7 +22,7 @@ describe 'image_streamer_test_api300::artifact_bundle_update_name' do
 
   it 'raises an error when a resource passed in does not exist' do
     expect_any_instance_of(base_sdk::ArtifactBundle).to receive(:retrieve!).and_return(false)
-    expect { real_chef_run }.to raise_error(RuntimeError, /ArtifactBundle1 does not exist in the appliance. Cannot run update_name action./)
+    expect { real_chef_run }.to raise_error(RuntimeError, /not found/)
   end
 
   it 'raises an error when the new name is already in use' do

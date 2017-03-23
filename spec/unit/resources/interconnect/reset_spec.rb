@@ -9,4 +9,9 @@ describe 'oneview_test::interconnect_reset' do
     expect_any_instance_of(OneviewSDK::Interconnect).to receive(:patch).with('replace', '/deviceResetState', 'Reset')
     expect(real_chef_run).to reset_oneview_interconnect('Interconnect3')
   end
+
+  it 'fails if the resource is not found' do
+    expect_any_instance_of(OneviewSDK::Interconnect).to receive(:retrieve!).and_return(false)
+    expect { real_chef_run }.to raise_error(RuntimeError, /not found/)
+  end
 end

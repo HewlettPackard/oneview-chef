@@ -24,7 +24,7 @@ module OneviewCookbook
       end
 
       def reconfigure
-        @item.retrieve!
+        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         if ['NotReapplyingConfiguration', 'ReapplyingConfigurationFailed', ''].include? @item['reconfigurationState']
           @context.converge_by "#{@resource_name} '#{@name}' was reconfigured." do
             @item.configuration
@@ -35,7 +35,7 @@ module OneviewCookbook
       end
 
       def refresh
-        @item.retrieve!
+        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         refresh_ready = ['RefreshFailed', 'NotRefreshing', ''].include? @item['refreshState']
         return Chef::Log.info("#{@resource_name} '#{@name}' refresh is already running. State: #{@item['refreshState']}") unless refresh_ready
         @context.converge_by "#{@resource_name} '#{@name}' was refreshed." do

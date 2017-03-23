@@ -9,6 +9,11 @@ describe 'oneview_test::interconnect_set_uid_light' do
     expect_any_instance_of(OneviewSDK::Interconnect).to receive(:patch).with('replace', '/uidState', anything)
     expect(real_chef_run).to set_oneview_interconnect_uid_light('Interconnect1')
   end
+
+  it 'fails if the resource is not found' do
+    expect_any_instance_of(OneviewSDK::Interconnect).to receive(:retrieve!).and_return(false)
+    expect { real_chef_run }.to raise_error(RuntimeError, /not found/)
+  end
 end
 
 describe 'oneview_test::interconnect_set_uid_light_invalid' do

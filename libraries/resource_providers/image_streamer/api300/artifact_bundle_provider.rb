@@ -39,7 +39,7 @@ module OneviewCookbook
 
         def update_name
           raise 'This action requires the new_name field to be specified.' unless @context.new_name
-          raise "#{@resource_name} #{@name} does not exist in the appliance. Cannot run update_name action." unless @item.retrieve!
+          @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
           return Chef::Log.info("#{@resource_name} '#{@name}' is up to date") if @item['name'] == @context.new_name
           new_name_in_use = resource_named(:ArtifactBundle).new(@item.client, name: @context.new_name).exists?
           raise "ArtifactBundle name '#{@context.new_name}' is already in use." if new_name_in_use
@@ -51,7 +51,7 @@ module OneviewCookbook
 
         def download
           raise "#{@resource_name} #{@context.file_path} must be specified for this action" unless @context.file_path
-          raise "#{@resource_name} #{@name} does not exist in the appliance. Cannot run download action." unless @item.retrieve!
+          @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
           return Chef::Log.info("#{@resource_name} '#{@name}' file already exists in specified location.") if File.file?(@context.file_path)
           @context.converge_by "Download #{@resource_name}'s '#{@name}' to #{@context.file_path} completed successfully" do
             @item.download(@context.file_path)
