@@ -34,7 +34,11 @@ oneview_ethernet_network 'Eth1' do
     vlanId: 1001,
     purpose: 'General',
     smartLink: false,
-    privateNetwork: false
+    privateNetwork: false,
+    bandwidth: {
+      typicalBandwidth: 2000,
+      maximumBandwidth: 9000
+    }
   )
   action :create_if_missing
 end
