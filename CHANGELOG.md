@@ -4,7 +4,7 @@ Adds support to API300 HPE Synergy Image Streamer resources:
   - image_streamer_os_build_plan
 
 Bug Fixes:
-- [#220](https://github.com/HewlettPackard/oneview-chef/issues/220) Raise error after failed retrieve
+- [#220](https://github.com/HewlettPackard/oneview-chef/issues/220) Raise "not found" error after failed retrieval of resource
 
 ## 2.1.0
 - [#162](https://github.com/HewlettPackard/oneview-chef/issues/162) Add server_profile_template property to oneview_server_profile
