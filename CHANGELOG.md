@@ -4,7 +4,7 @@ Adds support to API300 HPE Synergy Image Streamer resources:
   - image_streamer_os_build_plan
 
 Enhancements:
-- [#218](https://github.com/HewlettPackard/oneview-chef/issues/218) connection_template resource does not support NetworkSet, FCoENetwork and FcNetwork
+- [#218](https://github.com/HewlettPackard/oneview-chef/issues/218) connection_template resource does not support NetworkSet, FCoENetwork and FCNetwork
 
 
 ## 2.1.0
