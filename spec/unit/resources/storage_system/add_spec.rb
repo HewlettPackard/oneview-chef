@@ -26,4 +26,16 @@ describe 'oneview_test::storage_system_add' do
     expect_any_instance_of(OneviewSDK::StorageSystem).to_not receive(:add)
     expect(real_chef_run).to add_oneview_storage_system('StorageSystem1')
   end
+
+  it 'does not try to update the name or password' do
+    r = OneviewSDK::StorageSystem.new(client, name: 'other', managedDomain: 'TestDomain', credentials: {
+                                        'ip_hostname' => '127.0.0.1',
+                                        'username' => 'username',
+                                        'password' => 'different_password'
+                                      })
+    allow(OneviewSDK::StorageSystem).to receive(:find_by).and_return([r])
+    expect_any_instance_of(OneviewSDK::StorageSystem).to_not receive(:update)
+    expect_any_instance_of(OneviewSDK::StorageSystem).to_not receive(:add)
+    expect(real_chef_run).to add_oneview_storage_system('StorageSystem1')
+  end
 end

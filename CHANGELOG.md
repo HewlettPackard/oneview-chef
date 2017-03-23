@@ -1,8 +1,11 @@
-## 2.2.0
+## Unreleased (proposed: 2.2.0)
 Adds support to API300 HPE Synergy Image Streamer resources:
   - image_streamer_artifact_bundle
   - image_streamer_os_build_plan
 
+Bug Fixes:
+- [#93](https://github.com/HewlettPackard/oneview-chef/issues/93) oneview_storage_system should not try to update the name
+ 
 ## 2.1.0
 - [#162](https://github.com/HewlettPackard/oneview-chef/issues/162) Add server_profile_template property to oneview_server_profile
 - Add :update_from_template action to oneview_server_profile
