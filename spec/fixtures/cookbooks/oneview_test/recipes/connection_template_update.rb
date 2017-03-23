@@ -25,3 +25,39 @@ oneview_connection_template 'ConnectionTemplate1' do
   )
   action :update
 end
+
+oneview_connection_template 'ConnectionTemplate2' do
+  client node['oneview_test']['client']
+  associated_fc_network 'FCNetwork1'
+  data(
+    bandwidth: {
+      maximumBandwidth: 9999,
+      typicalBandwidth: 1111
+    }
+  )
+  action :update
+end
+
+oneview_connection_template 'ConnectionTemplate3' do
+  client node['oneview_test']['client']
+  associated_fcoe_network 'FCoENetwork1'
+  data(
+    bandwidth: {
+      maximumBandwidth: 9999,
+      typicalBandwidth: 1111
+    }
+  )
+  action :update
+end
+
+oneview_connection_template 'ConnectionTemplate4' do
+  client node['oneview_test']['client']
+  associated_network_set 'NetworkSet1'
+  data(
+    bandwidth: {
+      maximumBandwidth: 9999,
+      typicalBandwidth: 1111
+    }
+  )
+  action :update
+end

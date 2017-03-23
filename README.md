@@ -9,13 +9,11 @@
 Chef cookbook that provides resources for managing HPE OneView.
 
 ## Requirements
-
  - Chef 12.0 or higher
  - For oneview resources: HPE OneView 2.0 or 3.0 (API versions 200 or 300). May work with other versions too, but no guarantees
  - For image_streamer resources: HPE Synergy Image Streamer appliance (API version 300)
 
 ## Usage
-
 This cookbook is not intended to include any recipes.
 Use it by creating a new cookbook and specifying a dependency on this cookbook in your metadata.
 Then use any of the resources provided by this cookbook.
@@ -47,7 +45,6 @@ When using the resources a API version will be selected to interact with the res
 Be aware of the precedence of these methods! The higher priority goes to setting the resource property, followed by the client parameter, and at last the node value as the default, i.e. *Property > Client > Attribute*. (e.g. If you set the resource property `api_version` to *200*, and set the client parameter `api_version` to *300*, it will use the module **API200**, since the resource property takes precedence over the client parameter)
 
 ## Attributes
-
  - `node['oneview']['ruby_sdk_version']` - Set which version of the SDK to install and use. Defaults to `'~> 4.1'`
  - `node['oneview']['save_resource_info']` - Save resource info to a node attribute? Defaults to `['uri']`. Possible values/types:
    - `true` - Save all info (Merged hash of OneView info and Chef resource properties). Warning: Resource credentials will be saved if specified.
@@ -61,7 +58,6 @@ See [attributes/default.rb](attributes/default.rb) for more info.
 ## Resources
 
 ### Resource Properties
-
 The following are the standard properties available for all resources. Some resources have additional properties or small differences; see their doc sections below for more details.
 
  - **client**: Hash, OneviewSDK::Client or OneviewSDK::ImageStreamer::Client object that contains information about how to connect to the HPE OneView or HPE Synergy Image Streamer instances.
@@ -83,8 +79,7 @@ The following are the standard properties available for all resources. Some reso
  - **path**: (String) Specify the path where the `:patch` action will be sent to.
  - **value**: (String, Array<String>) Specify the value for the `:patch` action. Optional for some operations.
 
-### oneview_resource
-
+### [oneview_resource](examples/oneview_resource.rb)
 This is a generic provider for managing any OneView resource.
 This really exists only for resources that exist in the SDK but don't have a Chef resource provider. If a specific resource exists, please use it instead.
 
@@ -103,13 +98,10 @@ end
 
 See the [example](examples/oneview_resource.rb) for more details.
 
-### oneview_ethernet_network
+### [oneview_ethernet_network](examples/ethernet_network.rb)
+Note: The `:bandwidth` can be defined inside `data` attribute. However, it will internally call the **oneview_connection_template** resource.
 
-Ethernet network resource for HPE OneView.
-
-The `:bandwidth` can be defined inside `data` attribute. However, it will internally call the **oneview_connection_template** resource.
-
-```Ruby
+```ruby
 oneview_ethernet_network 'Eth1' do
   client <my_client>
   data <resource_data>
@@ -117,30 +109,30 @@ oneview_ethernet_network 'Eth1' do
 end
 ```
 
-### oneview_connection_template
+### [oneview_connection_template](examples/connection_template.rb)
 
-Connection template resource for HPE OneView.
-
-```Ruby
+```ruby
 oneview_connection_template 'ConnectionTemplate1' do
   client <my_client>
   data <resource_data>
-  associated_ethernet_network <ethernet_name> # Optional
+  associated_ethernet_network <ethernet_network_name> # Or
+  associated_fcoe_network <fcoe_network_name> # Or
+  associated_fc_network <fc_network_name> # Or
+  associated_network_set <network_set_name>
   action [:update, :reset]
 end
 ```
 
-Although the name of the `associated_ethernet_network` being an optional parameter, it must be set if the correct URI and Connection template name are not defined.
+:memo: **Note:** This resource can be used to set connection template parameters within four OneView entities: `EthernetNetwork`, `FCoENetwork`, `FCNetwork` and `NetworkSet`. However you cannot manipulate more than one associated resource in a single connection template.
 
-### oneview_fabric
+Although the names of the associated resources (`associated_ethernet_network`, `associated_fcoe_network`, `associated_fc_network` and `associated_network_set`) are optional parameters, they must be set if the correct URI and Connection template name are not defined.
 
-Fabric resource for HPE OneView.
-
-Support only in API300 onwards with variant Synergy.
-
+### [oneview_fabric](examples/fabric.rb)
 Performs updates on the reserved vlan range.
 
-```Ruby
+Note: Supported only in API300 onwards with the Synergy variant.
+
+```ruby
 oneview_fabric 'Fabric1' do
   client <my_client>
   data <resource_data>
@@ -149,11 +141,9 @@ oneview_fabric 'Fabric1' do
 end
 ```
 
-### oneview_fc_network
+### [oneview_fc_network](examples/fc_network.rb)
 
-FC network resource for HPE OneView.
-
-```Ruby
+```ruby
 oneview_fc_network 'Fc1' do
   client <my_client>
   data <resource_data>
@@ -162,11 +152,9 @@ end
 ```
 
 
-### oneview_fcoe_network
+### [oneview_fcoe_network](examples/fcoe_network.rb)
 
-FCoE network resource for HPE OneView.
-
-```Ruby
+```ruby
 oneview_fcoe_network 'FCoE1' do
   client <my_client>
   data <resource_data>
@@ -174,11 +162,9 @@ oneview_fcoe_network 'FCoE1' do
 end
 ```
 
-### oneview_network_set
+### [oneview_network_set](examples/network_set.rb)
 
-Network set resource for HPE OneView.
-
-```Ruby
+```ruby
 oneview_network_set 'NetSet1' do
   client <my_client>
   native_network <native_network_name>  # String: Optional
@@ -188,11 +174,10 @@ oneview_network_set 'NetSet1' do
 end
 ```
 
-### oneview_firmware
+### [oneview_firmware](examples/firmware.rb)
+Resource for HPE OneView firmware bundles and drivers.
 
-Firmware bundle and driver resource for HPE OneView.
-
-```Ruby
+```ruby
 oneview_firmware '/full/path/to/file.iso'  do
   client <my_client>
   action [:add, :remove]
@@ -204,7 +189,7 @@ oneview_firmware 'firmware_bundle_name'  do
 end
 ```
 
-```Ruby
+```ruby
 oneview_firmware 'CustomSPP'  do
   client <my_client>
   spp_name 'SPPName'
@@ -215,18 +200,15 @@ oneview_firmware 'CustomSPP'  do
 end
 ```
 
-### oneview_interconnect
-
-Interconnect resource for HPE OneView.
-
-Perform the Interconnect actions:
+### [oneview_interconnect](examples/interconnect.rb)
+Performs the Interconnect actions:
   - **reset:** Resets the Interconnect.
   - **reset_port_protection:** Resets the Interconnect port protection.
   - **update_port:** Updates one specified port in the Interconnect. The Hash property `port_options` is required, and is also needed to specify the key `"name"` corresponding to the port name. (E.G.: "X1", "Q1.1")
   - **set_uid_light:** Sets the Interconnect UID indicator (UID light) to the specified value. The String property `uid_light_state` is required, and typically assumes the "On" and "Off" values.
   - **power_state:** Sets the Interconnect power state to the specified value. The String property `power_state` is required, and typically assumes the "On" and "Off" values.
 
-```Ruby
+```ruby
 oneview_interconnect 'Interconnect1' do
   client <my_client>
   data <resource_data>
@@ -237,11 +219,8 @@ oneview_interconnect 'Interconnect1' do
 end
 ```
 
-### oneview_sas_interconnect
-
-SAS interconnect resource for HPE OneView.
-
-It is a Synergy-only resource.
+### [oneview_sas_interconnect](examples/sas_interconnect.rb)
+Note: This is a Synergy-only resource.
 
 Performs the SAS interconnect actions:
   - **reset:** Soft resets the SAS interconnect. Reset the management processor and will not disrupt I/O.
@@ -251,7 +230,7 @@ Performs the SAS interconnect actions:
   - **patch:** Performs a patch operation. The properties `operation`, `path` and `value` are used for this action.
   - **refresh:** Initiates a refresh process in the SAS interconnect. The default refresh process ('RefreshPending') can be overrided using the `refresh_state` property.
 
-```Ruby
+```ruby
 oneview_sas_interconnect 'SASInterconnect1' do
   client <my_client>
   data <resource_data>
@@ -265,13 +244,12 @@ oneview_sas_interconnect 'SASInterconnect1' do
 end
 ```
 
-### oneview_logical_interconnect
+### [oneview_logical_interconnect](examples/logical_interconnect.rb)
+Performs actions on logical interconnect and associated interconnects.
 
-Performs actions in the logical interconnect and associated interconnects.
+Note: By default it performs the action `:none`.
 
-By default it performs the action `:none`.
-
-```Ruby
+```ruby
 oneview_logical_interconnect 'LogicalInterconnect1' do
   client <my_client>
   data <resource_data>
@@ -281,34 +259,32 @@ oneview_logical_interconnect 'LogicalInterconnect1' do
   trap_destinations <trap_options>   # Hash: Optional for :update_snmp_configuration
   enclosure <enclosure_name>         # String: Required for :add_interconnect and :remove_interconnect
   bay_number <bay>                   # Fixnum: Required for :add_interconnect and :remove_interconnect
-  action [:none, :add_interconnect, :remove_interconnect, :update_internal_networks, :update_settings,:update_ethernet_settings, :update_port_monitor, :update_qos_configuration, :update_telemetry_configuration, :update_snmp_configuration, :update_firmware, :stage_firmware, :activate_firmware, :update_from_group, :reapply_configuration]
+  action [:none, :add_interconnect, :remove_interconnect, :update_internal_networks, 
+          :update_settings,:update_ethernet_settings, :update_port_monitor, :update_qos_configuration, 
+          :update_telemetry_configuration, :update_snmp_configuration, :update_firmware, :stage_firmware, 
+          :activate_firmware, :update_from_group, :reapply_configuration]
 end
 ```
 
-### oneview_sas_logical_interconnect
+### [oneview_sas_logical_interconnect](examples/sas_logical_interconnect.rb)
+Note: By default it performs the action `:none`.
 
-Performs actions in the SAS logical interconnect.
-
-By default it performs the action `:none`.
-
-```Ruby
+```ruby
 oneview_sas_logical_interconnect 'SASLogicalInterconnect1' do
   client <my_client>
   data <resource_data>
-  firmware <firmware_name>                      # String: Optional for actions like :<action>_firwmare (can be replaced by data attribute 'sppName')
+  firmware <firmware_name>                      # String (Optional): for actions like :<action>_firwmare (can be replaced by data attribute 'sppName')
   firmware_data <firmware_data>                 # Hash: Optional for actions like :<action>_firwmare
-  old_drive_enclosure <old_drive_enclosure_id>  # String: (Optional) Old Drive enclosure name or serial number. It is used with the action :replace_drive_enclosure.
-  new_drive_enclosure <new_drive_enclosure_id>  # String: (Optional) New Drive enclosure name or serial number. It is used with the action :replace_drive_enclosure.
-  action [:none, :update_firmware, :stage_firmware, :activate_firmware, :update_from_group, :reapply_configuration, :replace_drive_enclosure]
+  old_drive_enclosure <old_drive_enclosure_id>  # String (Optional): Old Drive enclosure name or serial number. It is used with the action :replace_drive_enclosure.
+  new_drive_enclosure <new_drive_enclosure_id>  # String (Optional): New Drive enclosure name or serial number. It is used with the action :replace_drive_enclosure.
+  action [:none, :update_firmware, :stage_firmware, :activate_firmware, :update_from_group, 
+          :reapply_configuration, :replace_drive_enclosure]
 end
 ```
   - **replace_drive_enclosure:** After a drive enclosure is *physically replaced* it initiates the replace process. The `old_drive_enclosure` and `new_drive_enclosure` properties can be specified, they can be either the names or serial numbers of the drive enclosures. Additionally they can be replaced by specifying the serial number directly into the `data` property the keys `:oldSerialNumber` and `:newSerialNumber`. (This option has the best performance)
 
-### oneview_logical_interconnect_group
-
-Logical Interconnect Group resource for HPE OneView.
-
-It provides the creation in three different levels:
+### [oneview_logical_interconnect_group](examples/logical_interconnect_group.rb)
+This resource provides creation at three different levels:
  1. The base one where you just specify the name and some configuration parameters.
  2. Next one where you specify the interconnect types with the corresponding bays.
  3. The most complete way, where you can also specify the uplink sets for your group. (It is also possible to add and edit them later using the `oneview_uplink_set` resource)
@@ -319,13 +295,13 @@ The `:create` action will always update the Logical Interconnect Group if you us
 oneview_logical_interconnect_group 'LogicalInterconnectGroup_1' do
   client <my_client>
   data <resource_data>
-  interconnects <interconnects_data> # Array specifying the interconnects in the bays
-  uplink_sets <uplink_set_map>      # Array containing information
+  interconnects <interconnects_data> # Array of hashes specifying interconnect data
+  uplink_sets <uplink_set_data>      # Array of hashes specifying uplink data
   action [:create, :create_if_missing, :delete]
 end
 ```
 
-**interconnects:** Array containing a list of Hashes indicating whether the interconnects are and which type they correspond to. Each hash should contain the keys:
+**interconnects:** Array of Hashes indicating the interconnect location and type. Each hash should contain the keys:
   - `:bay` - It specifies the location (bay) where this interconnect is attached to. The value should range from 1 to 8.
   - `:type` - The interconnect type name that is currently attached to your enclosure.
   - `:enclosure_index` - enclosureIndex value for the interconnect. API300::Synergy only.
@@ -334,11 +310,11 @@ end
 ```ruby
 interconnects_data = [
   { bay: 1, type: 'HP VC FlexFabric 10Gb/24-Port Module' },
-  { bay: 2, type: 'HP VC FlexFabric 10Gb/24-Port Module' }
+  { bay: 2, type: 'HP VC FlexFabric 10Gb/24-Port Module', enclosureIndex: 2 }
 ]
 ```
 
-**uplink_sets:** Array containing a list of Hashes describing each uplink set that should be present in the group. Each hash should contain the keys:
+**uplink_sets:** Array of Hashes describing each uplink set that should be present in the group. Each hash should contain the keys:
   - `:data` - A Hash containing the name, type, and subtype if needed:
     - `:name` - The name of the Uplink set.
     - `:networkType` - The type of the Uplink set. The values supported are 'Ethernet' and 'FibreChannel'.
@@ -352,7 +328,7 @@ interconnects_data = [
     }
     ```
 
-  - `:connections` - An Array of Hashes containing the association of bay and the port name. The Hashes keys are:
+  - `:connections` - Array of Hashes containing the association of bay and the port name. The keys for each Hash are:
     - `:bay` - Number of the bay the interconnect is attached to identify in which interconnect the uplink will be created.
     - `:port` - The name of the port of the interconnect. It may change depending on the interconnect type.
 
@@ -365,18 +341,17 @@ interconnects_data = [
 
   - `:networks` - An array containing the names of the networks with the associated Uplink set. The networks should be created prior to the execution of this resource. Remember to match Ethernet networks for Ethernet Uplink sets, and one FC Network for FibreChannel Uplink sets.
 
-  At the end we may have an Hash like this to be used in the attribute:
+  At the end we may have an array of Hashes like this to be used in the property:
 
   ```ruby
-  uplink_set_definitions = [
-    { data: uplink_data_1,  connections: connections_1, networks: ['Ethernet_1', 'Ethernet_2']},
-    { data: uplink_data_2,  connections: connections_2, networks: ['FC_1']}
+  uplink_set_data = [
+    { data: uplink_data_1,  connections: uplink_connections_1, networks: ['Ethernet_1', 'Ethernet_2'] },
+    { data: uplink_data_2,  connections: uplink_connections_2, networks: ['FC_1'] }
   ]
   ```
 
-### oneview_sas_logical_interconnect_group
-
-SAS Logical Interconnect Group resource for HPE OneView (API300::Synergy only)
+### [oneview_sas_logical_interconnect_group](examples/sas_logical_interconnect_group.rb)
+Note: This is a Synergy-only resource.
 
 ```ruby
 oneview_sas_logical_interconnect_group 'SAS_LIG_1' do
@@ -398,9 +373,7 @@ interconnects_data = [
 ]
 ```
 
-### oneview_logical_switch_group
-
-Logical Switch Group resource for HPE OneView.
+### [oneview_logical_switch_group](examples/logical_switch_group.rb)
 
 ```ruby
 oneview_logical_switch_group 'LogicalSwitchGroup_1' do
@@ -418,9 +391,7 @@ The `:create` and `create_if_missing` can be done in two different ways:
 
 :memo: **Note:** You are still able to specify the `switch_number` and `switch_type` properties even if you use the 'switchMapTemplate' attribute, but they will be **ignored**, only the values from 'switchMapTemplate' are going to be used.
 
-### oneview_logical_switch
-
-Logical switch resource for HPE OneView.
+### [oneview_logical_switch](examples/logical_switch.rb)
 
 ```ruby
 oneview_logical_switch 'LogicalSwitch_1' do
@@ -438,26 +409,21 @@ end
 
 :memo: NOTE: The `credentials` may also be replaced by the entire data Hash or JSON. In this case the property will be ignored.
 
-### oneview_datacenter
-
-Datacenter resource for HPE OneView.
+### [oneview_datacenter](examples/datacenter.rb)
 
 ```ruby
 oneview_datacenter 'Datacenter_1' do
   client <my_client>
   data <resource_data>
   racks(
-    <rack1_name> => {<x>, <y>, <rotation>},
-    <rack2_name> => {<x>, <y>, <rotation>},
+    <rack1_name> => { x: <x>, y: <y>, rotation: <rotation> },
+    <rack2_name> => { x: <x>, y: <y>, rotation: <rotation> },
   )
   action [:add, :add_if_missing, :remove]
 end
 ```
 
-### oneview_rack
-
-Rack resource for HPE OneView.
-
+### [oneview_rack](examples/rack.rb)
 Available Rack actions:
   -  **add:** Add a rack to HPE OneView and updates it as necessary
   -  **add_if_missing:** Add a rack to HPE OneView if it does not exists (no updates)
@@ -473,6 +439,7 @@ oneview_rack 'Rack_1' do
 end
 
 oneview_rack 'Rack_1' do
+  client <my_client>
   mount_options(
     name: <resource_name>,
     type: <resource_type>,
@@ -484,9 +451,7 @@ oneview_rack 'Rack_1' do
 end
 ```
 
-### oneview_enclosure_group
-
-Enclosure Group resource for HPE OneView.
+### [oneview_enclosure_group](examples/enclosure_group.rb)
 
 ```ruby
 oneview_enclosure_group 'EnclosureGroup_1' do
@@ -499,29 +464,24 @@ end
 
 **logical_interconnect_groups:** Array of data used to build the interconnect bay configuration. Each item can either be a string containing the LIG name or a hash containing the LIG name and enclosureIndex. Note that the enclosureIndex is not used on API200.
 
-### oneview_enclosure
-
-Enclosure resource for HPE OneView.
+### [oneview_enclosure](examples/enclosure.rb)
 
 ```ruby
 oneview_enclosure 'Encl1' do
   client <my_client>
   data <resource_data>
-  enclosure_group <enclosure_group_name> # String - Optional. Can also set enclosureGroupUri in data
-  refresh_state <state>                  # String - Optional. Used for refresh action only. Defaults to 'RefreshPending'
-  options <options>                      # Hash - Optional. Force options for refresh action only. Defaults to `{}`
-  operation <op>                         # String. Used in patch action only. e.g., 'replace'
-  path <path>                            # String. Used in patch option only. e.g., '/name'
-  value <val>                            # String. Used in patch option only. e.g., 'New Name'
+  enclosure_group <eg_name> # String - Optional. Can also set enclosureGroupUri in data
+  refresh_state <state>     # String - Optional. Used for refresh action only. Defaults to 'RefreshPending'
+  options <options>         # Hash - Optional. Force options for refresh action only. Defaults to `{}`
+  operation <op>            # String. Used in patch action only. e.g., 'replace'
+  path <path>               # String. Used in patch option only. e.g., '/name'
+  value <val>               # String. Used in patch option only. e.g., 'New Name'
   action [:add, :patch, :reconfigure, :refresh, :remove]
 end
 ```
 
-### oneview_drive_enclosure
-
-Drive enclosure resource for HPE OneView.
-
-It is a Synergy-only resource.
+### [oneview_drive_enclosure](examples/drive_enclosure.rb)
+Note: This is a Synergy-only resource.
 
 Performs the drive enclosure actions:
   - **hard_reset:** Hard resets the drive enclosure. Resets the drive enclosure and interrupt the active I/O.
@@ -530,31 +490,21 @@ Performs the drive enclosure actions:
   - **patch:** Performs a patch operation. The properties `operation`, `path` and `value` are used for this action.
   - **refresh:** Initiates a refresh process in the drive enclosure. The default refresh process ('RefreshPending') can be overrided using the `refresh_state` property.
 
-```Ruby
+```ruby
 oneview_drive_enclosure 'DriveEnclosure1' do
   client <my_client>
   data <resource_data>
-  uid_light_state <uid_light_state_string> # Required for :set_uid_light
-  power_state <power_state_string>         # Required for :set_power_state
-  refresh_state <refresh_state_string>     # Default: 'RefreshPending'. String that defines the desired refresh state in :refresh action
-  operation <op>                           # String. Used in patch action only. e.g., 'replace'
-  path <path>                              # String. Used in patch option only. e.g., '/name'
-  value <val>                              # String, Array. Used in patch option only. e.g., 'New Name'
+  uid_light_state <uid_light_state> # String. Required for :set_uid_light
+  power_state <power_state_string>  # Required for :set_power_state
+  refresh_state <refresh_state>     # Default: 'RefreshPending'. String that defines the desired refresh state in :refresh action
+  operation <op>                    # String. Used in patch action only. e.g., 'replace'
+  path <path>                       # String. Used in patch option only. e.g., '/name'
+  value <val>                       # String, Array. Used in patch option only. e.g., 'New Name'
   action [:hard_reset, :set_uid_light, :set_power_state, :patch, :refresh]
 end
 ```
 
-### oneview_volume
-
-Volume resource for HPE OneView.
-
-```ruby
-oneview_volume 'Volume_1' do
-  client <my_client>
-  snapshot_data <snapshot_data>
-  action [:create_snapshot, :delete_snapshot]
-end
-```
+### [oneview_volume](examples/volume.rb)
 
 ```ruby
 oneview_volume 'Volume_1' do
@@ -566,18 +516,22 @@ oneview_volume 'Volume_1' do
   snapshot_pool <snapshot_pool_name>
   action [:create, :create_if_missing, :delete]
 end
+
+oneview_volume 'Volume_1' do
+  client <my_client>
+  snapshot_data <snapshot_data>
+  action [:create_snapshot, :delete_snapshot]
+end
 ```
-  - **storage_system** (String) Optional - IP address, hostname or name of the Storage System to associate with the Volume.
+  - **storage_system** (String) Optional - IP address, hostname or name of the Storage System to associate with the Volume
   - **storage_pool** (String) Optional - Name of the Storage Pool from the Storage System to associate the Volume.
-  - **volume_template** (String) Optional - Name of the Volume Template. If you set this, you cannot set the storage_system or storage_pool properties.
-  - **snapshot_pool** (String) Optional - Name of the Storage Pool containing the snapshots.
+  - **volume_template** (String) Optional - Name of the Volume Template. If you set this, you cannot set the storage_system or storage_pool properties
+  - **snapshot_pool** (String) Optional - Name of the Storage Pool containing the snapshots
+  - **snapshot_data** (Hash) Required for create_snapshot & delete_snapshot - Typically includes name and description
 
 :memo: **NOTE**: The OneView API has a provisioningParameters hash for creation, but not updates. In recipes, use same data as you would for an update, and this resource will handle creating the provisioningParameters for you if the volume needs created. (Define the desired state, not how to create it). See the [volume example](examples/volume.rb) for more on this.
 
-
-### oneview_volume_template
-
-Volume Template resource for HPE OneView.
+### [oneview_volume_template](examples/volume_template.rb)
 
 ```ruby
 oneview_volume_template 'VolumeTemplate_1' do
@@ -595,8 +549,8 @@ end
   - **snapshot_pool** (String) Optional - Name of the Storage Pool containing the snapshots.
 
  :warning: **WARNING**: The resources `oneview_volume` and `oneview_volume_template` appear to accept the same data, but they have two characteristics that differ:
- 1. `oneview_volume_template` does not accepts the property **volume_template**. In other means, you cannot create a Volume template from another Volume template.
- 2. The following provisioning data keys are different:
+ 1. `oneview_volume_template` does not accept the property **volume_template**. You cannot create a volume template from another volume template.
+ 2. The following table maps different provisioning data keys to each type:
 
     oneview_volume          | oneview_volume_template
     ----------------------- | -------------------------
@@ -604,9 +558,7 @@ end
     :requestedCapacity      | :capacity
 
 
-### oneview_storage_pool
-
-Storage pool resource for HPE OneView.
+### [oneview_storage_pool](examples/storage_pool.rb)
 
 ```ruby
 oneview_storage_pool 'CPG_FC-AO' do
@@ -616,12 +568,8 @@ oneview_storage_pool 'CPG_FC-AO' do
 end
 ```
 
-### oneview_storage_system
-
-Storage system resource for HPE OneView.
-
-If you add ip_hostname to credentials you don't need to specify a name to
-handle storage systems
+### [oneview_storage_system](examples/storage_system.rb)
+Note: If you add ip_hostname to credentials you don't need to specify a name to handle storage systems
 
 ```ruby
 storage_system_credentials = {
@@ -652,9 +600,7 @@ oneview_storage_system 'ThreePAR7200-81471' do
 end
 ```
 
-### oneview_logical_enclosure
-
-Logical enclosure resource for HPE OneView.
+### [oneview_logical_enclosure](examples/logical_enclosure.rb)
 
 ```ruby
 oneview_logical_enclosure 'Encl1' do
@@ -669,9 +615,7 @@ end
 
 Notes: The default action is `:create_if_missing`. Also, the creation process may take 30min or more.
 
-### oneview_managed_san
-
-Managed SAN resource for HPE OneView.
+### [oneview_managed_san](examples/managed_san.rb)
 
 ```ruby
 oneview_managed_san 'SAN1_0' do
@@ -682,9 +626,7 @@ oneview_managed_san 'SAN1_0' do
 end
 ```
 
-### oneview_power_device
-
-Power device resource for HPE OneView.
+### [oneview_power_device](examples/power_device.rb)
 
 ```ruby
 oneview_power_device 'PowerDevice1' do
@@ -705,9 +647,7 @@ oneview_power_device '<iPDU hostname>' do
 end
 ```
 
-### oneview_san_manager
-
-SAN manager resource for HPE OneView
+### [oneview_san_manager](examples/san_manager.rb)
 
 ```ruby
 oneview_san_manager '<host ip>' do
@@ -717,9 +657,31 @@ oneview_san_manager '<host ip>' do
 end
 ```
 
-### oneview_server_hardware
+### [oneview_scope](examples/scope.rb)
+Note: Supported only in API300 onwards.
 
-Server hardware resource for HPE OneView
+```ruby
+oneview_scope 'Scope1' do
+  client <my_client>
+  data <resource_data>
+  add <resource_list>
+  remove <resource_list>
+  action [:create, :create_if_missing, :delete, :change_resource_assignments]
+end
+```
+
+- **add** and **remove** (Hash) Optional - Used in the `:change_resource_assignments` action only. Specify resources to be added or removed. The Hash should have `<resource_type> => [<resource_names>]` associations. The `resource_type` can be a `String` or `Symbol`, and should be in upper CamelCase (i.e., ServerHardware, Enclosure):
+  
+  ```ruby
+  resource_list = {
+    Enclosure: ['Encl1'],
+    ServerHardware: ['Server1']
+  }
+  ```
+  
+  See the [example](examples/scope.rb) for more information.
+
+### [oneview_server_hardware](examples/server_hardware.rb)
 
 ```ruby
 oneview_server_hardware 'ServerHardware1' do
@@ -734,9 +696,7 @@ oneview_server_hardware 'ServerHardware1' do
 end
 ```
 
-### oneview_server_hardware_type
-
-Server hardware type resource for HPE OneView
+### [oneview_server_hardware_type](examples/server_hardware_type.rb)
 
 ```ruby
 oneview_server_hardware_type 'ServerHardwareType1' do
@@ -746,9 +706,7 @@ oneview_server_hardware_type 'ServerHardwareType1' do
 end
 ```
 
-### oneview_server_profile_template
-
-Server profile resource for HPE OneView
+### [oneview_server_profile_template](examples/server_profile_template.rb)
 
 ```ruby
 oneview_server_profile_template 'ServerProfileTemplate1' do
@@ -772,9 +730,7 @@ You can specify the association of the server profile with each of the resources
 - **\<resource_name\>_connections** (Hash) Optional - Specify connections with the desired resource type. The Hash should have `<network_name> => <connection_data>` associations. See the examples for more information.
 
 
-### oneview_server_profile
-
-Server profile resource for HPE OneView
+### [oneview_server_profile](examples/server_profile.rb)
 
 ```ruby
 oneview_server_profile 'ServerProfile1' do
@@ -798,13 +754,10 @@ You can specify the association of the server profile with each of the resources
 - **\<network_type\>_connections** (Hash) Optional - Specify connections with the desired resource type. The Hash should have `<network_name> => <connection_data>` associations. See the [examples](examples/server_profile.rb) for more information.
 
 
-### oneview_switch
+### [oneview_switch](examples/switch.rb)
+Note: This resource is available only for the C7000 variant.
 
-Switch resource for HPE OneView.
-
-Resource available only for C7000 variant.
-
-API300 includes patch operation.
+Note: API300 includes the `:patch` operation.
 
 ```ruby
 oneview_switch 'Switch1' do
@@ -817,9 +770,7 @@ oneview_switch 'Switch1' do
 end
 ```
 
-### oneview_unmanaged_device
-
-Unmanaged device resource for HPE OneView
+### [oneview_unmanaged_device](examples/unmanaged_device.rb)
 
 ```ruby
 oneview_unmanaged_device 'UnmanagedDevice1' do
@@ -829,9 +780,7 @@ oneview_unmanaged_device 'UnmanagedDevice1' do
 end
 ```
 
-### oneview_uplink_set
-
-Uplink set resource for HPE OneView
+### [oneview_uplink_set](examples/uplink_set.rb)
 
 ```ruby
 oneview_uplink_set 'UplinkSet1' do
@@ -847,9 +796,7 @@ oneview_uplink_set 'UplinkSet1' do
 end
 ```
 
-### oneview_user
-
-User resource for HPE OneView
+### [oneview_user](examples/user.rb)
 
 ```ruby
 oneview_user 'User1' do
@@ -859,62 +806,42 @@ oneview_user 'User1' do
 end
 ```
 
-### oneview_scope
-
-Scope resource for HPE OneView.
-
-Support only in API300 onwards.
-
-```Ruby
-oneview_scope 'Scope1' do
-  client <my_client>
-  data <resource_data>
-  add <resource_list> # Hash containing combinations of <resourcetype>: <Array of names> to be added to the scope. Used in change_resource_assignments option only - Optional
-  remove <resource_list> # Hash containing combinations of <resourcetype>: <Array of names> to be removed from the scope. Used in change_resource_assignments option only - Optional
-  action [:create, :create_if_missing, :delete, :change_resource_assignments]
-end
-```
-
-- **add** and **remove** (Hash) Optional - Specify resources to be added or removed. The Hashes should have `<resource_type> => [<resource_names>]` associations. The `resource_types` can be either `Strings` or `Symbols`, and should be in upper CamelCase. i.e.: ServerHardware, Enclosure. See the [example](examples/scope.rb) for more information.
-
-### image_streamer_artifact_bundle
-
+### [image_streamer_artifact_bundle](examples/image_streamer/artifact_bundle.rb)
 HPE Synergy Image Streamer resource for Artifact bundles.
 
 ```ruby
 image_streamer_artifact_bundle 'ArtifactBundle1' do
   client <my_client>   # Hash or OneviewSDK::ImageStreamer::Client
   data <resource_data> # Hash
-  deployment_plans <deployment_plan_names> # Array containing Hashes with the names of the Deployment plans to be associated to this artifact bundle and if they should be read-only or write-permitted - Optional
-  golden_images <golden_image_names> # Array containing Hashes with the names of the Golden Images to be associated to this artifact bundle and if they should be read-only or write-permitted - Optional
-  os_build_plans <os_build_plan_names> # Array containing the names of the OS Build Plans to be associated to this artifact bundle and if they should be read-only or write-permitted - Optional
-  plan_scripts <plan_script_names> # Array containing the names of the Plan scripts to be associated to this artifact bundle and if they should be read-only or write-permitted - Optional
-  new_name <artifact_bundle_name> # String containing the name desired for an existing artifact bundle - Optional
-  file_path <local_file_path> # String - Path to file to perform any download, upload like actions (Required in these actions)
-  deployment_group <deployment_group_name> # String containing the name of the deployment group on which to perform a backup operation. (Required for :backup_from_file action)
-  timeout <timeout_value> # Integer containing the time in seconds for the :backup_from_file action to timeout if it is not finished. - Optional
-  action [:create_if_missing, :update_name, :delete, :download, :upload, :extract, :backup, :backup_from_file, :download_backup, :extract_backup]
+  deployment_plans <deployment_plan_names>
+  golden_images <golden_image_names>
+  os_build_plans <os_build_plan_names>
+  plan_scripts <plan_script_names>
+  new_name <artifact_bundle_name>          # String - The desired name for an existing artifact bundle - Optional
+  file_path <local_file_path>              # String - File path for download & upload actions (Required for these actions)
+  deployment_group <deployment_group_name> # String - Name of the deployment group on which to perform a backup. (Required for :backup_from_file action)
+  timeout <timeout_value> # Integer - Time in seconds for the :backup_from_file action to timeout if it is not finished. - Optional
+  action [:create_if_missing, :update_name, :delete, :download, :upload, :extract, :backup,
+          :backup_from_file, :download_backup, :extract_backup]
 end
 ```
-- **deployment_plans**, **golden_images**, **os_build_plans** and **plan_scripts** Array Optional - Specify resources to be associated with the artifact bundle. The Arrays should contain hashes with the following syntaxes: `{name: <resource_name>}, read_only: <true/false>`. The `read_only` field may be ommited for resources which are read-only. See the [example](examples/image_streamer/artifact_bundle.rb) for more information.
+- **deployment_plans**, **golden_images**, **os_build_plans** and **plan_scripts** (Array) Optional - Specify resources to be associated with the artifact bundle. The Array should contain Hashes in the following format: `{ name: <resource_name>, read_only: <true/false>} `. The `read_only` field may be ommited for resources which are read-only. See the [example](examples/image_streamer/artifact_bundle.rb) for more information.
 
 
-### image_streamer_deployment_plan
-
+### [image_streamer_deployment_plan](examples/image_streamer/deployment_plan.rb)
 HPE Synergy Image Streamer resource for Deployment plans.
 
 ```ruby
 image_streamer_deployment_plan 'DeploymentPlan1' do
   client <my_client>   # Hash or OneviewSDK::ImageStreamer::Client
   data <resource_data> # Hash
-  os_build_plan <os_build_plan_name> # String containing the name of the OS Build Plan to be associated to this deployment plan - Optional
-  golden_image <golden_image_name> # String containing the name of the Golden Image to be associated to this deployment plan - Optional
+  os_build_plan <os_build_plan_name> # String - Name of the OS Build Plan to be associated to this deployment plan - Optional
+  golden_image <golden_image_name> # String - Name of the Golden Image to be associated to this deployment plan - Optional
   action [:create, :create_if_missing, :delete]
 end
 ```
 
-### image_streamer_golden_image
-
+### [image_streamer_golden_image](examples/image_streamer/golden_image.rb)
 HPE Synergy Image Streamer resource for Golden images.
 
 ```ruby
@@ -923,13 +850,13 @@ image_streamer_golden_image 'GoldenImage1' do
   data <resource_data>        # Hash - Note: The value of data['imageCapture'] determines whether or not certain other key/value pairs are required here
   os_volume <os_volume_name>  # String - Optional - OS Volume name to associate with the resource
   os_build_plan <plan_name>   # String - Optional - OS Build Plan name to associate with the resource. The type of the OS Build Plan must match the mode (Capture or Deploy), specified in data['imageCapture']
-  file_path <local_file_path> # String - Path to file to perform any download or upload like actions (Required in these actions)
+  file_path <local_file_path> # String - File path for download or upload actions (Required in these actions)
   timeout <time_in_seconds>   # Integer - Optional - Time to timeout the request in the :download and :upload_if_missing actions. Defaults to the default resource value (Usualy 300 seconds)
   action [:create, :create_if_missing, :delete, :download, :download_details_archive, :upload_if_missing]
 end
 ```
-### image_streamer_os_build_plan
 
+### [image_streamer_os_build_plan](examples/image_streamer/os_build_plan.rb)
 HPE Synergy Image Streamer resource for OS Build plan.
 
 ```ruby
@@ -940,8 +867,7 @@ image_streamer_os_build_plan 'OSBuildPlan1' do
 end
 ```
 
-### image_streamer_plan_script
-
+### [image_streamer_plan_script](examples/image_streamer/plan_script.rb)
 HPE Synergy Image Streamer resource for Plan scripts.
 
 ```ruby
@@ -953,7 +879,6 @@ end
 ```
 
 ## Examples
-
 :information_source: There are plenty more examples in the [examples](examples) directory showing more detailed usage of each resource, but here's a few to get you started:
 
  - **Create an ethernet network**
@@ -1031,11 +956,9 @@ end
   ```
 
 ## License
-
 This project is licensed under the Apache 2.0 license. Please see [LICENSE](LICENSE) for more info.
 
 ## Contributing and feature requests
-
 **Contributing:** You know the drill. Fork it, branch it, change it, commit it, and pull-request it.
 We are passionate about improving this project, and glad to accept help to make it better. However, keep the following in mind:
 
@@ -1046,14 +969,12 @@ We are passionate about improving this project, and glad to accept help to make 
 This feedback is crucial for us to deliver a useful product. Do not assume we have already thought of everything, because we assure you that is not the case.
 
 ## Testing
-
  - Style (Rubocop & Foodcritic): `$ rake style`
  - Unit: `$ rake unit`
  - Run all tests: `$ rake test`
  - Optional: Start guard to run tests automatically on file changes: `$ bundle exec guard`
 
 ## Authors
-
  - Jared Smartt - [@jsmartt](https://github.com/jsmartt)
  - Henrique Diomede - [@hdiomede](https://github.com/hdiomede)
  - Thiago Miotto - [@tmiotto](https://github.com/tmiotto)
