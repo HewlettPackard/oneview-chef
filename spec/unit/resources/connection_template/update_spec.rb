@@ -18,7 +18,7 @@ describe 'oneview_test::connection_template_update' do
     allow_any_instance_of(OneviewSDK::ConnectionTemplate).to receive(:retrieve!).and_return(true)
     allow_any_instance_of(OneviewSDK::ConnectionTemplate).to receive(:like?).and_return(false)
     update_count = 0
-    allow_any_instance_of(OneviewSDK::ConnectionTemplate).to receive(:update) { |_i| update_count += 1 }
+    allow_any_instance_of(OneviewSDK::ConnectionTemplate).to receive(:update) { update_count += 1 }
     expect(real_chef_run).to update_oneview_connection_template('ConnectionTemplate1')
     expect(real_chef_run).to update_oneview_connection_template('ConnectionTemplate2')
     expect(real_chef_run).to update_oneview_connection_template('ConnectionTemplate3')
