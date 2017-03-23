@@ -14,6 +14,9 @@ OneviewCookbook::ResourceBaseProperties.load(self)
 default_action :update
 
 property :associated_ethernet_network, String
+property :associated_fc_network, String
+property :associated_network_set, String
+property :associated_fcoe_network, String
 
 action :update do
   OneviewCookbook::Helper.do_resource_action(self, :ConnectionTemplate, :create_or_update)

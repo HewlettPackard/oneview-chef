@@ -15,19 +15,29 @@ module OneviewCookbook
   module API200
     # ConnectionTemplate API200 provider
     class ConnectionTemplateProvider < ResourceProvider
-      def load_resource_from_ethernet
-        return unless @context.associated_ethernet_network
+      def load_template_from_resource(resource_type, resource_name)
+        return unless resource_name
         @item.data.delete('name')
-        @item['uri'] = load_resource(:EthernetNetwork, @context.associated_ethernet_network, 'connectionTemplateUri')
+        @item['uri'] = load_resource(resource_type, resource_name, :connectionTemplateUri)
+      end
+
+      def load_connection_templates
+        resources_set = [@context.associated_ethernet_network, @context.associated_fcoe_network, @context.associated_fc_network,
+                         @context.associated_network_set].compact.size
+        raise 'A single associated resource field must be specified for this action.' if resources_set > 1
+        load_template_from_resource(:EthernetNetwork, @context.associated_ethernet_network)
+        load_template_from_resource(:FCoENetwork, @context.associated_fcoe_network)
+        load_template_from_resource(:FCNetwork, @context.associated_fc_network)
+        load_template_from_resource(:NetworkSet, @context.associated_network_set)
       end
 
       def create_or_update
-        load_resource_from_ethernet
+        load_connection_templates
         super
       end
 
       def reset
-        load_resource_from_ethernet
+        load_connection_templates
         @item['bandwidth'] = resource_named(:ConnectionTemplate).get_default(@item.client)['bandwidth']
         create_or_update
       end
