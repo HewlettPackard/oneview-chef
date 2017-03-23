@@ -37,7 +37,7 @@ module OneviewCookbook
       end
 
       def update_from_group
-        raise "LogicalEnclosure '#{@name}' not found!" unless @item.retrieve!
+        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         return if @item['state'] == 'Consistent'
         @context.converge_by "Update LogicalEnclosure '#{@name}' from group" do
           @item.update_from_group
@@ -45,7 +45,7 @@ module OneviewCookbook
       end
 
       def reconfigure
-        @item.retrieve!
+        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         @item['enclosureUris'].each do |enclosure_uri|
           enc_state = load_resource(:Enclosure, { uri: enclosure_uri }, 'reconfigurationState')
           next unless ['NotReapplyingConfiguration', 'ReapplyingConfigurationFailed', ''].include?(enc_state)
@@ -59,7 +59,7 @@ module OneviewCookbook
       end
 
       def set_script
-        @item.retrieve!
+        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         if @item.get_script.eql? @context.script
           Chef::Log.info("#{@resource_name} '#{@name}' script is up to date")
         else

@@ -23,4 +23,9 @@ describe 'oneview_test::enclosure_reconfigure' do
     expect_any_instance_of(OneviewSDK::Enclosure).to receive(:configuration).and_return(true)
     expect(real_chef_run).to reconfigure_oneview_enclosure('Enclosure1')
   end
+
+  it 'fails if the resource is not found' do
+    expect_any_instance_of(OneviewSDK::Enclosure).to receive(:retrieve!).and_return(false)
+    expect { real_chef_run }.to raise_error(RuntimeError, /not found/)
+  end
 end

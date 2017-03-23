@@ -17,7 +17,7 @@ module OneviewCookbook
     class InterconnectProvider < ResourceProvider
       def set_uid_light
         raise "Unspecified property: 'uid_light_state'. Please set it before attempting this action." unless @context.uid_light_state
-        @item.retrieve!
+        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         # Impossible to verify this value programatically
         @context.converge_by "Set #{@resource_name} '#{@name}' UID light to #{@context.uid_light_state.upcase}" do
           @item.patch('replace', '/uidState', @context.uid_light_state.capitalize)
@@ -26,7 +26,7 @@ module OneviewCookbook
 
       def set_power_state
         raise "Unspecified property: 'power_state'. Please set it before attempting this action." unless @context.power_state
-        @item.retrieve!
+        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         if @item['powerState'] != @context.power_state
           @context.converge_by "Power #{@resource_name} '#{@name}' #{@context.power_state.upcase}" do
             @item.patch('replace', '/powerState', @context.power_state.capitalize)
@@ -37,7 +37,7 @@ module OneviewCookbook
       end
 
       def reset
-        @item.retrieve!
+        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         # Nothing to verify
         @context.converge_by "Reset #{@resource_name} '#{@name}'" do
           @item.patch('replace', '/deviceResetState', 'Reset')
@@ -45,7 +45,7 @@ module OneviewCookbook
       end
 
       def reset_port_protection
-        @item.retrieve!
+        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         # Nothing to verify
         @context.converge_by "Reset #{@resource_name} '#{@name}' port protection" do
           @item.reset_port_protection
@@ -56,7 +56,7 @@ module OneviewCookbook
         raise "Unspecified property: 'port_options'. Please set it before attempting this action." unless @context.port_options
         parsed_port_options = convert_keys(@context.port_options, :to_s)
         raise "Required value \"name\" for 'port_options' not specified" unless parsed_port_options['name']
-        raise "#{@resource_name} '#{@item['name']}' not found!" unless @item.retrieve!
+        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         target_port = (@item['ports'].select { |port| port['name'] == parsed_port_options['name'] }).first
         raise "Could not find port: #{parsed_port_options['name']}" unless target_port
         # Update only if there are options that differ from the current ones

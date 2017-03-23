@@ -43,7 +43,7 @@ module OneviewCookbook
       end
 
       def reset_connection_template
-        @item.retrieve!
+        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         klass = resource_named(:ConnectionTemplate)
         update_connection_template(bandwidth: klass.get_default(@item.client)['bandwidth'])
       end

@@ -65,7 +65,7 @@ module OneviewCookbook
       end
 
       def update_from_template
-        raise "#{@resource_name} '#{@item['name']}' was not found!" unless @item.retrieve!
+        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         if @item['templateCompliance'] == 'Compliant'
           Chef::Log.info("#{@resource_name} '#{@item['name']}' is up to date")
         else

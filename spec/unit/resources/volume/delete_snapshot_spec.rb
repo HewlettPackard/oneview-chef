@@ -5,8 +5,8 @@ describe 'oneview_test::volume_delete_snapshot' do
   include_context 'chef context'
 
   it 'raises error when resource does not exists' do
-    expect_any_instance_of(OneviewSDK::Volume).to receive(:exists?).and_return(false)
-    expect { real_chef_run }.to raise_error(RuntimeError, /ResourceNotFound: oneview_volume 'Volume1'/)
+    expect_any_instance_of(OneviewSDK::Volume).to receive(:retrieve!).and_return(false)
+    expect { real_chef_run }.to raise_error(RuntimeError, /not found/)
   end
 
   it 'does nothin when it does not exists' do

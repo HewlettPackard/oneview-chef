@@ -19,7 +19,12 @@ describe 'oneview_test_api300_synergy::scope_change_resource_assignments' do
     expect(real_chef_run).to change_oneview_scope_resource_assignments('Scope-change_resource_assignments')
   end
 
-  it 'Fails if one of the resources listed does not exist' do
+  it 'fails if the resource is not found' do
+    expect_any_instance_of(klass).to receive(:retrieve!).and_return(false)
+    expect { real_chef_run }.to raise_error(RuntimeError, /not found/)
+  end
+
+  it 'fails if one of the resources listed does not exist' do
     expect_any_instance_of(klass).to receive(:retrieve!).and_return(true)
     expect_any_instance_of(en_klass).to receive(:retrieve!).and_return(false)
     expect { real_chef_run }.to raise_error(RuntimeError, /ResourceNotFound:.+Encl1/)

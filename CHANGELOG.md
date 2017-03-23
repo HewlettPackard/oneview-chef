@@ -6,6 +6,7 @@ Adds support to API300 HPE Synergy Image Streamer resources:
 Bug Fixes:
 - [#98](https://github.com/HewlettPackard/oneview-chef/issues/98) Fix get_diff for comparisons of alike data
 - [#145](https://github.com/HewlettPackard/oneview-chef/issues/145) Show diff on log statement before actual update
+- [#220](https://github.com/HewlettPackard/oneview-chef/issues/220) Raise "not found" error after failed retrieval of resource
 
 Enhancements:
 - [#218](https://github.com/HewlettPackard/oneview-chef/issues/218) connection_template resource does not support NetworkSet, FCoENetwork and FCNetwork
