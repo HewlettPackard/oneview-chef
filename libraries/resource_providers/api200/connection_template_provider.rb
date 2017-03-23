@@ -23,7 +23,7 @@ module OneviewCookbook
 
       def load_connection_templates
         resources_set = [@context.associated_ethernet_network, @context.associated_fcoe_network, @context.associated_fc_network,
-                         @context.associated_network_set].reduce(0) { |sum, value| (value ? 1 : 0) + sum }
+                         @context.associated_network_set].compact.size
         raise 'A single associated resource field must be specified for this action.' if resources_set > 1
         load_template_from_resource(:EthernetNetwork, @context.associated_ethernet_network)
         load_template_from_resource(:FCoENetwork, @context.associated_fcoe_network)
