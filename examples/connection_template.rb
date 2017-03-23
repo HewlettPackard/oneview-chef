@@ -15,7 +15,7 @@ my_client = {
   password: ENV['ONEVIEWSDK_PASSWORD']
 }
 
-# Ethernet network that we'll use for the examples below
+# Ethernet network that will be used for the examples below
 oneview_ethernet_network 'ChefEthernet_3001' do
   client client
   data(
@@ -30,14 +30,14 @@ oneview_ethernet_network 'ChefEthernet_3001' do
   )
 end
 
-# Network set that we'll use for the examples below
+# Network set that will be used for the examples below
 oneview_network_set 'NetworkSet_3001' do
   client oneview_sdk_client
   ethernet_network_list ['ChefEthernet_3001']
 end
 
 
-# FC network that we'll use for the examples below
+# FC network that will be used for the examples below
 oneview_fc_network 'Fibre Channel A' do
   client client
   data(
