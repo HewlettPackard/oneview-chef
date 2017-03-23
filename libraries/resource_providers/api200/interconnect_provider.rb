@@ -62,7 +62,9 @@ module OneviewCookbook
         # Update only if there are options that differ from the current ones
         if parsed_port_options.any? { |k, v| target_port[k] != v }
           diff = get_diff(target_port, parsed_port_options)
-          @context.converge_by "Update #{@resource_name} '#{@name}' port #{parsed_port_options['name']}.#{diff}" do
+          diff.insert(0, '. Diff:') unless diff.to_s.empty?
+          Chef::Log.info "Updating #{@resource_name} '#{@name}'#{diff}"
+          @context.converge_by "Update #{@resource_name} '#{@name}' port #{parsed_port_options['name']}" do
             @item.update_port(parsed_port_options['name'], parsed_port_options)
           end
         else

@@ -36,7 +36,9 @@ module OneviewCookbook
           mounted_resource = @item['rackMounts'].find { |i| i['mountUri'] == mount_item['uri'] }
           return Chef::Log.info("Item '#{mount_item['name']}' in '#{@name}' is up to date") unless options.any? { |k, v| v != mounted_resource[k] }
           diff = get_diff(mounted_resource, options)
-          @context.converge_by "Update #{mount_item['name']} in #{resource_name} '#{name}'#{diff}" do
+          diff.insert(0, '. Diff:') unless diff.to_s.empty?
+          Chef::Log.info "Updating #{mount_item['name']} in #{resource_name} '#{name}'#{diff}"
+          @context.converge_by "Update #{mount_item['name']} in #{resource_name} '#{name}'" do
             @item.add_rack_resource(mount_item, options)
             @item.update
           end

@@ -96,12 +96,13 @@ module OneviewCookbook
         if @item.like? desired_state
           Chef::Log.info("#{@resource_name} '#{@name}' is up to date")
         else
-          Chef::Log.info "#{method_2.to_s.capitalize} #{@resource_name} '#{@name}'"
+          diff = get_diff(@item, desired_state)
+          diff.insert(0, '. Diff:') unless diff.to_s.empty?
+          Chef::Log.info "#{method_2.to_s.capitalize} #{@resource_name} '#{@name}'#{diff}"
           Chef::Log.debug "#{@resource_name} '#{@name}' Chef resource differs from OneView resource."
           Chef::Log.debug "Current state: #{JSON.pretty_generate(@item.data)}"
           Chef::Log.debug "Desired state: #{JSON.pretty_generate(desired_state)}"
-          diff = get_diff(@item, desired_state)
-          @context.converge_by "#{method_2.to_s.capitalize} #{@resource_name} '#{@name}'#{diff}" do
+          @context.converge_by "#{method_2.to_s.capitalize} #{@resource_name} '#{@name}'" do
             @item.update(desired_state)
           end
         end

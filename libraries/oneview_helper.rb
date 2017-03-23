@@ -158,7 +158,7 @@ module OneviewCookbook
     # @return [String] Diff string (multi-line). Returns empty string if there is no diff or an error occurred
     def self.get_diff(resource, desired_data)
       data = resource.is_a?(Hash) ? resource : resource.data
-      recursive_diff(data, desired_data, "\n", '  ')
+      recursive_diff(data, desired_data, '', '  ')
     rescue StandardError => e
       Chef::Log.error "Failed to generate resource diff for '#{resource['name']}': #{e.message}"
       '' # Return empty diff
