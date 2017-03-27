@@ -34,7 +34,6 @@ module OneviewCookbook
           Chef::Log.info("#{@resource_name} '#{@name}' connection template is up to date")
         else
           diff = get_diff(connection_template, bandwidth)
-          diff.insert(0, '. Diff:') unless diff.to_s.empty?
           Chef::Log.info "Updating #{@resource_name} '#{@name}' connection template settings#{diff}"
           @context.converge_by "Update #{@resource_name} '#{@name}' connection template settings" do
             connection_template.update(bandwidth)

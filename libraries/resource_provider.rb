@@ -97,7 +97,6 @@ module OneviewCookbook
           Chef::Log.info("#{@resource_name} '#{@name}' is up to date")
         else
           diff = get_diff(@item, desired_state)
-          diff.insert(0, '. Diff:') unless diff.to_s.empty?
           Chef::Log.info "#{method_2.to_s.capitalize} #{@resource_name} '#{@name}'#{diff}"
           Chef::Log.debug "#{@resource_name} '#{@name}' Chef resource differs from OneView resource."
           Chef::Log.debug "Current state: #{JSON.pretty_generate(@item.data)}"
@@ -218,7 +217,9 @@ module OneviewCookbook
     # Get the diff of the current resource state and the desired state
     # See the OneviewCookbook::Helper.get_diff method for param details
     def get_diff(resource, desired_data)
-      OneviewCookbook::Helper.get_diff(resource, desired_data)
+      diff = OneviewCookbook::Helper.get_diff(resource, desired_data)
+      return '. (no diff)' if diff.to_s.empty?
+      ". Diff: #{diff}"
     end
 
     # Get the diff of the current resource state and the desired state

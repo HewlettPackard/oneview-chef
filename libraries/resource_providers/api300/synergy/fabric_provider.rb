@@ -24,7 +24,6 @@ module OneviewCookbook
             Chef::Log.info("#{resource_name} '#{name}' reserved Vlan range is up to date")
           else
             diff = get_diff(@item, options)
-            diff.insert(0, '. Diff:') unless diff.to_s.empty?
             Chef::Log.info "Setting #{resource_name} '#{name}' reserved Vlan range#{diff}"
             Chef::Log.debug "#{resource_name} '#{name}' Chef resource differs from OneView resource."
             Chef::Log.debug "Current state: #{JSON.pretty_generate(@item['reservedVlanRange'])}"
