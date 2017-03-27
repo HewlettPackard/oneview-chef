@@ -19,6 +19,7 @@ module OneviewCookbook
         temp = Marshal.load(Marshal.dump(@item.data))
         if @item.exists?
           @item.retrieve!
+          temp.delete('name') # Don't compare the name, since it can't be updated
           return Chef::Log.info("#{@resource_name} '#{@name}' is up to date") if @item.like?(temp)
           diff = get_diff(@item, temp)
           diff.insert(0, '. Diff:') unless diff.to_s.empty?

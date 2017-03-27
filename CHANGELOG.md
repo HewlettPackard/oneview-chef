@@ -4,6 +4,7 @@ Adds support to API300 HPE Synergy Image Streamer resources:
   - image_streamer_os_build_plan
 
 Bug Fixes:
+- [#93](https://github.com/HewlettPackard/oneview-chef/issues/93) oneview_storage_system should not try to update the name
 - [#98](https://github.com/HewlettPackard/oneview-chef/issues/98) Fix get_diff for comparisons of alike data
 - [#145](https://github.com/HewlettPackard/oneview-chef/issues/145) Show diff on log statement before actual update
 - [#220](https://github.com/HewlettPackard/oneview-chef/issues/220) Raise "not found" error after failed retrieval of resource
