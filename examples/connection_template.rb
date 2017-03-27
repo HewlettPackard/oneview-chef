@@ -17,7 +17,7 @@ my_client = {
 
 # Ethernet network that will be used for the examples below
 oneview_ethernet_network 'ChefEthernet_3001' do
-  client client
+  client my_client
   data(
     vlanId: 3001,
     purpose:  'General',
@@ -32,28 +32,22 @@ end
 
 # Network set that will be used for the examples below
 oneview_network_set 'NetworkSet_3001' do
-  client oneview_sdk_client
+  client my_client
   ethernet_network_list ['ChefEthernet_3001']
 end
 
-
 # FC network that will be used for the examples below
 oneview_fc_network 'Fibre Channel A' do
-  client client
+  client my_client
   data(
     fabricType: 'FabricAttach',
     autoLoginRedistribution: true
   )
 end
 
-oneview_connection_template 'Reset connection ChefEthernet_3001' do
-  client client
-  associated_ethernet_network 'ChefEthernet_3001'
-  action :reset
-end
-
-oneview_connection_template 'Update connection ChefEthernet_3001' do
-  client client
+# Example: Update the connection template for an ethernet network
+oneview_connection_template 'Update connection template for ChefEthernet_3001' do
+  client my_client
   associated_ethernet_network 'ChefEthernet_3001'
   data(
     bandwidth: {
@@ -63,26 +57,16 @@ oneview_connection_template 'Update connection ChefEthernet_3001' do
   )
 end
 
-oneview_ethernet_network 'ChefEthernet_3001' do
-  client client
-  action :reset_connection_template
-end
-
-oneview_ethernet_network 'ChefEthernet_3001' do
-  client client
-  action :delete
-end
-
-# Reset FC Network bandwidth parameters
-oneview_connection_template 'Reset connection Fibre Channel A' do
-  client client
-  associated_fc_network 'Fibre Channel A'
+# Example: Reset the connection template for an ethernet network
+oneview_connection_template 'Reset connection template for ChefEthernet_3001' do
+  client my_client
+  associated_ethernet_network 'ChefEthernet_3001'
   action :reset
 end
 
-# Set FC Network bandwidth parameters
-oneview_connection_template 'Update connection Fibre Channel A' do
-  client client
+# Example: Update the connection template for a fiber channel network
+oneview_connection_template 'Update connection template for Fibre Channel A' do
+  client my_client
   associated_fc_network 'Fibre Channel A'
   data(
     bandwidth: {
@@ -92,9 +76,16 @@ oneview_connection_template 'Update connection Fibre Channel A' do
   )
 end
 
-# Set Network Set bandwidth parameters
-oneview_connection_template 'Update network set NetworkSet_3001' do
-  client client
+# Example: Reset the connection template for a fiber channel network
+oneview_connection_template 'Reset connection Fibre Channel A' do
+  client my_client
+  associated_fc_network 'Fibre Channel A'
+  action :reset
+end
+
+# Example: Update the connection template for a network set
+oneview_connection_template 'Update connection template for NetworkSet_3001' do
+  client my_client
   associated_network_set 'NetworkSet_3001'
   data(
     bandwidth: {
@@ -103,3 +94,20 @@ oneview_connection_template 'Update network set NetworkSet_3001' do
     }
   )
 end
+
+# Cleanup:
+oneview_ethernet_network 'ChefEthernet_3001' do
+  client my_client
+  action :delete
+end
+
+oneview_network_set 'NetworkSet_3001' do
+  client my_client
+  action :delete
+end
+
+oneview_fc_network 'Fibre Channel A' do
+  client my_client
+  action :delete
+end
+
