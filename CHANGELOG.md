@@ -7,6 +7,7 @@ Bug Fixes:
 - [#220](https://github.com/HewlettPackard/oneview-chef/issues/220) Raise "not found" error after failed retrieval of resource
 
 Enhancements:
+- [#217](https://github.com/HewlettPackard/oneview-chef/issues/217) Create full server deploy example recipe using Image Streamer and OneView resources
 - [#218](https://github.com/HewlettPackard/oneview-chef/issues/218) connection_template resource does not support NetworkSet, FCoENetwork and FCNetwork
 
 ## 2.1.0

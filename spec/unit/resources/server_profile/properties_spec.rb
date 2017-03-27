@@ -36,7 +36,7 @@ describe 'oneview_test_api300_synergy::server_profile_properties' do
   it 'loads the new associated resource OS Deployment Plan' do
     osdp = base_sdk::OSDeploymentPlan.new(@client, name: 'OSDeploymentPlan1', uri: 'rest/fake0')
     allow_any_instance_of(provider).to receive(:load_resource).and_call_original
-    allow_any_instance_of(provider).to receive(:load_resource).with(anything, 'OSDeploymentPlan1').and_return(osdp)
+    allow_any_instance_of(provider).to receive(:load_resource).with(:OSDeploymentPlan, 'OSDeploymentPlan1').and_return(osdp)
 
     expect_any_instance_of(base_sdk::ServerProfile).to receive(:set_os_deployment_settings).with(osdp, 'it' => 'works')
 

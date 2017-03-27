@@ -23,7 +23,7 @@ i3s_client = {
   oneview_client: oneview_client
 }
 
-# Create the Plan scripts
+# Create the Plan scripts to be executed during the provisioning step
 image_streamer_plan_script 'ESXi - Configure environment' do
   client i3s_client
   data(
@@ -42,6 +42,7 @@ image_streamer_plan_script 'ESXi - Set credentials' do
   )
 end
 
+# Create an OS build plan that lists the execution of the previously created plan scripts
 image_streamer_os_build_plan 'ESXi - Build simple environment' do
   client i3s_client
   data(
@@ -53,29 +54,29 @@ image_streamer_os_build_plan 'ESXi - Build simple environment' do
   )
 end
 
+# Create the Golden Image from 'OSVolume1'
 image_streamer_golden_image 'GoldenImage - Deploy1' do
   client i3s_client
   os_volume 'OSVolume1'
-  data(
-    imageCapture: false # Deploy
-  )
+  data(imageCapture: true)
 end
 
+# Create or update the Deployment Plan with the OS build plan and the golden image
 image_streamer_deployment_plan 'DeploymentPlan1' do
   client i3s_client
-  data(
-    hpProvided: false
-  )
+  data(hpProvided: false)
   os_build_plan 'ESXi - Build simple environment'
   golden_image 'GoldenImage - Deploy1'
 end
 
+# Instantiate a new server profile from the previously created template 'WebServerTemplate1'
 oneview_server_profile_template 'WebServerTemplate1' do
   client oneview_client
   profile_name 'ESXi - WebServer1'
   action :new_profile
 end
 
+# Apply the server profile to the 'SY0000, bay 1' server hardware blade with the OS deployment plan
 oneview_server_profile 'ESXi - WebServer1' do
   client oneview_client
   os_deployment_plan 'ESXi - Build simple environment'

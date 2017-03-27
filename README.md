@@ -259,9 +259,9 @@ oneview_logical_interconnect 'LogicalInterconnect1' do
   trap_destinations <trap_options>   # Hash: Optional for :update_snmp_configuration
   enclosure <enclosure_name>         # String: Required for :add_interconnect and :remove_interconnect
   bay_number <bay>                   # Fixnum: Required for :add_interconnect and :remove_interconnect
-  action [:none, :add_interconnect, :remove_interconnect, :update_internal_networks, 
-          :update_settings,:update_ethernet_settings, :update_port_monitor, :update_qos_configuration, 
-          :update_telemetry_configuration, :update_snmp_configuration, :update_firmware, :stage_firmware, 
+  action [:none, :add_interconnect, :remove_interconnect, :update_internal_networks,
+          :update_settings,:update_ethernet_settings, :update_port_monitor, :update_qos_configuration,
+          :update_telemetry_configuration, :update_snmp_configuration, :update_firmware, :stage_firmware,
           :activate_firmware, :update_from_group, :reapply_configuration]
 end
 ```
@@ -277,7 +277,7 @@ oneview_sas_logical_interconnect 'SASLogicalInterconnect1' do
   firmware_data <firmware_data>                 # Hash: Optional for actions like :<action>_firwmare
   old_drive_enclosure <old_drive_enclosure_id>  # String (Optional): Old Drive enclosure name or serial number. It is used with the action :replace_drive_enclosure.
   new_drive_enclosure <new_drive_enclosure_id>  # String (Optional): New Drive enclosure name or serial number. It is used with the action :replace_drive_enclosure.
-  action [:none, :update_firmware, :stage_firmware, :activate_firmware, :update_from_group, 
+  action [:none, :update_firmware, :stage_firmware, :activate_firmware, :update_from_group,
           :reapply_configuration, :replace_drive_enclosure]
 end
 ```
@@ -671,14 +671,14 @@ end
 ```
 
 - **add** and **remove** (Hash) Optional - Used in the `:change_resource_assignments` action only. Specify resources to be added or removed. The Hash should have `<resource_type> => [<resource_names>]` associations. The `resource_type` can be a `String` or `Symbol`, and should be in upper CamelCase (i.e., ServerHardware, Enclosure):
-  
+
   ```ruby
   resource_list = {
     Enclosure: ['Encl1'],
     ServerHardware: ['Server1']
   }
   ```
-  
+
   See the [example](examples/scope.rb) for more information.
 
 ### [oneview_server_hardware](examples/server_hardware.rb)
@@ -745,6 +745,7 @@ oneview_server_profile 'ServerProfile1' do
   ethernet_network_connections <ethernet_network_connections_data>
   fc_network_connections <fc_network_connections_data>
   network_set_connections <network_set_connections_data>
+  deployment_plan <image_streamer_deployment_plan_name>
   action [:create, :create_if_missing, :delete]
 end
 ```
@@ -752,6 +753,7 @@ end
 You can specify the association of the server profile with each of the resources using the resource properties. Also it is easy to add connections using the connection properties:
 
 - **\<network_type\>_connections** (Hash) Optional - Specify connections with the desired resource type. The Hash should have `<network_name> => <connection_data>` associations. See the [examples](examples/server_profile.rb) for more information.
+- **deployment_plan** (String) Optional - Specify the Deployment Plan to be applied with the Server Profile. The OS Deployment Plan need to be created in Image Streamer appliance. See the [examples](examples/image_streamer/server_profile_deploy.rb) for more information.
 
 
 ### [oneview_switch](examples/switch.rb)
