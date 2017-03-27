@@ -96,7 +96,7 @@ All you need is Docker and git (optional).
      -e ONEVIEWSDK_URL='https://ov.example.com' \
      -e ONEVIEWSDK_USER='Administrator' \
      -e ONEVIEWSDK_PASSWORD='secret123' \
-     -e I3S_URL='https://i3s.example.com'
+     -e I3S_URL='https://i3s.example.com' \
      chef-oneview chef-client -z -o oneview::plan_script
    ```
 

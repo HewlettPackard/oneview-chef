@@ -12,7 +12,7 @@ RUN apt-get update && \
       vim
 
 RUN curl -LO https://omnitruck.chef.io/install.sh && bash ./install.sh -P chefdk && rm install.sh
-RUN chef gem install oneview-sdk --no-document
+RUN chef gem install oneview-sdk --no-document # Ignore the warning about the path not containing gem executables
 
 RUN mkdir -p /chef-repo/.chef
 RUN mkdir -p /chef-repo/cookbooks/oneview/recipes
