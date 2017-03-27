@@ -30,4 +30,9 @@ describe 'oneview_test::ethernet_network_reset_connection_template' do
     expect_any_instance_of(OneviewSDK::ConnectionTemplate).to_not receive(:update)
     expect(real_chef_run).to reset_oneview_ethernet_network_connection_template('EthernetNetwork4')
   end
+
+  it 'fails if the resource is not found' do
+    expect_any_instance_of(OneviewSDK::EthernetNetwork).to receive(:retrieve!).and_return(false)
+    expect { real_chef_run }.to raise_error(RuntimeError, /not found/)
+  end
 end

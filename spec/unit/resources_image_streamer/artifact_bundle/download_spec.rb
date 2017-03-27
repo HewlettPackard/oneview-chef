@@ -24,6 +24,6 @@ describe 'image_streamer_test_api300::artifact_bundle_download' do
 
   it 'not download when resource does not exist' do
     expect_any_instance_of(base_sdk::ArtifactBundle).to receive(:retrieve!).and_return(false)
-    expect { real_chef_run }.to raise_error(RuntimeError, /ArtifactBundle1 does not exist in the appliance. Cannot run download action./)
+    expect { real_chef_run }.to raise_error(RuntimeError, /not found/)
   end
 end

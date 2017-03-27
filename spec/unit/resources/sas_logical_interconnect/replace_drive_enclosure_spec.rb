@@ -79,8 +79,7 @@ describe 'oneview_test_api300_synergy::sas_logical_interconnect_replace_drive_en
     allow_any_instance_of(provider).to receive(:load_resource).with(:DriveEnclosure, 'NEW_DRIVE', 'serialNumber')
       .and_return('SNFAKE2')
     expect_any_instance_of(klass).to receive(:retrieve!).and_return(false)
-
     expect_any_instance_of(klass).to_not receive(:replace_drive_enclosure)
-    expect { real_chef_run }.to raise_error(RuntimeError, /ResourceNotFound/)
+    expect { real_chef_run }.to raise_error(RuntimeError, /not found/)
   end
 end

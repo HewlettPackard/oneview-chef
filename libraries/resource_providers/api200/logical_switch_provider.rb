@@ -61,7 +61,7 @@ module OneviewCookbook
       end
 
       def refresh
-        raise "ResourceNotFound: #{@resource_name} '#{@name}' could not be found" unless @item.retrieve!
+        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         @context.converge_by "Refreshed #{@resource_name} '#{@name}'" do
           @item.refresh_state
         end

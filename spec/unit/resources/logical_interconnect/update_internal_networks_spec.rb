@@ -11,4 +11,9 @@ describe 'oneview_test::logical_interconnect_update_internal_networks' do
     expect_any_instance_of(OneviewSDK::LogicalInterconnect).to receive(:update_internal_networks).and_return(true)
     expect(real_chef_run).to update_oneview_logical_interconnect_internal_networks('LogicalInterconnect-update_internal_networks')
   end
+
+  it 'fails if the resource is not found' do
+    expect_any_instance_of(OneviewSDK::LogicalInterconnect).to receive(:retrieve!).and_return(false)
+    expect { real_chef_run }.to raise_error(RuntimeError, /not found/)
+  end
 end

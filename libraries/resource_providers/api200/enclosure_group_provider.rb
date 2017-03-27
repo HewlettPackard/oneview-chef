@@ -44,7 +44,7 @@ module OneviewCookbook
       end
 
       def set_script
-        @item.retrieve!
+        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         return Chef::Log.info("#{@resource_name} '#{@name}' script is up to date") if @item.get_script.eql?(@context.script)
         Chef::Log.debug "#{@resource_name} '#{@name}' Chef resource differs from OneView resource."
         @context.converge_by "Updated script for #{@resource_name} '#{@name}'" do

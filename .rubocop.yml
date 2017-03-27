@@ -37,3 +37,6 @@ Style/RescueModifier:
 
 Style/WordArray:
   Enabled: false
+
+Style/SingleLineBlockParams:
+  Enabled: false

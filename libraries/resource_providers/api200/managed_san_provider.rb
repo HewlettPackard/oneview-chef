@@ -16,7 +16,7 @@ module OneviewCookbook
     # ManagedSAN API200 provider
     class ManagedSANProvider < ResourceProvider
       def refresh
-        @item.retrieve!
+        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         refresh_ready = ['RefreshFailed', 'NotRefreshing', ''].include? @item['refreshState']
         return Chef::Log.info("#{@resource_name} '#{@name}' refresh is already running. State: #{@item['refreshState']}") unless refresh_ready
         @context.converge_by "#{@resource_name} '#{@name}' was refreshed." do
@@ -26,7 +26,7 @@ module OneviewCookbook
 
       def set_policy
         temp = Marshal.load(Marshal.dump(@item['sanPolicy']))
-        raise "ResourceNotFound: #{@resource_name} '#{@name}' could not be found" unless @item.retrieve!
+        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         return Chef::Log.info "#{@resource_name} '#{@name}' san policy is up to date" if temp.all? { |k, v| v == @item['sanPolicy'][k] }
         Chef::Log.info "Updating #{@resource_name} '#{@name}' san policy"
         @context.converge_by "#{@resource_name} '#{@name}' san policy updated" do
@@ -36,7 +36,7 @@ module OneviewCookbook
 
       def set_public_attributes
         temp = Marshal.load(Marshal.dump(@item['publicAttributes']))
-        raise "ResourceNotFound: #{@resource_name} '#{@name}' could not be found" unless @item.retrieve!
+        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         # compares two hashes
         results = []
         temp_attributes = temp.sort_by { |element| element['name'] }

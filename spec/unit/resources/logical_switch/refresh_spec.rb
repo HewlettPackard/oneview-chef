@@ -13,6 +13,6 @@ describe 'oneview_test::logical_switch_refresh' do
   it 'raises error when it does not exist' do
     expect_any_instance_of(OneviewSDK::LogicalSwitch).to receive(:retrieve!).and_return(false)
     expect_any_instance_of(OneviewSDK::LogicalSwitch).to_not receive(:refresh_state)
-    expect { real_chef_run }.to raise_error(RuntimeError, /ResourceNotFound/)
+    expect { real_chef_run }.to raise_error(RuntimeError, /not found/)
   end
 end
