@@ -745,7 +745,7 @@ oneview_server_profile 'ServerProfile1' do
   ethernet_network_connections <ethernet_network_connections_data>
   fc_network_connections <fc_network_connections_data>
   network_set_connections <network_set_connections_data>
-  deployment_plan <image_streamer_deployment_plan_name>
+  os_deployment_plan <os_deployment_plan_name>
   action [:create, :create_if_missing, :delete]
 end
 ```
@@ -753,7 +753,7 @@ end
 You can specify the association of the server profile with each of the resources using the resource properties. Also it is easy to add connections using the connection properties:
 
 - **\<network_type\>_connections** (Hash) Optional - Specify connections with the desired resource type. The Hash should have `<network_name> => <connection_data>` associations. See the [examples](examples/server_profile.rb) for more information.
-- **deployment_plan** (String) Optional - Specify the Deployment Plan to be applied with the Server Profile. The OS Deployment Plan need to be created in Image Streamer appliance. See the [examples](examples/image_streamer/server_profile_deploy.rb) for more information.
+- **os_deployment_plan** (String) Optional - Specify the OS Deployment Plan to be applied with the Server Profile. The OS Deployment Plan needs to be created in Image Streamer appliance in order to appear in OneView. See the [example](examples/image_streamer/server_profile_deploy.rb) for more information.
 
 
 ### [oneview_switch](examples/switch.rb)

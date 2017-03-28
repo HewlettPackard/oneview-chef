@@ -9,6 +9,8 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
+# NOTE: It assumes the server profile template 'WebServerTemplate1' was already created with all the connection information
+
 # Defaults API version to 300
 node.default['oneview']['api_version'] = 300
 
@@ -62,23 +64,18 @@ image_streamer_golden_image 'GoldenImage - Deploy1' do
 end
 
 # Create or update the Deployment Plan with the OS build plan and the golden image
-image_streamer_deployment_plan 'DeploymentPlan1' do
+image_streamer_deployment_plan 'ESXi - Deploy simple' do
   client i3s_client
   data(hpProvided: false)
   os_build_plan 'ESXi - Build simple environment'
   golden_image 'GoldenImage - Deploy1'
 end
 
-# Instantiate a new server profile from the previously created template 'WebServerTemplate1'
-oneview_server_profile_template 'WebServerTemplate1' do
-  client oneview_client
-  profile_name 'ESXi - WebServer1'
-  action :new_profile
-end
-
-# Apply the server profile to the 'SY0000, bay 1' server hardware blade with the OS deployment plan
+# Apply the server profile, based on the 'WebServerTemplate1' template to the 'SY0000, bay 1' server hardware blade
+#   with the OS deployment plan 'ESXi - Deploy simple' from the last steps
 oneview_server_profile 'ESXi - WebServer1' do
   client oneview_client
-  os_deployment_plan 'ESXi - Build simple environment'
-  server_hardware 'SY0000, bay 1'
+  server_profile_template 'WebServerTemplate1'
+  server_hardware 'Enclosure1, bay 1'
+  os_deployment_plan 'ESXi - Deploy simple'
 end
