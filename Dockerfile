@@ -2,9 +2,10 @@
 
 FROM ubuntu:16.04
 
-# Uncomment the next 2 lines if you're behind a proxy:
+# Uncomment & edit the next 3 lines if you're behind a proxy:
 # ENV http_proxy="http://proxy.example.com:8080"
 # ENV https_proxy=${http_proxy}
+# ENV no_proxy="localhost,127.0.0.1"
 RUN apt-get update && \
     apt-get -yqq install \
       curl \
