@@ -23,12 +23,12 @@ module OneviewCookbook
           if @item.like? options
             Chef::Log.info("#{resource_name} '#{name}' reserved Vlan range is up to date")
           else
-            Chef::Log.info "Set #{resource_name} '#{name}' reserved Vlan range"
+            diff = get_diff(@item, options)
+            Chef::Log.info "Setting #{resource_name} '#{name}' reserved Vlan range#{diff}"
             Chef::Log.debug "#{resource_name} '#{name}' Chef resource differs from OneView resource."
             Chef::Log.debug "Current state: #{JSON.pretty_generate(@item['reservedVlanRange'])}"
             Chef::Log.debug "Desired state: #{JSON.pretty_generate(options['reservedVlanRange'])}"
-            diff = get_diff(@item, options)
-            @context.converge_by "Set reserved Vlan range for #{resource_name} '#{name}'#{diff}" do
+            @context.converge_by "Set reserved Vlan range for #{resource_name} '#{name}'" do
               @item.set_reserved_vlan_range(options['reservedVlanRange'])
             end
           end

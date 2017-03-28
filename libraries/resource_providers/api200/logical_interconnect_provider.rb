@@ -53,13 +53,13 @@ module OneviewCookbook
         temp = key ? { key.to_s => Marshal.load(Marshal.dump(@item[key])) } : Marshal.load(Marshal.dump(@item.data))
         @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         return Chef::Log.info("#{@resource_name} '#{@name}' is up to date") if @item.like?(temp)
-        Chef::Log.info "#{action.to_s.capitalize.tr('_', ' ')} #{@resource_name} '#{@name}'"
+        diff = get_diff(@item, temp)
+        Chef::Log.info "#{action.to_s.capitalize.tr('_', ' ')} #{@resource_name} '#{@name}'#{diff}"
         Chef::Log.debug "#{@resource_name} '#{@name}' Chef resource differs from OneView resource."
         Chef::Log.debug "Current state: #{JSON.pretty_generate(@item.data)}"
         Chef::Log.debug "Desired state: #{JSON.pretty_generate(temp)}"
-        diff = get_diff(@item, temp)
         recursive_set(@item.data, temp)
-        @context.converge_by "#{action.to_s.capitalize.tr('_', ' ')} #{@resource_name} '#{@name}'#{diff}" do
+        @context.converge_by "#{action.to_s.capitalize.tr('_', ' ')} #{@resource_name} '#{@name}'" do
           @item.send(action)
         end
       end
@@ -75,11 +75,11 @@ module OneviewCookbook
         fd = load_resource(:FirmwareDriver, @context.firmware)
         raise "Resource not found: Firmware action '#{action}' cannot be performed since the firmware '#{@context.firmware}' was not found." unless fd
         diff = get_diff(current_firmware, @context.firmware_data)
-        Chef::Log.info "#{action.to_s.capitalize.tr('_', ' ')} #{@resource_name} '#{@name}'"
+        Chef::Log.info "#{action.to_s.capitalize.tr('_', ' ')} #{@resource_name} '#{@name}'#{diff}"
         Chef::Log.debug "#{@resource_name} '#{@name}' Chef resource firmware options differs from OneView resource."
         Chef::Log.debug "Current state: #{JSON.pretty_generate(current_firmware)}"
         Chef::Log.debug "Desired state: #{JSON.pretty_generate(@context.firmware_data)}"
-        @context.converge_by "#{action.capitalize} firmware '#{@context.firmware}' from logical interconnect '#{@name}'#{diff}" do
+        @context.converge_by "#{action.capitalize} firmware '#{@context.firmware}' from logical interconnect '#{@name}'" do
           @item.firmware_update(action, fd, @context.firmware_data)
         end
       end
@@ -115,7 +115,8 @@ module OneviewCookbook
           Chef::Log.info("Internal networks for #{@resource_name} #{@name} are up to date")
         else
           diff = get_diff(@item, 'internalNetworkUris' => @context.internal_networks)
-          @context.converge_by("Update internal networks for #{@resource_name} '#{@name}'#{diff}") do
+          Chef::Log.info "Updating internal networks for #{@resource_name} '#{@name}'#{diff}"
+          @context.converge_by("Update internal networks for #{@resource_name} '#{@name}'") do
             @item.update_internal_networks(*@context.internal_networks)
           end
         end

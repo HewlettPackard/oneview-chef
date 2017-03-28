@@ -107,8 +107,8 @@ RSpec.describe OneviewCookbook::ResourceProvider do
       expect(res.item).to receive(:like?).and_return(false)
       expect(res.item).to receive(:update).and_return(true)
       expect(res).to receive(:get_diff).and_return('diff')
-      expect(Chef::Log).to receive(:info).ordered.with("Update #{res.resource_name} '#{res.name}'").and_return true
       expect(Chef::Log).to receive(:info).ordered.with("Update #{res.resource_name} '#{res.name}'diff").and_return true
+      expect(Chef::Log).to receive(:info).ordered.with("Update #{res.resource_name} '#{res.name}'").and_return true
       expect(Chef::Log).to receive(:debug).with(/differs from OneView resource/).and_return true
       expect(Chef::Log).to receive(:debug)
         .with(/Current state: #{JSON.pretty_generate(res.item.data)}/).and_return true
@@ -315,7 +315,13 @@ RSpec.describe OneviewCookbook::ResourceProvider do
     it 'calls the Helper method' do
       expect(OneviewCookbook::Helper).to receive(:get_diff)
         .with(:resource, :desired_data).and_return(:value)
-      expect(res.send(:get_diff, :resource, :desired_data)).to eq(:value)
+      expect(res.send(:get_diff, :resource, :desired_data)).to eq('. Diff: value')
+    end
+
+    it 'converts empty diffs' do
+      expect(OneviewCookbook::Helper).to receive(:get_diff)
+        .with(:resource, :desired_data).and_return('')
+      expect(res.send(:get_diff, :resource, :desired_data)).to eq('. (no diff)')
     end
   end
 

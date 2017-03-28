@@ -49,13 +49,13 @@ module OneviewCookbook
         if @item.like?(temp) && networks_match
           Chef::Log.info("#{resource_name} '#{name}' is up to date")
         else
-          Chef::Log.info "Update #{resource_name} '#{name}'"
+          diff = OneviewCookbook::Helper.get_diff(@item, temp)
+          diff << OneviewCookbook::Helper.get_diff({ networkUris: retrieved_networks }, networkUris: desired_networks)
+          Chef::Log.info "Updating #{resource_name} '#{name}'. Diff: #{diff}"
           Chef::Log.debug "#{resource_name} '#{name}' Chef resource differs from OneView resource."
           Chef::Log.debug "Current state: #{JSON.pretty_generate(@item.data)}"
           Chef::Log.debug "Desired state: #{JSON.pretty_generate(temp)}"
-          diff = get_diff(@item, temp)
-          diff << get_diff({ networkUris: retrieved_networks }, networkUris: desired_networks)
-          @context.converge_by "Update #{resource_name} '#{name}'#{diff}" do
+          @context.converge_by "Update #{resource_name} '#{name}'" do
             temp['networkUris'] = desired_networks
             @item.update(temp)
           end

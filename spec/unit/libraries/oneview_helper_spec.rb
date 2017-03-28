@@ -285,13 +285,13 @@ RSpec.describe OneviewCookbook::Helper do
     end
 
     it 'calls #recursive_diff' do
-      expect(described_class).to receive(:recursive_diff).with(@item.data, @desired_data, "\n", '  ').and_return('diff')
+      expect(described_class).to receive(:recursive_diff).with(@item.data, @desired_data, '', '  ').and_return('diff')
       diff = described_class.get_diff(@item, @desired_data)
       expect(diff).to eq('diff')
     end
 
     it 'allows a hash values instead of a resource' do
-      expect(described_class).to receive(:recursive_diff).with(@item.data, @desired_data, "\n", '  ').and_return('diff')
+      expect(described_class).to receive(:recursive_diff).with(@item.data, @desired_data, '', '  ').and_return('diff')
       diff = described_class.get_diff(@item.data, @desired_data)
       expect(diff).to eq('diff')
     end
