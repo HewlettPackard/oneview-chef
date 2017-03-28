@@ -43,6 +43,12 @@ oneview_ethernet_network 'Eth1' do
   action :create_if_missing
 end
 
+# Example: Reset the connection template for a network
+oneview_ethernet_network 'Eth1' do
+  client my_client
+  action :reset_connection_template
+end
+
 # Example: Delete an ethernet network
 oneview_ethernet_network 'Eth1' do
   client my_client
