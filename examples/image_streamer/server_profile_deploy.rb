@@ -71,7 +71,7 @@ image_streamer_deployment_plan 'ESXi - Deploy simple' do
   golden_image 'GoldenImage - Deploy1'
 end
 
-# Apply the server profile, based on the 'WebServerTemplate1' template to the 'SY0000, bay 1' server hardware blade
+# Apply the server profile, based on the 'WebServerTemplate1' template to the 'Enclosure1, bay 1' server hardware blade
 #   with the OS deployment plan 'ESXi - Deploy simple' from the last steps
 oneview_server_profile 'ESXi - WebServer1' do
   client oneview_client
