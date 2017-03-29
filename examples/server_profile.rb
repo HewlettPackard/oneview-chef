@@ -19,7 +19,7 @@ my_client = {
 oneview_server_profile 'ServerProfile1' do
   client my_client
   enclosure_group 'EnclosureGroup1'
-  server_hardware_type 'DL360 Gen8 1'
+  server_hardware_type 'BL460c Gen8'
 end
 
 # Creates a server profile using a template
@@ -54,7 +54,7 @@ end
 oneview_server_profile 'ServerProfile3' do
   client my_client
   enclosure_group 'EnclosureGroup2'
-  server_hardware_type 'DL360 Gen9 1'
+  server_hardware_type 'BL460c Gen8'
   data(
     'macType' => 'Virtual',
     'wwnType' => 'Virtual'
@@ -75,7 +75,21 @@ oneview_server_profile 'ServerProfile3' do
 end
 
 # Deletes server profile 'ServerProfile3'
-oneview_server_profile 'ServerProfile3' do
+oneview_server_profile 'Delete ServerProfile3' do
   client my_client
+  data(name: 'ServerProfile3')
+  action :delete
+end
+
+# Clean up the other profiles:
+oneview_server_profile 'Delete ServerProfile2' do
+  client my_client
+  data(name: 'ServerProfile2')
+  action :delete
+end
+
+oneview_server_profile 'Delete ServerProfile1' do
+  client my_client
+  data(name: 'ServerProfile1')
   action :delete
 end

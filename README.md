@@ -369,7 +369,7 @@ end
 ```ruby
 interconnects_data = [
   { bay: 1, type: 'Synergy 12Gb SAS Connection Module' },
-  { bay: 2, type: 'Synergy 12Gb SAS Connection Module' }
+  { bay: 4, type: 'Synergy 12Gb SAS Connection Module' }
 ]
 ```
 
