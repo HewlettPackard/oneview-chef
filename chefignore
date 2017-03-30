@@ -42,6 +42,8 @@ a.out
 *.dll
 *.exe
 */rdoc/
+doc/*
+.yardoc/*
 
 # Testing #
 ###########

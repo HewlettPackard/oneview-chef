@@ -354,23 +354,44 @@ RSpec.describe OneviewCookbook::Helper do
   describe '::load_resource' do
     let(:sdk_klass) { OneviewSDK::API200::VolumeTemplate }
     let(:sdk_klass2) { OneviewSDK::ImageStreamer::API300::GoldenImage }
+    let(:sdk_klass3) { OneviewSDK::API300::Synergy::VolumeTemplate }
 
     before :each do
-      @other_res = sdk_klass.new(@client, name: 'T1', description: 'Blah', uri: '/fake')
+      @data = { name: 'T1', description: 'Blah', uri: '/fake' }
+      @res = sdk_klass.new(@client, @data)
+      allow(sdk_klass).to receive(:find_by).and_return([@res])
+    end
+
+    it 'requires a type' do
+      expect { described_class.load_resource(@client) }.to raise_error(ArgumentError, /type/)
+    end
+
+    it 'returns immediately without an id' do
+      expect(described_class.load_resource(@client, type: :VolumeTemplate)).to eq(nil)
+    end
+
+    it 'accepts api_ver & variant params' do
+      expect(sdk_klass3).to receive(:find_by).and_return([sdk_klass3.new(@client, @data)])
+      expect(OneviewSDK).to receive(:resource_named).with(:VolumeTemplate, 300, :Synergy).and_call_original
+      described_class.load_resource(@client, id: 'T1', type: :VolumeTemplate, api_ver: 300, variant: :Synergy)
+    end
+
+    it 'pulls the api_ver & variant from the node object' do
+      n = { 'oneview' => { 'api_version' => 300, 'api_variant' => 'Synergy' } }
+      expect(OneviewSDK).to receive(:resource_named).with(:VolumeTemplate, 300, 'Synergy').and_call_original
+      described_class.load_resource(@client, id: 'T1', type: :VolumeTemplate, node: n)
     end
 
     it 'retrieves a resource successfully when it exists (default by name)' do
-      expect(sdk_klass).to receive(:find_by).and_return([@other_res])
       r = described_class.load_resource(@client, type: :VolumeTemplate, id: 'T1')
       expect(r).to be_a(sdk_klass)
-      expect(r.data).to eq(@other_res.data)
+      expect(r.data).to eq(@res.data)
     end
 
     it 'retrieves a resource successfully when it exists (by data Hash)' do
-      expect(sdk_klass).to receive(:find_by).and_return([@other_res])
       r = described_class.load_resource(@client, type: :VolumeTemplate, id: { uri: '/fake' })
       expect(r).to be_a(sdk_klass)
-      expect(r.data).to eq(@other_res.data)
+      expect(r.data).to eq(@res.data)
     end
 
     it 'retrieves image streamer resources when they exist' do
@@ -388,7 +409,6 @@ RSpec.describe OneviewCookbook::Helper do
     end
 
     it 'returns a resource attribute when called with the ret_attribute' do
-      expect(sdk_klass).to receive(:find_by).and_return([@other_res])
       r = described_class.load_resource(@client, type: :VolumeTemplate, id: 'T1', ret_attribute: :uri)
       expect(r).to eq('/fake')
     end

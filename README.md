@@ -1,6 +1,8 @@
 # Cookbook for HPE OneView
 
 [![Cookbook Version](https://img.shields.io/cookbook/v/oneview.svg)](https://supermarket.chef.io/cookbooks/oneview)
+[![Yard Docs](https://img.shields.io/badge/yard-docs-yellow.svg)](http://www.rubydoc.info/github/HewlettPackard/oneview-chef)
+
 [![Travis Build Status](https://travis-ci.org/HewlettPackard/oneview-chef.svg?branch=master)](https://travis-ci.org/HewlettPackard/oneview-chef)
 [![Chef Build Status](https://jenkins-01.eastus.cloudapp.azure.com/job/oneview-cookbook/badge/icon)](https://jenkins-01.eastus.cloudapp.azure.com/job/oneview-cookbook/)
 [![Code Climate](https://codeclimate.com/github/HewlettPackard/oneview-chef/badges/gpa.svg)](https://codeclimate.com/github/HewlettPackard/oneview-chef)
