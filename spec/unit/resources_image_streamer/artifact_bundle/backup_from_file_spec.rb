@@ -26,6 +26,6 @@ describe 'image_streamer_test_api300::artifact_bundle_backup_from_file' do
     allow(File).to receive(:file?).with('/tmp/BKP01.zip').and_return(true)
     expect_any_instance_of(base_sdk::DeploymentGroup).to receive(:retrieve!).and_return(false)
     expect(base_sdk::ArtifactBundle).not_to receive(:create_backup_from_file!)
-    expect { real_chef_run }.to raise_error(RuntimeError, /DeploymentGroup with data '{:name=>"DG1"}' was not found in the appliance./)
+    expect { real_chef_run }.to raise_error(OneviewSDK::NotFound, /DeploymentGroup with data '{:name=>"DG1"}'/)
   end
 end

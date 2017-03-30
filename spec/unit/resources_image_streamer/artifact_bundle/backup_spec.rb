@@ -15,6 +15,6 @@ describe 'image_streamer_test_api300::artifact_bundle_backup' do
   it 'does not run backup when resource does not exist' do
     expect_any_instance_of(base_sdk::DeploymentGroup).to receive(:retrieve!).and_return(false)
     expect(base_sdk::ArtifactBundle).not_to receive(:create_backup)
-    expect { real_chef_run }.to raise_error(RuntimeError, /DeploymentGroup with data '{:name=>"DeploymentGroup1"}' was not found in the appliance./)
+    expect { real_chef_run }.to raise_error(OneviewSDK::NotFound, /DeploymentGroup with data '{:name=>"DeploymentGroup1"}'/)
   end
 end

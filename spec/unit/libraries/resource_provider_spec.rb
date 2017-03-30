@@ -373,7 +373,7 @@ RSpec.describe OneviewCookbook::ResourceProvider do
 
     it 'fails when the resource does not exist' do
       expect_any_instance_of(sdk_klass).to receive(:retrieve!).and_return(false)
-      expect { @res.load_resource(:VolumeTemplate, 'T2') }.to raise_error(RuntimeError, /ResourceNotFound/)
+      expect { @res.load_resource(:VolumeTemplate, 'T2') }.to raise_error(OneviewSDK::NotFound, /not found/)
     end
 
     it 'returns a resource attribute when called with the ret_attribute' do

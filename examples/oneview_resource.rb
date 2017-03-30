@@ -15,11 +15,12 @@
 # but that resource must have a defined oneview-sdk class. This will make more sense as we look
 # at some examples below, but note that there are some generic assumptions being made about how
 # these resources can be interacted with. These assumptions include the availability of the
-# :exists?, :retrieve!, :create, :update and :destroy methods
+# :exists?, :retrieve!, :create, :update and :destroy methods. For resources that don't conform
+# to those assumptions, see the custom_ruby_resources.rb example.
 
 # Note that this client is not just a hash; it's a OneviewSDK::Client object. We'll need to use
 # it in our examples below to interact with OneView and get some information we need.
-require 'oneview-sdk'
+OneviewCookbook::Helper.load_sdk(self)
 my_client = OneviewSDK::Client.new(
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],

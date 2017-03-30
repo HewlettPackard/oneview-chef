@@ -28,6 +28,6 @@ describe 'oneview_test::server_profile_create_from_template' do
   it 'requires a valid template name' do
     expect_any_instance_of(OneviewSDK::ServerProfile).to receive(:exists?).and_return(false)
     expect(OneviewSDK::ServerProfileTemplate).to receive(:find_by).and_return([])
-    expect { real_chef_run }.to raise_error(RuntimeError, /not found/)
+    expect { real_chef_run }.to raise_error(OneviewSDK::NotFound, /not found/)
   end
 end

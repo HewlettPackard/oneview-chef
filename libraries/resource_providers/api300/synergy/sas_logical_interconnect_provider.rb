@@ -20,7 +20,7 @@ module OneviewCookbook
           return unless drive_id
           begin
             load_resource(:DriveEnclosure, drive_id, 'serialNumber')
-          rescue RuntimeError
+          rescue OneviewSDK::NotFound
             drive_id
           end
         end
