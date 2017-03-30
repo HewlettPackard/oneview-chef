@@ -1,4 +1,8 @@
-## Unreleased (proposed: 2.2.0)
+## Unreleased
+Enhancements:
+- [#228](https://github.com/HewlettPackard/oneview-chef/issues/228) Add ::load_resource method to OneviewCookbook::Helper
+
+## 2.2.0
 Adds support to API300 HPE Synergy Image Streamer resources:
   - image_streamer_artifact_bundle
   - image_streamer_os_build_plan
@@ -98,7 +102,7 @@ Adds new Synergy resources.
   - Fixed volume resource (#92) & examples
 
 # 1.0.0
-Now the cookbook can operate with all the supported OneView 2.0 resources. Also added some bug fixes and minor improvements.
+Now the cookbook can operate with all the supported OneView 2.0 (API200) resources. Also added some bug fixes and minor improvements.
   - Added support to Volume actions `:create_snapshot` and `:delete_snapshot`
   - Added support to SAN manager actions
   - Added support to Uplink set actions

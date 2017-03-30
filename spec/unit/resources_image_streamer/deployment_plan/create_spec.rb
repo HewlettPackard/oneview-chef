@@ -40,6 +40,6 @@ describe 'image_streamer_test_api300::deployment_plan_create' do
 
   it 'raises an error when a resource passed in does not exist' do
     expect_any_instance_of(base_sdk::GoldenImage).to receive(:retrieve!).and_return(false)
-    expect { real_chef_run }.to raise_error(RuntimeError, /ResourceNotFound/)
+    expect { real_chef_run }.to raise_error(OneviewSDK::NotFound, /not found/)
   end
 end

@@ -13,7 +13,7 @@ RSpec.describe OneviewCookbook::Helper do
 
   let(:resource_type) { :EthernetNetwork }
 
-  describe '#self.do_resource_action' do
+  describe '::do_resource_action' do
     it 'calls all the other methods with the correct parameters' do
       context = FakeResource.new
       fake_class = Class.new
@@ -26,7 +26,7 @@ RSpec.describe OneviewCookbook::Helper do
     end
   end
 
-  describe '#self.get_resource_class' do
+  describe '::get_resource_class' do
     before :each do
       allow(described_class).to receive(:load_sdk).with(kind_of(FakeResource)).and_return(true)
     end
@@ -66,7 +66,7 @@ RSpec.describe OneviewCookbook::Helper do
     end
   end
 
-  describe '#self.get_api_module' do
+  describe '::get_api_module' do
     it 'gets the module for valid api versions' do
       [200, 300].each do |version|
         klass = described_class.get_api_module(version)
@@ -85,7 +85,7 @@ RSpec.describe OneviewCookbook::Helper do
     end
   end
 
-  describe '#self.load_sdk' do
+  describe '::load_sdk' do
     before :each do
       @context = FakeResource.new(node: { 'oneview' => { 'ruby_sdk_version' => sdk_version } })
     end
@@ -118,7 +118,7 @@ RSpec.describe OneviewCookbook::Helper do
     end
   end
 
-  describe '#self.build_client' do
+  describe '::build_client' do
     it 'requires a valid oneview object' do
       expect { described_class.build_client(1) }.to raise_error(/Invalid client .* OneviewSDK::Client/)
       expect { described_class.build_client(nil) }.to raise_error(OneviewSDK::InvalidClient, /Must set/)
@@ -182,7 +182,7 @@ RSpec.describe OneviewCookbook::Helper do
     end
   end
 
-  describe '#self.build_image_streamer_client' do
+  describe '::build_image_streamer_client' do
     it 'requires a valid oneview object' do
       expect { described_class.build_image_streamer_client('bananas') }.to raise_error(/Invalid client .* OneviewSDK::ImageStreamer::Client/)
       expect { described_class.build_image_streamer_client(nil) }.to raise_error(OneviewSDK::InvalidClient, /Must set/)
@@ -240,7 +240,7 @@ RSpec.describe OneviewCookbook::Helper do
     end
   end
 
-  describe '#self.convert_keys' do
+  describe '::convert_keys' do
     it 'converts simple hash keys' do
       simple_1 = { a: 1, b: 2, c: 3 }
       described_class.convert_keys(simple_1, :to_s).each { |k, _| expect(k).class == String }
@@ -278,7 +278,7 @@ RSpec.describe OneviewCookbook::Helper do
     end
   end
 
-  describe '#self.get_diff' do
+  describe '::get_diff' do
     before :each do
       @item = OneviewSDK::Resource.new(@client, uri: 'rest/fake', name: 'res', state: 'OK')
       @desired_data = { state: 'Not OK' }
@@ -304,7 +304,7 @@ RSpec.describe OneviewCookbook::Helper do
     end
   end
 
-  describe '#self.recursive_diff' do
+  describe '::recursive_diff' do
     before :each do
       @data = { key1: 'val1', key2: { key3: 'val3', key4: 'val4' }, key5: ['val5.1', 'val5.2'] }
       @item = OneviewSDK::Resource.new(@client, @data)
@@ -348,6 +348,69 @@ RSpec.describe OneviewCookbook::Helper do
       expect(described_class.recursive_diff(nil, @data)).to eq("\nnil -> #{@data}")
       expect(described_class.recursive_diff({ key2: nil }, @data)).to match(/key1: nil -> val1\n+key2: nil -> #{@data[:key2]}/)
       expect(described_class.recursive_diff({ key2: 1 }, @data)).to match(/key1: nil -> val1\n+key2: 1 -> #{@data[:key2]}/)
+    end
+  end
+
+  describe '::load_resource' do
+    let(:sdk_klass) { OneviewSDK::API200::VolumeTemplate }
+    let(:sdk_klass2) { OneviewSDK::ImageStreamer::API300::GoldenImage }
+    let(:sdk_klass3) { OneviewSDK::API300::Synergy::VolumeTemplate }
+
+    before :each do
+      @data = { name: 'T1', description: 'Blah', uri: '/fake' }
+      @res = sdk_klass.new(@client, @data)
+      allow(sdk_klass).to receive(:find_by).and_return([@res])
+    end
+
+    it 'requires a type' do
+      expect { described_class.load_resource(@client) }.to raise_error(ArgumentError, /type/)
+    end
+
+    it 'returns immediately without an id' do
+      expect(described_class.load_resource(@client, type: :VolumeTemplate)).to eq(nil)
+    end
+
+    it 'accepts api_ver & variant params' do
+      expect(sdk_klass3).to receive(:find_by).and_return([sdk_klass3.new(@client, @data)])
+      expect(OneviewSDK).to receive(:resource_named).with(:VolumeTemplate, 300, :Synergy).and_call_original
+      described_class.load_resource(@client, id: 'T1', type: :VolumeTemplate, api_ver: 300, variant: :Synergy)
+    end
+
+    it 'pulls the api_ver & variant from the node object' do
+      n = { 'oneview' => { 'api_version' => 300, 'api_variant' => 'Synergy' } }
+      expect(OneviewSDK).to receive(:resource_named).with(:VolumeTemplate, 300, 'Synergy').and_call_original
+      described_class.load_resource(@client, id: 'T1', type: :VolumeTemplate, node: n)
+    end
+
+    it 'retrieves a resource successfully when it exists (default by name)' do
+      r = described_class.load_resource(@client, type: :VolumeTemplate, id: 'T1')
+      expect(r).to be_a(sdk_klass)
+      expect(r.data).to eq(@res.data)
+    end
+
+    it 'retrieves a resource successfully when it exists (by data Hash)' do
+      r = described_class.load_resource(@client, type: :VolumeTemplate, id: { uri: '/fake' })
+      expect(r).to be_a(sdk_klass)
+      expect(r.data).to eq(@res.data)
+    end
+
+    it 'retrieves image streamer resources when they exist' do
+      g_image = sdk_klass2.new(@client, name: 'I1', description: 'Image')
+      expect(sdk_klass2).to receive(:find_by).and_return([g_image])
+      r = described_class.load_resource(@client, type: :GoldenImage, id: 'I1', base_module: OneviewSDK::ImageStreamer, api_ver: 300)
+      expect(r).to be_a(sdk_klass2)
+      expect(r.data).to eq(g_image.data)
+    end
+
+    it 'fails when the resource does not exist' do
+      expect_any_instance_of(sdk_klass).to receive(:retrieve!).and_return(false)
+      expect { described_class.load_resource(@client, type: :VolumeTemplate, id: 'T2') }
+        .to raise_error(OneviewSDK::NotFound, /not found/)
+    end
+
+    it 'returns a resource attribute when called with the ret_attribute' do
+      r = described_class.load_resource(@client, type: :VolumeTemplate, id: 'T1', ret_attribute: :uri)
+      expect(r).to eq('/fake')
     end
   end
 end

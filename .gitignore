@@ -18,6 +18,8 @@ bin/*
 .bundle/*
 
 coverage
+doc/
+.yardoc/
 .kitchen/
 .kitchen.local.yml
 

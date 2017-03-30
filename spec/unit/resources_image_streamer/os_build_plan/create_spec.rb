@@ -70,7 +70,7 @@ describe 'image_streamer_test_api300::os_build_plan_create' do
     it 'raise error when the plan script does not exist' do
       allow_any_instance_of(base_sdk::BuildPlan).to receive(:[]).with('buildStep').and_return(build_step_name)
       allow_any_instance_of(base_sdk::PlanScript).to receive(:retrieve!).and_return(false)
-      expect { real_chef_run }.to raise_error(RuntimeError, /ResourceNotFound/)
+      expect { real_chef_run }.to raise_error(OneviewSDK::NotFound, /not found/)
     end
 
     it 'does nothing when the url is specified' do

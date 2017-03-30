@@ -192,6 +192,37 @@ module OneviewCookbook
       end
       str
     end
+
+    # Retrieve a resource by type and identifier (name or data)
+    # @param [Hash, OneviewSDK::Client] client Appliance info hash or client object.
+    # @param type [String, Symbol] Type of resource to be retrieved. e.g., :GoldenImage, :FCNetwork
+    # @param id [String, Symbol, Hash] Name of the resource or Hash of data to retrieve by.
+    #   Examples: 'EthNet1', { uri: '/rest/fake/123ABC' }
+    # @param ret_attribute [NilClass, String, Symbol] If specified, returns a specific attribute of the resource.
+    #   When nil, the complete resource will be returned.
+    # @param api_ver [Integer] API version used to build the full type namespace.
+    #   Defaults to 200 (unless node attribute is passed)
+    # @param variant [String, Symbol] API variant used to build the full type namespace.
+    #   Defaults to 'C7000' (unless node attribute is passed)
+    # @param node [Chef::Node] Node object used to provide the api_ver and variant. If provided, they will default
+    #   to node['oneview']['api_version'] and node['oneview']['api_variant']
+    # @return [OneviewSDK::Resource] if the `ret_attribute` is nil
+    # @return [String, Array, Hash] that is, the value of the resource attribute defined by `ret_attribute`
+    # @raise [OneviewSDK::NotFound] ResourceNotFound if the resource cannot be found
+    # @raise [OneviewSDK::IncompleteResource] If you don't specify any unique identifiers in `id`
+    def self.load_resource(client, type: nil, id: nil, ret_attribute: nil, api_ver: nil, variant: nil, node: nil, base_module: OneviewSDK)
+      raise(ArgumentError, 'Must specify a resource type') unless type
+      return unless id
+      c = build_client(client)
+      api_ver ||= node['oneview']['api_version'] rescue 200
+      variant ||= node['oneview']['api_variant'] rescue 'C7000'
+      klass = base_module.resource_named(type, api_ver, variant)
+      data = id.is_a?(Hash) ? id : { name: id }
+      r = klass.new(c, data)
+      raise(OneviewSDK::NotFound, "#{type} with data '#{data}' was not found") unless r.retrieve!
+      return r unless ret_attribute
+      r[ret_attribute]
+    end
   end
 end
 

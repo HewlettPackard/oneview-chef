@@ -27,7 +27,7 @@ describe 'oneview_test::network_set_load_resource_with_properties' do
 
   it 'prints a nice error message if the native_set cannot be found' do
     allow_any_instance_of(OneviewSDK::EthernetNetwork).to receive(:retrieve!).and_return(false)
-    expect { real_chef_run }.to raise_error(RuntimeError, /ResourceNotFound:.+FakeEthernetNetwork0/)
+    expect { real_chef_run }.to raise_error(OneviewSDK::NotFound, /FakeEthernetNetwork0/)
   end
 
   it 'prints a nice error message if a network cannot be found' do
@@ -36,6 +36,6 @@ describe 'oneview_test::network_set_load_resource_with_properties' do
     allow_any_instance_of(OneviewCookbook::API200::NetworkSetProvider).to receive(:load_resource)
       .with(:EthernetNetwork, 'FakeEthernetNetwork0').and_return(fake_eth0)
     allow_any_instance_of(OneviewSDK::EthernetNetwork).to receive(:retrieve!).and_return(false)
-    expect { real_chef_run }.to raise_error(RuntimeError, /ResourceNotFound:.+FakeEthernetNetwork1/)
+    expect { real_chef_run }.to raise_error(OneviewSDK::NotFound, /FakeEthernetNetwork1/)
   end
 end
