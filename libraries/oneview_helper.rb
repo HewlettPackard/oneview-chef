@@ -214,8 +214,8 @@ module OneviewCookbook
       raise(ArgumentError, 'Must specify a resource type') unless type
       return unless id
       c = build_client(client)
-      api_ver ||= node ? node['oneview']['api_version'] : 200
-      variant ||= node ? node['oneview']['api_variant'] : 'C7000'
+      api_ver ||= node['oneview']['api_version'] rescue 200
+      variant ||= node['oneview']['api_variant'] rescue 'C7000'
       klass = base_module.resource_named(type, api_ver, variant)
       data = id.is_a?(Hash) ? id : { name: id }
       r = klass.new(c, data)
