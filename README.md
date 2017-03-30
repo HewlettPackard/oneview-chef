@@ -61,7 +61,7 @@ See [attributes/default.rb](attributes/default.rb) for more info.
 The following are the standard properties available for all resources. Some resources have additional properties or small differences; see their doc sections below for more details.
 
  - **client**: Hash, OneviewSDK::Client or OneviewSDK::ImageStreamer::Client object that contains information about how to connect to the HPE OneView or HPE Synergy Image Streamer instances.
-   - For HPE OneView required attributes are: `url` and, `token` or `user` and `password`.
+   - For HPE OneView required attributes are: `url` and `token` or `user` and `password`.
    - For HPE Synergy Image Streamer required attributes are: `url` and, `token` or `oneview_client`.
  See [this](https://github.com/HewlettPackard/oneview-sdk-ruby#configuration) for more options.
  - **data**: Hash specifying options for this resource. Refer to the OneView API docs for what's available and/or required. If no name attribute is given, it will use the name given to the Chef resource.
