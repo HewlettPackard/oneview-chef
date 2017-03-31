@@ -1,9 +1,11 @@
-## Unreleased
+## 2.2.1
 Enhancements:
 - [#228](https://github.com/HewlettPackard/oneview-chef/issues/228) Add ::load_resource method to OneviewCookbook::Helper
 
 ## 2.2.0
-Adds support to API300 HPE Synergy Image Streamer resources:
+Adds full support the HPE Synergy Image Streamer API300. It also fixes some bugs and adds important enhancements.
+
+New resources added for HPE Synergy Image Streamer API300:
   - image_streamer_artifact_bundle
   - image_streamer_os_build_plan
 
