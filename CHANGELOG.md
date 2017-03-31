@@ -1,4 +1,4 @@
-## Unreleased
+## 2.2.1
 Enhancements:
 - [#228](https://github.com/HewlettPackard/oneview-chef/issues/228) Add ::load_resource method to OneviewCookbook::Helper
 
