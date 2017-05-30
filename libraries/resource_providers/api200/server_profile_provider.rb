@@ -17,7 +17,18 @@ module OneviewCookbook
     module ServerProfileProviderHelpers
       def set_connections(type, connection_list)
         return false unless connection_list
-        connection_list.each { |net_name, options| @item.add_connection(load_resource(type, net_name), options) }
+        # Is a Hash-like or an Array of Hash-like objects
+        is_hashy = connection_list.respond_to?(:keys)
+        is_hashy_array = connection_list.respond_to?(:first) && connection_list.first.respond_to?(:keys)
+        if is_hashy
+          connection_list.each { |net_name, options| @item.add_connection(load_resource(type, net_name), options) }
+        elsif is_hashy_array
+          connection_list.each do |c|
+            c.map { |net_name, options| @item.add_connection(load_resource(type, net_name), options) }
+          end
+        else
+          raise(StandardError, "Invalid #{type} connection list: #{connection_list}")
+        end
         true
       end
 

@@ -1,3 +1,7 @@
+## 2.2.2 (Unreleased)
+Enhancements:
+- [#233](https://github.com/HewlettPackard/oneview-chef/issues/233) ServerProfile connections cannot have more than one connection with the same network
+
 ## 2.2.1
 Enhancements:
 - [#228](https://github.com/HewlettPackard/oneview-chef/issues/228) Add ::load_resource method to OneviewCookbook::Helper

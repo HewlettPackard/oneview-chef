@@ -74,6 +74,32 @@ oneview_server_profile 'ServerProfile3' do
   action :create_if_missing
 end
 
+# Creates or updates ServerProfile3 with multiple boot connections in the same network
+oneview_server_profile 'ServerProfile3' do
+  client my_client
+  enclosure_group 'EnclosureGroup2'
+  server_hardware_type 'BL460c Gen8'
+  data(
+    'macType' => 'Virtual',
+    'wwnType' => 'Virtual'
+  )
+  ethernet_network_connections [
+    'EthernetNetwork1' => {
+      'name' => 'PrimaryBoot',
+      "boot": {
+        "priority": "Primary"
+      }
+    },
+    'EthernetNetwork1' => {
+      'name' => 'SecondaryBoot',
+      "boot": {
+        "priority": "Secondary"
+      }
+    }
+  ]
+  action :create
+end
+
 # Deletes server profile 'ServerProfile3'
 oneview_server_profile 'Delete ServerProfile3' do
   client my_client
