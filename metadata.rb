@@ -12,7 +12,7 @@
 name             'oneview'
 maintainer       'Hewlett Packard Enterprise'
 maintainer_email 'chef-cookbooks@groups.ext.hpe.com'
-license          'Apache v2.0'
+license          'Apache-2.0'
 description      'Provides HPE OneView & Image Streamer resources'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 
