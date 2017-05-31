@@ -32,10 +32,10 @@ module OneviewCookbook
             return Chef::Log.warn('The OS deployment plan is already defined in `data`. ' /
                "The `os_deployment_plan` property will be ignored in favor of '#{@item['osDeploymentSettings']['osDeploymentPlanUri']}'")
           end
-          @item.set_os_deployment_settings(
-            load_resource(:OSDeploymentPlan, @context.os_deployment_plan),
-            @item['osDeploymentSettings']['customAttributes']
-          )
+          plan = load_resource(:OSDeploymentPlan, @context.os_deployment_plan)
+          custom = @item['osDeploymentSettings']['customAttributes'] || @item['osDeploymentSettings']['osCustomAttributes']
+          custom = (plan['osDeploymentSettings']['osCustomAttributes'] || {}).merge(custom || {})
+          @item.set_os_deployment_settings(plan, custom)
         end
       end
     end
