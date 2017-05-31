@@ -47,7 +47,7 @@ describe 'oneview_test::server_profile_properties' do
     expect(real_chef_run).to create_oneview_server_profile('ServerProfile4')
   end
 
-  it 'raises an error when loading invalid connections are lists' do
+  it 'raises an error when loading invalid connection lists' do
     sh1 = OneviewSDK::ServerHardware.new(@client, name: 'ServerHardware1', uri: 'rest/fake0')
 
     allow_any_instance_of(provider).to receive(:set_connections).and_call_original
