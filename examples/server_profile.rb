@@ -80,20 +80,29 @@ oneview_server_profile 'ServerProfile3' do
   enclosure_group 'EnclosureGroup2'
   server_hardware_type 'BL460c Gen8'
   data(
-    'macType' => 'Virtual',
-    'wwnType' => 'Virtual'
+    "bootMode" => {
+      'manageMode' => true,
+      'mode' => 'BIOS'
+    },
+    'boot' => {
+      'manageBoot' => true
+    }
   )
   ethernet_network_connections [
-    'EthernetNetwork1' => {
-      'name' => 'PrimaryBoot',
-      "boot": {
-        "priority": "Primary"
+    {
+      'EthernetNetwork1' => {
+        'name' => 'PrimaryBoot',
+        "boot": {
+          "priority": "Primary"
+        }
       }
     },
-    'EthernetNetwork1' => {
-      'name' => 'SecondaryBoot',
-      "boot": {
-        "priority": "Secondary"
+    {
+      'EthernetNetwork1' => {
+        'name' => 'SecondaryBoot',
+        "boot": {
+          "priority": "Secondary"
+        }
       }
     }
   ]
