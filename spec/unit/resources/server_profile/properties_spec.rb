@@ -23,6 +23,46 @@ describe 'oneview_test::server_profile_properties' do
 
     expect(real_chef_run).to create_oneview_server_profile('ServerProfile4')
   end
+
+  it 'loads the associated resources when the connections are lists' do
+    sh1 = OneviewSDK::ServerHardware.new(@client, name: 'ServerHardware1', uri: 'rest/fake0')
+    en1 = OneviewSDK::EthernetNetwork.new(@client, name: 'EthernetNetwork1', uri: 'rest/fake1')
+
+    allow_any_instance_of(provider).to receive(:set_connections).and_call_original
+    allow_any_instance_of(provider).to receive(:set_connections)
+      .with(:EthernetNetwork, anything)
+      .and_wrap_original { |m, *args| m.call(args.first, [args.last]) }
+
+    allow_any_instance_of(provider).to receive(:load_resource).and_call_original
+    allow_any_instance_of(provider).to receive(:load_resource).with(anything, 'ServerHardware1').and_return(sh1)
+    allow_any_instance_of(provider).to receive(:load_resource).with(anything, 'EthernetNetwork1').and_return(en1)
+
+    expect_any_instance_of(OneviewSDK::ServerProfile).to receive(:set_server_hardware).with(sh1)
+    expect_any_instance_of(OneviewSDK::ServerProfile).to receive(:add_connection).with(en1, 'it' => 'works')
+
+    # Mock create
+    expect_any_instance_of(OneviewSDK::ServerProfile).to receive(:exists?).and_return(false)
+    expect_any_instance_of(OneviewSDK::ServerProfile).to receive(:create).and_return(true)
+
+    expect(real_chef_run).to create_oneview_server_profile('ServerProfile4')
+  end
+
+  it 'raises an error when loading invalid connection lists' do
+    sh1 = OneviewSDK::ServerHardware.new(@client, name: 'ServerHardware1', uri: 'rest/fake0')
+
+    allow_any_instance_of(provider).to receive(:set_connections).and_call_original
+    allow_any_instance_of(provider).to receive(:set_connections)
+      .with(:EthernetNetwork, anything)
+      .and_wrap_original { |m, *args| m.call(args.first, 'I am potato') }
+
+    allow_any_instance_of(provider).to receive(:load_resource).and_call_original
+    allow_any_instance_of(provider).to receive(:load_resource).with(anything, 'ServerHardware1').and_return(sh1)
+
+    expect_any_instance_of(OneviewSDK::ServerProfile).to receive(:set_server_hardware).with(sh1)
+    expect_any_instance_of(OneviewSDK::ServerProfile).to_not receive(:add_connection)
+
+    expect { real_chef_run }.to raise_error(StandardError, /Invalid EthernetNetwork connection list/)
+  end
 end
 
 describe 'oneview_test_api300_synergy::server_profile_properties' do

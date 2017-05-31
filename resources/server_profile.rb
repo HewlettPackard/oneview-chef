@@ -16,9 +16,9 @@ property :server_hardware_type, String
 property :enclosure_group, String
 property :enclosure, String
 property :firmware_driver, String
-property :ethernet_network_connections, Hash
-property :fc_network_connections, Hash
-property :network_set_connections, Hash
+property :ethernet_network_connections, Object
+property :fc_network_connections, Object
+property :network_set_connections, Object
 property :server_profile_template, String
 property :os_deployment_plan, String
 
