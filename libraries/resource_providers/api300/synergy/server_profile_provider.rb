@@ -32,10 +32,36 @@ module OneviewCookbook
             return Chef::Log.warn('The OS deployment plan is already defined in `data`. ' /
                "The `os_deployment_plan` property will be ignored in favor of '#{@item['osDeploymentSettings']['osDeploymentPlanUri']}'")
           end
-          plan = load_resource(:OSDeploymentPlan, @context.os_deployment_plan)
+          # Get the user specified custom attributes
           custom = @item['osDeploymentSettings']['customAttributes'] || @item['osDeploymentSettings']['osCustomAttributes']
-          custom = (plan['osDeploymentSettings']['osCustomAttributes'] || {}).merge(custom || {})
+          # Loads the OS deployment plan and gets the default custom attributes
+          plan = load_resource(:OSDeploymentPlan, @context.os_deployment_plan)
+          plan_defaults = plan['additionalParameters']
+          # Merge both user defined and default custom attributes
+          custom = custom_merge(plan_defaults, custom)
           @item.set_os_deployment_settings(plan, custom)
+        end
+
+        def custom_merge(defaults, customs)
+          defaults ||= []
+          customs ||= []
+          customs.each do |ca|
+            custom_replace!(defaults, ca)
+          end
+          defaults
+        end
+
+        def custom_replace!(target, custom_attribute)
+          was_replaced = false
+          target.collect! do |da|
+            if da['name'] == custom_attribute['name']
+              was_replaced = true
+              custom_attribute
+            else
+              da
+            end
+          end
+          target << custom_attribute unless was_replaced
         end
       end
     end

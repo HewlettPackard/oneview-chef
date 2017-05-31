@@ -74,11 +74,13 @@ describe 'oneview_test_api300_synergy::server_profile_properties' do
   let(:base_sdk) { OneviewSDK::API300::Synergy }
 
   it 'loads the associated resource OS Deployment Plan adding the customAttributes' do
-    osdp = base_sdk::OSDeploymentPlan.new(@client, name: 'OSDeploymentPlan1', uri: 'rest/fake0', osDeploymentSettings: {})
+    osdp = base_sdk::OSDeploymentPlan.new(@client, name: 'OSDeploymentPlan1', uri: 'rest/fake0', additionalParameters: [])
     allow_any_instance_of(provider).to receive(:load_resource).and_call_original
-    allow_any_instance_of(provider).to receive(:load_resource).with(:OSDeploymentPlan, 'OSDeploymentPlan1').and_return(osdp)
+    allow_any_instance_of(provider).to receive(:load_resource)
+      .with(:OSDeploymentPlan, 'OSDeploymentPlan1').and_return(osdp)
 
-    expect_any_instance_of(base_sdk::ServerProfile).to receive(:set_os_deployment_settings).with(osdp, 'it' => 'works')
+    expect_any_instance_of(base_sdk::ServerProfile).to receive(:set_os_deployment_settings)
+      .with(osdp, ['name' => 'it', 'value' => 'works'])
 
     # Mock create
     expect_any_instance_of(base_sdk::ServerProfile).to receive(:exists?).and_return(false)
@@ -88,15 +90,17 @@ describe 'oneview_test_api300_synergy::server_profile_properties' do
   end
 
   it 'loads the associated resource OS Deployment Plan adding the osCustomAttributes' do
-    osdp = base_sdk::OSDeploymentPlan.new(@client, name: 'OSDeploymentPlan1', uri: 'rest/fake0')
+    osdp = base_sdk::OSDeploymentPlan.new(@client, name: 'OSDeploymentPlan1', uri: 'rest/fake0', additionalParameters: [])
     allow_any_instance_of(provider).to receive(:load_resource).and_call_original
-    allow_any_instance_of(provider).to receive(:load_resource).with(:OSDeploymentPlan, 'OSDeploymentPlan1').and_return(osdp)
+    allow_any_instance_of(provider).to receive(:load_resource)
+      .with(:OSDeploymentPlan, 'OSDeploymentPlan1').and_return(osdp)
 
-    expect_any_instance_of(base_sdk::ServerProfile).to receive(:[]).and_call_original
-    expect_any_instance_of(base_sdk::ServerProfile).to receive(:[]).with('osDeploymentSettings')
-      .and_return('osCustomAttributes' => { 'works' => 'too' })
+    allow_any_instance_of(base_sdk::ServerProfile).to receive(:[]).and_call_original
+    allow_any_instance_of(base_sdk::ServerProfile).to receive(:[]).with('osDeploymentSettings')
+      .and_return('osCustomAttributes' => ['name' => 'works', 'value' => 'too'])
 
-    expect_any_instance_of(base_sdk::ServerProfile).to receive(:set_os_deployment_settings).with(osdp, 'works' => 'too')
+    expect_any_instance_of(base_sdk::ServerProfile).to receive(:set_os_deployment_settings)
+      .with(osdp, ['name' => 'works', 'value' => 'too'])
 
     # Mock create
     expect_any_instance_of(base_sdk::ServerProfile).to receive(:exists?).and_return(false)
@@ -109,21 +113,24 @@ describe 'oneview_test_api300_synergy::server_profile_properties' do
     osdp = base_sdk::OSDeploymentPlan.new(@client,
                                           name: 'OSDeploymentPlan1',
                                           uri: 'rest/fake0',
-                                          osDeploymentSettings: {
-                                            'a' => 'default',
-                                            'c' => 'default'
-                                          })
+                                          additionalParameters: [
+                                            { 'name' => 'a', 'value' => 'default' },
+                                            { 'name' => 'c', 'value' => 'default' }
+                                          ])
     allow_any_instance_of(provider).to receive(:load_resource).and_call_original
     allow_any_instance_of(provider).to receive(:load_resource).with(:OSDeploymentPlan, 'OSDeploymentPlan1').and_return(osdp)
 
-    expect_any_instance_of(base_sdk::ServerProfile).to receive(:[]).and_call_original
-    expect_any_instance_of(base_sdk::ServerProfile).to receive(:[]).with('osDeploymentSettings')
-      .and_return('osCustomAttributes' => { 'b' => 'custom',
-                                            'c' => 'override',
-                                            'd' => 'custom' })
+    allow_any_instance_of(base_sdk::ServerProfile).to receive(:[]).and_call_original
+    allow_any_instance_of(base_sdk::ServerProfile).to receive(:[]).with('osDeploymentSettings')
+      .and_return('osCustomAttributes' => [{ 'name' => 'b', 'value' => 'custom' },
+                                           { 'name' => 'c', 'value' => 'override' },
+                                           { 'name' => 'd', 'value' => 'custom' }])
 
     expect_any_instance_of(base_sdk::ServerProfile).to receive(:set_os_deployment_settings)
-      .with(osdp, 'a' => 'default', 'b' => 'custom', 'c' => 'override', 'd' => 'custom')
+      .with(osdp, a_collection_containing_exactly({ 'name' => 'a', 'value' => 'default' },
+                                                  { 'name' => 'b', 'value' => 'custom' },
+                                                  { 'name' => 'c', 'value' => 'override' },
+                                                  'name' => 'd', 'value' => 'custom'))
 
     # Mock create
     expect_any_instance_of(base_sdk::ServerProfile).to receive(:exists?).and_return(false)
