@@ -3,6 +3,9 @@ Enhancements:
 - [#233](https://github.com/HewlettPackard/oneview-chef/issues/233) ServerProfile connections cannot have more than one connection with the same network
 
 ## 2.2.1
+Adds support to the following HPE OneView resources:
+  - Added oneview_event resource
+
 Enhancements:
 - [#228](https://github.com/HewlettPackard/oneview-chef/issues/228) Add ::load_resource method to OneviewCookbook::Helper
 
