@@ -1,4 +1,7 @@
 ## 2.2.2 (Unreleased)
+Adds support to the following HPE OneView resources:
+  - Added oneview_id_pool resource
+
 Enhancements:
 - [#233](https://github.com/HewlettPackard/oneview-chef/issues/233) ServerProfile connections cannot have more than one connection with the same network
 

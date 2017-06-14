@@ -66,6 +66,14 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not remove_oneview_firmware('')
     expect(chef_run).to_not create_oneview_firmware_custom_spp('')
 
+    # oneview_id_pool
+    expect(chef_run).to_not enable_oneview_id_pool('')
+    expect(chef_run).to_not disable_oneview_id_pool('')
+    expect(chef_run).to_not allocate_list_oneview_id_pool('')
+    expect(chef_run).to_not allocate_count_oneview_id_pool('')
+    expect(chef_run).to_not collect_ids_oneview_id_pool('')
+    expect(chef_run).to_not validate_oneview_id_pool('')
+
     # oneview_interconnect
     expect(chef_run).to_not set_oneview_interconnect_uid_light('')
     expect(chef_run).to_not set_oneview_interconnect_power_state('')
