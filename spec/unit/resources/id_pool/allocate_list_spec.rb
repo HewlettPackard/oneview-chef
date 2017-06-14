@@ -8,6 +8,6 @@ describe 'oneview_test::id_pool_allocate_list' do
 
   it 'allocates a list of the IDs' do
     expect_any_instance_of(klass).to receive(:allocate_id_list).with('vmac', ['A2:32:C3:D0:00:00', 'A2:32:C3:D0:00:01'])
-    expect(real_chef_run).to allocate_list_oneview_id_pool('IDPool3')
+    expect(real_chef_run).to allocate_oneview_id_pool_list('IDPool3')
   end
 end

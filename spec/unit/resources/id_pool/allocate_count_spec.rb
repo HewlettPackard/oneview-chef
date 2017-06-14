@@ -8,6 +8,6 @@ describe 'oneview_test::id_pool_allocate_count' do
 
   it 'allocates a certain quantity of IDs' do
     expect_any_instance_of(klass).to receive(:allocate_count).with('vmac', 2)
-    expect(real_chef_run).to allocate_count_oneview_id_pool('IDPool4')
+    expect(real_chef_run).to allocate_oneview_id_pool_count('IDPool4')
   end
 end
