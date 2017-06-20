@@ -17,5 +17,6 @@
 oneview_id_pool 'IDPool1' do
   client node['oneview_test']['client']
   pool_type 'vmac'
-  action :enable
+  enabled true
+  action :update
 end

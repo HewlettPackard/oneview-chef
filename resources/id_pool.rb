@@ -14,15 +14,12 @@ OneviewCookbook::ResourceBaseProperties.load(self)
 property :pool_type, String
 property :id_list, Array
 property :count, Integer
+property :enabled, [TrueClass, FalseClass]
 
 default_action :allocate_list
 
-action :enable do
-  OneviewCookbook::Helper.do_resource_action(self, :IDPool, :enable)
-end
-
-action :disable do
-  OneviewCookbook::Helper.do_resource_action(self, :IDPool, :disable)
+action :update do
+  OneviewCookbook::Helper.do_resource_action(self, :IDPool, :create_or_update)
 end
 
 action :allocate_list do
@@ -35,8 +32,4 @@ end
 
 action :collect_ids do
   OneviewCookbook::Helper.do_resource_action(self, :IDPool, :collect_ids)
-end
-
-action :validate do
-  OneviewCookbook::Helper.do_resource_action(self, :IDPool, :validate)
 end

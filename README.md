@@ -816,7 +816,8 @@ end
 oneview_id_pool 'IDPool1' do
   client <my_client>
   pool_type <pool_type> # String - The type of the pool. Values: (ipv4, vmac, vsn, vwwn)
-  action [:disable, :enable]
+  enabled <enabled> # [TrueClass, FalseClass] - The status of the pool
+  action [:update]
 end
 
 oneview_id_pool 'IDPool1' do
@@ -830,7 +831,7 @@ oneview_id_pool 'IDPool1' do
   client <my_client>
   pool_type <pool_type> # String - The type of the pool. Values: (ipv4, vmac, vsn, vwwn)
   id_list <id_list>     # Array<String> - The IDs list (or IDs separeted by comma)
-  action [:allocate_list, :collect_ids, :validate]
+  action [:allocate_list, :collect_ids]
 end
 ```
 

@@ -15,23 +15,16 @@ module OneviewCookbook
   module API200
     # IDPool API200 provider
     class IDPoolProvider < ResourceProvider
-      def enable
+      def create_or_update
         @item.get_pool(@context.pool_type)
-        Chef::Log.info "Enable #{@resource_name} '#{@name}'"
-        @context.converge_by "Enable #{@resource_name} '#{@name}'" do
-          @item.update(enabled: true)
-        end
-      end
-
-      def disable
-        @item.get_pool(@context.pool_type)
-        Chef::Log.info "Disable #{@resource_name} '#{@name}'"
-        @context.converge_by "Disable #{@resource_name} '#{@name}'" do
-          @item.update(enabled: false)
+        Chef::Log.info "Updating #{@resource_name} '#{@name}'"
+        @context.converge_by "Updating #{@resource_name} '#{@name}'" do
+          @item.update(enabled: @context.enabled)
         end
       end
 
       def allocate_list
+        raise 'The IDs Pools list is not valid.' unless @item.validate_id_list(@context.pool_type, @context.id_list)
         Chef::Log.info "Allocating the IDs #{@context.id_list} #{@resource_name} '#{@name}'"
         @context.converge_by "Allocating the IDs #{@context.id_list} #{@resource_name} '#{@name}'" do
           @item.allocate_id_list(@context.pool_type, @context.id_list)
@@ -49,13 +42,6 @@ module OneviewCookbook
         Chef::Log.info "Removing the IDs #{@context.id_list} #{@resource_name} '#{@name}'"
         @context.converge_by "Removing the IDs #{@context.id_list} #{@resource_name} '#{@name}'" do
           @item.collect_ids(@context.pool_type, @context.id_list)
-        end
-      end
-
-      def validate
-        Chef::Log.info "Validating the IDs #{@context.id_list} #{@resource_name} '#{@name}'"
-        @context.converge_by "Validating the IDs #{@context.id_list} #{@resource_name} '#{@name}'" do
-          @item.validate_id_list(@context.pool_type, @context.id_list)
         end
       end
     end

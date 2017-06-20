@@ -14,7 +14,7 @@
 # specific language governing permissions and limitations under the License.
 #
 
-oneview_id_pool 'IDPool5' do
+oneview_id_pool 'IDPool2' do
   client node['oneview_test']['client']
   pool_type 'vmac'
   id_list ['A2:32:C3:D0:00:00', 'A2:32:C3:D0:00:01']

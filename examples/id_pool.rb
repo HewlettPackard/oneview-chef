@@ -21,14 +21,16 @@ ids = ['A2:32:C3:D0:00:00', 'A2:32:C3:D0:00:01']
 oneview_id_pool 'VMAC Pool' do
   client my_client
   pool_type 'vmac'
-  action :disable
+  enabled false
+  action :update
 end
 
 # Example: Enabling a ID Pool
 oneview_id_pool 'VMAC Pool' do
   client my_client
   pool_type 'vmac'
-  action :enable
+  enabled true
+  action :update
 end
 
 # Example: Allocating a list of the IDs
@@ -52,12 +54,4 @@ oneview_id_pool 'VMAC Pool' do
   pool_type 'vmac'
   id_list ids
   action :collect_ids
-end
-
-# Example: Validating a list of the IDs
-oneview_id_pool 'VMAC Pool' do
-  client my_client
-  pool_type 'vmac'
-  id_list ids
-  action :validate
 end
