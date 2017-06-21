@@ -822,24 +822,33 @@ Performs the ID Pool actions:
 
 ```ruby
 oneview_id_pool 'IDPool1' do
-  client <my_client>
+  client <my_client>    # Hash or OneviewSDK::ImageStreamer::Client
   pool_type <pool_type> # String - The type of the pool. Values: (ipv4, vmac, vsn, vwwn)
-  enabled <enabled> # [TrueClass, FalseClass] - The status of the pool
+  enabled <enabled>     # [TrueClass, FalseClass] - The status of the pool
   action [:update]
 end
 
 oneview_id_pool 'IDPool1' do
-  client <my_client>
+  client <my_client>    # Hash or OneviewSDK::ImageStreamer::Client
   pool_type <pool_type> # String - The type of the pool. Values: (ipv4, vmac, vsn, vwwn)
   count <count>         # Integer - The quantity of IDs to allocate
   action :allocate_count
 end
 
 oneview_id_pool 'IDPool1' do
-  client <my_client>
+  client <my_client>    # Hash or OneviewSDK::ImageStreamer::Client
   pool_type <pool_type> # String - The type of the pool. Values: (ipv4, vmac, vsn, vwwn)
   id_list <id_list>     # Array<String> - The IDs list (or IDs separeted by comma)
   action [:allocate_list, :collect_ids]
+end
+
+oneview_id_pool 'IDPool1' do
+  client <my_client>    # Hash or OneviewSDK::ImageStreamer::Client
+  pool_type <pool_type> # String - The type of the pool. Values: (ipv4, vmac, vsn, vwwn)
+  enabled <enabled>     # [TrueClass, FalseClass] - The status of the pool
+  count <count>         # Integer - The quantity of IDs to allocate
+  id_list <id_list>     # Array<String> - The IDs list (or IDs separeted by comma)
+  action [:allocate_count, :allocate_list, :collect_ids, :update]
 end
 ```
 
