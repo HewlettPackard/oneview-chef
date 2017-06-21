@@ -43,7 +43,7 @@ module OneviewCookbook
           plan_defaults = plan['additionalParameters']
           # Merge both user defined and default custom attributes
           custom = custom_merge(plan_defaults, custom)
-          @item.set_os_deployment_setttings(plan, custom)
+          @item.set_os_deployment_settings(plan, custom)
         end
 
         def custom_merge(defaults, customs)

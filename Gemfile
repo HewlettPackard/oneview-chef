@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby RUBY_VERSION # Needed to consider & solve for Ruby version requirements
 
-gem 'berkshelf', '~> 5.6.5'
+gem 'berkshelf'
 gem 'chef', '~> 12.0'
 gem 'chefspec'
 gem 'codeclimate-test-reporter', '~> 1.0.0'
