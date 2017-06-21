@@ -45,20 +45,23 @@ module OneviewCookbook
         def custom_merge(defaults, customs)
           defaults ||= []
           customs ||= []
-          customs.each do |ca|
-            custom_replace!(defaults, ca)
+          customs.each do |custom_attribute|
+            custom_replace!(defaults, custom_attribute)
           end
-          defaults.select { |da| da['value'] }.collect { |ca| { 'name' => ca['name'], 'value' => ca['value'] } }
+          # At this point, the defaults contain the custom data plus the default attributes
+          # It selects all the ones that has 'value', i.e. custom attributes or actual default attributes that have a default 'value'
+          # Then it filters these attributes to have only 'name' and 'value' (The only required and accepted parameters in Server profile)
+          defaults.select { |merged_attr| merged_attr['value'] }.collect { |cus_attr| { 'name' => cus_attr['name'], 'value' => cus_attr['value'] } }
         end
 
         def custom_replace!(target, custom_attribute)
           was_replaced = false
-          target.collect! do |da|
-            if da['name'] == custom_attribute['name']
+          target.collect! do |default_attribute|
+            if default_attribute['name'] == custom_attribute['name']
               was_replaced = true
               custom_attribute
             else
-              da
+              default_attribute
             end
           end
           target << custom_attribute unless was_replaced
