@@ -812,36 +812,7 @@ end
 
 ### [oneview_id_pool](examples/id_pool.rb)
 
-This is a provider for managing ID pools. The String property `pool_type` is required in all actions, and typically assumes the "vmac", "vsn", "vwwn", and "ipv4" values.
-
-Performs the ID Pool actions:
-  - **update:** Enable or disable an ID Pool. The Boolean property `enabled` is required.
-  - **allocate_list:** Allocates one or more IDs from a according the list informed. The Array property `id_list` is required.
-  - **allocate_count:** Allocates a specific amount of IDs from a pool. The Integer property `count` is required.
-  - **collect_ids:** Removes one or more IDs from a pool. The Array property `id_list` is required.
-
 ```ruby
-oneview_id_pool 'IDPool1' do
-  client <my_client>    # Hash or OneviewSDK::ImageStreamer::Client
-  pool_type <pool_type> # String - The type of the pool. Values: (ipv4, vmac, vsn, vwwn)
-  enabled <enabled>     # [TrueClass, FalseClass] - The status of the pool
-  action [:update]
-end
-
-oneview_id_pool 'IDPool1' do
-  client <my_client>    # Hash or OneviewSDK::ImageStreamer::Client
-  pool_type <pool_type> # String - The type of the pool. Values: (ipv4, vmac, vsn, vwwn)
-  count <count>         # Integer - The quantity of IDs to allocate
-  action :allocate_count
-end
-
-oneview_id_pool 'IDPool1' do
-  client <my_client>    # Hash or OneviewSDK::ImageStreamer::Client
-  pool_type <pool_type> # String - The type of the pool. Values: (ipv4, vmac, vsn, vwwn)
-  id_list <id_list>     # Array<String> - The IDs list (or IDs separeted by comma)
-  action [:allocate_list, :collect_ids]
-end
-
 oneview_id_pool 'IDPool1' do
   client <my_client>    # Hash or OneviewSDK::ImageStreamer::Client
   pool_type <pool_type> # String - The type of the pool. Values: (ipv4, vmac, vsn, vwwn)
@@ -851,6 +822,8 @@ oneview_id_pool 'IDPool1' do
   action [:allocate_count, :allocate_list, :collect_ids, :update]
 end
 ```
+
+This is a provider for managing ID pools. The String property `pool_type` is required in all actions, and typically assumes the "vmac", "vsn", "vwwn", and "ipv4" values.
 
 ### [image_streamer_artifact_bundle](examples/image_streamer/artifact_bundle.rb)
 HPE Synergy Image Streamer resource for Artifact bundles.
