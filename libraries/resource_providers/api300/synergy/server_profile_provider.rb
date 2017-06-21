@@ -35,11 +35,7 @@ module OneviewCookbook
           # Get the user specified custom attributes
           custom = @item['osDeploymentSettings']['customAttributes'] || @item['osDeploymentSettings']['osCustomAttributes']
           # Loads the OS deployment plan and gets the default custom attributes
-          # Chef::Log.info("\n\nLOADING OS DEPLOYMENT PLAN\n\n")
-          # dps = OneviewSDK::API300::Synergy::OSDeploymentPlan.get_all(@item.client)
-          # Chef::Log.info(dps)
           plan = load_resource(:OSDeploymentPlan, @context.os_deployment_plan)
-          # Chef::Log.info("\n\nLOADed OS DEPLOYMENT PLAN\n\n")
           plan_defaults = plan['additionalParameters']
           # Merge both user defined and default custom attributes
           custom = custom_merge(plan_defaults, custom)
