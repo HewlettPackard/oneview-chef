@@ -812,6 +812,14 @@ end
 
 ### [oneview_id_pool](examples/id_pool.rb)
 
+This is a provider for managing ID pools. The String property `pool_type` is required in all actions, and typically assumes the "vmac", "vsn", "vwwn", and "ipv4" values.
+
+Performs the ID Pool actions:
+  - **update:** Enable or disable an ID Pool. The Boolean property `enabled` is required.
+  - **allocate_list:** Allocates one or more IDs from a according the list informed. The Array property `id_list` is required.
+  - **allocate_count:** Allocates a specific amount of IDs from a pool. The Integer property `count` is required.
+  - **collect_ids:** Removes one or more IDs from a pool. The Array property `id_list` is required.
+
 ```ruby
 oneview_id_pool 'IDPool1' do
   client <my_client>

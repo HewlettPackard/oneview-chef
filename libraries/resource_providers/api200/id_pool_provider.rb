@@ -18,7 +18,7 @@ module OneviewCookbook
       def create_or_update
         @item.get_pool(@context.pool_type)
         Chef::Log.info "Updating #{@resource_name} '#{@name}'"
-        @context.converge_by "Updating #{@resource_name} '#{@name}'" do
+        @context.converge_by "#{@resource_name} '#{@name}' was updated." do
           @item.update(enabled: @context.enabled)
         end
       end
@@ -26,21 +26,21 @@ module OneviewCookbook
       def allocate_list
         raise 'The IDs Pools list is not valid.' unless @item.validate_id_list(@context.pool_type, @context.id_list)
         Chef::Log.info "Allocating the IDs #{@context.id_list} #{@resource_name} '#{@name}'"
-        @context.converge_by "Allocating the IDs #{@context.id_list} #{@resource_name} '#{@name}'" do
+        @context.converge_by "The IDs #{@context.id_list} #{@resource_name} '#{@name}' were allocated." do
           @item.allocate_id_list(@context.pool_type, @context.id_list)
         end
       end
 
       def allocate_count
         Chef::Log.info "Allocating #{@context.count} ID(s) #{@resource_name} '#{@name}'"
-        @context.converge_by "Allocating #{@context.count} ID(s) #{@resource_name} '#{@name}'" do
+        @context.converge_by "#{@context.count} ID(s) #{@resource_name} '#{@name}' were allocated." do
           @item.allocate_count(@context.pool_type, @context.count)
         end
       end
 
       def collect_ids
         Chef::Log.info "Removing the IDs #{@context.id_list} #{@resource_name} '#{@name}'"
-        @context.converge_by "Removing the IDs #{@context.id_list} #{@resource_name} '#{@name}'" do
+        @context.converge_by "The IDs #{@context.id_list} #{@resource_name} '#{@name}'were removed." do
           @item.collect_ids(@context.pool_type, @context.id_list)
         end
       end
