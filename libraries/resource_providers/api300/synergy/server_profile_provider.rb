@@ -49,7 +49,7 @@ module OneviewCookbook
             custom_replace!(defaults, custom_attribute)
           end
           # At this point, the defaults contain the custom data plus the default attributes
-          # It selects all the ones that has 'value', i.e. custom attributes or actual default attributes that have a default 'value'
+          # It selects all the ones that have 'value', i.e. custom attributes or actual default attributes that have a default 'value'
           # Then it filters these attributes to have only 'name' and 'value' (The only required and accepted parameters in Server profile)
           defaults.select { |merged_attr| merged_attr['value'] }.collect { |cus_attr| { 'name' => cus_attr['name'], 'value' => cus_attr['value'] } }
         end
