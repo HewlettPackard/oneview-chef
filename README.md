@@ -810,6 +810,27 @@ oneview_user 'User1' do
 end
 ```
 
+### [oneview_id_pool](examples/id_pool.rb)
+
+HPE OneView resource for managing ID pools.
+
+```ruby
+oneview_id_pool 'IDPool1' do
+  client <my_client>    # Hash or OneviewSDK::ImageStreamer::Client
+  pool_type <pool_type> # (Required) String - The type of the pool. Values: (ipv4, vmac, vsn, vwwn)
+  enabled <enabled>     # [TrueClass, FalseClass] - The status of the pool
+  count <count>         # Integer - The quantity of IDs to allocate
+  id_list <id_list>     # Array<String> - The IDs list (or IDs separeted by comma)
+  action [:allocate_count, :allocate_list, :collect_ids, :update]
+end
+```
+
+Performs the ID Pool actions:
+  - **update:** Enable or disable an ID Pool. The Boolean property `enabled` is required.
+  - **allocate_list:** Allocates one or more IDs from a according the list informed. The Array property `id_list` is required.
+  - **allocate_count:** Allocates a specific amount of IDs from a pool. The Integer property `count` is required.
+  - **collect_ids:** Removes one or more IDs from a pool. The Array property `id_list` is required.
+
 ### [image_streamer_artifact_bundle](examples/image_streamer/artifact_bundle.rb)
 HPE Synergy Image Streamer resource for Artifact bundles.
 
