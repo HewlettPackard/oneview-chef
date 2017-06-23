@@ -17,6 +17,6 @@
 oneview_server_profile 'ServerProfile1' do
   client node['oneview_test']['client']
   os_deployment_plan 'OSDeploymentPlan1'
-  data('osDeploymentSettings' => { 'customAttributes' => { 'it' => 'works' } })
+  data('osDeploymentSettings' => { 'customAttributes' => [{ 'name' => 'it', 'value' => 'works' }] })
   action :create
 end

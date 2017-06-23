@@ -4,6 +4,12 @@ Adds support to the following HPE OneView resources:
 
 Enhancements:
 - [#233](https://github.com/HewlettPackard/oneview-chef/issues/233) ServerProfile connections cannot have more than one connection with the same network
+- [#234](https://github.com/HewlettPackard/oneview-chef/issues/234) Server Profile does not fill default values for OS Custom Attributes automatically
+
+Bug Fixes:
+- [#231](https://github.com/HewlettPackard/oneview-chef/issues/231) Fix Foodcritic FC069
+- [#232](https://github.com/HewlettPackard/oneview-chef/issues/232) Server Profile with os_deployment_plan property is not setting osCustomAttributes correctly
+- [#240](https://github.com/HewlettPackard/oneview-chef/issues/240) Wrong operator in ServerProfile warning
 
 ## 2.2.1
 Enhancements:
