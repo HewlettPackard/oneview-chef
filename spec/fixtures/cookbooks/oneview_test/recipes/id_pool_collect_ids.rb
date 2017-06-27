@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: oneview_test_api300_synergy
-# Recipe:: server_profile_properties
+# Cookbook Name:: oneview_test
+# Recipe:: id_pool_collect_ids
 #
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,9 +14,9 @@
 # specific language governing permissions and limitations under the License.
 #
 
-oneview_server_profile 'ServerProfile1' do
+oneview_id_pool 'IDPool2' do
   client node['oneview_test']['client']
-  os_deployment_plan 'OSDeploymentPlan1'
-  data('osDeploymentSettings' => { 'customAttributes' => [{ 'name' => 'it', 'value' => 'works' }] })
-  action :create
+  pool_type 'vmac'
+  id_list ['A2:32:C3:D0:00:00', 'A2:32:C3:D0:00:01']
+  action :collect_ids
 end

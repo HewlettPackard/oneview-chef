@@ -15,7 +15,7 @@ if defined?(ChefSpec)
   standard_actions = [:create, :create_if_missing, :delete]
   # Lists all the possible action verbs
   action_list = %w(create add delete remove set reset refresh update configure reconfigure edit none discover apply reapply activate
-                   stage new patch replace change load download upload extract backup)
+                   stage new patch replace change load download upload extract backup allocate collect)
 
   oneview_resources = {
     oneview_resource:                   standard_actions,
@@ -30,6 +30,7 @@ if defined?(ChefSpec)
     oneview_fc_network:                 standard_actions,
     oneview_fcoe_network:               standard_actions,
     oneview_firmware:                   [:add, :remove, :create_custom_spp],
+    oneview_id_pool:                    [:update, :allocate_list, :allocate_count, :collect_ids],
     oneview_interconnect:               [:set_uid_light, :set_power_state, :reset, :reset_port_protection, :update_port],
     oneview_logical_enclosure:          [:create_if_missing, :create, :update_from_group, :reconfigure, :set_script, :delete],
     oneview_logical_interconnect_group: standard_actions,
