@@ -1,5 +1,6 @@
 ## 2.3.0 (Unreleased)
 Adds support to the following HPE OneView resources:
+  - Added oneview_event resource
   - Added oneview_id_pool resource
 
 Enhancements:
@@ -12,9 +13,6 @@ Bug Fixes:
 - [#240](https://github.com/HewlettPackard/oneview-chef/issues/240) Wrong operator in ServerProfile warning
 
 ## 2.2.1
-Adds support to the following HPE OneView resources:
-  - Added oneview_event resource
-
 Enhancements:
 - [#228](https://github.com/HewlettPackard/oneview-chef/issues/228) Add ::load_resource method to OneviewCookbook::Helper
 
