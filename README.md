@@ -176,6 +176,16 @@ oneview_network_set 'NetSet1' do
 end
 ```
 
+### [oneview_event](examples/event.rb)
+
+```ruby
+oneview_event 'Event1' do
+  client <my_client>
+  data <resource_data>
+  action [:create]
+end
+```
+
 ### [oneview_firmware](examples/firmware.rb)
 Resource for HPE OneView firmware bundles and drivers.
 
