@@ -1,4 +1,4 @@
-## 2.3.0 (Unreleased)
+## 2.3.0
 Adds support to the following HPE OneView resources:
   - Added oneview_event resource
   - Added oneview_id_pool resource
