@@ -19,7 +19,7 @@ RSpec.describe OneviewCookbook::Helper do
       fake_class = Class.new
       fake_res = 'fake'
       expect(described_class).to receive(:get_resource_class).with(context, resource_type, OneviewCookbook)
-        .and_return(fake_class)
+                                                             .and_return(fake_class)
       expect(fake_class).to receive(:new).with(context).and_return(fake_res)
       expect(fake_res).to receive(:send).with(:delete).and_return(true)
       expect(described_class.do_resource_action(context, resource_type, :delete)).to eq(true)
@@ -242,13 +242,13 @@ RSpec.describe OneviewCookbook::Helper do
 
   describe '::convert_keys' do
     it 'converts simple hash keys' do
-      simple_1 = { a: 1, b: 2, c: 3 }
-      described_class.convert_keys(simple_1, :to_s).each { |k, _| expect(k).class == String }
+      simple1 = { a: 1, b: 2, c: 3 }
+      described_class.convert_keys(simple1, :to_s).each { |k, _| expect(k).class == String }
     end
 
     it 'converts unary hash key' do
-      simple_2 = { a: 1 }
-      conv = described_class.convert_keys(simple_2, :to_s)
+      simple2 = { a: 1 }
+      conv = described_class.convert_keys(simple2, :to_s)
       expect(conv['a']).to eq(1)
     end
 
@@ -257,23 +257,23 @@ RSpec.describe OneviewCookbook::Helper do
     end
 
     it 'converts nested hash keys' do
-      nested_1 = { a: 1, b: { a: 21, b: 22 }, c: 3 }
-      conv = described_class.convert_keys(nested_1, :to_s)
+      nested1 = { a: 1, b: { a: 21, b: 22 }, c: 3 }
+      conv = described_class.convert_keys(nested1, :to_s)
       conv.each { |k, _| expect(k).class == String }
       expect(conv['b']['a']).to eq(21)
     end
 
     it 'converts double nested hash keys' do
-      nested_2 = { a: 1, b: { a: 21, b: { a: 221, b: 222 } }, c: 3 }
-      conv = described_class.convert_keys(nested_2, :to_s)
+      nested2 = { a: 1, b: { a: 21, b: { a: 221, b: 222 } }, c: 3 }
+      conv = described_class.convert_keys(nested2, :to_s)
       conv.each { |k, _| expect(k).class == String }
       conv['b'].each { |k, _| expect(k).class == String }
       conv['b']['b'].each { |k, _| expect(k).class == String }
     end
 
     it 'converts empty nested hash keys' do
-      nested_3 = { a: 1, b: {}, c: 3 }
-      conv = described_class.convert_keys(nested_3, :to_s)
+      nested3 = { a: 1, b: {}, c: 3 }
+      conv = described_class.convert_keys(nested3, :to_s)
       conv.each { |k, _| expect(k).class == String }
     end
   end

@@ -68,7 +68,7 @@ module OneviewCookbook
         @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         current_firmware = @item.get_firmware
         @context.firmware_data['command'] = action
-        dif_values = @context.firmware_data.select { |k, v| current_firmware[k] != v }
+        dif_values = @context.firmware_data.reject { |k, v| current_firmware[k] == v }
         fw_defined = @context.firmware || @context.firmware_data['sppName']
         raise "Unspecified property: 'firmware'. Please set it before attempting this action." unless fw_defined
         return Chef::Log.info("Firmware #{@context.firmware} from logical interconnect '#{@name}' is up to date") if dif_values.empty?

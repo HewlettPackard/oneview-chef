@@ -2,16 +2,16 @@ source 'https://rubygems.org'
 
 ruby RUBY_VERSION # Needed to consider & solve for Ruby version requirements
 
-gem 'berkshelf'
+gem 'berkshelf', '~> 4.3.5'
 gem 'chef', '~> 12.0'
-gem 'chefspec'
+gem 'chefspec', '~> 7.1'
 gem 'codeclimate-test-reporter', '~> 1.0.0'
-gem 'foodcritic'
-gem 'oneview-sdk', '~> 4.5.1'
+gem 'foodcritic', '~> 11.3'
+gem 'oneview-sdk', '~> 5.0.0'
 gem 'pry'
-gem 'rubocop', '= 0.40.0'
-gem 'simplecov'
-gem 'stove'
+gem 'rubocop', '~> 0.49.1'
+gem 'simplecov', '~> 0.15'
+gem 'stove', '~> 5.2'
 
 begin
   if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.2.6')

@@ -8,7 +8,9 @@ describe 'oneview_test::volume_template_create_if_missing' do
     allow_any_instance_of(OneviewSDK::VolumeTemplate).to receive(:exists?).and_return(false)
     allow_any_instance_of(OneviewSDK::VolumeTemplate).to receive(:retrieve!).and_return(false)
     allow_any_instance_of(OneviewCookbook::API200::VolumeTemplateProvider).to receive(:load_resource).and_call_original
-    allow_any_instance_of(OneviewCookbook::API200::VolumeTemplateProvider).to receive(:load_resource).with(:StorageSystem, anything)
+    allow_any_instance_of(OneviewCookbook::API200::VolumeTemplateProvider)
+      .to receive(:load_resource)
+      .with(:StorageSystem, anything)
       .and_return(OneviewSDK::StorageSystem.new(client, name: 'StorageSystem1', uri: '/rest/storage-systems/1'))
     allow(OneviewSDK::StoragePool).to receive(:find_by)
       .and_return([OneviewSDK::StoragePool.new(client, uri: 'rest/sp1')])
@@ -20,7 +22,9 @@ describe 'oneview_test::volume_template_create_if_missing' do
     allow_any_instance_of(OneviewSDK::VolumeTemplate).to receive(:exists?).and_return(true)
     allow_any_instance_of(OneviewSDK::VolumeTemplate).to receive(:retrieve!).and_return(true)
     allow_any_instance_of(OneviewCookbook::API200::VolumeTemplateProvider).to receive(:load_resource).and_call_original
-    allow_any_instance_of(OneviewCookbook::API200::VolumeTemplateProvider).to receive(:load_resource).with(:StorageSystem, anything)
+    allow_any_instance_of(OneviewCookbook::API200::VolumeTemplateProvider)
+      .to receive(:load_resource)
+      .with(:StorageSystem, anything)
       .and_return(OneviewSDK::StorageSystem.new(client, name: 'StorageSystem1', uri: '/rest/storage-systems/1'))
     allow_any_instance_of(OneviewSDK::StorageSystem).to receive(:exists?).and_return(true)
     allow_any_instance_of(OneviewSDK::StorageSystem).to receive(:retrieve!).and_return(true)

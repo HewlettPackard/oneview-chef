@@ -17,9 +17,9 @@ describe 'oneview_test_api300_synergy::sas_logical_interconnect_replace_drive_en
     # Create a new Drive Enclosure
     # Retrieves and returns the SNs
     allow_any_instance_of(provider).to receive(:load_resource).with(:DriveEnclosure, 'OLD_DRIVE', 'serialNumber')
-      .and_return('SNFAKE1')
+                                                              .and_return('SNFAKE1')
     allow_any_instance_of(provider).to receive(:load_resource).with(:DriveEnclosure, 'NEW_DRIVE', 'serialNumber')
-      .and_return('SNFAKE2')
+                                                              .and_return('SNFAKE2')
     # It finds the resource
     expect_any_instance_of(klass).to receive(:retrieve!).and_return(true)
     # It calls the replace method
@@ -56,7 +56,7 @@ describe 'oneview_test_api300_synergy::sas_logical_interconnect_replace_drive_en
     # Check the data first and find the serials
     # Old drive enclosure cannot be found by name
     allow_any_instance_of(provider).to receive(:load_resource).with(:DriveEnclosure, 'OLD_DRIVE', 'serialNumber')
-      .and_return(nil)
+                                                              .and_return(nil)
     expect_any_instance_of(klass).to_not receive(:replace_drive_enclosure)
     expect { real_chef_run }.to raise_error(RuntimeError, /InvalidParameters: Old drive enclosure/)
   end
@@ -65,9 +65,9 @@ describe 'oneview_test_api300_synergy::sas_logical_interconnect_replace_drive_en
     # Check the data first and find the serials
     # New drive enclosure cannot be found by name
     allow_any_instance_of(provider).to receive(:load_resource).with(:DriveEnclosure, 'OLD_DRIVE', 'serialNumber')
-      .and_return('SNFAKE1')
+                                                              .and_return('SNFAKE1')
     allow_any_instance_of(provider).to receive(:load_resource).with(:DriveEnclosure, 'NEW_DRIVE', 'serialNumber')
-      .and_return(nil)
+                                                              .and_return(nil)
     expect_any_instance_of(klass).to_not receive(:replace_drive_enclosure)
     expect { real_chef_run }.to raise_error(RuntimeError, /InvalidParameters: New drive enclosure/)
   end
@@ -75,9 +75,9 @@ describe 'oneview_test_api300_synergy::sas_logical_interconnect_replace_drive_en
   it 'fails if the SAS logical interconnect is not found' do
     # Check the data first and find the serials
     allow_any_instance_of(provider).to receive(:load_resource).with(:DriveEnclosure, 'OLD_DRIVE', 'serialNumber')
-      .and_return('SNFAKE1')
+                                                              .and_return('SNFAKE1')
     allow_any_instance_of(provider).to receive(:load_resource).with(:DriveEnclosure, 'NEW_DRIVE', 'serialNumber')
-      .and_return('SNFAKE2')
+                                                              .and_return('SNFAKE2')
     expect_any_instance_of(klass).to receive(:retrieve!).and_return(false)
     expect_any_instance_of(klass).to_not receive(:replace_drive_enclosure)
     expect { real_chef_run }.to raise_error(RuntimeError, /not found/)
