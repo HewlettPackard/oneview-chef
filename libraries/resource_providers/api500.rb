@@ -1,4 +1,4 @@
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -10,8 +10,8 @@
 # specific language governing permissions and limitations under the License.
 
 module OneviewCookbook
-  # Module for Oneview API 300 Resources
-  module API300
+  # Module for Oneview API 500 Resources
+  module API500
     SUPPORTED_VARIANTS ||= %w[C7000 Synergy].freeze
 
     # Get resource class that matches the type given
@@ -25,4 +25,4 @@ module OneviewCookbook
 end
 
 # Load all API-specific resources:
-Dir[File.dirname(__FILE__) + '/api300/*.rb'].each { |file| require file }
+Dir[File.dirname(__FILE__) + '/api500/*.rb'].each { |file| require file }

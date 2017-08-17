@@ -14,6 +14,27 @@ require 'logger'
 module OneviewCookbook
   # Helpers for Oneview Resources
   module Helper
+    # Get resource class that matches the type given
+    # @param [String] type Name of the desired class type
+    # @param [Module] api_module Module who the desired class type belongs to
+    # @param [String] variant Variant (C7000 or Synergy)
+    # @return [Class] Resource class or nil if not found
+    def self.get_provider_named(type, api_module, variant = nil)
+      api_version = api_module.to_s.split('::').last
+      if variant
+        raise "#{api_version} variant #{variant} is not supported!" unless api_module::SUPPORTED_VARIANTS.include?(variant.to_s)
+        api_module = api_module.const_get(variant.to_s)
+      end
+      new_type = type.to_s.downcase.gsub(/[ -_]/, '') + 'provider'
+      api_module.constants.each do |c|
+        klass = api_module.const_get(c)
+        next unless klass.is_a?(Class) && klass < OneviewCookbook::ResourceProvider
+        name = klass.name.split('::').last.downcase.delete('_').delete('-')
+        return klass if new_type =~ /^#{name}$/
+      end
+      raise "The '#{type}' resource does not exist for OneView #{api_version}, variant #{variant}."
+    end
+
     # All-in-one method for performing an action on a resource
     # @param context Context from the resource action block (self)
     # @param [String, Symbol] type Name of the resource type. e.g., :EthernetNetwork

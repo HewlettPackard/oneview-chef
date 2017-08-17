@@ -18,14 +18,7 @@ module OneviewCookbook
     #   It exists only so that the parameters match API modules that do have multiple variants.
     # @return [Class] Resource class or nil if not found
     def self.provider_named(type, _variant = nil)
-      new_type = type.to_s.downcase.gsub(/[ -_]/, '') + 'provider'
-      constants.each do |c|
-        klass = OneviewCookbook::API200.const_get(c)
-        next unless klass.is_a?(Class) && klass < OneviewCookbook::ResourceProvider
-        name = klass.name.split('::').last.downcase.delete('_').delete('-')
-        return klass if new_type =~ /^#{name}$/
-      end
-      raise "The '#{type}' resource does not exist for OneView API version 200."
+      OneviewCookbook::Helper.get_provider_named(type, self, nil)
     end
   end
 end

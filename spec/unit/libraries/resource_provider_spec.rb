@@ -61,6 +61,22 @@ RSpec.describe OneviewCookbook::ResourceProvider do
       expect(r.item.class).to eq(OneviewSDK::API300::Synergy::EthernetNetwork)
     end
 
+    it 'builds valid API500::C7000 resources' do
+      r = OneviewCookbook::API500::C7000::ScopeProvider.new(@context)
+      expect(r.sdk_resource_type).to eq('Scope')
+      expect(r.sdk_api_version).to eq(500)
+      expect(r.sdk_variant).to eq('C7000')
+      expect(r.item.class).to eq(OneviewSDK::API500::C7000::Scope)
+    end
+
+    it 'builds valid API500::Synergy resources' do
+      r = OneviewCookbook::API500::Synergy::ScopeProvider.new(@context)
+      expect(r.sdk_resource_type).to eq('Scope')
+      expect(r.sdk_api_version).to eq(500)
+      expect(r.sdk_variant).to eq('Synergy')
+      expect(r.item.class).to eq(OneviewSDK::API500::Synergy::Scope)
+    end
+
     it 'builds valid ImageStreamer::API300 resources' do
       r = OneviewCookbook::ImageStreamer::API300::PlanScriptProvider.new(@context)
       expect(r.sdk_resource_type).to eq('PlanScript')
