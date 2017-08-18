@@ -5,6 +5,7 @@ Adds API 500 support to the following HPE OneView resources:
   - oneview_ethernet_network
   - oneview_event
   - oneview_fabric
+  - oneview_fc_network
   - oneview_firmware
   - oneview_id_pool
   - oneview_managed_san
