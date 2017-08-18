@@ -18,8 +18,7 @@ describe 'oneview_test::user_create' do
     expect_any_instance_of(klass).to receive(:update).once.and_return(true)
     expect_any_instance_of(klass).to receive(:update).with(password: 'secret123').once.and_return(true)
     expect(OneviewSDK::Client).to receive(:new).once.and_call_original
-    expect(OneviewSDK::Client).to receive(:new).once
-      .and_raise(OneviewSDK::BadRequest, 'errorCode":"AUTHN_AUTH_DIR_FAIL","message":"Invalid username or password or directory.')
+    expect(OneviewSDK::Client).to receive(:new).once.and_raise(OneviewSDK::BadRequest, 'Invalid username or password')
     expect(Chef::Log).to_not receive(:info).with(/password is up to date/)
     expect(real_chef_run).to create_oneview_user('User1')
   end
@@ -31,8 +30,7 @@ describe 'oneview_test::user_create' do
     expect_any_instance_of(klass).to_not receive(:create)
     expect_any_instance_of(klass).to receive(:update).once.with(password: 'secret123').and_return(true)
     expect(OneviewSDK::Client).to receive(:new).once.and_call_original
-    expect(OneviewSDK::Client).to receive(:new).once
-      .and_raise(OneviewSDK::BadRequest, 'errorCode":"AUTHN_AUTH_DIR_FAIL","message":"Invalid username or password or directory.')
+    expect(OneviewSDK::Client).to receive(:new).once.and_raise(OneviewSDK::BadRequest, 'Invalid username or password')
     expect(Chef::Log).to_not receive(:info).with(/password is up to date/)
     expect(real_chef_run).to create_oneview_user('User1')
   end

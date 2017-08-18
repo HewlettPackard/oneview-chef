@@ -16,9 +16,9 @@ describe 'oneview_test::logical_enclosure_create' do
 
   before :each do
     allow(OneviewSDK::EnclosureGroup).to receive(:find_by).with(instance_of(OneviewSDK::Client), name: 'EG1')
-      .and_return([{ 'uri' => '/rest/fake' }])
+                                                          .and_return([{ 'uri' => '/rest/fake' }])
     allow(OneviewSDK::Enclosure).to receive(:find_by).at_most(2).times
-      .and_return([OneviewSDK::Enclosure.new(client, uri: '/rest/fake')])
+                                                     .and_return([OneviewSDK::Enclosure.new(client, uri: '/rest/fake')])
   end
 
   it 'creates it when it does not exist' do

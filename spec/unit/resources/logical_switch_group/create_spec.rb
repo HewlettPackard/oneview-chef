@@ -6,7 +6,7 @@ describe 'oneview_test::logical_switch_group_create' do
 
   before(:each) do
     allow(OneviewSDK::Switch).to receive(:get_type).with(anything, 'Cisco Nexus 50xx')
-      .and_return('uri' => 'rest/fake/switch-uri')
+                                                   .and_return('uri' => 'rest/fake/switch-uri')
   end
 
   it 'creates it when it does not exist' do

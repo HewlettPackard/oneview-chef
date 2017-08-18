@@ -29,10 +29,10 @@ describe 'oneview_test::server_profile_properties' do
     en1 = OneviewSDK::EthernetNetwork.new(@client, name: 'EthernetNetwork1', uri: 'rest/fake1')
 
     allow_any_instance_of(provider).to receive(:set_connections).and_call_original
-    allow_any_instance_of(provider).to receive(:set_connections)
-      .with(:EthernetNetwork, anything)
-      .and_wrap_original { |m, *args| m.call(args.first, [args.last]) }
-
+    # mock_set_connections = proc { |m, *args|  }
+    allow_any_instance_of(provider).to receive(:set_connections).with(:EthernetNetwork, anything).and_wrap_original do |m, *args|
+      m.call(args.first, [args.last])
+    end
     allow_any_instance_of(provider).to receive(:load_resource).and_call_original
     allow_any_instance_of(provider).to receive(:load_resource).with(anything, 'ServerHardware1').and_return(sh1)
     allow_any_instance_of(provider).to receive(:load_resource).with(anything, 'EthernetNetwork1').and_return(en1)
@@ -51,9 +51,10 @@ describe 'oneview_test::server_profile_properties' do
     sh1 = OneviewSDK::ServerHardware.new(@client, name: 'ServerHardware1', uri: 'rest/fake0')
 
     allow_any_instance_of(provider).to receive(:set_connections).and_call_original
-    allow_any_instance_of(provider).to receive(:set_connections)
-      .with(:EthernetNetwork, anything)
-      .and_wrap_original { |m, *args| m.call(args.first, 'I am potato') }
+    # mock_set_connections = proc {   }
+    allow_any_instance_of(provider).to receive(:set_connections).with(:EthernetNetwork, anything).and_wrap_original do |m, *args|
+      m.call(args.first, 'I am potato')
+    end
 
     allow_any_instance_of(provider).to receive(:load_resource).and_call_original
     allow_any_instance_of(provider).to receive(:load_resource).with(anything, 'ServerHardware1').and_return(sh1)
@@ -97,7 +98,7 @@ describe 'oneview_test_api300_synergy::server_profile_properties' do
 
     allow_any_instance_of(base_sdk::ServerProfile).to receive(:[]).and_call_original
     allow_any_instance_of(base_sdk::ServerProfile).to receive(:[]).with('osDeploymentSettings')
-      .and_return('osCustomAttributes' => ['name' => 'works', 'value' => 'too'])
+                                                                  .and_return('osCustomAttributes' => ['name' => 'works', 'value' => 'too'])
 
     expect_any_instance_of(base_sdk::ServerProfile).to receive(:set_os_deployment_settings)
       .with(osdp, ['name' => 'works', 'value' => 'too'])
@@ -121,7 +122,9 @@ describe 'oneview_test_api300_synergy::server_profile_properties' do
     allow_any_instance_of(provider).to receive(:load_resource).with(:OSDeploymentPlan, 'OSDeploymentPlan1').and_return(osdp)
 
     allow_any_instance_of(base_sdk::ServerProfile).to receive(:[]).and_call_original
-    allow_any_instance_of(base_sdk::ServerProfile).to receive(:[]).with('osDeploymentSettings')
+    allow_any_instance_of(base_sdk::ServerProfile)
+      .to receive(:[])
+      .with('osDeploymentSettings')
       .and_return('osCustomAttributes' => [{ 'name' => 'b', 'value' => 'custom' },
                                            { 'name' => 'c', 'value' => 'override' },
                                            { 'name' => 'd', 'value' => 'custom' }])

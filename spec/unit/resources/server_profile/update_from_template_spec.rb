@@ -10,7 +10,7 @@ describe 'oneview_test::server_profile_update_from_template' do
 
   before :each do
     allow_any_instance_of(klass).to receive(:get_compliance_preview)
-      .and_return(isOnlineUpdate: true, automaticUpdates: [:stuff, :things], manualUpdates: [])
+      .and_return(isOnlineUpdate: true, automaticUpdates: %i[stuff things], manualUpdates: [])
     allow(Chef::Log).to receive(:info)
   end
 

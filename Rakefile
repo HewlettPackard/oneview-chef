@@ -43,10 +43,10 @@ FoodCritic::Rake::LintTask.new(:foodcritic) do |t|
 end
 
 desc 'Runs all style checks'
-task style: [:rubocop, :foodcritic]
+task style: %i[rubocop foodcritic]
 
 desc 'Runs all style and unit tests'
-task test: [:style, :unit]
+task test: %i[style unit]
 
 # Stove publishing Rake Task
 Stove::RakeTask.new

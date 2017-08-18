@@ -17,7 +17,7 @@
 oneview_fcoe_network 'FCoENetwork3' do
   client node['oneview_test']['client']
   data(
-    vlanId:  703
+    vlanId: 703
   )
   action :delete
 end

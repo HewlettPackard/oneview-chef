@@ -12,7 +12,7 @@
 module OneviewCookbook
   # Module for Oneview API 300 Resources
   module API300
-    SUPPORTED_VARIANTS ||= %w(C7000 Synergy).freeze
+    SUPPORTED_VARIANTS ||= %w[C7000 Synergy].freeze
 
     # Get resource class that matches the type given
     # @param [String] type Name of the desired class type

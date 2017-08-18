@@ -6,6 +6,15 @@ AllCops:
     - 'examples/*'
     - 'bin/*'
 
+Layout/EndOfLine:
+  Enabled: false
+
+Metrics/BlockLength:
+  CountComments: false
+  Max: 50
+  Exclude:
+    - 'spec/**/*'
+
 Metrics/AbcSize:
   Enabled: false
 
@@ -31,7 +40,7 @@ Metrics/ParameterLists:
 Metrics/PerceivedComplexity:
   Enabled: false
 
-Style/EmptyLineBetweenDefs:
+Layout/EmptyLineBetweenDefs:
   Exclude:
     - 'libraries/matchers.rb'
 
