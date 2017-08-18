@@ -2,10 +2,10 @@ source 'https://rubygems.org'
 
 ruby RUBY_VERSION # Needed to consider & solve for Ruby version requirements
 
-gem 'berkshelf', '~> 4.3.5'
+gem 'berkshelf'
 gem 'chef', '~> 12.0'
-gem 'chefspec', '~> 7.1'
-gem 'codeclimate-test-reporter', '~> 1.0.0'
+gem 'chefspec'
+gem 'codeclimate-test-reporter'
 gem 'foodcritic', '~> 7.1.0'
 gem 'oneview-sdk', '~> 5.0.0'
 gem 'pry'
