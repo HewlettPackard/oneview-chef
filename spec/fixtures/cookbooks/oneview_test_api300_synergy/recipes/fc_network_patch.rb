@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: oneview_test_api300_synergy
-# Recipe:: fcv_network_patch
+# Recipe:: fc_network_patch
 #
 # (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
