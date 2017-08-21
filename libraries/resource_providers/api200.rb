@@ -16,7 +16,8 @@ module OneviewCookbook
     # @param [String] type Name of the desired class type
     # @param [String] variant There is only 1 variant for this module, so this is not used.
     #   It exists only so that the parameters match API modules that do have multiple variants.
-    # @return [Class] Resource class or nil if not found
+    # @raise [RuntimeError] if resource class not found
+    # @return [Class] Resource class
     def self.provider_named(type, _variant = nil)
       OneviewCookbook::Helper.get_provider_named(type, self, nil)
     end

@@ -18,7 +18,8 @@ module OneviewCookbook
     # @param [String] type Name of the desired class type
     # @param [Module] api_module Module who the desired class type belongs to
     # @param [String] variant Variant (C7000 or Synergy)
-    # @return [Class] Resource class or nil if not found
+    # @raise [RuntimeError] if resource class not found
+    # @return [Class] Resource class
     def self.get_provider_named(type, api_module, variant = nil)
       api_version = api_module.to_s.split('::').last
       if variant

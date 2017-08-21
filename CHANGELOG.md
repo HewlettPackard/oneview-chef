@@ -1,6 +1,6 @@
 ## 2.3.1 (Unreleased)
 Adds API 500 support to the following HPE OneView resources:
-  - oneview_scope resource
+  - oneview_scope
 
 Enhancements:
 - [#246](https://github.com/HewlettPackard/oneview-chef/issues/246) Upgrade oneview-sdk gem to version 5.0.0

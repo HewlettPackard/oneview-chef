@@ -17,7 +17,8 @@ module OneviewCookbook
     # Get resource class that matches the type given
     # @param [String] type Name of the desired class type
     # @param [String] variant Variant (C7000 or Synergy)
-    # @return [Class] Resource class or nil if not found
+    # @raise [RuntimeError] if resource class not found
+    # @return [Class] Resource class
     def self.provider_named(type, variant)
       OneviewCookbook::Helper.get_provider_named(type, self, variant)
     end
