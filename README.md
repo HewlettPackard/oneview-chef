@@ -154,7 +154,7 @@ end
 oneview_fc_network 'Fc1' do
   client <my_client>
   data <resource_data>
-  action [:create, :create_if_missing, :delete]
+  action [:create, :create_if_missing, :delete, :patch]
 end
 ```
 

@@ -24,3 +24,7 @@ end
 action :delete do
   OneviewCookbook::Helper.do_resource_action(self, :FCNetwork, :delete)
 end
+
+action :patch do
+  OneviewCookbook::Helper.do_resource_action(self, :FCNetwork, :patch)
+end

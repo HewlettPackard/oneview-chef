@@ -62,6 +62,7 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not create_oneview_fc_network('')
     expect(chef_run).to_not create_oneview_fc_network_if_missing('')
     expect(chef_run).to_not delete_oneview_fc_network('')
+    expect(chef_run).to_not patch_oneview_fc_network('')
 
     # oneview_fcoe_network
     expect(chef_run).to_not create_oneview_fcoe_network('')
