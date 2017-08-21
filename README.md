@@ -177,7 +177,7 @@ oneview_network_set 'NetSet1' do
   native_network <native_network_name>  # String: Optional
   ethernet_network_list <networks_list> # Array of network names as Strings: Optional
   data <resource_data>
-  action [:create, :create_if_missing, :delete]
+  action [:create, :create_if_missing, :delete, :patch]
 end
 ```
 

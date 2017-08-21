@@ -50,6 +50,16 @@ oneview_network_set 'ChefNetworkSet_2' do
   action :create_if_missing
 end
 
+# Example: Add the Scope with URI 7887dc77-c4b7-474a-9b9e-b7cba3d11d93 to ChefNetworkSet_0
+oneview_network_set 'ChefNetworkSet_3' do
+  client my_client
+  data(name: 'ChefNetworkSet_0')
+  operation 'add'
+  path '/scopeUris/-'
+  value '/rest/scopes/bef7c18c-3618-4c86-b85a-4c62a2f0d034'
+  action :patch
+end
+
 # Examples: Delete the network sets
 (0..2).each do |i|
   oneview_network_set "Delete ChefNetworkSet_#{i}" do

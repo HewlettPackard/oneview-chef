@@ -27,3 +27,7 @@ end
 action :delete do
   OneviewCookbook::Helper.do_resource_action(self, :NetworkSet, :delete)
 end
+
+action :patch do
+  OneviewCookbook::Helper.do_resource_action(self, :NetworkSet, :patch)
+end

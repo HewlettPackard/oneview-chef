@@ -135,6 +135,7 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not create_oneview_network_set('')
     expect(chef_run).to_not create_oneview_network_set_if_missing('')
     expect(chef_run).to_not delete_oneview_network_set('')
+    expect(chef_run).to_not patch_oneview_network_set('')
 
     # oneview_power_device
     expect(chef_run).to_not add_oneview_power_device('')
