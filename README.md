@@ -177,6 +177,9 @@ oneview_network_set 'NetSet1' do
   native_network <native_network_name>  # String: Optional
   ethernet_network_list <networks_list> # Array of network names as Strings: Optional
   data <resource_data>
+  operation <op>                        # String. Used in patch action only. e.g., 'add'
+  path <path>                           # String. Used in patch option only. e.g., '/scopeUris/-'
+  value <val>                           # String. Used in patch option only. e.g., 'scope uri'
   action [:create, :create_if_missing, :delete, :patch]
 end
 ```
