@@ -1,4 +1,4 @@
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -9,24 +9,14 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-my_client = {
-  url: ENV['ONEVIEWSDK_URL'],
-  user: ENV['ONEVIEWSDK_USER'],
-  password: ENV['ONEVIEWSDK_PASSWORD']
-}
+require_relative '../../api300/synergy/unmanaged_device_provider'
 
-# Example: Adds an unmanaged device (default action)
-oneview_unmanaged_device 'UnmanagedDevice1' do
-  client my_client
-  data(
-    model: 'Procurve 4200VL',
-    deviceType: 'Server'
-  )
-end
-
-# Example: Removes an unmanaged device
-oneview_unmanaged_device 'UnmanagedDevice2' do
-  client my_client
-  data(name: 'UnmanagedDevice1')
-  action :remove
+module OneviewCookbook
+  module API500
+    module Synergy
+      # UnmanagedDevice API500 Synergy provider
+      class UnmanagedDeviceProvider < OneviewCookbook::API300::Synergy::UnmanagedDeviceProvider
+      end
+    end
+  end
 end
