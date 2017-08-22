@@ -18,7 +18,7 @@ my_client = {
 ids = ['A2:32:C3:D0:00:00', 'A2:32:C3:D0:00:01']
 
 # Example: Disabling a ID Pool
-oneview_id_pool 'VMAC Pool' do
+oneview_id_pool 'VMAC Pool 1' do
   client my_client
   pool_type 'vmac'
   enabled false
@@ -26,7 +26,7 @@ oneview_id_pool 'VMAC Pool' do
 end
 
 # Example: Enabling a ID Pool
-oneview_id_pool 'VMAC Pool' do
+oneview_id_pool 'VMAC Pool 2' do
   client my_client
   pool_type 'vmac'
   enabled true
@@ -34,14 +34,14 @@ oneview_id_pool 'VMAC Pool' do
 end
 
 # Example: Allocating a list of the IDs
-oneview_id_pool 'VMAC Pool' do
+oneview_id_pool 'VMAC Pool 3' do
   client my_client
   pool_type 'vmac'
   id_list ids
 end
 
 # Example: Allocating a certain quantity of IDs
-oneview_id_pool 'VMAC Pool' do
+oneview_id_pool 'VMAC Pool 4' do
   client my_client
   pool_type 'vmac'
   count 2
@@ -49,7 +49,7 @@ oneview_id_pool 'VMAC Pool' do
 end
 
 # Example: Removing a list of the IDs
-oneview_id_pool 'VMAC Pool' do
+oneview_id_pool 'VMAC Pool 5' do
   client my_client
   pool_type 'vmac'
   id_list ids
