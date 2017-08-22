@@ -30,9 +30,22 @@ oneview_logical_switch_group 'LogicalSwitchGroup2' do
   action :create_if_missing
 end
 
-# Deletes LogicalSwitchGroup2
-# Delete action will only need the name and client
-oneview_logical_switch_group 'LogicalSwitchGroup2' do
+# Example: Add the Scope with URI /rest/scopes/7887dc77-c4b7-474a-9b9e-b7cba3d11d93 to LogicalSwitchGroup1
+oneview_logical_switch_group 'LogicalSwitchGroup3' do
   client my_client
-  action :delete
+  data(name: 'LogicalSwitchGroup1')
+  operation 'add'
+  path '/scopeUris/-'
+  value '/rest/scopes/7887dc77-c4b7-474a-9b9e-b7cba3d11d93'
+  action :patch
+end
+
+# Deletes the logical switches groups:
+# Delete action will only need the name and client
+(1..2).each do |i|
+  oneview_logical_switch_group "Delete LogicalSwitchGroup#{i}" do
+    client my_client
+    data(name: "LogicalSwitchGroup#{i}")
+    action :delete
+  end
 end
