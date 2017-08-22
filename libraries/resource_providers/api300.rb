@@ -17,18 +17,10 @@ module OneviewCookbook
     # Get resource class that matches the type given
     # @param [String] type Name of the desired class type
     # @param [String] variant Variant (C7000 or Synergy)
-    # @return [Class] Resource class or nil if not found
+    # @raise [RuntimeError] if resource class not found
+    # @return [Class] Resource class
     def self.provider_named(type, variant)
-      raise "API300 variant #{variant} is not supported!" unless SUPPORTED_VARIANTS.include?(variant.to_s)
-      new_type = type.to_s.downcase.gsub(/[ -_]/, '') + 'provider'
-      api_module = OneviewCookbook::API300.const_get(variant.to_s)
-      api_module.constants.each do |c|
-        klass = api_module.const_get(c)
-        next unless klass.is_a?(Class) && klass < OneviewCookbook::ResourceProvider
-        name = klass.name.split('::').last.downcase.delete('_').delete('-')
-        return klass if new_type =~ /^#{name}$/
-      end
-      raise "The '#{type}' resource does not exist for OneView API version 300, variant #{variant}."
+      OneviewCookbook::Helper.get_provider_named(type, self, variant)
     end
   end
 end

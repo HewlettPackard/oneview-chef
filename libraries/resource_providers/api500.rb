@@ -1,4 +1,4 @@
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -10,19 +10,20 @@
 # specific language governing permissions and limitations under the License.
 
 module OneviewCookbook
-  # Module for Oneview API 200 Resources
-  module API200
+  # Module for Oneview API 500 Resources
+  module API500
+    SUPPORTED_VARIANTS ||= %w[C7000 Synergy].freeze
+
     # Get resource class that matches the type given
     # @param [String] type Name of the desired class type
-    # @param [String] variant There is only 1 variant for this module, so this is not used.
-    #   It exists only so that the parameters match API modules that do have multiple variants.
+    # @param [String] variant Variant (C7000 or Synergy)
     # @raise [RuntimeError] if resource class not found
     # @return [Class] Resource class
-    def self.provider_named(type, _variant = nil)
-      OneviewCookbook::Helper.get_provider_named(type, self, nil)
+    def self.provider_named(type, variant)
+      OneviewCookbook::Helper.get_provider_named(type, self, variant)
     end
   end
 end
 
 # Load all API-specific resources:
-Dir[File.dirname(__FILE__) + '/api200/*.rb'].each { |file| require file }
+Dir[File.dirname(__FILE__) + '/api500/*.rb'].each { |file| require file }
