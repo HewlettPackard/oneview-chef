@@ -31,3 +31,7 @@ end
 action :delete do
   OneviewCookbook::Helper.do_resource_action(self, :LogicalSwitch, :delete)
 end
+
+action :patch do
+  OneviewCookbook::Helper.do_resource_action(self, :LogicalSwitch, :patch)
+end
