@@ -1,4 +1,4 @@
-# (c) Copyright 2016-2017 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -9,18 +9,14 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-OneviewCookbook::ResourceBaseProperties.load(self)
+require_relative '../../api300/c7000/switch_provider'
 
-# To prevent that the default action is remove
-default_action :none
-
-action :none do
-end
-
-action :remove do
-  OneviewCookbook::Helper.do_resource_action(self, :Switch, :remove)
-end
-
-action :patch do
-  OneviewCookbook::Helper.do_resource_action(self, :Switch, :patch)
+module OneviewCookbook
+  module API500
+    module C7000
+      # Switch API500 C7000 provider
+      class SwitchProvider < OneviewCookbook::API300::C7000::SwitchProvider
+      end
+    end
+  end
 end

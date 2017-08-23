@@ -24,18 +24,17 @@ oneview_switch 'Switch1' do
 end
 
 # Example: Replace the Scopes for the Switch with a patch.
-oneview_switch 'Switch1' do
+oneview_switch 'Switch2' do
   client my_client
-  api_version 300
-  api_variant 'C7000'
+  data(name: '172.xx.xx.1')
   operation 'replace'
   path '/scopeUris'
-  value '/rest/scopes/3b292baf-8b59-4671-9e5c-deca07496c60'
+  value ['/rest/scopes/7fa5a27f-9d24-401d-9141-16501febee6c']
   action :patch
 end
 
 # Example: Removes the Switch
-oneview_switch 'Switch1' do
+oneview_switch 'Switch3' do
   client my_client
   action :remove
 end
