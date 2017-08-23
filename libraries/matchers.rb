@@ -24,7 +24,7 @@ if defined?(ChefSpec)
     oneview_drive_enclosure:            %i[hard_reset patch refresh set_uid_light set_power_state],
     oneview_enclosure:                  %i[add remove refresh reconfigure patch],
     oneview_enclosure_group:            standard_actions + [:set_script],
-    oneview_ethernet_network:           standard_actions + [:reset_connection_template],
+    oneview_ethernet_network:           standard_actions + %i[reset_connection_template add_scope remove_scope replace_scopes],
     oneview_event:                      [:create],
     oneview_fabric:                     [:set_reserved_vlan_range],
     oneview_fc_network:                 standard_actions,

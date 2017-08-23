@@ -47,6 +47,9 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not create_oneview_ethernet_network_if_missing('')
     expect(chef_run).to_not reset_oneview_ethernet_network_connection_template('')
     expect(chef_run).to_not delete_oneview_ethernet_network('')
+    expect(chef_run).to_not add_oneview_ethernet_network_scope('')
+    expect(chef_run).to_not remove_oneview_ethernet_network_scope('')
+    expect(chef_run).to_not replace_oneview_ethernet_network_scopes('')
 
     # oneview_event
     expect(chef_run).to_not create_oneview_event('')

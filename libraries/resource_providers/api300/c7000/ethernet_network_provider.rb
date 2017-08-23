@@ -12,8 +12,37 @@
 module OneviewCookbook
   module API300
     module C7000
-      # EthernetNetworkProvider
+      # EthernetNetworkProvider API300 C7000 provider
       class EthernetNetworkProvider < OneviewCookbook::API200::EthernetNetworkProvider
+        def add_scope
+          scope = load_scope(@context.scope)
+          if @item['scopeUris'].include?(scope['uri'])
+            Chef::Log.info("Scope '#{scope['name']}'' already added to #{@resource_name} '#{@name}'. Skipping")
+          else
+            @item.add_scope(scope)
+          end
+          save_res_info
+        end
+
+        def remove_scope
+          scope = load_scope(@context.scope)
+          if @item['scopeUris'].include?(scope['uri'])
+            Chef::Log.info("Scope '#{scope['name']}'' already removed from #{@resource_name} '#{@name}'. Skipping")
+          else
+            @item.remove_scope(scope)
+          end
+        end
+
+        def replace_scopes
+          scopes = @context.scopes.map { |scope_name| load_scope(scope_name) }
+          @item.replace_scopes(scopes)
+        end
+
+        def load_scope(scope_name)
+          scope = resource_named(:Scope).find_by(@context.client, name: scope_name).first
+          raise "#{scope} '#{@name}' not found!" unless scope
+          scope
+        end
       end
     end
   end

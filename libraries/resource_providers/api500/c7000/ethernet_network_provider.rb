@@ -14,7 +14,7 @@ require_relative '../../api300/c7000/ethernet_network_provider'
 module OneviewCookbook
   module API500
     module C7000
-      # EthernetNetworkProvider
+      # EthernetNetworkProvider API500 C7000 provider
       class EthernetNetworkProvider < API300::C7000::EthernetNetworkProvider
       end
     end

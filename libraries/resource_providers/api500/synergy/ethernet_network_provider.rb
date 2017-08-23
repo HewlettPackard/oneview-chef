@@ -14,7 +14,7 @@ require_relative '../../api300/synergy/ethernet_network_provider'
 module OneviewCookbook
   module API500
     module Synergy
-      # EthernetNetworkProvider
+      # EthernetNetworkProvider API300 Synergy provider
       class EthernetNetworkProvider < API300::Synergy::EthernetNetworkProvider
       end
     end
