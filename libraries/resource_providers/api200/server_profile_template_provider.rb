@@ -9,8 +9,6 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-require_relative 'server_profile_provider' # For the ServerProfileProviderHelpers
-
 module OneviewCookbook
   module API200
     # ServerProfileTemplate API200 provider

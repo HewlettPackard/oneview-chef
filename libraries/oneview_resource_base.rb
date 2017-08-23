@@ -24,6 +24,8 @@ module OneviewCookbook
       context.property :operation, String              # To be used with :patch action
       context.property :path, String                   # To be used with :patch action
       context.property :value, [String, Array]         # To be used with :patch action
+
+      require_relative 'resource_provider'
     end
   end
 end
