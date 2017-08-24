@@ -25,8 +25,7 @@ oneview_unmanaged_device 'UnmanagedDevice1' do
 end
 
 # Example: Removes an unmanaged device
-oneview_unmanaged_device 'UnmanagedDevice2' do
+oneview_unmanaged_device 'UnmanagedDevice1' do
   client my_client
-  data(name: 'UnmanagedDevice1')
   action :remove
 end
