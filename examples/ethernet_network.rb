@@ -9,10 +9,14 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
+# NOTE 1: It's necessary add two Scopes (named 'Scope1' and 'Scope2') before run this example.
+# NOTE 2: The api_version client should be greater than 200 if you run the examples using Scopes
+
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
-  password: ENV['ONEVIEWSDK_PASSWORD']
+  password: ENV['ONEVIEWSDK_PASSWORD'],
+  api_version: 300
 }
 
 # Example: Create and manage a new ethernet network
@@ -41,6 +45,32 @@ oneview_ethernet_network 'Eth1' do
     }
   )
   action :create_if_missing
+end
+
+# Example: Adds 'Scope1' to 'Eth1'
+oneview_ethernet_network 'Eth1' do
+  client my_client
+  scope 'Scope1'
+  action :add_scope
+end
+
+# Example: Replaces 'Scope1' and 'Scope2' to 'Eth1'
+oneview_ethernet_network 'Eth1' do
+  client my_client
+  scopes ['Scope1', 'Scope2']
+  action :replace_scopes
+end
+
+# Example: Removes 'Scope1' and 'Scope2' from 'Eth1'
+oneview_ethernet_network 'Eth1' do
+  client my_client
+  scope 'Scope1'
+  action :remove_scope
+end
+oneview_ethernet_network 'Eth1' do
+  client my_client
+  scope 'Scope2'
+  action :remove_scope
 end
 
 # Example: Reset the connection template for a network

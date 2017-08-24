@@ -9,6 +9,7 @@ describe 'oneview_test_api300_c7000::ethernet_network_add_scope' do
   before do
     allow(OneviewSDK::API300::C7000::Scope).to receive(:new).and_return(scope)
     allow(scope).to receive(:retrieve!).and_return(true)
+    allow_any_instance_of(OneviewSDK::API300::C7000::EthernetNetwork).to receive(:retrieve!)
     allow_any_instance_of(OneviewSDK::API300::C7000::EthernetNetwork).to receive(:[]).and_call_original
   end
 
