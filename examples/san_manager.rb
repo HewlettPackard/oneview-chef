@@ -32,8 +32,7 @@ oneview_san_manager '172.18.15.1' do
 end
 
 # Example: remove the SAN manager
-oneview_san_manager 'Remove 172.18.15.1' do
+oneview_san_manager '172.18.15.1' do
   client my_client
-  data(name: '172.18.15.1')
   action :remove
 end
