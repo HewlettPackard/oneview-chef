@@ -15,7 +15,7 @@ module OneviewCookbook
       # LogicalInterconnectGroup API300 Synergy resource provider methods
       class LogicalInterconnectGroupProvider < API200::LogicalInterconnectGroupProvider
         def load_interconnects
-          @context.interconnects.each do |location|
+          @new_resource.interconnects.each do |location|
             parsed_location = convert_keys(location, :to_sym)
             @item.add_interconnect(
               parsed_location[:bay],

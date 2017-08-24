@@ -16,9 +16,9 @@ module OneviewCookbook
       def load_logical_switch_group
         # This will avoid overriding the 'switchMapTemplate' if already specified in data
         return unless @item['switchMapTemplate'].empty?
-        raise "Unspecified property: 'switch_number'. Please set it before attempting this action." unless @context.switch_number
-        raise "Unspecified property: 'switch_type'. Please set it before attempting this action." unless @context.switch_type
-        @item.set_grouping_parameters(@context.switch_number, @context.switch_type)
+        raise "Unspecified property: 'switch_number'. Please set it before attempting this action." unless @new_resource.switch_number
+        raise "Unspecified property: 'switch_type'. Please set it before attempting this action." unless @new_resource.switch_type
+        @item.set_grouping_parameters(@new_resource.switch_number, @new_resource.switch_type)
       end
 
       def create_or_update

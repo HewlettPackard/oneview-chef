@@ -17,7 +17,7 @@ module OneviewCookbook
         # Adds or removes resources to a specified scope
         # @note Calls the build_resource_list method to retrieve the resources
         def change_resource_assignments
-          add_or_remove = @context.add.any? || @context.remove.any?
+          add_or_remove = @new_resource.add.any? || @new_resource.remove.any?
           raise "Unspecified properties: 'add' and 'remove'. Please set at least one before attempting this action." unless add_or_remove
           @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
           values_to_add = build_resource_list
@@ -36,7 +36,7 @@ module OneviewCookbook
         # @return [Array] containing the instances of all resources to be added or removed
         def build_resource_list(op = :add)
           retrieved_resources = []
-          context = op == :add ? @context.add : @context.remove
+          context = op == :add ? @new_resource.add : @new_resource.remove
           context.each do |resource_name, values|
             values.each do |value|
               retrieved_resource = load_resource(resource_name, value)

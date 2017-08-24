@@ -21,8 +21,8 @@ module OneviewCookbook
       end
 
       def set_power_state
-        raise "Unspecified property: 'power_state'. Please set it before attempting this action." unless @context.power_state
-        ps = @context.power_state.to_s.downcase
+        raise "Unspecified property: 'power_state'. Please set it before attempting this action." unless @new_resource.power_state
+        ps = @new_resource.power_state.to_s.downcase
         @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         if @item['powerState'].casecmp(ps).zero?
           Chef::Log.info("#{@resource_name} '#{@name}' is already powered #{ps}")
@@ -38,7 +38,7 @@ module OneviewCookbook
         refresh_ready = ['RefreshFailed', 'NotRefreshing', ''].include? @item['refreshState']
         return Chef::Log.info("#{@resource_name} '#{@name}' refresh is already running.") unless refresh_ready
         @context.converge_by "Refresh #{@resource_name} '#{@name}'." do
-          @item.set_refresh_state('RefreshPending', @context.refresh_options)
+          @item.set_refresh_state('RefreshPending', @new_resource.refresh_options)
         end
       end
     end

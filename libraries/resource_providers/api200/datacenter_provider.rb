@@ -14,7 +14,7 @@ module OneviewCookbook
     # Datacenter API200 provider
     class DatacenterProvider < ResourceProvider
       def add_racks
-        @context.racks.each do |rack_name, rack_position|
+        @new_resource.racks.each do |rack_name, rack_position|
           rack = load_resource(:Rack, rack_name.to_s)
           rp = convert_keys(rack_position, :to_sym)
           x = rp[:x] || 0

@@ -14,9 +14,9 @@ module OneviewCookbook
     # NetworkSet API200 provider
     class NetworkSetProvider < ResourceProvider
       def load_resource_with_properties
-        @item.set_native_network(load_resource(:EthernetNetwork, @context.native_network)) if @context.native_network
-        return unless @context.ethernet_network_list
-        @context.ethernet_network_list.each { |net_name| @item.add_ethernet_network(load_resource(:EthernetNetwork, net_name)) }
+        @item.set_native_network(load_resource(:EthernetNetwork, @new_resource.native_network)) if @new_resource.native_network
+        return unless @new_resource.ethernet_network_list
+        @new_resource.ethernet_network_list.each { |net_name| @item.add_ethernet_network(load_resource(:EthernetNetwork, net_name)) }
       end
 
       # It should compare the networkUris regardless of how they are sorted in the array.

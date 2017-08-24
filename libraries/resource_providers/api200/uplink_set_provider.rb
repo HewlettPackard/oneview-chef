@@ -15,7 +15,7 @@ module OneviewCookbook
     class UplinkSetProvider < ResourceProvider
       # Checks for external resources to be loaded within the @item
       def load_native_network
-        return @item['nativeNetworkUri'] = nil unless @context.native_network
+        return @item['nativeNetworkUri'] = nil unless @new_resource.native_network
         # Retrieves the uplink set type based on the declared networkType parameter
         # Takes either Ethernet (default) or FibreChannel
         network_type = @item['networkType'] == 'Ethernet' ? 'EthernetNetwork' : 'FCNetwork'
@@ -52,10 +52,10 @@ module OneviewCookbook
       # Broken-down method calls
       def load_resource_with_properties
         load_native_network
-        load_networks(@context.networks, :EthernetNetwork)
-        load_networks(@context.fc_networks, :FCNetwork)
-        load_networks(@context.fcoe_networks, :FCoENetwork)
-        @item.set_logical_interconnect(load_resource(:LogicalInterconnect, @context.logical_interconnect)) if @context.logical_interconnect
+        load_networks(@new_resource.networks, :EthernetNetwork)
+        load_networks(@new_resource.fc_networks, :FCNetwork)
+        load_networks(@new_resource.fcoe_networks, :FCoENetwork)
+        @item.set_logical_interconnect(load_resource(:LogicalInterconnect, @new_resource.logical_interconnect)) if @new_resource.logical_interconnect
         load_enclosure
       end
 

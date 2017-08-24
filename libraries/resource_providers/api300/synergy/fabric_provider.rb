@@ -16,7 +16,7 @@ module OneviewCookbook
       class FabricProvider < ResourceProvider
         def set_reserved_vlan_range
           @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
-          options = { 'reservedVlanRange' => convert_keys(@context.reserved_vlan_range, :to_s) }
+          options = { 'reservedVlanRange' => convert_keys(@new_resource.reserved_vlan_range, :to_s) }
           options['reservedVlanRange']['type'] ||= 'vlan-pool'
           if @item.like? options
             Chef::Log.info("#{resource_name} '#{name}' reserved Vlan range is up to date")

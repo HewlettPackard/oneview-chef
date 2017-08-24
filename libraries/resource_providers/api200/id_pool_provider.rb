@@ -14,32 +14,32 @@ module OneviewCookbook
     # IDPool API200 provider
     class IDPoolProvider < ResourceProvider
       def create_or_update
-        @item.get_pool(@context.pool_type)
+        @item.get_pool(@new_resource.pool_type)
         Chef::Log.info "Updating #{@resource_name} '#{@name}'"
         @context.converge_by "#{@resource_name} '#{@name}' was updated." do
-          @item.update(enabled: @context.enabled)
+          @item.update(enabled: @new_resource.enabled)
         end
       end
 
       def allocate_list
-        raise 'The IDs Pools list is not valid.' unless @item.validate_id_list(@context.pool_type, @context.id_list)
-        Chef::Log.info "Allocating the IDs #{@context.id_list} #{@resource_name} '#{@name}'"
-        @context.converge_by "The IDs #{@context.id_list} #{@resource_name} '#{@name}' were allocated." do
-          @item.allocate_id_list(@context.pool_type, @context.id_list)
+        raise 'The IDs Pools list is not valid.' unless @item.validate_id_list(@new_resource.pool_type, @new_resource.id_list)
+        Chef::Log.info "Allocating the IDs #{@new_resource.id_list} #{@resource_name} '#{@name}'"
+        @context.converge_by "The IDs #{@new_resource.id_list} #{@resource_name} '#{@name}' were allocated." do
+          @item.allocate_id_list(@new_resource.pool_type, @new_resource.id_list)
         end
       end
 
       def allocate_count
-        Chef::Log.info "Allocating #{@context.count} ID(s) #{@resource_name} '#{@name}'"
-        @context.converge_by "#{@context.count} ID(s) #{@resource_name} '#{@name}' were allocated." do
-          @item.allocate_count(@context.pool_type, @context.count)
+        Chef::Log.info "Allocating #{@new_resource.count} ID(s) #{@resource_name} '#{@name}'"
+        @context.converge_by "#{@new_resource.count} ID(s) #{@resource_name} '#{@name}' were allocated." do
+          @item.allocate_count(@new_resource.pool_type, @new_resource.count)
         end
       end
 
       def collect_ids
-        Chef::Log.info "Removing the IDs #{@context.id_list} #{@resource_name} '#{@name}'"
-        @context.converge_by "The IDs #{@context.id_list} #{@resource_name} '#{@name}'were removed." do
-          @item.collect_ids(@context.pool_type, @context.id_list)
+        Chef::Log.info "Removing the IDs #{@new_resource.id_list} #{@resource_name} '#{@name}'"
+        @context.converge_by "The IDs #{@new_resource.id_list} #{@resource_name} '#{@name}'were removed." do
+          @item.collect_ids(@new_resource.pool_type, @new_resource.id_list)
         end
       end
     end

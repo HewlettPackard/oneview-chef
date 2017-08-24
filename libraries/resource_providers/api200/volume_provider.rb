@@ -15,14 +15,14 @@ module OneviewCookbook
     class VolumeProvider < ResourceProvider
       # Loads the Volume with all the external resources (if needed)
       def load_resource_with_associated_resources
-        if @context.volume_template
-          @item.set_storage_volume_template(resource_named(:VolumeTemplate).new(@item.client, name: @context.volume_template))
+        if @new_resource.volume_template
+          @item.set_storage_volume_template(resource_named(:VolumeTemplate).new(@item.client, name: @new_resource.volume_template))
         else # Can't set the storage_pool or snapshot_pool if we specify a volume_template
-          load_storage_system if @context.storage_system
+          load_storage_system if @new_resource.storage_system
           # @item.set_storage_pool(resource_named(:StoragePool).new(@item.client, name: storage_pool)) if storage_pool
           # Workaround for issue in oneview-sdk:
-          load_storage_pool if @context.storage_pool
-          load_snapshot_pool if @context.snapshot_pool
+          load_storage_pool if @new_resource.storage_pool
+          load_snapshot_pool if @new_resource.snapshot_pool
         end
 
         # Convert capacity integers to strings
@@ -36,23 +36,24 @@ module OneviewCookbook
       # The storage_system property needs to be set to a name or IP in order to use this method
       def load_storage_system
         data = {
-          credentials: { ip_hostname: @context.storage_system },
-          name: @context.storage_system
+          credentials: { ip_hostname: @new_resource.storage_system },
+          name: @new_resource.storage_system
         }
         @item.set_storage_system(load_resource(:StorageSystem, data))
       end
 
       def load_storage_pool
         raise 'Must specify a storage_system to use the storage_pool helper.' unless @item['storageSystemUri']
-        sp = resource_named(:StoragePool).find_by(@item.client, name: @context.storage_pool, storageSystemUri: @item['storageSystemUri']).first
+        sp = resource_named(:StoragePool).find_by(@item.client, name: @new_resource.storage_pool, storageSystemUri: @item['storageSystemUri']).first
         raise "Storage Pool '#{sp['name']}' not found" unless sp
         @item['storagePoolUri'] = sp['uri']
       end
 
       def load_snapshot_pool
         raise 'Must specify a storage_system to use the storage_pool helper.' unless @item['storageSystemUri']
-        snap = resource_named(:StoragePool).find_by(@item.client, name: @context.snapshot_pool, storageSystemUri: @item['storageSystemUri']).first
-        @item.set_snapshot_pool(snap)
+        @item.set_snapshot_pool(
+          resource_named(:StoragePool).find_by(@item.client, name: @new_resource.snapshot_pool, storageSystemUri: @item['storageSystemUri']).first
+        )
       end
 
       def set_provisioning_parameters
@@ -76,8 +77,8 @@ module OneviewCookbook
       end
 
       def create_snapshot
-        raise "UnspecifiedProperty: 'snapshot_data'. Please set it before attempting this action." unless @context.snapshot_data
-        temp = convert_keys(Marshal.load(Marshal.dump(@context.snapshot_data)), :to_s)
+        raise "UnspecifiedProperty: 'snapshot_data'. Please set it before attempting this action." unless @new_resource.snapshot_data
+        temp = convert_keys(Marshal.load(Marshal.dump(@new_resource.snapshot_data)), :to_s)
         @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         snapshot = @item.get_snapshot(temp['name'])
         return Chef::Log.info "Volume snapshot '#{temp['name']}' already exists" unless snapshot.empty?
@@ -88,8 +89,8 @@ module OneviewCookbook
       end
 
       def delete_snapshot
-        raise "UnspecifiedProperty: 'snapshot_data'. Please set it before attempting this action." unless @context.snapshot_data
-        temp = convert_keys(Marshal.load(Marshal.dump(@context.snapshot_data)), :to_s)
+        raise "UnspecifiedProperty: 'snapshot_data'. Please set it before attempting this action." unless @new_resource.snapshot_data
+        temp = convert_keys(Marshal.load(Marshal.dump(@new_resource.snapshot_data)), :to_s)
         @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         snapshot = @item.get_snapshot(temp['name'])
         return Chef::Log.info "Volume snapshot '#{temp['name']}' already exists" if snapshot.empty?

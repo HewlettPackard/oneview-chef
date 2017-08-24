@@ -42,21 +42,21 @@ module OneviewCookbook
       include ServerProfileProviderHelpers
       # Loads the Server profile with all the external resources (if needed)
       def load_with_properties
-        set_resource(:ServerHardware, @context.server_hardware, :set_server_hardware)
-        set_resource(:ServerHardwareType, @context.server_hardware_type, :set_server_hardware_type)
-        set_resource(:EnclosureGroup, @context.enclosure_group, :set_enclosure_group)
-        set_resource(:Enclosure, @context.enclosure, :set_enclosure)
-        set_resource(:FirmwareDriver, @context.firmware_driver, :set_firmware_driver)
-        set_connections(:EthernetNetwork, @context.ethernet_network_connections)
-        set_connections(:FCNetwork, @context.fc_network_connections)
-        set_connections(:NetworkSet, @context.network_set_connections)
+        set_resource(:ServerHardware, @new_resource.server_hardware, :set_server_hardware)
+        set_resource(:ServerHardwareType, @new_resource.server_hardware_type, :set_server_hardware_type)
+        set_resource(:EnclosureGroup, @new_resource.enclosure_group, :set_enclosure_group)
+        set_resource(:Enclosure, @new_resource.enclosure, :set_enclosure)
+        set_resource(:FirmwareDriver, @new_resource.firmware_driver, :set_firmware_driver)
+        set_connections(:EthernetNetwork, @new_resource.ethernet_network_connections)
+        set_connections(:FCNetwork, @new_resource.fc_network_connections)
+        set_connections(:NetworkSet, @new_resource.network_set_connections)
       end
 
       # Override create method to allow creation from a template
       def create(method)
-        if @context.server_profile_template
-          template = load_resource(:ServerProfileTemplate, @context.server_profile_template)
-          Chef::Log.info "Using template '#{@context.server_profile_template}' to #{method} #{@resource_name} '#{@name}'"
+        if @new_resource.server_profile_template
+          template = load_resource(:ServerProfileTemplate, @new_resource.server_profile_template)
+          Chef::Log.info "Using template '#{@new_resource.server_profile_template}' to #{method} #{@resource_name} '#{@name}'"
           new_profile_data = template.new_profile(@item['name']).data
           @item.data = new_profile_data.merge(@item.data)
         end

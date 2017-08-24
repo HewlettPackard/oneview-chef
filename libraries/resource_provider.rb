@@ -25,17 +25,18 @@ module OneviewCookbook
     def initialize(context)
       @sdk_base_module = OneviewSDK
       @context = context
-      @resource_name = context.resource_name
-      @name = context.name
+      @new_resource = context.new_resource
+      @resource_name = context.new_resource.resource_name
+      @name = context.new_resource.name
       klass = parse_namespace
       c = if @sdk_base_module == OneviewSDK::ImageStreamer
-            OneviewCookbook::Helper.build_image_streamer_client(context.client)
+            OneviewCookbook::Helper.build_image_streamer_client(@new_resource.client)
           else
-            OneviewCookbook::Helper.build_client(context.client)
+            OneviewCookbook::Helper.build_client(@new_resource.client)
           end
-      new_data = JSON.parse(context.data.to_json) rescue context.data
-      @item = context.property_is_set?(:api_header_version) ? klass.new(c, new_data, context.api_header_version) : klass.new(c, new_data)
-      @item['name'] ||= context.name
+      new_data = JSON.parse(@new_resource.data.to_json) rescue @new_resource.data
+      @item = context.property_is_set?(:api_header_version) ? klass.new(c, new_data, @new_resource.api_header_version) : klass.new(c, new_data)
+      @item['name'] ||= @new_resource.name
     end
 
     # rubocop:disable Metrics/MethodLength
@@ -126,7 +127,7 @@ module OneviewCookbook
       ret_val = false
       if @item.exists?
         Chef::Log.info("#{@resource_name} '#{@name}' exists. Skipping")
-        @item.retrieve! if @context.save_resource_info
+        @item.retrieve! if @new_resource.save_resource_info
       else
         create(method)
         ret_val = true
@@ -163,11 +164,11 @@ module OneviewCookbook
     # 'value' property is optional.
     # @return [TrueClass] true if the resource was patched
     def patch
-      invalid_params = @context.operation.nil? || @context.path.nil?
+      invalid_params = @new_resource.operation.nil? || @new_resource.path.nil?
       raise "InvalidParameters: Parameters 'operation' and 'path' must be set for patch" if invalid_params
       raise "ResourceNotFound: Patch failed to apply since #{@resource_name} '#{@name}' does not exist" unless @item.retrieve!
-      @context.converge_by "Performing '#{@context.operation}' at #{@context.path} with #{@context.value} in #{@resource_name} '#{@name}'" do
-        @item.patch(@context.operation, @context.path, @context.value)
+      @context.converge_by "Performing '#{@new_resource.operation}' at #{@new_resource.path} with #{@new_resource.value} in #{@resource_name} '#{@name}'" do
+        @item.patch(@new_resource.operation, @new_resource.path, @new_resource.value)
       end
       true
     end
@@ -195,12 +196,12 @@ module OneviewCookbook
     # @param [TrueClass, FalseClass, Array] attributes Attributes to save (or true/false)
     # @param [String, Symbol] name Resource name
     # @param [OneviewSDK::Resource] item to save data for
-    # (@context.save_resource_info, @name, @item)
+    # (@new_resource.save_resource_info, @name, @item)
     def save_res_info
       ov_url = @item.client.url.to_s
-      case @context.save_resource_info
+      case @new_resource.save_resource_info
       when Array # save subset
-        @context.node.default['oneview'][ov_url][@name.to_s] = @item.data.select { |k, _v| @context.save_resource_info.include?(k) }
+        @context.node.default['oneview'][ov_url][@name.to_s] = @item.data.select { |k, _v| @new_resource.save_resource_info.include?(k) }
       when TrueClass # save all
         @context.node.default['oneview'][ov_url][@name.to_s] = @item.data
       end

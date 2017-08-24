@@ -24,9 +24,9 @@ module OneviewCookbook
         end
 
         def replace_drive_enclosure
-          old_sn = @item.data.delete('oldSerialNumber') || get_serial_number(@context.old_drive_enclosure)
+          old_sn = @item.data.delete('oldSerialNumber') || get_serial_number(@new_resource.old_drive_enclosure)
           raise 'InvalidParameters: Old drive enclosure name or serial number must be set and should be valid' unless old_sn
-          new_sn = @item.data.delete('newSerialNumber') || get_serial_number(@context.new_drive_enclosure)
+          new_sn = @item.data.delete('newSerialNumber') || get_serial_number(@new_resource.new_drive_enclosure)
           raise 'InvalidParameters: New drive enclosure name or serial number must be set and should be valid' unless new_sn
           @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
           @context.converge_by "Replacing drive enclosure '#{old_sn}' by '#{new_sn}'" do

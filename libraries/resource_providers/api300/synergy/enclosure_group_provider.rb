@@ -16,10 +16,10 @@ module OneviewCookbook
       class EnclosureGroupProvider < API200::EnclosureGroupProvider
         def load_ligs
           load_lig # Deprecated method
-          return unless @context.logical_interconnect_groups
+          return unless @new_resource.logical_interconnect_groups
           lig_klass = resource_named(:LogicalInterconnectGroup)
           sas_lig_klass = resource_named(:SASLogicalInterconnectGroup)
-          @context.logical_interconnect_groups.each do |lig|
+          @new_resource.logical_interconnect_groups.each do |lig|
             lig_name = lig.class == Hash ? convert_keys(lig, :to_s)['name'] : lig
             index = lig.class == Hash ? convert_keys(lig, :to_s)['enclosureIndex'] : nil
             begin

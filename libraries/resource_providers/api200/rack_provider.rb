@@ -14,22 +14,22 @@ module OneviewCookbook
     # Rack API200 provider
     class RackProvider < ResourceProvider
       def load_mount_item
-        options = convert_keys(@context.mount_options, :to_s)
+        options = convert_keys(@new_resource.mount_options, :to_s)
         load_resource(options['type'], options['name'])
       end
 
       def add_or_edit
         # Prevent the default initialization of the rackMounts property
-        @item.data.delete('rackMounts') if @context.data['rackMounts'].nil? && @item['rackMounts'] == []
+        @item.data.delete('rackMounts') if @new_resource.data['rackMounts'].nil? && @item['rackMounts'] == []
         super
       end
 
       def add_to_rack
-        raise "Unspecified property: 'mount_options'. Please set it before attempting this action." unless @context.mount_options
+        raise "Unspecified property: 'mount_options'. Please set it before attempting this action." unless @new_resource.mount_options
         @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         mount_item = load_mount_item
         rack_uris = @item['rackMounts'].collect { |i| i['mountUri'] }
-        options = convert_keys(@context.mount_options, :to_s).reject! { |i| ['type', 'name'].include?(i) }
+        options = convert_keys(@new_resource.mount_options, :to_s).reject! { |i| ['type', 'name'].include?(i) }
         if rack_uris.include? mount_item['uri']
           mounted_resource = @item['rackMounts'].find { |i| i['mountUri'] == mount_item['uri'] }
           return Chef::Log.info("Item '#{mount_item['name']}' in '#{@name}' is up to date") unless options.any? { |k, v| v != mounted_resource[k] }
@@ -48,7 +48,7 @@ module OneviewCookbook
       end
 
       def remove_from_rack
-        raise "Unspecified property: 'mount_options'. Please set it before attempting this action." unless @context.mount_options
+        raise "Unspecified property: 'mount_options'. Please set it before attempting this action." unless @new_resource.mount_options
         @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         mount_item = load_mount_item
         rack_uris = @item['rackMounts'].collect { |i| i['mountUri'] }

@@ -11,8 +11,8 @@
 Chef cookbook that provides resources for managing HPE OneView.
 
 ## Requirements
- - Chef 12.0 or higher
- - For oneview resources: HPE OneView 2.0 or 3.0 (API versions 200 or 300). May work with other versions too, but no guarantees
+ - Chef 13.0 or higher
+ - For oneview resources: HPE OneView 2.0, 3.0 or 3.10 (API versions 200, 300 or 500). May work with other versions too, but no guarantees
  - For image_streamer resources: HPE Synergy Image Streamer appliance (API version 300)
 
 ## Usage
@@ -23,7 +23,7 @@ Then use any of the resources provided by this cookbook.
 ```ruby
 # my_cookbook/metadata.rb
 ...
-depends 'oneview', '~> 5.0.0'
+depends 'oneview', '~> 3.0.0'
 ```
 
 ### Credentials
@@ -270,7 +270,7 @@ oneview_logical_interconnect 'LogicalInterconnect1' do
   internal_networks <networks_names> # Array: Optional for :update_internal_networks
   trap_destinations <trap_options>   # Hash: Optional for :update_snmp_configuration
   enclosure <enclosure_name>         # String: Required for :add_interconnect and :remove_interconnect
-  bay_number <bay>                   # Fixnum: Required for :add_interconnect and :remove_interconnect
+  bay_number <bay>                   # Integer: Required for :add_interconnect and :remove_interconnect
   action [:none, :add_interconnect, :remove_interconnect, :update_internal_networks,
           :update_settings,:update_ethernet_settings, :update_port_monitor, :update_qos_configuration,
           :update_telemetry_configuration, :update_snmp_configuration, :update_firmware, :stage_firmware,

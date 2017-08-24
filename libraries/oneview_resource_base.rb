@@ -17,9 +17,9 @@ module OneviewCookbook
       context.property :client
       context.property :name, [String, Symbol], required: true
       context.property :data, Hash, default: {}
-      context.property :save_resource_info, [TrueClass, FalseClass, Array], default: self.safe_dup(context.node['oneview']['save_resource_info'])
-      context.property :api_version, Integer, default: self.safe_dup(context.node['oneview']['api_version'])
-      context.property :api_variant, [String, Symbol], default: self.safe_dup(context.node['oneview']['api_variant'])
+      context.property :save_resource_info, [TrueClass, FalseClass, Array], default: safe_dup(context.node['oneview']['save_resource_info'])
+      context.property :api_version, Integer, default: safe_dup(context.node['oneview']['api_version'])
+      context.property :api_variant, [String, Symbol], default: safe_dup(context.node['oneview']['api_variant'])
       context.property :api_header_version, Integer    # Overrides X-API-Version headers in API requests
       context.property :operation, String              # To be used with :patch action
       context.property :path, String                   # To be used with :patch action
@@ -27,7 +27,7 @@ module OneviewCookbook
     end
 
     def self.safe_dup(object)
-      return object if object.nil? || object === TrueClass || object === FalseClass
+      return object if object.class <= Integer || object.class <= TrueClass || object.class <= FalseClass
       object.dup
     end
   end
