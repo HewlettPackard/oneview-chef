@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 ruby RUBY_VERSION # Needed to consider & solve for Ruby version requirements
 
 gem 'berkshelf'
-gem 'chef', '~> 12.0'
+gem 'chef', '~> 13.0'
 gem 'chefspec'
 gem 'codeclimate-test-reporter'
 gem 'foodcritic', '~> 7.1.0'
