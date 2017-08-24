@@ -15,7 +15,7 @@ my_client = {
   password: ENV['ONEVIEWSDK_PASSWORD']
 }
 
-oneview_fc_network 'Fc1-Create' do
+oneview_fc_network 'Fc1' do
   data(
     autoLoginRedistribution: true,
     fabricType: 'FabricAttach'
@@ -24,17 +24,15 @@ oneview_fc_network 'Fc1-Create' do
   action :create
 end
 
-oneview_fc_network 'Fc1-Scope' do
+oneview_fc_network 'Fc1' do
   client my_client
-  data(name: 'Fc1-Create')
   operation 'add'
   path '/scopeUris/-'
   value '/rest/scopes/7887dc77-c4b7-474a-9b9e-b7cba3d11d93'
   action :patch
 end
 
-oneview_fc_network 'Fc1-Delete' do
+oneview_fc_network 'Fc1' do
   client my_client
-  data(name: 'Fc1-Create')
   action :delete
 end
