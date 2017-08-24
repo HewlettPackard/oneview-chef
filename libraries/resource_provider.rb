@@ -183,6 +183,43 @@ module OneviewCookbook
       end
     end
 
+    # Adds Oneview Scope to the Oneview resource if scope is not already added
+    def add_scope
+      scope = load_resource(:Scope, @context.scope)
+      if @item['scopeUris'].include?(scope['uri'])
+        Chef::Log.info("Scope '#{scope['name']}'' already added to #{@resource_name} '#{@name}'. Skipping")
+      else
+        @context.converge_by "Adds Scope '#{scope['uri']}' to #{@resource_name} '#{@name}'" do
+          @item.add_scope(scope)
+        end
+      end
+    end
+
+    # Removes scope from the Oneview resource if scope is already added
+    def remove_scope
+      scope = load_resource(:Scope, @context.scope)
+      if @item['scopeUris'].include?(scope['uri'])
+        Chef::Log.info("Scope '#{scope['name']}'' already removed from #{@resource_name} '#{@name}'. Skipping")
+      else
+        @context.converge_by "Removes Scope '#{scope['uri']}' from #{@resource_name} '#{@name}'" do
+          @item.remove_scope(scope)
+        end
+      end
+    end
+
+    # Replaces scopes to the Oneview resource
+    def replace_scopes
+      scopes = @context.scopes.map { |scope_name| load_resource(:Scope, scope_name) }
+      scope_uris = scopes.map { |scope| scope['uri'] }
+      if @item['scopeUris'].sort == scope_uris.sort!
+        Chef::Log.info("Scopes '#{@context.scopes}'' already are scopes of #{@resource_name} '#{@name}'. Skipping")
+      else
+        @context.converge_by "Replaces Scopes '#{scope_uris}' to #{@resource_name} '#{@name}'" do
+          @item.replace_scopes(scopes)
+        end
+      end
+    end
+
     # Gathers the OneviewSDK correct resource class
     # @param [Symbol, String] resource Resource name/type desired
     # @param [Integer] version Version of the SDK desired

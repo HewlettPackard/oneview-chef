@@ -12,7 +12,6 @@ gem 'pry'
 gem 'rubocop', '~> 0.49.1'
 gem 'simplecov'
 gem 'stove'
-gem 'byebug'
 
 begin
   if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.2.6')

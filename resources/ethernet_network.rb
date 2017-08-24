@@ -41,5 +41,5 @@ action :remove_scope do
 end
 
 action :replace_scopes do
-  OneviewCookbook::Helper.do_resource_action(self, :EthernetNetwork, :remove_scope)
+  OneviewCookbook::Helper.do_resource_action(self, :EthernetNetwork, :replace_scopes)
 end
