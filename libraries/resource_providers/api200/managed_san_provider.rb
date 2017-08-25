@@ -33,16 +33,11 @@ module OneviewCookbook
       end
 
       def set_public_attributes
-        temp = Marshal.load(Marshal.dump(@item['publicAttributes']))
+        temp_attributes = Marshal.load(Marshal.dump(@item['publicAttributes']))
         @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         # compares two hashes
-        results = []
-        temp_attributes = temp.sort_by { |element| element['name'] }
-        item_attributes = @item['publicAttributes'].sort_by { |element| element['name'] }
-        temp_attributes = temp_attributes.each_with_index do |element, index|
-          results << element.all? { |k, v| v == item_attributes[index][k] }
-        end
-        return Chef::Log.info "#{@resource_name} '#{@name}' public attributes are up to date" if results.all?
+        results = (temp_attributes - @item['publicAttributes']) + (@item['publicAttributes'] - temp_attributes)
+        return Chef::Log.info "#{@resource_name} '#{@name}' public attributes are up to date" if results.empty?
         Chef::Log.info "Updating #{@resource_name} '#{@name}' public attributes"
         @context.converge_by "#{@resource_name} '#{@name}' public attributes updated" do
           @item.set_public_attributes(temp_attributes)
