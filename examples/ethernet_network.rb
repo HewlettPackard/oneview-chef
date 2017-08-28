@@ -67,10 +67,14 @@ oneview_ethernet_network 'Eth1' do
   scope 'Scope1'
   action :remove_scope
 end
+
+# Example: Replaces all scopes to empty list of scopes
 oneview_ethernet_network 'Eth1' do
   client my_client
-  scope 'Scope2'
-  action :remove_scope
+  operation 'replace'
+  path '/scopeUris'
+  value []
+  action :patch
 end
 
 # Example: Reset the connection template for a network

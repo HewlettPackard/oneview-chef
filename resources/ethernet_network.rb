@@ -43,3 +43,7 @@ end
 action :replace_scopes do
   OneviewCookbook::Helper.do_resource_action(self, :EthernetNetwork, :replace_scopes)
 end
+
+action :patch do
+  OneviewCookbook::Helper.do_resource_action(self, :EthernetNetwork, :patch)
+end

@@ -50,6 +50,7 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not add_oneview_ethernet_network_scope('')
     expect(chef_run).to_not remove_oneview_ethernet_network_scope('')
     expect(chef_run).to_not replace_oneview_ethernet_network_scopes('')
+    expect(chef_run).to_not patch_oneview_ethernet_network('')
 
     # oneview_event
     expect(chef_run).to_not create_oneview_event('')
