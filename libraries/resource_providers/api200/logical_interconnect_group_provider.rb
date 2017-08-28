@@ -37,7 +37,10 @@ module OneviewCookbook
                   end
             up.add_network(net)
           end
-          parsed_uplink_info[:connections].each { |link| up.add_uplink(link[:bay], link[:port]) }
+          parsed_uplink_info[:connections].each do |link|
+            enclosure_index = link[:enclosure_index] || 1
+            up.add_uplink(link[:bay], link[:port], link[:type], enclosure_index)
+          end
           @item.add_uplink_set(up)
         end
       end
