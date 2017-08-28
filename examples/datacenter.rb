@@ -9,7 +9,7 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-# NOTE: It's necessary there is a Rack with name 'Rack_1' added before
+# NOTE: This example requires a Rack named "Rack_1" to be present in the appliance.
 
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
