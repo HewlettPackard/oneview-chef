@@ -9,21 +9,19 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-require_relative '../../resource_provider'
-
 module OneviewCookbook
   module API200
     # LogicalInterconnectGroup API200 provider
     class LogicalInterconnectGroupProvider < ResourceProvider
       def load_interconnects
-        @context.interconnects.each do |location|
+        @new_resource.interconnects.each do |location|
           parsed_location = convert_keys(location, :to_sym)
           @item.add_interconnect(parsed_location[:bay], parsed_location[:type])
         end
       end
 
       def load_uplink_sets
-        @context.uplink_sets.each do |uplink_info|
+        @new_resource.uplink_sets.each do |uplink_info|
           parsed_uplink_info = convert_keys(uplink_info, :to_sym)
           up = resource_named(:LIGUplinkSet).new(@item.client, parsed_uplink_info[:data])
           parsed_uplink_info[:networks].each do |network_name|

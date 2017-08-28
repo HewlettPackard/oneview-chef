@@ -9,8 +9,6 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-require_relative '../../api200/switch_provider'
-
 module OneviewCookbook
   module API300
     module C7000
@@ -21,15 +19,15 @@ module OneviewCookbook
         # Change the scopeUris of the server   |  replace    |  /scopeUris  |  a list of scopeUris
         # Remove one scopeUri from the server  |  remove     |  /scopeUris/[0-#index_of_scopes_on_current_server]
         def patch
-          invalid_param = @context.operation.nil? || @context.path.nil?
+          invalid_param = @new_resource.operation.nil? || @new_resource.path.nil?
           raise "InvalidParameters: Parameters 'operation' and 'path' must be set for patch" if invalid_param
           # TODO: Add support to Scopes (Currently not supported by oneview-sdk gem 3.1.0)
           @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
-          @context.converge_by "Performing '#{@context.operation}' at #{@context.path} with #{@context.value} in #{@resource_name} '#{@name}'" do
-            body = if @context.value
-                     { op: @context.operation, path: @context.path, value: @context.value }
+          @context.converge_by "Performing '#{@new_resource.operation}' at #{@new_resource.path} with #{@new_resource.value} in #{@resource_name} '#{@name}'" do
+            body = if @new_resource.value
+                     { op: @new_resource.operation, path: @new_resource.path, value: @new_resource.value }
                    else
-                     { op: @context.operation, path: @context.path }
+                     { op: @new_resource.operation, path: @new_resource.path }
                    end
             response = @item.client.rest_patch(@item['uri'], { 'body' => [body] }, @sdk_api_version)
             @item.client.response_handler(response)

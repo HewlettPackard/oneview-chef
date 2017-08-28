@@ -9,24 +9,22 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-require_relative '../../resource_provider'
-
 module OneviewCookbook
   module API200
     # LogicalSwitch API200 provider
     class LogicalSwitchProvider < ResourceProvider
       def load_logical_switch
-        lsg_defined = @context.logical_switch_group || @item['LogicalSwitchGroupUri']
+        lsg_defined = @new_resource.logical_switch_group || @item['LogicalSwitchGroupUri']
         raise "Undefined Property: 'logical_switch_group'. Please set it before attempting this action" unless lsg_defined
         unless @item['LogicalSwitchGroupUri']
-          @item.set_logical_switch_group(load_resource(:LogicalSwitchGroup, @context.logical_switch_group))
+          @item.set_logical_switch_group(load_resource(:LogicalSwitchGroup, @new_resource.logical_switch_group))
         end
         # This will avoid overriding the 'logicalSwitchCredentials' if already specified in data
         return if @item['logicalSwitchCredentials']
         # Check if the credential properties are set
-        raise "Undefined Property: 'credentials'. Please set it before attempting this action" unless @context.credentials
+        raise "Undefined Property: 'credentials'. Please set it before attempting this action" unless @new_resource.credentials
         # Iterate through all the credentials
-        @context.credentials.each do |credential|
+        @new_resource.credentials.each do |credential|
           parsed_credential = convert_keys(credential, :to_sym)
           # Building the SSH Credential
           # This will create the Struct and then associate the pairs in the order required by it

@@ -9,8 +9,6 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-require_relative '../../resource_provider'
-
 module OneviewCookbook
   module API200
     # ConnectionTemplate API200 provider
@@ -22,13 +20,13 @@ module OneviewCookbook
       end
 
       def load_connection_templates
-        resources_set = [@context.associated_ethernet_network, @context.associated_fcoe_network, @context.associated_fc_network,
-                         @context.associated_network_set].compact.size
+        resources_set = [@new_resource.associated_ethernet_network, @new_resource.associated_fcoe_network, @new_resource.associated_fc_network,
+                         @new_resource.associated_network_set].compact.size
         raise 'A single associated resource field must be specified for this action.' if resources_set > 1
-        load_template_from_resource(:EthernetNetwork, @context.associated_ethernet_network)
-        load_template_from_resource(:FCoENetwork, @context.associated_fcoe_network)
-        load_template_from_resource(:FCNetwork, @context.associated_fc_network)
-        load_template_from_resource(:NetworkSet, @context.associated_network_set)
+        load_template_from_resource(:EthernetNetwork, @new_resource.associated_ethernet_network)
+        load_template_from_resource(:FCoENetwork, @new_resource.associated_fcoe_network)
+        load_template_from_resource(:FCNetwork, @new_resource.associated_fc_network)
+        load_template_from_resource(:NetworkSet, @new_resource.associated_network_set)
       end
 
       def create_or_update

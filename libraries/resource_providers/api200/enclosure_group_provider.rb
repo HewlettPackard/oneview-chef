@@ -9,25 +9,23 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-require_relative '../../resource_provider'
-
 module OneviewCookbook
   module API200
     # EnclosureGroup API200 provider
     class EnclosureGroupProvider < ResourceProvider
       def load_lig # Deprecated property: logical_interconnect_group
-        return unless @context.logical_interconnect_group
+        return unless @new_resource.logical_interconnect_group
         lig_klass = resource_named(:LogicalInterconnectGroup)
         dep_warn = "The 'logical_interconnect_group' property (string) is deprecated!"
         Chef::Log.warn("#{dep_warn} Please use 'logical_interconnect_groups' property (array) instead")
-        @item.add_logical_interconnect_group(lig_klass.new(@item.client, name: @context.logical_interconnect_group))
+        @item.add_logical_interconnect_group(lig_klass.new(@item.client, name: @new_resource.logical_interconnect_group))
       end
 
       def load_ligs
         load_lig # Deprecated method
-        return unless @context.logical_interconnect_groups
+        return unless @new_resource.logical_interconnect_groups
         lig_klass = resource_named(:LogicalInterconnectGroup)
-        @context.logical_interconnect_groups.each do |lig|
+        @new_resource.logical_interconnect_groups.each do |lig|
           lig_name = lig.class == Hash ? convert_keys(lig, :to_s)['name'] : lig
           @item.add_logical_interconnect_group(lig_klass.new(@item.client, name: lig_name))
         end
@@ -45,10 +43,10 @@ module OneviewCookbook
 
       def set_script
         @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
-        return Chef::Log.info("#{@resource_name} '#{@name}' script is up to date") if @item.get_script.eql?(@context.script)
+        return Chef::Log.info("#{@resource_name} '#{@name}' script is up to date") if @item.get_script.eql?(@new_resource.script)
         Chef::Log.debug "#{@resource_name} '#{@name}' Chef resource differs from OneView resource."
         @context.converge_by "Updated script for #{@resource_name} '#{@name}'" do
-          @item.set_script(@context.script)
+          @item.set_script(@new_resource.script)
         end
       end
     end

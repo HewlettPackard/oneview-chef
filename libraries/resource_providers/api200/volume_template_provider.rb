@@ -9,22 +9,20 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-require_relative '../../resource_provider'
-
 module OneviewCookbook
   module API200
     # VolumeTemplate API200 provider
     class VolumeTemplateProvider < ResourceProvider
       # Loads the VolumeTemplate with all the external resources (if needed)
       def load_resource_with_associated_resources
-        raise "Unspecified property: 'storage_system'. Please set it before attempting this action." unless @context.storage_system
-        raise "Unspecified property: 'storage_pool'. Please set it before attempting this action." unless @context.storage_pool
+        raise "Unspecified property: 'storage_system'. Please set it before attempting this action." unless @new_resource.storage_system
+        raise "Unspecified property: 'storage_pool'. Please set it before attempting this action." unless @new_resource.storage_pool
         @item['provisioning']['capacity'] = @item['provisioning']['capacity'].to_s if @item['provisioning'] && @item['provisioning']['capacity']
         load_storage_system
-        sp = resource_named(:StoragePool).find_by(@item.client, name: @context.storage_pool, storageSystemUri: @item['storageSystemUri']).first
-        raise "Storage Pool '#{@context.storage_pool}' not found for Storage System '#{@context.storage_system}'" unless sp
+        sp = resource_named(:StoragePool).find_by(@item.client, name: @new_resource.storage_pool, storageSystemUri: @item['storageSystemUri']).first
+        raise "Storage Pool '#{@new_resource.storage_pool}' not found for Storage System '#{@new_resource.storage_system}'" unless sp
         @item['provisioning']['storagePoolUri'] = sp['uri']
-        @item.set_snapshot_pool(resource_named(:StoragePool).new(@item.client, name: @context.snapshot_pool)) if @context.snapshot_pool
+        @item.set_snapshot_pool(resource_named(:StoragePool).new(@item.client, name: @new_resource.snapshot_pool)) if @new_resource.snapshot_pool
       end
 
       # Loads Storage System in the given VolumeTemplate resource.
@@ -33,8 +31,8 @@ module OneviewCookbook
       # @return [resource_named(:VolumeTemplate)] VolumeTemplate with Storage System parameters updated
       def load_storage_system
         data = {
-          credentials: { ip_hostname: @context.storage_system },
-          name: @context.storage_system
+          credentials: { ip_hostname: @new_resource.storage_system },
+          name: @new_resource.storage_system
         }
         @item.set_storage_system(load_resource(:StorageSystem, data))
       end

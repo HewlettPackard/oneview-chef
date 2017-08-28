@@ -9,8 +9,6 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-require_relative '../../resource_provider'
-
 module OneviewCookbook
   module API200
     # ManagedSAN API200 provider
@@ -20,7 +18,7 @@ module OneviewCookbook
         refresh_ready = ['RefreshFailed', 'NotRefreshing', ''].include? @item['refreshState']
         return Chef::Log.info("#{@resource_name} '#{@name}' refresh is already running. State: #{@item['refreshState']}") unless refresh_ready
         @context.converge_by "#{@resource_name} '#{@name}' was refreshed." do
-          @item.set_refresh_state(@context.refresh_state)
+          @item.set_refresh_state(@new_resource.refresh_state)
         end
       end
 

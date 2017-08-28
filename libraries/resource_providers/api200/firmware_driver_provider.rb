@@ -9,8 +9,6 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-require_relative '../../resource_provider'
-
 module OneviewCookbook
   module API200
     # Firmware API200 provider
@@ -34,10 +32,10 @@ module OneviewCookbook
       end
 
       def create_custom_spp
-        hotfix_present = @context.hotfixes_names || @context.hotfixes_files
+        hotfix_present = @new_resource.hotfixes_names || @new_resource.hotfixes_files
         raise "Unspecified property: 'hotfixes_names' or 'hotfixes_files'. Please set it before attempting this action." unless hotfix_present
 
-        spp_present = @context.spp_name || @context.spp_file
+        spp_present = @new_resource.spp_name || @new_resource.spp_file
         raise "Unspecified property: 'spp_name' or 'spp_file'. Please set it before attempting this action." unless spp_present
 
         return Chef::Log.info "#{@resource_name} '#{@name}' is already up to date." if @item.exists?
@@ -56,10 +54,10 @@ module OneviewCookbook
       # Verifies and loads the SPP
       def load_spp
         spp = nil
-        if @context.spp_name
-          spp = load_resource(:FirmwareDriver, @context.spp_name)
-        elsif @context.spp_file
-          spp = load_firmware(@context.spp_file)
+        if @new_resource.spp_name
+          spp = load_resource(:FirmwareDriver, @new_resource.spp_name)
+        elsif @new_resource.spp_file
+          spp = load_firmware(@new_resource.spp_file)
         else
           raise "InvalidProperties: The property 'spp_name' or 'spp_file' must be specified."
         end
@@ -69,10 +67,10 @@ module OneviewCookbook
       # Verifies and loads Hotfixes
       def load_hotfixes
         @item['hotfixUris'] = []
-        if @context.hotfixes_names
-          @context.hotfixes_names.each { |hotfix| @item['hotfixUris'] << load_resource(:FirmwareDriver, hotfix, 'uri') }
-        elsif @context.hotfixes_files
-          @context.hotfixes_files.each do |hotfix|
+        if @new_resource.hotfixes_names
+          @new_resource.hotfixes_names.each { |hotfix| @item['hotfixUris'] << load_resource(:FirmwareDriver, hotfix, 'uri') }
+        elsif @new_resource.hotfixes_files
+          @new_resource.hotfixes_files.each do |hotfix|
             temp = load_firmware(hotfix)
             @item['hotfixUris'] << temp['uri'] if temp['uri']
           end

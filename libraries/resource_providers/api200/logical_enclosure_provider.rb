@@ -9,18 +9,16 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-require_relative '../../resource_provider'
-
 module OneviewCookbook
   module API200
     # LogicalEnclosure API200 provider
     class LogicalEnclosureProvider < ResourceProvider
       # Load the enclosure_group & enclosures properties
       def load_logical_enclosure
-        @item['enclosureGroupUri'] = load_resource(:EnclosureGroup, @context.enclosure_group, 'uri') if @context.enclosure_group
+        @item['enclosureGroupUri'] = load_resource(:EnclosureGroup, @new_resource.enclosure_group, 'uri') if @new_resource.enclosure_group
         @item['enclosureUris'] ||= []
-        return unless @context.enclosures
-        @context.enclosures.each do |e|
+        return unless @new_resource.enclosures
+        @new_resource.enclosures.each do |e|
           data = { name: e, serialNumber: e, activeOaPreferredIP: e, standbyOaPreferredIP: e }
           @item['enclosureUris'].push(load_resource(:Enclosure, data, 'uri'))
         end
@@ -60,13 +58,13 @@ module OneviewCookbook
 
       def set_script
         @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
-        if @item.get_script.eql? @context.script
+        if @item.get_script.eql? @new_resource.script
           Chef::Log.info("#{@resource_name} '#{@name}' script is up to date")
         else
           Chef::Log.info "Updating #{@resource_name} '#{@name}'"
           Chef::Log.debug "#{@resource_name} '#{@name}' Chef resource differs from OneView resource."
           @context.converge_by "Updated script for #{@resource_name} '#{@name}'" do
-            @item.set_script(@context.script)
+            @item.set_script(@new_resource.script)
           end
         end
       end
