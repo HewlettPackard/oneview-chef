@@ -6,6 +6,9 @@ AllCops:
     - 'examples/*'
     - 'bin/*'
 
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
 Layout/EndOfLine:
   Enabled: false
 
