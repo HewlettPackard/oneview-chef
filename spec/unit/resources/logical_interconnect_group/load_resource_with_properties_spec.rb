@@ -19,8 +19,8 @@ describe 'oneview_test::logical_interconnect_group_load_resource_with_properties
     allow_any_instance_of(OneviewSDK::EthernetNetwork).to receive(:retrieve!).and_return(true)
     allow_any_instance_of(OneviewSDK::LIGUplinkSet).to receive(:add_network).with(instance_of(OneviewSDK::EthernetNetwork)).and_return(true)
 
-    allow_any_instance_of(OneviewSDK::LIGUplinkSet).to receive(:add_uplink).with(1, 'X5')
-    allow_any_instance_of(OneviewSDK::LIGUplinkSet).to receive(:add_uplink).with(1, 'X6')
+    allow_any_instance_of(OneviewSDK::LIGUplinkSet).to receive(:add_uplink).with(1, 'X5', nil, 1)
+    allow_any_instance_of(OneviewSDK::LIGUplinkSet).to receive(:add_uplink).with(1, 'X6', nil, 1)
 
     expect_any_instance_of(OneviewSDK::LogicalInterconnectGroup).to receive(:add_uplink_set)
 
@@ -28,8 +28,8 @@ describe 'oneview_test::logical_interconnect_group_load_resource_with_properties
     allow_any_instance_of(OneviewSDK::FCNetwork).to receive(:retrieve!).and_return(true)
     allow_any_instance_of(OneviewSDK::LIGUplinkSet).to receive(:add_network).with(instance_of(OneviewSDK::FCNetwork)).and_return(true)
 
-    allow_any_instance_of(OneviewSDK::LIGUplinkSet).to receive(:add_uplink).with(2, 'X1')
-    allow_any_instance_of(OneviewSDK::LIGUplinkSet).to receive(:add_uplink).with(2, 'X2')
+    allow_any_instance_of(OneviewSDK::LIGUplinkSet).to receive(:add_uplink).with(2, 'X1', nil, 1)
+    allow_any_instance_of(OneviewSDK::LIGUplinkSet).to receive(:add_uplink).with(2, 'X2', nil, 1)
 
     expect_any_instance_of(OneviewSDK::LogicalInterconnectGroup).to receive(:add_uplink_set)
 
