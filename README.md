@@ -343,11 +343,24 @@ interconnects_data = [
   - `:connections` - Array of Hashes containing the association of bay and the port name. The keys for each Hash are:
     - `:bay` - Number of the bay the interconnect is attached to identify in which interconnect the uplink will be created.
     - `:port` - The name of the port of the interconnect. It may change depending on the interconnect type.
+    - `:type` - The type of the interconnect module i.e 'Virtual Connect SE 40Gb F8 Module for Synergy'
+    - `:enclosure_index` - enclosureIndex value for the uplink. API300::Synergy only
+
+    c7000 Enclosure example:
 
     ```ruby
     uplink_connections = [
       { bay: 1, port: 'X5' },
       { bay: 2, port: 'X7' }
+    ]
+    ```
+
+    Synergy frame example:
+
+    ```ruby
+    uplink_connections = [
+      { bay: 3, port: 'Q1', type: 'Virtual Connect SE 40Gb F8 Module for Synergy', enclosure_index: 1 },
+      { bay: 6, port: 'Q1', type: 'Virtual Connect SE 40Gb F8 Module for Synergy', enclosure_index: 2 }
     ]
     ```
 
