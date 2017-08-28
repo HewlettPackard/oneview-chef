@@ -14,7 +14,7 @@ require_relative '../../api300/synergy/datacenter_provider'
 module OneviewCookbook
   module API500
     module Synergy
-      # Datacenter API500 Synergy resource provider methods
+      # Datacenter API500 Synergy provider
       class DatacenterProvider < API300::Synergy::DatacenterProvider
       end
     end
