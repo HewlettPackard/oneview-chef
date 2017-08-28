@@ -9,7 +9,7 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-# NOTE 1: It's necessary add two Scopes (named 'Scope1' and 'Scope2') before run this example.
+# NOTE 1: This example requires two Scopes named "Scope1" and "Scope2" to be present in the appliance.
 # NOTE 2: The api_version client should be greater than 200 if you run the examples using Scopes
 
 my_client = {
