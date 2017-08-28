@@ -1,5 +1,6 @@
 ## 2.3.1 (Unreleased)
 Adds API 500 support to the following HPE OneView resources:
+  - oneview_datacenter
   - oneview_rack
   - oneview_san_manager
   - oneview_scope
