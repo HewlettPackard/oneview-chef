@@ -39,3 +39,7 @@ end
 action :replace_scopes do
   OneviewCookbook::Helper.do_resource_action(self, :FCoENetwork, :replace_scopes)
 end
+
+action :patch do
+  OneviewCookbook::Helper.do_resource_action(self, :FCoENetwork, :patch)
+end

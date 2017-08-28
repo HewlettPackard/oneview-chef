@@ -47,10 +47,14 @@ oneview_fcoe_network 'FCoE1' do
   scope 'Scope1'
   action :remove_scope
 end
+
+# Example: Replaces all scopes to empty list of scopes
 oneview_fcoe_network 'FCoE1' do
   client my_client
-  scope 'Scope2'
-  action :remove_scope
+  operation 'replace'
+  path '/scopeUris'
+  value []
+  action :patch
 end
 
 oneview_fcoe_network 'FCoE1' do

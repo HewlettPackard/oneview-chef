@@ -78,6 +78,7 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not add_oneview_fcoe_network_scope('')
     expect(chef_run).to_not remove_oneview_fcoe_network_scope('')
     expect(chef_run).to_not replace_oneview_fcoe_network_scopes('')
+    expect(chef_run).to_not patch_oneview_fcoe_network('')
 
     # oneview_firmware
     expect(chef_run).to_not add_oneview_firmware('')
