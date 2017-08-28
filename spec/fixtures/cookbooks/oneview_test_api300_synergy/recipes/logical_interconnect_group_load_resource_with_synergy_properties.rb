@@ -48,4 +48,4 @@ oneview_logical_interconnect_group 'LogicalInterconnectGroup5' do
       }
     ]
     action :create
-  end
+end
