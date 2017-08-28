@@ -15,37 +15,37 @@
 #
 
 oneview_logical_interconnect_group 'LogicalInterconnectGroup5' do
-    client node['oneview_test']['client']
-    interconnects [
-      { bay: 3, type: 'TestType1', enclosure_index: 1 },
-      { bay: 6, type: 'TestType2', enclosure_index: 1 },
-      { bay: 3, type: 'TestType2', enclosure_index: 2 },
-      { bay: 6, type: 'TestType1', enclosure_index: 2 }
-    ]
-    uplink_sets [
-      {
-        data: {
-          name: 'UplinkSet1',
-          networkType: 'Ethernet',
-          ethernetNetworkType: 'Tagged'
-        },
-        connections: [
-          { bay: 3, port: 'Q1', type: 'TestType1', enclosure_index: 1 },
-          { bay: 6, port: 'Q1', type: 'TestType1', enclosure_index: 2 }
-        ],
-        networks: ['EthernetNetwork1']
+  client node['oneview_test']['client']
+  interconnects [
+    { bay: 3, type: 'TestType1', enclosure_index: 1 },
+    { bay: 6, type: 'TestType2', enclosure_index: 1 },
+    { bay: 3, type: 'TestType2', enclosure_index: 2 },
+    { bay: 6, type: 'TestType1', enclosure_index: 2 }
+  ]
+  uplink_sets [
+    {
+      data: {
+        name: 'UplinkSet1',
+        networkType: 'Ethernet',
+        ethernetNetworkType: 'Tagged'
       },
-      {
-        data: {
-          name: 'UplinkSet2',
-          networkType: 'FibreChannel'
-        },
-        connections: [
-          { bay: 3, port: 'Q2', type: 'TestType1', enclosure_index: 1 },
-          { bay: 6, port: 'Q2', type: 'TestType1', enclosure_index: 2 }
-        ],
-        networks: ['FCNetwork1']
-      }
-    ]
-    action :create
+      connections: [
+        { bay: 3, port: 'Q1', type: 'TestType1', enclosure_index: 1 },
+        { bay: 6, port: 'Q1', type: 'TestType1', enclosure_index: 2 }
+      ],
+      networks: ['EthernetNetwork1']
+    },
+    {
+      data: {
+        name: 'UplinkSet2',
+        networkType: 'FibreChannel'
+      },
+      connections: [
+        { bay: 3, port: 'Q2', type: 'TestType1', enclosure_index: 1 },
+        { bay: 6, port: 'Q2', type: 'TestType1', enclosure_index: 2 }
+      ],
+      networks: ['FCNetwork1']
+    }
+  ]
+  action :create
 end
