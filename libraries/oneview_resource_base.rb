@@ -27,8 +27,9 @@ module OneviewCookbook
     end
 
     def self.safe_dup(object)
-      return object if object.class <= Integer || object.class <= TrueClass || object.class <= FalseClass
       object.dup
+    rescue TypeError
+      object
     end
   end
 end
