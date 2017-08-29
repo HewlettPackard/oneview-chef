@@ -9,8 +9,6 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-require_relative '../../../resource_provider'
-
 module OneviewCookbook
   module ImageStreamer
     module API300
@@ -30,39 +28,39 @@ module OneviewCookbook
         end
 
         def create_if_missing
-          load_expected_resources(:BuildPlan, @context.os_build_plans)
-          load_expected_resources(:DeploymentPlan, @context.deployment_plans)
-          load_expected_resources(:GoldenImage, @context.golden_images)
-          load_expected_resources(:PlanScript, @context.plan_scripts)
+          load_expected_resources(:BuildPlan, @new_resource.os_build_plans)
+          load_expected_resources(:DeploymentPlan, @new_resource.deployment_plans)
+          load_expected_resources(:GoldenImage, @new_resource.golden_images)
+          load_expected_resources(:PlanScript, @new_resource.plan_scripts)
           super
         end
 
         def update_name
-          raise 'This action requires the new_name field to be specified.' unless @context.new_name
+          raise 'This action requires the new_name field to be specified.' unless @new_resource.new_name
           @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
-          return Chef::Log.info("#{@resource_name} '#{@name}' is up to date") if @item['name'] == @context.new_name
-          new_name_in_use = resource_named(:ArtifactBundle).new(@item.client, name: @context.new_name).exists?
-          raise "ArtifactBundle name '#{@context.new_name}' is already in use." if new_name_in_use
-          Chef::Log.debug "New name #{@context.new_name} differs from current name'#{@name}' for resource."
-          @context.converge_by "Update #{@resource_name}'s name from '#{@name}' to #{@context.new_name} completed successfully" do
-            @item.update_name(@context.new_name)
+          return Chef::Log.info("#{@resource_name} '#{@name}' is up to date") if @item['name'] == @new_resource.new_name
+          new_name_in_use = resource_named(:ArtifactBundle).new(@item.client, name: @new_resource.new_name).exists?
+          raise "ArtifactBundle name '#{@new_resource.new_name}' is already in use." if new_name_in_use
+          Chef::Log.debug "New name #{@new_resource.new_name} differs from current name'#{@name}' for resource."
+          @context.converge_by "Update #{@resource_name}'s name from '#{@name}' to #{@new_resource.new_name} completed successfully" do
+            @item.update_name(@new_resource.new_name)
           end
         end
 
         def download
-          raise "#{@resource_name} #{@context.file_path} must be specified for this action" unless @context.file_path
+          raise "#{@resource_name} #{@new_resource.file_path} must be specified for this action" unless @new_resource.file_path
           @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
-          return Chef::Log.info("#{@resource_name} '#{@name}' file already exists in specified location.") if File.file?(@context.file_path)
-          @context.converge_by "Download #{@resource_name}'s '#{@name}' to #{@context.file_path} completed successfully" do
-            @item.download(@context.file_path)
+          return Chef::Log.info("#{@resource_name} '#{@name}' file already exists in specified location.") if File.file?(@new_resource.file_path)
+          @context.converge_by "Download #{@resource_name}'s '#{@name}' to #{@new_resource.file_path} completed successfully" do
+            @item.download(@new_resource.file_path)
           end
         end
 
         def upload
-          raise "'#{@context.file_path}' file does not exist." unless File.file?(@context.file_path)
+          raise "'#{@new_resource.file_path}' file does not exist." unless File.file?(@new_resource.file_path)
           return Chef::Log.info("#{@resource_name} #{@name} already exists in the appliance.") if @item.exists?
           @context.converge_by "Upload of #{@resource_name}'s '#{@name}' completed successfully" do
-            @item.class.create_from_file(@item.client, @context.file_path, @name)
+            @item.class.create_from_file(@item.client, @new_resource.file_path, @name)
           end
         end
 
@@ -82,24 +80,24 @@ module OneviewCookbook
         end
 
         def backup_from_file
-          raise "#{@resource_name} #{@context.file_path} must be specified for this action" unless @context.file_path
-          raise "'#{@context.file_path}' file does not exist." unless File.file?(@context.file_path)
-          raise 'A deployment_group field is required for this action.' unless @context.deployment_group
-          deployment_group = load_resource(:DeploymentGroup, @context.deployment_group)
-          Chef::Log.info("Starting upload of backup file #{@context.file_path}...")
-          @context.converge_by "Upload of backup file '#{@context.file_path}' completed successfully" do
-            return @item.class.create_backup_from_file!(@item.client, deployment_group, @context.file_path, @name) unless @context.timeout
-            return @item.class.create_backup_from_file!(@item.client, deployment_group, @context.file_path, @name, @context.timeout)
+          raise "#{@resource_name} #{@new_resource.file_path} must be specified for this action" unless @new_resource.file_path
+          raise "'#{@new_resource.file_path}' file does not exist." unless File.file?(@new_resource.file_path)
+          raise 'A deployment_group field is required for this action.' unless @new_resource.deployment_group
+          deployment_group = load_resource(:DeploymentGroup, @new_resource.deployment_group)
+          Chef::Log.info("Starting upload of backup file #{@new_resource.file_path}...")
+          @context.converge_by "Upload of backup file '#{@new_resource.file_path}' completed successfully" do
+            return @item.class.create_backup_from_file!(@item.client, deployment_group, @new_resource.file_path, @name) unless @new_resource.timeout
+            return @item.class.create_backup_from_file!(@item.client, deployment_group, @new_resource.file_path, @name, @new_resource.timeout)
           end
         end
 
         def download_backup
-          raise "#{@resource_name} #{@context.file_path} must be specified for this action" unless @context.file_path
-          return Chef::Log.info("File '#{@context.file_path}' already exists in specified location.") if File.file?(@context.file_path)
+          raise "#{@resource_name} #{@new_resource.file_path} must be specified for this action" unless @new_resource.file_path
+          return Chef::Log.info("File '#{@new_resource.file_path}' already exists in specified location.") if File.file?(@new_resource.file_path)
           backup = @item.class.get_backups(@item.client).first
           raise 'There are no backups present in the appliance. Cannot run download_backup action.' unless backup
-          @context.converge_by "Downloading appliance backup image to '#{@context.file_path}' completed successfully" do
-            @item.class.download_backup(@item.client, @context.file_path, backup)
+          @context.converge_by "Downloading appliance backup image to '#{@new_resource.file_path}' completed successfully" do
+            @item.class.download_backup(@item.client, @new_resource.file_path, backup)
           end
         end
 

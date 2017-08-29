@@ -9,15 +9,13 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-require_relative '../../resource_provider'
-
 module OneviewCookbook
   module API200
     # Enclosure API200 provider
     class EnclosureProvider < ResourceProvider
       def add_or_edit
-        if @context.enclosure_group
-          eg = resource_named(:EnclosureGroup).new(@item.client, name: @context.enclosure_group)
+        if @new_resource.enclosure_group
+          eg = resource_named(:EnclosureGroup).new(@item.client, name: @new_resource.enclosure_group)
           @item.set_enclosure_group(eg)
         end
         super
@@ -39,7 +37,7 @@ module OneviewCookbook
         refresh_ready = ['RefreshFailed', 'NotRefreshing', ''].include? @item['refreshState']
         return Chef::Log.info("#{@resource_name} '#{@name}' refresh is already running. State: #{@item['refreshState']}") unless refresh_ready
         @context.converge_by "#{@resource_name} '#{@name}' was refreshed." do
-          @item.set_refresh_state(@context.refresh_state, @context.options)
+          @item.set_refresh_state(@new_resource.refresh_state, @new_resource.options)
         end
       end
     end

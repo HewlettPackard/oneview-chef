@@ -9,15 +9,13 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-require_relative '../../api200/logical_interconnect_group_provider'
-
 module OneviewCookbook
   module API300
     module Synergy
       # LogicalInterconnectGroup API300 Synergy resource provider methods
       class LogicalInterconnectGroupProvider < API200::LogicalInterconnectGroupProvider
         def load_interconnects
-          @context.interconnects.each do |location|
+          @new_resource.interconnects.each do |location|
             parsed_location = convert_keys(location, :to_sym)
             @item.add_interconnect(
               parsed_location[:bay],

@@ -1,5 +1,6 @@
 ## 2.3.1 (Unreleased)
 Adds API 500 support to the following HPE OneView resources:
+  - oneview_datacenter
   - oneview_rack
   - oneview_san_manager
   - oneview_scope
@@ -7,7 +8,12 @@ Adds API 500 support to the following HPE OneView resources:
 
 Enhancements:
 - [#246](https://github.com/HewlettPackard/oneview-chef/issues/246) Upgrade oneview-sdk gem to version 5.0.0
+- [#247](https://github.com/HewlettPackard/oneview-chef/issues/247) Remove deprecation and warnings for Chef 13
 - [#225](https://github.com/HewlettPackard/oneview-chef/issues/225) Support additional uplink port types in the LogicalInterconnectGroupProvider
+
+Bug fixes:
+- [#284](https://github.com/HewlettPackard/oneview-chef/issues/284) Nested and cyclic requires are causing the first resource to be skipped.
+- [#287](https://github.com/HewlettPackard/oneview-chef/issues/287) Disable FrozenString magic comment cop from Rubocop until the support is done.
 
 ## 2.3.0
 Adds support to the following HPE OneView resources:

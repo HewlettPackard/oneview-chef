@@ -5,6 +5,7 @@ require 'chef/node'
 class FakeResource
   attr_accessor \
     :resource_name,
+    :new_resource,
     :api_version,
     :api_variant,
     :api_header_version,
@@ -25,6 +26,7 @@ class FakeResource
     @client = opts[:client] if opts[:client]
     @data = opts[:data] || {}
     @save_resource_info = opts[:save_resource_info] || ['uri']
+    @new_resource = self
   end
 
   def property_is_set?(property)

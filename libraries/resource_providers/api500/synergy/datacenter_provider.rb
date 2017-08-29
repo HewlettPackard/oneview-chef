@@ -10,15 +10,10 @@
 # specific language governing permissions and limitations under the License.
 
 module OneviewCookbook
-  module API200
-    # Switch API200 provider
-    class SwitchProvider < ResourceProvider
-      def remove
-        # Checks if the switch was already removed from oneview
-        return Chef::Log.info "#{@resource_name} '#{@name}' is already in the inventory." unless @item.retrieve! && @item['state'] != 'Inventory'
-        @context.converge_by "Removed #{@resource_name} '#{@name}'" do
-          @item.remove
-        end
+  module API500
+    module Synergy
+      # Datacenter API500 Synergy provider
+      class DatacenterProvider < API300::Synergy::DatacenterProvider
       end
     end
   end

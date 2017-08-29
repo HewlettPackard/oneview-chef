@@ -9,8 +9,6 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-require_relative '../../api200/server_profile_provider'
-
 module OneviewCookbook
   module API300
     module Synergy
@@ -25,7 +23,7 @@ module OneviewCookbook
 
         def load_os_deployment_plan
           # Return if the property is not defined
-          return unless @context.os_deployment_plan
+          return unless @new_resource.os_deployment_plan
           @item['osDeploymentSettings'] ||= {}
           # Return if the value is already defined in data
           if @item['osDeploymentSettings']['osDeploymentPlanUri']
@@ -35,7 +33,7 @@ module OneviewCookbook
           # Get the user specified custom attributes
           custom = @item['osDeploymentSettings']['customAttributes'] || @item['osDeploymentSettings']['osCustomAttributes']
           # Loads the OS deployment plan and gets the default custom attributes
-          plan = load_resource(:OSDeploymentPlan, @context.os_deployment_plan)
+          plan = load_resource(:OSDeploymentPlan, @new_resource.os_deployment_plan)
           plan_defaults = plan['additionalParameters']
           # Merge both user defined and default custom attributes
           custom = custom_merge(plan_defaults, custom)

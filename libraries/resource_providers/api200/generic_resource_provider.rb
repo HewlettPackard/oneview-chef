@@ -9,19 +9,18 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-require_relative '../../resource_provider'
-
 module OneviewCookbook
   module API200
     # Generic Resource Provider methods
     class GenericResourceProvider < ResourceProvider
       def initialize(context)
         @context = context
-        @resource_name = context.resource_name
-        @name = context.name
+        @new_resource = context.new_resource
+        @resource_name = @new_resource.resource_name
+        @name = @new_resource.name
         name_arr = self.class.to_s.split('::')
         name_arr.pop
-        @sdk_resource_type = context.type # e.g., EthernetNetwork
+        @sdk_resource_type = @new_resource.type # e.g., EthernetNetwork
         case name_arr.size
         when 1 # No variant or api version specified. (OneviewCookbook)
           # This case should really only be used for testing
@@ -38,10 +37,10 @@ module OneviewCookbook
         end
         klass ||= OneviewSDK.resource_named(@sdk_resource_type, @sdk_api_version, @sdk_variant)
         raise "Type '#{@sdk_resource_type}' not found. Please use a valid type defined in the oneview-sdk" unless klass
-        c = OneviewCookbook::Helper.build_client(context.client)
-        new_data = JSON.parse(context.data.to_json) rescue context.data
-        @item = context.property_is_set?(:api_header_version) ? klass.new(c, new_data, context.api_header_version) : klass.new(c, new_data)
-        @item['name'] ||= context.name
+        c = OneviewCookbook::Helper.build_client(@new_resource.client)
+        new_data = JSON.parse(@new_resource.data.to_json) rescue @new_resource.data
+        @item = @new_resource.property_is_set?(:api_header_version) ? klass.new(c, new_data, @new_resource.api_header_version) : klass.new(c, new_data)
+        @item['name'] ||= @name
       end
     end
   end

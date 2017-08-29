@@ -9,22 +9,20 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-require_relative '../../../resource_provider'
-
 module OneviewCookbook
   module ImageStreamer
     module API300
       # DeploymentPlan Provider resource methods
       class DeploymentPlanProvider < ResourceProvider
         def create_or_update
-          @item['goldenImageURI'] ||= load_resource(:GoldenImage, @context.golden_image, :uri)
-          @item['oeBuildPlanURI'] ||= load_resource(:BuildPlan, @context.os_build_plan, :uri)
+          @item['goldenImageURI'] ||= load_resource(:GoldenImage, @new_resource.golden_image, :uri)
+          @item['oeBuildPlanURI'] ||= load_resource(:BuildPlan, @new_resource.os_build_plan, :uri)
           super
         end
 
         def create_if_missing
-          @item['goldenImageURI'] ||= load_resource(:GoldenImage, @context.golden_image, :uri)
-          @item['oeBuildPlanURI'] ||= load_resource(:BuildPlan, @context.os_build_plan, :uri)
+          @item['goldenImageURI'] ||= load_resource(:GoldenImage, @new_resource.golden_image, :uri)
+          @item['oeBuildPlanURI'] ||= load_resource(:BuildPlan, @new_resource.os_build_plan, :uri)
           super
         end
       end

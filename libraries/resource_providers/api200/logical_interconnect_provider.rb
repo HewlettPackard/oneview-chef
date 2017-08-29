@@ -9,17 +9,15 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-require_relative '../../resource_provider'
-
 module OneviewCookbook
   module API200
     # LogicalInterconnect API200 provider
     class LogicalInterconnectProvider < ResourceProvider
       def interconnect_handler(present_block, absent_block)
-        raise "Unspecified property: 'bay_number'. Please set it before attempting this action." unless @context.bay_number
-        raise "Unspecified property: 'enclosure'. Please set it before attempting this action." unless @context.enclosure
+        raise "Unspecified property: 'bay_number'. Please set it before attempting this action." unless @new_resource.bay_number
+        raise "Unspecified property: 'enclosure'. Please set it before attempting this action." unless @new_resource.enclosure
         interconnect_list = resource_named(:Interconnect).get_all(@item.client)
-        enclosure_item = load_resource(:Enclosure, @context.enclosure)
+        enclosure_item = load_resource(:Enclosure, @new_resource.enclosure)
         # Procedure to get (bay, enclosure) pairs and interconnect state
         listed_pairs = {}
         interconnect_list.each do |inter|
@@ -28,12 +26,12 @@ module OneviewCookbook
           listed_pairs[[bayn, encn]] = inter['state']
         end
         # Desired (bay, enclosure) interconnect location
-        pair = [@context.bay_number.to_s, enclosure_item['uri']]
+        pair = [@new_resource.bay_number.to_s, enclosure_item['uri']]
         # If an interconnect exists in the location, and its state is not 'Absent', so it is present
         if listed_pairs.keys.include?(pair) && listed_pairs[pair] != 'Absent'
-          present_block.call(@context.bay_number, enclosure_item)
+          present_block.call(@new_resource.bay_number, enclosure_item)
         else
-          absent_block.call(@context.bay_number, enclosure_item)
+          absent_block.call(@new_resource.bay_number, enclosure_item)
         end
       end
 
@@ -67,29 +65,29 @@ module OneviewCookbook
       def firmware_handler(action)
         @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         current_firmware = @item.get_firmware
-        @context.firmware_data['command'] = action
-        dif_values = @context.firmware_data.reject { |k, v| current_firmware[k] == v }
-        fw_defined = @context.firmware || @context.firmware_data['sppName']
+        @new_resource.firmware_data['command'] = action
+        dif_values = @new_resource.firmware_data.reject { |k, v| current_firmware[k] == v }
+        fw_defined = @new_resource.firmware || @new_resource.firmware_data['sppName']
         raise "Unspecified property: 'firmware'. Please set it before attempting this action." unless fw_defined
-        return Chef::Log.info("Firmware #{@context.firmware} from logical interconnect '#{@name}' is up to date") if dif_values.empty?
-        fd = load_resource(:FirmwareDriver, @context.firmware)
-        raise "Resource not found: Firmware action '#{action}' cannot be performed since the firmware '#{@context.firmware}' was not found." unless fd
-        diff = get_diff(current_firmware, @context.firmware_data)
+        return Chef::Log.info("Firmware #{@new_resource.firmware} from logical interconnect '#{@name}' is up to date") if dif_values.empty?
+        fd = load_resource(:FirmwareDriver, @new_resource.firmware)
+        raise "Resource not found: Action '#{action}' cannot be performed since the firmware '#{@new_resource.firmware}' was not found." unless fd
+        diff = get_diff(current_firmware, @new_resource.firmware_data)
         Chef::Log.info "#{action.to_s.capitalize.tr('_', ' ')} #{@resource_name} '#{@name}'#{diff}"
         Chef::Log.debug "#{@resource_name} '#{@name}' Chef resource firmware options differs from OneView resource."
         Chef::Log.debug "Current state: #{JSON.pretty_generate(current_firmware)}"
-        Chef::Log.debug "Desired state: #{JSON.pretty_generate(@context.firmware_data)}"
-        @context.converge_by "#{action.capitalize} firmware '#{@context.firmware}' from logical interconnect '#{@name}'" do
-          @item.firmware_update(action, fd, @context.firmware_data)
+        Chef::Log.debug "Desired state: #{JSON.pretty_generate(@new_resource.firmware_data)}"
+        @context.converge_by "#{action.capitalize} firmware '#{@new_resource.firmware}' from logical interconnect '#{@name}'" do
+          @item.firmware_update(action, fd, @new_resource.firmware_data)
         end
       end
 
       def add_interconnect
         noaction = proc do
-          Chef::Log.info("Interconnect already created in #{@context.enclosure} at bay #{@context.bay_number}")
+          Chef::Log.info("Interconnect already created in #{@new_resource.enclosure} at bay #{@new_resource.bay_number}")
         end
         do_add = proc do |bay, enc|
-          @context.converge_by "Add interconnect in #{@context.enclosure} at bay #{@context.bay_number}" do
+          @context.converge_by "Add interconnect in #{@new_resource.enclosure} at bay #{@new_resource.bay_number}" do
             @item.create(bay, enc)
           end
         end
@@ -98,26 +96,26 @@ module OneviewCookbook
 
       def remove_interconnect
         do_remove = proc do |bay, enc|
-          @context.converge_by "Remove interconnect in #{@context.enclosure} at bay #{@context.bay_number}" do
+          @context.converge_by "Remove interconnect in #{@new_resource.enclosure} at bay #{@new_resource.bay_number}" do
             @item.delete(bay, enc)
           end
         end
         noaction = proc do
-          Chef::Log.info("Interconnect not present in #{@context.enclosure} at bay #{@context.bay_number}")
+          Chef::Log.info("Interconnect not present in #{@new_resource.enclosure} at bay #{@new_resource.bay_number}")
         end
         interconnect_handler(do_remove, noaction)
       end
 
       def update_internal_networks
         @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
-        @context.internal_networks.collect! { |n| load_resource(:EthernetNetwork, n) }
-        if @item['internalNetworkUris'].sort == @context.internal_networks.collect { |x| x['uri'] }.sort
+        @new_resource.internal_networks.collect! { |n| load_resource(:EthernetNetwork, n) }
+        if @item['internalNetworkUris'].sort == @new_resource.internal_networks.collect { |x| x['uri'] }.sort
           Chef::Log.info("Internal networks for #{@resource_name} #{@name} are up to date")
         else
-          diff = get_diff(@item, 'internalNetworkUris' => @context.internal_networks)
+          diff = get_diff(@item, 'internalNetworkUris' => @new_resource.internal_networks)
           Chef::Log.info "Updating internal networks for #{@resource_name} '#{@name}'#{diff}"
           @context.converge_by("Update internal networks for #{@resource_name} '#{@name}'") do
-            @item.update_internal_networks(*@context.internal_networks)
+            @item.update_internal_networks(*@new_resource.internal_networks)
           end
         end
       end
@@ -143,7 +141,7 @@ module OneviewCookbook
       end
 
       def update_snmp_configuration
-        traps = convert_keys(@context.trap_destinations, :to_s)
+        traps = convert_keys(@new_resource.trap_destinations, :to_s)
         unless @item['snmpConfiguration']['trapDestinations']
           @item['snmpConfiguration']['trapDestinations'] = []
         end

@@ -9,8 +9,6 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-require_relative '../../resource_provider'
-
 module OneviewCookbook
   module API200
     # PowerDevice API200 provider
@@ -21,7 +19,7 @@ module OneviewCookbook
         return Chef::Log.info("#{@resource_name} '#{@name}' is up to date") unless power_devices_list.empty?
         Chef::Log.info "Discovering #{@resource_name} '#{@name}'"
         @context.converge_by "Discovered #{@resource_name} '#{@name}'" do
-          pd_klass.discover(@item.client, hostname: @name, username: @context.username, password: @context.password)
+          pd_klass.discover(@item.client, hostname: @name, username: @new_resource.username, password: @new_resource.password)
         end
       end
 
