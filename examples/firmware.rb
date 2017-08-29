@@ -20,6 +20,11 @@ oneview_firmware '/bundles/firmware_bundle_name.iso' do
   client my_client
 end
 
+# Example: Upload a hotfix
+oneview_firmware '/bundles/hotfix_name.rpm' do
+  client my_client
+end
+
 # Example: Create a custom spp
 # Uses spp_name and hotfixes_names
 oneview_firmware 'CustomSPP' do
@@ -40,8 +45,13 @@ oneview_firmware 'CustomSPP' do
   action :create_custom_spp
 end
 
-# Example: Remove a firmware
-oneview_firmware '/bundles/firmware_bundle_name.iso' do
-  client my_client
-  action :remove
+# Firmware names added in the example
+firmware_list = ['/bundles/firmware_bundle_name.iso', '/bundles/hotfix_name.rpm', 'CustomSPP']
+
+# Example: Remove firmwares added in the example
+firmware_list.each do |fw|
+  oneview_firmware "#{fw}" do
+    client my_client
+    action :remove
+  end
 end
