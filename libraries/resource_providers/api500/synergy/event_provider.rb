@@ -9,8 +9,6 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-require_relative '../../api300/synergy/event_provider'
-
 module OneviewCookbook
   module API500
     module Synergy
