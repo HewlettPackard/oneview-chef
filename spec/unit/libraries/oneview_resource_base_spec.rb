@@ -71,7 +71,7 @@ RSpec.describe OneviewCookbook::ResourceBaseProperties do
 
   describe 'self.safe_dup' do
     it 'dups a dupable object correctly' do
-      dupable = "dupable".freeze
+      dupable = 'dupable'.freeze
       expect(described_class.safe_dup(dupable)).to_not be dupable
     end
 
