@@ -6,8 +6,15 @@ AllCops:
     - 'examples/*'
     - 'bin/*'
 
+######### RUBY 2.4 ###########
+
+Style/SafeNavigation:
+  Enabled: false
+
 Style/FrozenStringLiteralComment:
   Enabled: false
+
+##############################
 
 Layout/EndOfLine:
   Enabled: false
