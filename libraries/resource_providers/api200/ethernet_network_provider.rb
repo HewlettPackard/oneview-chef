@@ -9,11 +9,14 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
+require_relative '../api200/connection_template_provider'
+
 module OneviewCookbook
   module API200
     # EthernetNetworkProvider
     class EthernetNetworkProvider < ResourceProvider
       include API200::ConnectionTemplateProvider::ConnectionTemplateHelper
+
       def create_or_update
         bandwidth = @item.data.delete('bandwidth')
         super
