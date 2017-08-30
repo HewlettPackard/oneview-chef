@@ -11,7 +11,6 @@
 
 OneviewCookbook::ResourceBaseProperties.load(self)
 
-property :scope, String
 property :scopes, Array
 
 default_action :create

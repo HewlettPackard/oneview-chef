@@ -40,19 +40,18 @@ module OneviewCookbook
         create_or_update
       end
 
-      # Contains helper methods to include operations with networks
+      # Contains helper methods to include operations within network providers classes
       module ConnectionTemplateHelper
         def update_connection_template(bandwidth)
           bandwidth = convert_keys(bandwidth, :to_s)
+          raise "Required value \"connectionTemplateUri\" #{@name}" unless @item['connectionTemplateUri']
           connection_template = load_resource(:ConnectionTemplate, uri: @item['connectionTemplateUri'])
-          if connection_template.like? bandwidth
-            Chef::Log.info("#{@resource_name} '#{@name}' connection template is up to date")
-          else
-            diff = get_diff(connection_template, bandwidth)
-            Chef::Log.info "Updating #{@resource_name} '#{@name}' connection template settings#{diff}"
-            @context.converge_by "Update #{@resource_name} '#{@name}' connection template settings" do
-              connection_template.update(bandwidth)
-            end
+          return Chef::Log.info("#{@resource_name} '#{@name}' connection template is up to date") if connection_template.like?(bandwidth)
+
+          diff = get_diff(connection_template, bandwidth)
+          Chef::Log.info "Updating #{@resource_name} '#{@name}' connection template settings#{diff}"
+          @context.converge_by "Update #{@resource_name} '#{@name}' connection template settings" do
+            connection_template.update(bandwidth)
           end
         end
 
