@@ -287,57 +287,77 @@ RSpec.describe OneviewCookbook::ResourceProvider do
     end
   end
 
-  describe '#add_scope' do
-    let(:scope) { OneviewSDK::API300::C7000::Scope.new(@client, name: 'Scope1', uri: '/rest/fake/1') }
+  describe '#add_to_scopes' do
+    let(:scope1) { OneviewSDK::API300::Synergy::Scope.new(@client, name: 'Scope1', uri: '/rest/fake/1') }
+    let(:scope2) { OneviewSDK::API300::Synergy::Scope.new(@client, name: 'Scope1', uri: '/rest/fake/2') }
 
     before do
-      expect(res.item).to receive(:retrieve!)
-      allow(res.context).to receive(:scope).and_return('Scope1')
-      allow(res).to receive(:load_resource).with(:Scope, 'Scope1').and_return(scope)
+      expect(res.item).to receive(:retrieve!).and_return(true)
+      allow(res.context.instance_variable_get(:@new_resource)).to receive(:scopes).and_return(['Scope1', 'Scope2'])
+      allow(res).to receive(:load_resource).with(:Scope, 'Scope1').and_return(scope1)
+      allow(res).to receive(:load_resource).with(:Scope, 'Scope2').and_return(scope2)
     end
 
-    it 'should call add_scope method from Oneview resource if scope is not already added' do
+    it 'should call add_to_scopes method from Oneview resource if scope is not already added' do
       allow(res.item).to receive(:[]).with('scopeUris').and_return([])
-      expect(res.item).to receive(:add_scope).with(scope)
-      res.send(:add_scope)
+      expect(res.item).to receive(:add_scope).with(scope1)
+      expect(res.item).to receive(:add_scope).with(scope2)
+      res.send(:add_to_scopes)
     end
 
-    it 'should not call add_scope method from Oneview resource if scope is already added' do
+    it 'should call add_to_scopes method from Oneview resource if one of scopes is not already added' do
       allow(res.item).to receive(:[]).with('scopeUris').and_return(['/rest/fake/1'])
+      expect(res.item).not_to receive(:add_scope).with(scope1)
+      expect(res.item).to receive(:add_scope).with(scope2)
+      res.send(:add_to_scopes)
+    end
+
+    it 'should not call add_to_scopes method from Oneview resource if all scopes are already added' do
+      allow(res.item).to receive(:[]).with('scopeUris').and_return(['/rest/fake/1', '/rest/fake/2'])
       expect(res.item).not_to receive(:add_scope)
-      res.send(:add_scope)
+      res.send(:add_to_scopes)
     end
   end
 
-  describe '#remove_scope' do
-    let(:scope) { OneviewSDK::API300::C7000::Scope.new(@client, name: 'Scope1', uri: '/rest/fake/1') }
+  describe '#remove_from_scopes' do
+    let(:scope1) { OneviewSDK::API300::Synergy::Scope.new(@client, name: 'Scope1', uri: '/rest/fake/1') }
+    let(:scope2) { OneviewSDK::API300::Synergy::Scope.new(@client, name: 'Scope1', uri: '/rest/fake/2') }
 
     before do
-      allow(res.item).to receive(:retrieve!)
-      allow(res.context).to receive(:scope).and_return('Scope1')
-      allow(res).to receive(:load_resource).with(:Scope, 'Scope1').and_return(scope)
+      allow(res.item).to receive(:retrieve!).and_return(true)
+      allow(res.context.instance_variable_get(:@new_resource)).to receive(:scopes).and_return(['Scope1', 'Scope2'])
+      allow(res).to receive(:load_resource).with(:Scope, 'Scope1').and_return(scope1)
+      allow(res).to receive(:load_resource).with(:Scope, 'Scope2').and_return(scope2)
     end
 
-    it 'should call remove_scope method from Oneview resource if scope is not already removed' do
-      allow(res.item).to receive(:[]).with('scopeUris').and_return(['/rest/fake/1'])
-      expect(res.item).to receive(:remove_scope).with(scope)
-      res.send(:remove_scope)
+    it 'should call remove_from_scopes method from Oneview resource if scopes are not already removed' do
+      allow(res.item).to receive(:[]).with('scopeUris').and_return(['/rest/fake/1', '/rest/fake/2'])
+      expect(res.item).to receive(:remove_scope).with(scope1)
+      expect(res.item).to receive(:remove_scope).with(scope2)
+      res.send(:remove_from_scopes)
     end
 
-    it 'should not call remove_scope method from Oneview resource if scope is already removed' do
+    it 'should call remove_from_scopes method from Oneview resource if at least one of scopes is not already removed' do
+      allow(res.item).to receive(:[]).with('scopeUris').and_return(['/rest/fake/2'])
+      expect(res.item).not_to receive(:remove_scope).with(scope1)
+      expect(res.item).to receive(:remove_scope).with(scope2)
+      res.send(:remove_from_scopes)
+    end
+
+    it 'should not call remove_from_scopes method from Oneview resource if all scopes are already removed' do
       allow(res.item).to receive(:[]).with('scopeUris').and_return([])
       expect(res.item).not_to receive(:remove_scope)
-      res.send(:remove_scope)
+      res.send(:remove_from_scopes)
     end
   end
 
   describe '#replace_scopes' do
-    let(:scope1) { OneviewSDK::API300::C7000::Scope.new(@client, name: 'Scope1', uri: '/rest/fake/1') }
-    let(:scope2) { OneviewSDK::API300::C7000::Scope.new(@client, name: 'Scope2', uri: '/rest/fake/2') }
+    let(:scope1) { OneviewSDK::API300::Synergy::Scope.new(@client, name: 'Scope1', uri: '/rest/fake/1') }
+    let(:scope2) { OneviewSDK::API300::Synergy::Scope.new(@client, name: 'Scope2', uri: '/rest/fake/2') }
 
     before do
-      allow(res.item).to receive(:retrieve!)
-      allow(res.context).to receive(:scopes).and_return(['Scope1', 'Scope2'])
+      allow(res.item).to receive(:retrieve!).and_return(true)
+      allow(res.context.instance_variable_get(:@new_resource)).to receive(:scopes).and_return(['Scope1', 'Scope2'])
       allow(res).to receive(:load_resource).with(:Scope, 'Scope1').and_return(scope1)
       allow(res).to receive(:load_resource).with(:Scope, 'Scope2').and_return(scope2)
     end
@@ -355,7 +375,7 @@ RSpec.describe OneviewCookbook::ResourceProvider do
     end
 
     it 'should not call replace_scopes method from Oneview resource if all scopes are already replaced' do
-      allow(res.item).to receive(:[]).with('scopeUris').and_return(['/rest/fake/1', '/rest/fake/2'])
+      allow(res.item).to receive(:[]).with('scopeUris').and_return(['/rest/fake/2', '/rest/fake/1'])
       expect(res.item).not_to receive(:replace_scopes)
       res.send(:replace_scopes)
     end

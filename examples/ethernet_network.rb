@@ -47,25 +47,25 @@ oneview_ethernet_network 'Eth1' do
   action :create_if_missing
 end
 
-# Example: Adds 'Scope1' to 'Eth1'
+# Example: Adds 'Eth1' to 'Scope1' and 'Scope2'
 oneview_ethernet_network 'Eth1' do
   client my_client
-  scope 'Scope1'
-  action :add_scope
+  scopes ['Scope1', 'Scope2']
+  action :add_to_scopes
 end
 
-# Example: Replaces 'Scope1' and 'Scope2' to 'Eth1'
+# Example: Removes 'Eth1' from 'Scope1'
+oneview_ethernet_network 'Eth1' do
+  client my_client
+  scopes ['Scope1']
+  action :remove_from_scopes
+end
+
+# Example: Replaces 'Scope1' and 'Scope2' for 'Eth1'
 oneview_ethernet_network 'Eth1' do
   client my_client
   scopes ['Scope1', 'Scope2']
   action :replace_scopes
-end
-
-# Example: Removes 'Scope1' and 'Scope2' from 'Eth1'
-oneview_ethernet_network 'Eth1' do
-  client my_client
-  scope 'Scope1'
-  action :remove_scope
 end
 
 # Example: Replaces all scopes to empty list of scopes

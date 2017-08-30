@@ -13,7 +13,7 @@ if defined?(ChefSpec)
   # Instead of defining each matcher method, we're going to save some time by doing some meta programming
   # To see a full list of the actual matchers, see spec/unit/resources/matchers_spec.rb
   standard_actions = %i[create create_if_missing delete]
-  scope_actions = %i[add_scope remove_scope replace_scopes patch]
+  scope_actions = %i[add_to_scopes remove_from_scopes replace_scopes patch]
   # Lists all the possible action verbs
   action_list = %w[create add delete remove set reset refresh update configure reconfigure edit none discover apply reapply activate
                    stage new patch replace change load download upload extract backup allocate collect]

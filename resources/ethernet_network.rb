@@ -31,12 +31,12 @@ action :delete do
   OneviewCookbook::Helper.do_resource_action(self, :EthernetNetwork, :delete)
 end
 
-action :add_scope do
-  OneviewCookbook::Helper.do_resource_action(self, :EthernetNetwork, :add_scope)
+action :add_to_scopes do
+  OneviewCookbook::Helper.do_resource_action(self, :EthernetNetwork, :add_to_scopes)
 end
 
-action :remove_scope do
-  OneviewCookbook::Helper.do_resource_action(self, :EthernetNetwork, :remove_scope)
+action :remove_from_scopes do
+  OneviewCookbook::Helper.do_resource_action(self, :EthernetNetwork, :remove_from_scopes)
 end
 
 action :replace_scopes do
