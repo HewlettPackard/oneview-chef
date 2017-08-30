@@ -14,7 +14,6 @@ metadata
 
 group :test do
   cookbook 'oneview_test', path: './spec/fixtures/cookbooks/oneview_test'
-  cookbook 'oneview_test_api300_c7000', path: './spec/fixtures/cookbooks/oneview_test_api300_c7000'
   cookbook 'oneview_test_api300_synergy', path: './spec/fixtures/cookbooks/oneview_test_api300_synergy'
   cookbook 'image_streamer_test_api300', path: './spec/fixtures/cookbooks/image_streamer_test_api300'
 end
