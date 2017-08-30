@@ -13,6 +13,8 @@ OneviewCookbook::ResourceBaseProperties.load(self)
 
 default_action :create
 
+property :associated_san, String
+
 action :create do
   OneviewCookbook::Helper.do_resource_action(self, :FCNetwork, :create_or_update)
 end

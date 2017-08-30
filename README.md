@@ -154,9 +154,10 @@ end
 oneview_fc_network 'Fc1' do
   client <my_client>
   data <resource_data>
-  operation <op> # String. Used in patch action only. e.g., 'add'
-  path <path>    # String. Used in patch option only. e.g., '/scopeUris/-'
-  value <val>    # String. Used in patch option only. e.g., 'scope uri'
+  associated_san <san_name> # String - Optional. Can also set managedSanUri in data
+  operation <op>            # String. Used in patch action only. e.g., 'add'
+  path <path>               # String. Used in patch option only. e.g., '/scopeUris/-'
+  value <val>               # String. Used in patch option only. e.g., 'scope uri'
   action [:create, :create_if_missing, :delete, :patch]
 end
 ```

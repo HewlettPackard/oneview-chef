@@ -25,6 +25,16 @@ oneview_fc_network 'Fc1' do
 end
 
 oneview_fc_network 'Fc1' do
+  data(
+    autoLoginRedistribution: true,
+    fabricType: 'FabricAttach'
+  )
+  associated_san 'SAN1_0'
+  client my_client
+  action :create_if_missing
+end
+
+oneview_fc_network 'Fc1' do
   client my_client
   operation 'add'
   path '/scopeUris/-'
