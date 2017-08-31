@@ -1,6 +1,6 @@
 #
-# Cookbook Name:: oneview_test_api300_c7000
-# Recipe:: ethernet_network_synergy
+# Cookbook Name:: oneview_test_api300_synergy
+# Recipe:: ethernet_network_patch
 #
 # (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
