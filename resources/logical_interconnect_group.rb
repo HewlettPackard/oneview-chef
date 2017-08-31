@@ -13,7 +13,6 @@ OneviewCookbook::ResourceBaseProperties.load(self)
 
 property :interconnects, Array, default: []
 property :uplink_sets, Array, default: []
-property :scope, String
 property :scopes, Array
 
 default_action :create
@@ -30,12 +29,12 @@ action :delete do
   OneviewCookbook::Helper.do_resource_action(self, :LogicalInterconnectGroup, :delete)
 end
 
-action :add_scope do
-  OneviewCookbook::Helper.do_resource_action(self, :LogicalInterconnectGroup, :add_scope)
+action :add_to_scopes do
+  OneviewCookbook::Helper.do_resource_action(self, :LogicalInterconnectGroup, :add_to_scopes)
 end
 
-action :remove_scope do
-  OneviewCookbook::Helper.do_resource_action(self, :LogicalInterconnectGroup, :remove_scope)
+action :remove_from_scopes do
+  OneviewCookbook::Helper.do_resource_action(self, :LogicalInterconnectGroup, :remove_from_scopes)
 end
 
 action :replace_scopes do

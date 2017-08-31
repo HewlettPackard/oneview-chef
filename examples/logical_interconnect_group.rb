@@ -96,25 +96,25 @@ oneview_logical_interconnect_group 'LogicalInterconnectGroup3' do
 end
 ################################
 
-# Adds 'Scope1' to 'LogicalInterconnectGroup1'
+# Adds 'LogicalInterconnectGroup1' to 'Scope1' and 'Scope2'
 oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
   client my_client
-  scope 'Scope1'
-  action :add_scope
+  scopes ['Scope1', 'Scope2']
+  action :add_to_scopes
 end
 
-# Replaces 'Scope1' and 'Scope2' to 'LogicalInterconnectGroup1'
+# Removes 'LogicalInterconnectGroup1' from 'Scope1'
+oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
+  client my_client
+  scopes ['Scope1']
+  action :remove_from_scopes
+end
+
+# Replaces scopes to 'Scope1' and 'Scope2'
 oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
   client my_client
   scopes ['Scope1', 'Scope2']
   action :replace_scopes
-end
-
-# Removes 'Scope1' and 'Scope2' from 'LogicalInterconnectGroup1'
-oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
-  client my_client
-  scope 'Scope1'
-  action :remove_scope
 end
 
 # Replaces all scopes to empty list of scopes
@@ -125,7 +125,6 @@ oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
   value []
   action :patch
 end
-
 
 # CLEANING UP THE LOGICAL INTERCONNECT GROUPS #
 oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do

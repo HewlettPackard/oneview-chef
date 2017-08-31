@@ -1,6 +1,6 @@
 #
-# Cookbook Name:: oneview_test_api300_c7000
-# Recipe:: logical_interconnect_group_replace_scopes
+# Cookbook Name:: oneview_test_api300_synergy
+# Recipe:: logical_interconnect_group_add_to_scopes
 #
 # (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
@@ -17,5 +17,5 @@
 oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
   client node['oneview_test']['client']
   scopes ['Scope1', 'Scope2']
-  action :replace_scopes
+  action :add_to_scopes
 end

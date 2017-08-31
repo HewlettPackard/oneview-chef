@@ -1,6 +1,6 @@
 #
-# Cookbook Name:: oneview_test_api300_c7000
-# Recipe:: logical_interconnect_group_remove_scope
+# Cookbook Name:: oneview_test_api300_synergy
+# Recipe:: logical_interconnect_group_patch
 #
 # (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
@@ -16,6 +16,8 @@
 
 oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
   client node['oneview_test']['client']
-  scope 'Scope1'
-  action :remove_scope
+  operation 'test'
+  path 'test/'
+  value 'TestMessage'
+  action :patch
 end
