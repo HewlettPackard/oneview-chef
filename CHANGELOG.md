@@ -8,6 +8,7 @@ Adds API 500 support to the following HPE OneView resources:
   - oneview_managed_san
   - oneview_rack
   - oneview_san_manager
+  - oneview_sas_logical_interconnect_group
   - oneview_scope
   - oneview_unmanaged_device
   - oneview_user
