@@ -15,15 +15,16 @@ my_client = {
   password: ENV['ONEVIEWSDK_PASSWORD']
 }
 
-# This resource is only available for API300::Synergy, so we need to set these attributes
-# to ensure it loads the correct resource_provider module. You can also set the api_version
-# and api_variant properties on each resource definition below (see the README).
+# This resource is only available for Synergy on API 300 onwards, and these attributes
+# must be set to ensure the correct resource_provider module is loaded.
+# The api_version and api_variant properties can also be set on each resource definition
+# bellow (see the README).
 node.default['oneview']['api_version'] = 300
 node.default['oneview']['api_variant'] = 'Synergy'
 
 # Example: Create a SAS LIG with interconnects
 oneview_sas_logical_interconnect_group 'SAS LIG' do
-  my_client
+  client my_client
   interconnects([
     { bay: 4, type: 'Synergy 12Gb SAS Connection Module' },
     { bay: 1, type: 'Synergy 12Gb SAS Connection Module' }
@@ -31,7 +32,7 @@ oneview_sas_logical_interconnect_group 'SAS LIG' do
 end
 
 # Example: Delete a SAS LIG
-oneview_logical_interconnect_group 'SAS LIG' do
+oneview_sas_logical_interconnect_group 'SAS LIG' do
   client my_client
   action :delete
 end
