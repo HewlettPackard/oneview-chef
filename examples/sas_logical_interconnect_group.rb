@@ -15,10 +15,10 @@ my_client = {
   password: ENV['ONEVIEWSDK_PASSWORD']
 }
 
-# This resource is only available for Synergy and API 300 and onwards, so we need
-# to set these attributes to ensure it loads the correct resource_provider module.
-# You can also set the api_version and api_variant properties on each resource
-# definition below (see the README).
+# This resource is only available for Synergy on API 300 onwards, and these attributes
+# must be set to ensure the correct resource_provider module is loaded.
+# The api_version and api_variant properties can also be set on each resource definition
+# bellow (see the README).
 node.default['oneview']['api_version'] = 300
 node.default['oneview']['api_variant'] = 'Synergy'
 
