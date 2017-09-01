@@ -108,7 +108,11 @@ Note: The `:bandwidth` can be defined inside `data` attribute. However, it will 
 oneview_ethernet_network 'Eth1' do
   client <my_client>
   data <resource_data>
-  action [:create, :create_if_missing, :delete, :reset_connection_template]
+  operation <op>         # String. Used in patch action only. e.g., 'replace'
+  path <path>            # String. Used in patch option only. e.g., '/name'
+  value <val>            # String, Array. Used in patch option only. e.g., 'New Name'
+  scopes [<scope_names>] # Array - Optional. Array of scope names. Used in add_to_scopes, remove_from_scopes or replace_scopes options only. e.g., ['Scope1', 'Scope2']
+  action [:create, :create_if_missing, :delete, :reset_connection_template, :patch, :add_to_scopes, :remove_from_scopes, :replace_scopes]
 end
 ```
 

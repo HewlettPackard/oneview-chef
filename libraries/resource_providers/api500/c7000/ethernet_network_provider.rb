@@ -10,10 +10,10 @@
 # specific language governing permissions and limitations under the License.
 
 module OneviewCookbook
-  module API300
+  module API500
     module C7000
-      # EthernetNetworkProvider API300 C7000 provider
-      class EthernetNetworkProvider < OneviewCookbook::API200::EthernetNetworkProvider
+      # EthernetNetworkProvider API500 C7000 provider
+      class EthernetNetworkProvider < API300::C7000::EthernetNetworkProvider
       end
     end
   end

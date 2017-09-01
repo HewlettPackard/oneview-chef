@@ -11,6 +11,8 @@
 
 OneviewCookbook::ResourceBaseProperties.load(self)
 
+property :scopes, Array
+
 default_action :create
 
 action :create do
@@ -27,4 +29,20 @@ end
 
 action :delete do
   OneviewCookbook::Helper.do_resource_action(self, :EthernetNetwork, :delete)
+end
+
+action :add_to_scopes do
+  OneviewCookbook::Helper.do_resource_action(self, :EthernetNetwork, :add_to_scopes)
+end
+
+action :remove_from_scopes do
+  OneviewCookbook::Helper.do_resource_action(self, :EthernetNetwork, :remove_from_scopes)
+end
+
+action :replace_scopes do
+  OneviewCookbook::Helper.do_resource_action(self, :EthernetNetwork, :replace_scopes)
+end
+
+action :patch do
+  OneviewCookbook::Helper.do_resource_action(self, :EthernetNetwork, :patch)
 end

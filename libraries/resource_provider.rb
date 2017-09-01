@@ -183,6 +183,45 @@ module OneviewCookbook
       end
     end
 
+    # Adds scopes to the Oneview resource if scope is not already added
+    def add_to_scopes
+      apply_scopes_action(:add_to_scopes, :add_scope) { |scope| @item['scopeUris'].include?(scope['uri']) }
+    end
+
+    # Removes scopes from the Oneview resource if scope is already added
+    def remove_from_scopes
+      apply_scopes_action(:remove_from_scopes, :remove_scope) { |scope| !@item['scopeUris'].include?(scope['uri']) }
+    end
+
+    # Helper method to apply method related to add or remove scopes in Oneview resource
+    def apply_scopes_action(action, resource_method, &ignore_scope_if)
+      return Chef::Log.info("No scopes were specified to perform #{action}. Skipping") if @new_resource.scopes.nil? || @new_resource.scopes.empty?
+      raise "ResourceNotFound: #{@resource_name} '#{@name}' does not exist" unless @item.retrieve!
+      scopes = @new_resource.scopes.map { |scope_name| load_resource(:Scope, scope_name) }
+      scopes.delete_if(&ignore_scope_if)
+      return Chef::Log.info("'#{action}' with '#{@new_resource.scopes}' to #{@resource_name} '#{@name}' is not needed. Skipping") if scopes.empty?
+      scope_names = scopes.map { |scope| scope['name'] }.sort
+      @context.converge_by "Performing #{action} '#{scope_names}' in #{@resource_name} '#{@name}'" do
+        scopes.each do |scope|
+          @item.send(resource_method, scope)
+        end
+      end
+    end
+
+    # Replaces scopes to the Oneview resource
+    def replace_scopes
+      return Chef::Log.info('No scopes were specified to perform replace_scopes. Skipping') if @new_resource.scopes.nil?
+      raise "ResourceNotFound: #{@resource_name} '#{@name}' does not exist" unless @item.retrieve!
+      scopes = @new_resource.scopes.map { |scope_name| load_resource(:Scope, scope_name) }
+      scope_uris = scopes.map { |scope| scope['uri'] }
+      if @item['scopeUris'].sort == scope_uris.sort
+        return Chef::Log.info("Scopes '#{@new_resource.scopes}' already are scopes of #{@resource_name} '#{@name}'. Skipping")
+      end
+      @context.converge_by "Replaced Scopes '#{@new_resource.scopes.sort}' for #{@resource_name} '#{@name}'" do
+        @item.replace_scopes(scopes)
+      end
+    end
+
     # Gathers the OneviewSDK correct resource class
     # @param [Symbol, String] resource Resource name/type desired
     # @param [Integer] version Version of the SDK desired

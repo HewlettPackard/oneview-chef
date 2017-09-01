@@ -13,6 +13,7 @@ if defined?(ChefSpec)
   # Instead of defining each matcher method, we're going to save some time by doing some meta programming
   # To see a full list of the actual matchers, see spec/unit/resources/matchers_spec.rb
   standard_actions = %i[create create_if_missing delete]
+  scope_actions = %i[add_to_scopes remove_from_scopes replace_scopes patch]
   # Lists all the possible action verbs
   action_list = %w[create add delete remove set reset refresh update configure reconfigure edit none discover apply reapply activate
                    stage new patch replace change load download upload extract backup allocate collect]
@@ -24,7 +25,7 @@ if defined?(ChefSpec)
     oneview_drive_enclosure:            %i[hard_reset patch refresh set_uid_light set_power_state],
     oneview_enclosure:                  %i[add remove refresh reconfigure patch],
     oneview_enclosure_group:            standard_actions + [:set_script],
-    oneview_ethernet_network:           standard_actions + [:reset_connection_template],
+    oneview_ethernet_network:           standard_actions + scope_actions + %i[reset_connection_template],
     oneview_event:                      [:create],
     oneview_fabric:                     [:set_reserved_vlan_range],
     oneview_fc_network:                 standard_actions,

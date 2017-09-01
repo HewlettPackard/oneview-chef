@@ -1,6 +1,7 @@
 ## 2.3.1 (Unreleased)
 Adds API 500 support to the following HPE OneView resources:
   - oneview_datacenter
+  - oneview_ethernet_network
   - oneview_event
   - oneview_fabric
   - oneview_firmware

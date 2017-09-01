@@ -12,8 +12,8 @@
 module OneviewCookbook
   module API300
     module Synergy
-      # EthernetNetworkProvider
-      class EthernetNetworkProvider < OneviewCookbook::API200::EthernetNetworkProvider
+      # EthernetNetworkProvider API300 Synergy provider
+      class EthernetNetworkProvider < API300::C7000::EthernetNetworkProvider
       end
     end
   end

@@ -60,7 +60,7 @@ describe 'oneview_test_api300_synergy::logical_interconnect_group_load_resource_
 
     # Load the Uplink sets
     ## Ethernet UplinkSet
-    allow_any_instance_of(OneviewSDK::EthernetNetwork).to receive(:retrieve!).and_return(true)
+    allow_any_instance_of(OneviewSDK::API300::Synergy::EthernetNetwork).to receive(:retrieve!).and_return(true)
     allow_any_instance_of(OneviewSDK::LIGUplinkSet).to receive(:add_network)
       .with(instance_of(OneviewSDK::API300::Synergy::EthernetNetwork)).and_return(true)
 
@@ -70,7 +70,7 @@ describe 'oneview_test_api300_synergy::logical_interconnect_group_load_resource_
     expect_any_instance_of(OneviewSDK::API300::Synergy::LogicalInterconnectGroup).to receive(:add_uplink_set)
 
     ## FC UplinkSet
-    allow_any_instance_of(OneviewSDK::FCNetwork).to receive(:retrieve!).and_return(true)
+    allow_any_instance_of(OneviewSDK::API300::Synergy::FCNetwork).to receive(:retrieve!).and_return(true)
     allow_any_instance_of(OneviewSDK::LIGUplinkSet).to receive(:add_network)
       .with(instance_of(OneviewSDK::API300::Synergy::FCNetwork)).and_return(true)
 
