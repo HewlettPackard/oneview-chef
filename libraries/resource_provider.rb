@@ -195,7 +195,7 @@ module OneviewCookbook
 
     # Helper method to apply method related to add or remove scopes in Oneview resource
     def apply_scopes_action(action, resource_method, &ignore_scope_if)
-      return if @new_resource.scopes.nil? || @new_resource.scopes.empty?
+      return Chef::Log.info("No scopes were specified to perform #{action}. Skipping") if @new_resource.scopes.nil? || @new_resource.scopes.empty?
       raise "ResourceNotFound: #{@resource_name} '#{@name}' does not exist" unless @item.retrieve!
       scopes = @new_resource.scopes.map { |scope_name| load_resource(:Scope, scope_name) }
       scopes.delete_if(&ignore_scope_if)
@@ -210,7 +210,7 @@ module OneviewCookbook
 
     # Replaces scopes to the Oneview resource
     def replace_scopes
-      return if @new_resource.scopes.nil?
+      return Chef::Log.info('No scopes were specified to perform replace_scopes. Skipping') if @new_resource.scopes.nil?
       raise "ResourceNotFound: #{@resource_name} '#{@name}' does not exist" unless @item.retrieve!
       scopes = @new_resource.scopes.map { |scope_name| load_resource(:Scope, scope_name) }
       scope_uris = scopes.map { |scope| scope['uri'] }
