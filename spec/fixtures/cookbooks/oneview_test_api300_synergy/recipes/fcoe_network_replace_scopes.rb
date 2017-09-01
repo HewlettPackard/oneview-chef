@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: oneview_test_api300_c7000
+# Cookbook Name:: oneview_test_api300_synergy
 # Recipe:: fcoe_network_replace_scopes
 #
 # (c) Copyright 2017 Hewlett Packard Enterprise Development LP

@@ -27,25 +27,25 @@ oneview_fcoe_network 'FCoE1' do
   action :create
 end
 
-# Example: Adds 'Scope1' to 'FCoE1'
+# Example: Adds 'FCoE1' to 'Scope1' and 'Scope2'
 oneview_fcoe_network 'FCoE1' do
   client my_client
-  scope 'Scope1'
-  action :add_scope
+  scopes ['Scope1', 'Scope2']
+  action :add_to_scopes
 end
 
-# Example: Replaces 'Scope1' and 'Scope2' to 'FCoE1'
+# Example: Removes 'FCoE1' from 'Scope1'
+oneview_fcoe_network 'FCoE1' do
+  client my_client
+  scopes ['Scope1']
+  action :remove_from_scopes
+end
+
+# Example: Replaces 'Scope1' and 'Scope2' for 'FCoE1'
 oneview_fcoe_network 'FCoE1' do
   client my_client
   scopes ['Scope1', 'Scope2']
   action :replace_scopes
-end
-
-# Example: Removes 'Scope1' and 'Scope2' from 'FCoE1'
-oneview_fcoe_network 'FCoE1' do
-  client my_client
-  scope 'Scope1'
-  action :remove_scope
 end
 
 # Example: Replaces all scopes to empty list of scopes

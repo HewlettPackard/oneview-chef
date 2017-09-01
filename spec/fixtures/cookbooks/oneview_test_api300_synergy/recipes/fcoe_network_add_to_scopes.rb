@@ -1,6 +1,6 @@
 #
-# Cookbook Name:: oneview_test_api300_c7000
-# Recipe:: fcoe_network_patch
+# Cookbook Name:: oneview_test_api300_synergy
+# Recipe:: fcoe_network_add_to_scopes
 #
 # (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
@@ -16,8 +16,6 @@
 
 oneview_fcoe_network 'FCoENetwork1' do
   client node['oneview_test']['client']
-  operation 'test'
-  path 'test/'
-  value 'TestMessage'
-  action :patch
+  scopes ['Scope1', 'Scope2']
+  action :add_to_scopes
 end
