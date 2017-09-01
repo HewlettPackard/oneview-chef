@@ -13,6 +13,23 @@ RSpec.describe OneviewCookbook::Helper do
 
   let(:resource_type) { :EthernetNetwork }
 
+  describe '::get_provider_named' do
+    it 'should return provider correclty' do
+      result = described_class.get_provider_named(:EthernetNetwork, OneviewCookbook::API300, :C7000)
+      expect(result).to be(OneviewCookbook::API300::C7000::EthernetNetworkProvider)
+    end
+
+    it 'should raise error when variant is not supported' do
+      expect { described_class.get_provider_named(:EthernetNetwork, OneviewCookbook::API300, :Wrong) }
+        .to raise_error(RuntimeError, /API300 variant Wrong is not supported!/)
+    end
+
+    it 'should raise error when type not exist' do
+      expect { described_class.get_provider_named(:EthernetNetworkWrong, OneviewCookbook::API300, :C7000) }
+        .to raise_error(RuntimeError, /The 'EthernetNetworkWrong' resource does not exist for OneView API300, variant C7000/)
+    end
+  end
+
   describe '::do_resource_action' do
     it 'calls all the other methods with the correct parameters' do
       context = FakeResource.new
