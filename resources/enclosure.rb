@@ -16,6 +16,9 @@ property :enclosure_group, String # Name of Enclosure Group
 property :refresh_state, String, default: 'RefreshPending'
 property :options, Hash, default: {}
 
+# API300 or greater
+property :scopes, Array
+
 default_action :add
 
 action :add do
@@ -36,4 +39,16 @@ end
 
 action :patch do
   OneviewCookbook::Helper.do_resource_action(self, :Enclosure, :patch)
+end
+
+action :add_to_scopes do
+  OneviewCookbook::Helper.do_resource_action(self, :Enclosure, :add_to_scopes)
+end
+
+action :remove_from_scopes do
+  OneviewCookbook::Helper.do_resource_action(self, :Enclosure, :remove_from_scopes)
+end
+
+action :replace_scopes do
+  OneviewCookbook::Helper.do_resource_action(self, :Enclosure, :replace_scopes)
 end

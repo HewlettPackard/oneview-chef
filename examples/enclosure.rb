@@ -11,11 +11,15 @@
 
 # NOTE: This recipe requires:
 # Enclosure group: Eg1
+# Scopes: Scope1, Scope2
+
+# NOTE 2: The api_version client should be greater than 200 if you run the examples using Scopes
 
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
-  password: ENV['ONEVIEWSDK_PASSWORD']
+  password: ENV['ONEVIEWSDK_PASSWORD'],
+  api_version: 300
 }
 
 oneview_enclosure 'Encl1' do
@@ -53,6 +57,27 @@ end
 oneview_enclosure 'Encl1' do
   client my_client
   action :refresh
+end
+
+# Adds 'Encl1' to 'Scope1' and 'Scope2'
+oneview_enclosure 'Encl1' do
+  client my_client
+  scopes ['Scope1', 'Scope2']
+  action :add_to_scopes
+end
+
+# Removes 'Encl1' from 'Scope1'
+oneview_enclosure 'Encl1' do
+  client my_client
+  scopes ['Scope1']
+  action :remove_from_scopes
+end
+
+# Replaces 'Scope1' and 'Scope2' for 'Encl1'
+oneview_enclosure 'Encl1' do
+  client my_client
+  scopes ['Scope1', 'Scope2']
+  action :replace_scopes
 end
 
 # Removes it from the appliance

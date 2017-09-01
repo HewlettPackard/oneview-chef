@@ -520,7 +520,8 @@ oneview_enclosure 'Encl1' do
   operation <op>            # String. Used in patch action only. e.g., 'replace'
   path <path>               # String. Used in patch option only. e.g., '/name'
   value <val>               # String. Used in patch option only. e.g., 'New Name'
-  action [:add, :patch, :reconfigure, :refresh, :remove]
+  scopes [<scope_names>]    # Array - Optional. Array of scope names. Used in add_to_scopes, remove_from_scopes or replace_scopes options only. e.g., ['Scope1', 'Scope2']
+  action [:add, :patch, :reconfigure, :refresh, :remove, :add_to_scopes, :remove_from_scopes, :replace_scopes]
 end
 ```
 
