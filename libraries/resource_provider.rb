@@ -195,9 +195,9 @@ module OneviewCookbook
 
     # Helper method to apply method related to add or remove scopes in Oneview resource
     def apply_scopes_action(action, resource_method, &ignore_scope_if)
-      return if @new_resource.scopes.nil?
+      return if @new_resource.scopes.nil? || @new_resource.scopes.empty?
       raise "ResourceNotFound: #{@resource_name} '#{@name}' does not exist" unless @item.retrieve!
-      scopes = load_scopes
+      scopes = @new_resource.scopes.map { |scope_name| load_resource(:Scope, scope_name) }
       scopes.delete_if(&ignore_scope_if)
       return Chef::Log.info("'#{action}' with '#{@new_resource.scopes}' to #{@resource_name} '#{@name}' is not needed. Skipping") if scopes.empty?
       scope_names = scopes.map { |scope| scope['name'] }.sort
@@ -212,7 +212,7 @@ module OneviewCookbook
     def replace_scopes
       return if @new_resource.scopes.nil?
       raise "ResourceNotFound: #{@resource_name} '#{@name}' does not exist" unless @item.retrieve!
-      scopes = load_scopes
+      scopes = @new_resource.scopes.map { |scope_name| load_resource(:Scope, scope_name) }
       scope_uris = scopes.map { |scope| scope['uri'] }
       if @item['scopeUris'].sort == scope_uris.sort
         return Chef::Log.info("Scopes '#{@new_resource.scopes}' already are scopes of #{@resource_name} '#{@name}'. Skipping")
@@ -220,11 +220,6 @@ module OneviewCookbook
       @context.converge_by "Replaced Scopes '#{@new_resource.scopes.sort}' for #{@resource_name} '#{@name}'" do
         @item.replace_scopes(scopes)
       end
-    end
-
-    # Loads scopes using property scopes
-    def load_scopes
-      @new_resource.scopes.map { |scope_name| load_resource(:Scope, scope_name) }
     end
 
     # Gathers the OneviewSDK correct resource class
