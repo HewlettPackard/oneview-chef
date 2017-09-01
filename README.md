@@ -170,6 +170,7 @@ end
 oneview_fcoe_network 'FCoE1' do
   client <my_client>
   data <resource_data>
+  associated_san <san_name> # String - Optional. Can also set managedSanUri in data
   action [:create, :create_if_missing, :delete]
 end
 ```

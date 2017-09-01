@@ -12,6 +12,7 @@
 OneviewCookbook::ResourceBaseProperties.load(self)
 
 property :scopes, Array
+property :associated_san, String
 
 default_action :create
 

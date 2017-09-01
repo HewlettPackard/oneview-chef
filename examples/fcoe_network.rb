@@ -23,6 +23,7 @@ oneview_fcoe_network 'FCoE1' do
   data(
     vlanId: 300
   )
+  associated_san 'SAN1_0'
   client my_client
   action :create
 end

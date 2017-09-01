@@ -13,6 +13,22 @@ module OneviewCookbook
   module API200
     # FCoENetwork API200 provider
     class FCoENetworkProvider < ResourceProvider
+      def load_associated_san
+        return unless @new_resource.associated_san
+        san = resource_named(:ManagedSAN).new(@item.client, name: @new_resource.associated_san)
+        raise "ResourceNotFound: SAN '#{san['name']}' not found!" unless san.retrieve!
+        @item['managedSanUri'] = san['uri']
+      end
+
+      def create_or_update
+        load_associated_san
+        super
+      end
+
+      def create_if_missing
+        load_associated_san
+        super
+      end
     end
   end
 end
