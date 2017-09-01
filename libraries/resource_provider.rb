@@ -186,6 +186,7 @@ module OneviewCookbook
     # Adds Oneview Scope to the Oneview resource if scope is not already added
     def add_to_scopes
       raise "ResourceNotFound: #{@resource_name} '#{@name}' does not exist" unless @item.retrieve!
+      raise "InvalidParameters: Parameters 'operation' must be valid for add_to_scopes" if @new_resource.scopes.nil? || @new_resource.scopes.empty?
       scopes = @new_resource.scopes.map { |scope_name| load_resource(:Scope, scope_name) }
       scopes.delete_if { |scope| @item['scopeUris'].include?(scope['uri']) }
       return Chef::Log.info("Scopes '#{@new_resource.scopes}' already added to #{@resource_name} '#{@name}'. Skipping") if scopes.empty?
@@ -200,6 +201,7 @@ module OneviewCookbook
     # Removes scope from the Oneview resource if scope is already added
     def remove_from_scopes
       raise "ResourceNotFound: #{@resource_name} '#{@name}' does not exist" unless @item.retrieve!
+      raise "InvalidParameters: Parameters 'scopes' must be valid for remove_from_scopes" if @new_resource.scopes.nil? || @new_resource.scopes.empty?
       scopes = @new_resource.scopes.map { |scope_name| load_resource(:Scope, scope_name) }
       scopes.keep_if { |scope| @item['scopeUris'].include?(scope['uri']) }
       return Chef::Log.info("Scopes '#{@new_resource.scopes}' already removed from #{@resource_name} '#{@name}'. Skipping") if scopes.empty?
@@ -214,6 +216,7 @@ module OneviewCookbook
     # Replaces scopes to the Oneview resource
     def replace_scopes
       raise "ResourceNotFound: #{@resource_name} '#{@name}' does not exist" unless @item.retrieve!
+      raise "InvalidParameters: Parameters 'operation' must be valid for replace_scopes" if @new_resource.scopes.nil?
       scopes = @new_resource.scopes.map { |scope_name| load_resource(:Scope, scope_name) }
       scope_uris = scopes.map { |scope| scope['uri'] }
       if @item['scopeUris'].sort == scope_uris.sort
