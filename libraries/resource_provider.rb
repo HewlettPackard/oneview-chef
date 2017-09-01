@@ -183,41 +183,36 @@ module OneviewCookbook
       end
     end
 
-    # Adds Oneview Scope to the Oneview resource if scope is not already added
+    # Adds scopes to the Oneview resource if scope is not already added
     def add_to_scopes
-      raise "ResourceNotFound: #{@resource_name} '#{@name}' does not exist" unless @item.retrieve!
-      raise "InvalidParameters: Parameters 'operation' must be valid for add_to_scopes" if @new_resource.scopes.nil? || @new_resource.scopes.empty?
-      scopes = @new_resource.scopes.map { |scope_name| load_resource(:Scope, scope_name) }
-      scopes.delete_if { |scope| @item['scopeUris'].include?(scope['uri']) }
-      return Chef::Log.info("Scopes '#{@new_resource.scopes}' already added to #{@resource_name} '#{@name}'. Skipping") if scopes.empty?
-      scope_names = scopes.map { |scope| scope['name'] }.sort
-      @context.converge_by "Added Scopes '#{scope_names}' to #{@resource_name} '#{@name}'" do
-        scopes.each do |scope|
-          @item.add_scope(scope)
-        end
-      end
+      apply_scopes_action(:add_to_scopes, :add_scope) { |scope| @item['scopeUris'].include?(scope['uri']) }
     end
 
-    # Removes scope from the Oneview resource if scope is already added
+    # Removes scopes from the Oneview resource if scope is already added
     def remove_from_scopes
+      apply_scopes_action(:remove_from_scopes, :remove_scope) { |scope| !@item['scopeUris'].include?(scope['uri']) }
+    end
+
+    # Helper method to apply method related to add or remove scopes in Oneview resource
+    def apply_scopes_action(action, resource_method, &ignore_scope_if)
+      return if @new_resource.scopes.nil?
       raise "ResourceNotFound: #{@resource_name} '#{@name}' does not exist" unless @item.retrieve!
-      raise "InvalidParameters: Parameters 'scopes' must be valid for remove_from_scopes" if @new_resource.scopes.nil? || @new_resource.scopes.empty?
-      scopes = @new_resource.scopes.map { |scope_name| load_resource(:Scope, scope_name) }
-      scopes.keep_if { |scope| @item['scopeUris'].include?(scope['uri']) }
-      return Chef::Log.info("Scopes '#{@new_resource.scopes}' already removed from #{@resource_name} '#{@name}'. Skipping") if scopes.empty?
+      scopes = load_scopes
+      scopes.delete_if(&ignore_scope_if)
+      return Chef::Log.info("'#{action}' with '#{@new_resource.scopes}' to #{@resource_name} '#{@name}' is not needed. Skipping") if scopes.empty?
       scope_names = scopes.map { |scope| scope['name'] }.sort
-      @context.converge_by "Removed Scopes '#{scope_names}' from #{@resource_name} '#{@name}'" do
+      @context.converge_by "Performing #{action} '#{scope_names}' in #{@resource_name} '#{@name}'" do
         scopes.each do |scope|
-          @item.remove_scope(scope)
+          @item.send(resource_method, scope)
         end
       end
     end
 
     # Replaces scopes to the Oneview resource
     def replace_scopes
+      return if @new_resource.scopes.nil?
       raise "ResourceNotFound: #{@resource_name} '#{@name}' does not exist" unless @item.retrieve!
-      raise "InvalidParameters: Parameters 'operation' must be valid for replace_scopes" if @new_resource.scopes.nil?
-      scopes = @new_resource.scopes.map { |scope_name| load_resource(:Scope, scope_name) }
+      scopes = load_scopes
       scope_uris = scopes.map { |scope| scope['uri'] }
       if @item['scopeUris'].sort == scope_uris.sort
         return Chef::Log.info("Scopes '#{@new_resource.scopes}' already are scopes of #{@resource_name} '#{@name}'. Skipping")
@@ -225,6 +220,11 @@ module OneviewCookbook
       @context.converge_by "Replaced Scopes '#{@new_resource.scopes.sort}' for #{@resource_name} '#{@name}'" do
         @item.replace_scopes(scopes)
       end
+    end
+
+    # Loads scopes using property scopes
+    def load_scopes
+      @new_resource.scopes.map { |scope_name| load_resource(:Scope, scope_name) }
     end
 
     # Gathers the OneviewSDK correct resource class
