@@ -293,7 +293,7 @@ RSpec.describe OneviewCookbook::ResourceProvider do
 
     before do
       expect(res.item).to receive(:retrieve!).and_return(true)
-      allow(res.context).to receive(:scopes).and_return(['Scope1', 'Scope2'])
+      allow(res.context.instance_variable_get(:@new_resource)).to receive(:scopes).and_return(['Scope1', 'Scope2'])
       allow(res).to receive(:load_resource).with(:Scope, 'Scope1').and_return(scope1)
       allow(res).to receive(:load_resource).with(:Scope, 'Scope2').and_return(scope2)
     end
@@ -325,7 +325,7 @@ RSpec.describe OneviewCookbook::ResourceProvider do
 
     before do
       allow(res.item).to receive(:retrieve!).and_return(true)
-      allow(res.context).to receive(:scopes).and_return(['Scope1', 'Scope2'])
+      allow(res.context.instance_variable_get(:@new_resource)).to receive(:scopes).and_return(['Scope1', 'Scope2'])
       allow(res).to receive(:load_resource).with(:Scope, 'Scope1').and_return(scope1)
       allow(res).to receive(:load_resource).with(:Scope, 'Scope2').and_return(scope2)
     end
@@ -357,7 +357,7 @@ RSpec.describe OneviewCookbook::ResourceProvider do
 
     before do
       allow(res.item).to receive(:retrieve!).and_return(true)
-      allow(res.context).to receive(:scopes).and_return(['Scope1', 'Scope2'])
+      allow(res.context.instance_variable_get(:@new_resource)).to receive(:scopes).and_return(['Scope1', 'Scope2'])
       allow(res).to receive(:load_resource).with(:Scope, 'Scope1').and_return(scope1)
       allow(res).to receive(:load_resource).with(:Scope, 'Scope2').and_return(scope2)
     end
