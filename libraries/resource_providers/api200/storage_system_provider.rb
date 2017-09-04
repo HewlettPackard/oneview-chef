@@ -24,7 +24,7 @@ module OneviewCookbook
           Chef::Log.debug "#{@resource_name} '#{@name}' Chef resource differs from OneView resource."
           Chef::Log.debug "Current state: #{JSON.pretty_generate(@item.data)}"
           Chef::Log.debug "Desired state: #{JSON.pretty_generate(temp)}"
-          @context.converge_by "Update #{@resource_name} '#{@name}'" do
+          @context.converge_by "Updated #{@resource_name} '#{@name}'" do
             @item.update(temp)
           end
         else
@@ -50,8 +50,17 @@ module OneviewCookbook
         @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         temp['credentials']['ip_hostname'] ||= @item['credentials']['ip_hostname']
         Chef::Log.info "Updating #{@resource_name} '#{@name}' credentials"
-        @context.converge_by "Update #{@resource_name} '#{@name}' credentials" do
+        @context.converge_by "Updated #{@resource_name} '#{@name}' credentials" do
           @item.update(temp)
+        end
+      end
+
+      def refresh
+        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
+        refresh_ready = ['RefreshFailed', 'NotRefreshing', ''].include? @item['refreshState']
+        return Chef::Log.info("#{@resource_name} '#{@name}' refresh is already running. State: #{@item['refreshState']}") unless refresh_ready
+        @context.converge_by "#{@resource_name} '#{@name}' was refreshed." do
+          @item.set_refresh_state('RefreshPending')
         end
       end
     end

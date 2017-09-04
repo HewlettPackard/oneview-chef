@@ -28,3 +28,7 @@ end
 action :remove do
   OneviewCookbook::Helper.do_resource_action(self, :StorageSystem, :remove)
 end
+
+action :refresh do
+  OneviewCookbook::Helper.do_resource_action(self, :StorageSystem, :refresh)
+end
