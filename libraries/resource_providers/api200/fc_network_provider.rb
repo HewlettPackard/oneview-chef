@@ -12,7 +12,7 @@
 module OneviewCookbook
   module API200
     # FC Network Provider resource methods
-    class FCNetworkProvider < ResourceProvider
+    class FCNetworkProvider < EthernetNetworkProvider
       def load_associated_san
         return unless @new_resource.associated_san
         san = resource_named(:ManagedSAN).new(@item.client, name: @new_resource.associated_san)
