@@ -9,13 +9,11 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-require_relative '../../api300/c7000/network_set_provider'
-
 module OneviewCookbook
   module API500
     module C7000
       # NetworkSet API500 C7000 provider
-      class NetworkSetProvider < OneviewCookbook::API300::C7000::NetworkSetProvider
+      class NetworkSetProvider < API300::C7000::NetworkSetProvider
       end
     end
   end

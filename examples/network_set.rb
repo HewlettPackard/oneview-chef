@@ -9,10 +9,14 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
+# NOTE 1: This example requires two Scopes named "Scope1" and "Scope2" to be present in the appliance.
+# NOTE 2: The api_version client should be greater than 200 if you run the examples using Scopes
+
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
-  password: ENV['ONEVIEWSDK_PASSWORD']
+  password: ENV['ONEVIEWSDK_PASSWORD'],
+  api_version: 300
 }
 
 # Create a few networks for the next examples
@@ -45,19 +49,51 @@ end
 # Example: Create a network set only if it doesn't exist (no updates)
 oneview_network_set 'ChefNetworkSet_2' do
   client my_client
+  data(
+    bandwidth: {
+      typicalBandwidth: 2000,
+      maximumBandwidth: 9000
+    }
+  )
   native_network 'Chef-Eth-Net-2'
   ethernet_network_list ['Chef-Eth-Net-1']
   action :create_if_missing
 end
 
-# Example: Add the Scope with URI 7887dc77-c4b7-474a-9b9e-b7cba3d11d93 to ChefNetworkSet_0
-oneview_network_set 'ChefNetworkSet_3' do
+# Example: Adds 'ChefNetworkSet_1' to 'Scope1' and 'Scope2'
+oneview_network_set 'ChefNetworkSet_1' do
   client my_client
-  data(name: 'ChefNetworkSet_0')
-  operation 'add'
-  path '/scopeUris/-'
-  value '/rest/scopes/bef7c18c-3618-4c86-b85a-4c62a2f0d034'
+  scopes ['Scope1', 'Scope2']
+  action :add_to_scopes
+end
+
+# Example: Removes 'ChefNetworkSet_1' from 'Scope1'
+oneview_network_set 'ChefNetworkSet_1' do
+  client my_client
+  scopes ['Scope1']
+  action :remove_from_scopes
+end
+
+# Example: Replaces 'Scope1' and 'Scope2' for 'ChefNetworkSet_1'
+oneview_network_set 'ChefNetworkSet_1' do
+  client my_client
+  scopes ['Scope1', 'Scope2']
+  action :replace_scopes
+end
+
+# Example: Replaces all scopes to empty list of scopes
+oneview_network_set 'ChefNetworkSet_1' do
+  client my_client
+  operation 'replace'
+  path '/scopeUris'
+  value []
   action :patch
+end
+
+# Example: Reset the connection template for a network
+oneview_network_set 'ChefNetworkSet_2' do
+  client my_client
+  action :reset_connection_template
 end
 
 # Examples: Delete the network sets

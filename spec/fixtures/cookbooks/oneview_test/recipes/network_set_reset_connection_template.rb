@@ -1,3 +1,7 @@
+#
+# Cookbook Name:: oneview_test
+# Recipe:: network_set_reset_connection_template
+#
 # (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -8,13 +12,9 @@
 # under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
+#
 
-module OneviewCookbook
-  module API500
-    module Synergy
-      # NetworkSet API500 Synergy provider
-      class NetworkSetProvider < API300::Synergy::NetworkSetProvider
-      end
-    end
-  end
+oneview_network_set 'NetworkSet5' do
+  client node['oneview_test']['client']
+  action :reset_connection_template
 end

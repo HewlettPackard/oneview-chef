@@ -13,6 +13,7 @@ OneviewCookbook::ResourceBaseProperties.load(self)
 
 property :native_network, String
 property :ethernet_network_list, Array # Array containing network names
+property :scopes, Array # Array containing scope names
 
 default_action :create
 
@@ -28,6 +29,22 @@ action :delete do
   OneviewCookbook::Helper.do_resource_action(self, :NetworkSet, :delete)
 end
 
+action :add_to_scopes do
+  OneviewCookbook::Helper.do_resource_action(self, :NetworkSet, :add_to_scopes)
+end
+
+action :remove_from_scopes do
+  OneviewCookbook::Helper.do_resource_action(self, :NetworkSet, :remove_from_scopes)
+end
+
+action :replace_scopes do
+  OneviewCookbook::Helper.do_resource_action(self, :NetworkSet, :replace_scopes)
+end
+
 action :patch do
   OneviewCookbook::Helper.do_resource_action(self, :NetworkSet, :patch)
+end
+
+action :reset_connection_template do
+  OneviewCookbook::Helper.do_resource_action(self, :NetworkSet, :reset_connection_template)
 end

@@ -14,7 +14,7 @@
 # specific language governing permissions and limitations under the License.
 #
 
-oneview_network_set 'NetworkSet5' do
+oneview_network_set 'NetworkSet1' do
   client node['oneview_test']['client']
   operation 'test'
   path 'test/'
