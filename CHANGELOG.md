@@ -13,6 +13,7 @@ Adds API 500 support to the following HPE OneView resources:
   - oneview_sas_logical_interconnect_group
   - oneview_scope
   - oneview_server_hardware_type
+  - oneview_storage_system
   - oneview_unmanaged_device
   - oneview_user
 
@@ -20,6 +21,7 @@ Enhancements:
 - [#246](https://github.com/HewlettPackard/oneview-chef/issues/246) Upgrade oneview-sdk gem to version 5.0.0
 - [#247](https://github.com/HewlettPackard/oneview-chef/issues/247) Remove deprecation and warnings for Chef 13
 - [#225](https://github.com/HewlettPackard/oneview-chef/issues/225) Support additional uplink port types in the LogicalInterconnectGroupProvider
+- [#304](https://github.com/HewlettPackard/oneview-chef/issues/304) Add refresh actions to oneview_storage_system
 
 Bug fixes:
 - [#284](https://github.com/HewlettPackard/oneview-chef/issues/284) Nested and cyclic requires are causing the first resource to be skipped
