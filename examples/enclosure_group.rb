@@ -25,6 +25,14 @@ oneview_enclosure_group 'Eg2' do
   action :create
 end
 
+# The set_script action is only available for C7000.
+oneview_enclosure_group 'Eg2' do
+  client my_client
+  api_variant 'C7000'
+  script '#TEST COMMAND'
+  action :set_script
+end
+
 oneview_enclosure_group 'Eg2' do
   client my_client
   action :delete

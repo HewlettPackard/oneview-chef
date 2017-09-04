@@ -488,7 +488,8 @@ oneview_enclosure_group 'EnclosureGroup_1' do
   client <my_client>
   data <resource_data>
   logical_interconnect_groups ['LIG_name1', { name: 'LIG_name2', enclosureIndex: 1 }]
-  action [:create, :create_if_missing, :delete]
+  script <script_string> # String. Used in set_script action only.
+  action [:create, :create_if_missing, :delete, :set_script]
 end
 ```
 
