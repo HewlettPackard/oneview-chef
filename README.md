@@ -638,10 +638,15 @@ end
 oneview_logical_enclosure 'Encl1' do
   client <my_client>
   data <data>
-  enclosures [<enclosure_names>] # Optional. Array of enclosure names (or serialNumbers or OA IPs) for :create & :create_if_missing actions only
+  enclosures <enclosure_names>   # Optional. Array of enclosure names (or serialNumbers or OA IPs) for :create & :create_if_missing actions only
   enclosure_group 'EncGroup1'    # Optional. Name of enclosure group for :create & :create_if_missing actions only
   script 'script'                # For :set_script action only
-  action [:create_if_missing, :create, :update_from_group, :reconfigure, :set_script, :delete]
+  dump_options(
+    errorCode: <error_code>,                       # Required <String>. For :support_dump action only
+    encrypt: <encrypt>,                            # Optional <TrueClass, FalseClass>. For :support_dump action only
+    excludeApplianceDump: <exclude_appliance_dump> # Optional <TrueClass, FalseClass>. For :support_dump action only
+  )
+  action [:create_if_missing, :create, :update_from_group, :reconfigure, :set_script, :delete, :support_dump]
 end
 ```
 
