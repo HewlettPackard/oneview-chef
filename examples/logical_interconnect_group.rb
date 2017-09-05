@@ -14,7 +14,7 @@
 # FC Network: FCNetwork1
 # Scopes: Scope1, Scope2
 
-# NOTE: The api_version client should be greater than 200 if you run the examples using Scopes
+# NOTE 2: The api_version client should be 300 or greater if you run the examples using Scopes
 
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
