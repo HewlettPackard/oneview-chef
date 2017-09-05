@@ -1,6 +1,6 @@
 #
-# Cookbook Name:: oneview_test
-# Recipe:: logical_switch_group_add_to_scopes
+# Cookbook Name:: oneview_test_api300_synergy
+# Recipe:: logical_switch_group_replace_scopes
 #
 # (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
@@ -19,5 +19,5 @@ oneview_logical_switch_group 'LogicalSwitchGroup1' do
   api_version 300
   api_variant 'C7000'
   scopes ['Scope1', 'Scope2']
-  action :add_to_scopes
+  action :replace_scopes
 end

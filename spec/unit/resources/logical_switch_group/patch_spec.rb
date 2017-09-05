@@ -1,6 +1,6 @@
 require_relative './../../../spec_helper'
 
-describe 'oneview_test::logical_switch_group_patch' do
+describe 'oneview_test_api300_synergy::logical_switch_group_patch' do
   include_context 'chef context'
   let(:resource_name) { 'logical_switch_group' }
 

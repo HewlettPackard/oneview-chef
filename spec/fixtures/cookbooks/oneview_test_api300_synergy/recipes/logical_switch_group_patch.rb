@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: oneview_test
+# Cookbook Name:: oneview_test_api300_synergy
 # Recipe:: logical_switch_group_patch
 #
 # (c) Copyright 2017 Hewlett Packard Enterprise Development LP
