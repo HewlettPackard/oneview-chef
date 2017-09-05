@@ -2,7 +2,7 @@
 # Cookbook Name:: oneview_test_api500_synergy
 # Recipe:: storage_system_refresh
 #
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
