@@ -1,4 +1,4 @@
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -9,12 +9,12 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-source 'https://supermarket.chef.io'
-metadata
-
-group :test do
-  cookbook 'oneview_test', path: './spec/fixtures/cookbooks/oneview_test'
-  cookbook 'oneview_test_api300_synergy', path: './spec/fixtures/cookbooks/oneview_test_api300_synergy'
-  cookbook 'oneview_test_api500_synergy', path: './spec/fixtures/cookbooks/oneview_test_api500_synergy'
-  cookbook 'image_streamer_test_api300', path: './spec/fixtures/cookbooks/image_streamer_test_api300'
+module OneviewCookbook
+  module API500
+    module Synergy
+      # StorageSystem API500 Synergy provider
+      class StorageSystemProvider < API500::C7000::StorageSystemProvider
+      end
+    end
+  end
 end
