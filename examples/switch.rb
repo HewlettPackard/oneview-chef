@@ -9,10 +9,14 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
+# NOTE 1: This example requires two Scopes named "Scope1" and "Scope2" to be present in the appliance.
+# NOTE 2: The api_version client should be greater than 200 if you run the examples using Scopes
+
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
-  password: ENV['ONEVIEWSDK_PASSWORD']
+  password: ENV['ONEVIEWSDK_PASSWORD'],
+  api_version: 300
 }
 
 # Example: No action is executed.
@@ -23,18 +27,38 @@ oneview_switch 'Switch1' do
   client my_client
 end
 
-# Example: Replace the Scopes for the Switch with a patch.
-oneview_switch 'Switch2' do
+# Example: Adds 'Switch1' to 'Scope1' and 'Scope2'
+oneview_switch 'Switch1' do
   client my_client
-  data(name: '172.xx.xx.1')
+  scopes ['Scope1', 'Scope2']
+  action :add_to_scopes
+end
+
+# Example: Removes 'Switch1' from 'Scope1'
+oneview_switch 'Switch1' do
+  client my_client
+  scopes ['Scope1']
+  action :remove_from_scopes
+end
+
+# Example: Replaces 'Scope1' and 'Scope2' for 'Switch1'
+oneview_switch 'Switch1' do
+  client my_client
+  scopes ['Scope1', 'Scope2']
+  action :replace_scopes
+end
+
+# Example: Replaces all scopes to empty list of scopes
+oneview_switch 'Switch1' do
+  client my_client
   operation 'replace'
   path '/scopeUris'
-  value ['/rest/scopes/7fa5a27f-9d24-401d-9141-16501febee6c']
+  value []
   action :patch
 end
 
 # Example: Removes the Switch
-oneview_switch 'Switch3' do
+oneview_switch 'Switch1' do
   client my_client
   action :remove
 end
