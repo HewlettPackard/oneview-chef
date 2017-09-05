@@ -16,6 +16,7 @@ require 'oneview-sdk'
 require 'chef/log'
 require 'chefspec'
 require 'chefspec/berkshelf'
+Dir[File.expand_path('./unit/shared_examples/*.rb', File.dirname(__FILE__))].each { |file| require file }
 ChefSpec::Coverage.start!
 
 RSpec.configure do |config|
