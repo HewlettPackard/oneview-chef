@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: oneview_test
+# Cookbook Name:: oneview_test_api300_synergy
 # Recipe:: logical_switch_patch
 #
 # (c) Copyright 2017 Hewlett Packard Enterprise Development LP
@@ -14,7 +14,7 @@
 # specific language governing permissions and limitations under the License.
 #
 
-oneview_logical_switch 'LogicalSwitch5' do
+oneview_logical_switch 'LogicalSwitch1' do
   client node['oneview_test']['client']
   api_version 300
   api_variant 'C7000'

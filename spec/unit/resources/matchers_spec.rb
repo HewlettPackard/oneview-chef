@@ -145,6 +145,9 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not create_oneview_logical_switch_if_missing('')
     expect(chef_run).to_not delete_oneview_logical_switch('')
     expect(chef_run).to_not refresh_oneview_logical_switch('')
+    expect(chef_run).to_not add_oneview_logical_switch_to_scopes('')
+    expect(chef_run).to_not remove_oneview_logical_switch_from_scopes('')
+    expect(chef_run).to_not replace_oneview_logical_switch_scopes('')
     expect(chef_run).to_not patch_oneview_logical_switch('')
 
     # oneview_managed_san
