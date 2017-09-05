@@ -42,7 +42,7 @@ networks_01 = ['EthernetNetwork1','EthernetNetwork2']
 # DATA FOR THE SECOND UPLINK SET
 connections_02 = [
   { bay: 3, port: 'Q2:1', type: icm_type_1, enclosure_index: 1 },
-  { bay: 6, port: 'Q2:1', type: icm_type_1, enclosure_index: 2 }
+  { bay: 3, port: 'Q2:2', type: icm_type_1, enclosure_index: 1 }
 ]
 lig_01_uplink_02_data = {
   name: 'LogicalInterconnectGroup3 - UplinkSet2',
@@ -53,6 +53,7 @@ networks_02 = ['FCNetwork1']
 # Logical Interconnect Group 1
 oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
   client my_client
+  api_variant 'Synergy'
   data(
      redundancyType: 'HighlyAvailable',
      interconnectBaySet: 3,
@@ -75,6 +76,7 @@ end
 # Adds 'LogicalInterconnectGroup1' to 'Scope1' and 'Scope2'
 oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
   client my_client
+  api_variant 'Synergy'
   scopes ['Scope1', 'Scope2']
   action :add_to_scopes
 end
@@ -82,6 +84,7 @@ end
 # Removes 'LogicalInterconnectGroup1' from 'Scope1'
 oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
   client my_client
+  api_variant 'Synergy'
   scopes ['Scope1']
   action :remove_from_scopes
 end
@@ -89,6 +92,7 @@ end
 # Replaces scopes to 'Scope1' and 'Scope2'
 oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
   client my_client
+  api_variant 'Synergy'
   scopes ['Scope1', 'Scope2']
   action :replace_scopes
 end
@@ -96,6 +100,7 @@ end
 # Replaces all scopes to empty list of scopes
 oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
   client my_client
+  api_variant 'Synergy'
   operation 'replace'
   path '/scopeUris'
   value []
@@ -106,5 +111,6 @@ end
 # CLEANING UP THE LOGICAL INTERCONNECT GROUPS #
 oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
   client my_client
+  api_variant 'Synergy'
   action :delete
 end
