@@ -314,7 +314,11 @@ oneview_logical_interconnect_group 'LogicalInterconnectGroup_1' do
   data <resource_data>
   interconnects <interconnects_data> # Array of hashes specifying interconnect data
   uplink_sets <uplink_set_data>      # Array of hashes specifying uplink data
-  action [:create, :create_if_missing, :delete]
+  operation <op>         # String. Used in patch action only. e.g., 'replace'
+  path <path>            # String. Used in patch option only. e.g., '/name'
+  value <val>            # String, Array. Used in patch option only. e.g., 'New Name'
+  scopes <scope_names> # Array - Optional. Array of scope names. Used in add_to_scopes, remove_from_scopes or replace_scopes options only. e.g., ['Scope1', 'Scope2']
+  action [:create, :create_if_missing, :delete, :patch, :add_to_scopes, :remove_from_scopes, :replace_scopes]
 end
 ```
 
