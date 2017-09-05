@@ -15,11 +15,16 @@ my_client = {
   password: ENV['ONEVIEWSDK_PASSWORD']
 }
 
+my_server_profile_template = 'spt1'
+my_server_hardware_type = 'SY 480 Gen9 2'
+my_server_hardware = '0000A66101, bay 5'
+my_enclosure_group = 'eg1'
+
 # Creates a server profile with the desired Enclosure group and Server hardware type
 oneview_server_profile 'ServerProfile1' do
   client my_client
-  enclosure_group 'EnclosureGroup1'
-  server_hardware_type 'BL460c Gen8'
+  enclosure_group my_enclosure_group
+  server_hardware_type my_server_hardware_type
 end
 
 # Creates a server profile using a template
@@ -32,12 +37,12 @@ oneview_server_profile 'ServerProfile2' do
   data(
     description: 'Override Description',
     boot: {
-      'order' => [],
-      'manageBoot' => false
+      order: [],
+      manageBoot: false
     }
   )
-  server_profile_template 'Web Server Template'
-  server_hardware 'Enclosure1, bay 3'
+  server_profile_template my_server_profile_template
+  server_hardware my_server_hardware
 end
 
 # If a profile does get in an inconsistent state, you can update it from it's template. Note that this action
@@ -53,22 +58,29 @@ end
 # Creates a server profile with the desired Enclosure group and Server hardware type and some connections
 oneview_server_profile 'ServerProfile3' do
   client my_client
-  enclosure_group 'EnclosureGroup2'
-  server_hardware_type 'BL460c Gen8'
+  enclosure_group my_enclosure_group
+  server_hardware_type my_server_hardware_type
   data(
-    'macType' => 'Virtual',
-    'wwnType' => 'Virtual'
+    macType: 'Virtual',
+    wwnType: 'Virtual'
   )
   ethernet_network_connections(
-    'EthernetNetwork1' => {
-      'name' => 'Connection1'
+    EthernetNetwork1: {
+      name: 'Connection1'
     }
   )
   fc_network_connections(
-    'FCNetwork1' => {
-      'name' => 'Connection2',
-      'functionType' => 'FibreChannel',
-      'portId' => 'Auto'
+    FCNetwork1: {
+      name: 'Connection2',
+      functionType: 'FibreChannel',
+      portId: 'Auto'
+    }
+  )
+  fcoe_network_connections(
+    fcoe1: {
+      name: 'c1',
+      functionType: 'FibreChannel',
+      portId: 'Auto'
     }
   )
   action :create_if_missing
@@ -77,31 +89,31 @@ end
 # Creates or updates ServerProfile3 with multiple boot connections in the same network
 oneview_server_profile 'ServerProfile3' do
   client my_client
-  enclosure_group 'EnclosureGroup2'
-  server_hardware_type 'BL460c Gen8'
+  enclosure_group my_enclosure_group
+  server_hardware_type my_server_hardware_type
   data(
-    "bootMode" => {
-      'manageMode' => true,
-      'mode' => 'BIOS'
+    bootMode: {
+      manageMode: true,
+      mode: 'BIOS'
     },
-    'boot' => {
-      'manageBoot' => true
+  boot: {
+      manageBoot: true
     }
   )
   ethernet_network_connections [
     {
-      'EthernetNetwork1' => {
-        'name' => 'PrimaryBoot',
-        "boot": {
-          "priority": "Primary"
+      EthernetNetwork1: {
+        name: 'PrimaryBoot',
+        boot: {
+          priority: "Primary"
         }
       }
     },
     {
-      'EthernetNetwork1' => {
-        'name' => 'SecondaryBoot',
-        "boot": {
-          "priority": "Secondary"
+      EthernetNetwork1: {
+        name: 'SecondaryBoot',
+        boot: {
+          priority: "Secondary"
         }
       }
     }

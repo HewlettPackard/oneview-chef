@@ -767,6 +767,7 @@ oneview_server_profile 'ServerProfile1' do
   firmware_driver <firmware_driver_name>
   ethernet_network_connections <ethernet_network_connections_data>
   fc_network_connections <fc_network_connections_data>
+  fcoe_network_connections <fcoe_network_connections_data>
   network_set_connections <network_set_connections_data>
   os_deployment_plan <os_deployment_plan_name>
   action [:create, :create_if_missing, :delete]

@@ -49,6 +49,7 @@ module OneviewCookbook
         set_resource(:FirmwareDriver, @new_resource.firmware_driver, :set_firmware_driver)
         set_connections(:EthernetNetwork, @new_resource.ethernet_network_connections)
         set_connections(:FCNetwork, @new_resource.fc_network_connections)
+        set_connections(:FCoENetwork, @new_resource.fcoe_network_connections)
         set_connections(:NetworkSet, @new_resource.network_set_connections)
       end
 
