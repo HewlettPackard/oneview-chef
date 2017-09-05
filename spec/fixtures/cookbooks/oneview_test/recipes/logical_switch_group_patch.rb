@@ -14,7 +14,7 @@
 # specific language governing permissions and limitations under the License.
 #
 
-oneview_logical_switch_group 'LogicalSwitchGroup4' do
+oneview_logical_switch_group 'LogicalSwitchGroup1' do
   client node['oneview_test']['client']
   api_version 300
   api_variant 'C7000'

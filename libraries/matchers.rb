@@ -39,7 +39,7 @@ if defined?(ChefSpec)
                                            update_ethernet_settings update_port_monitor update_qos_configuration update_telemetry_configuration
                                            update_snmp_configuration update_firmware stage_firmware activate_firmware update_from_group
                                            reapply_configuration],
-    oneview_logical_switch_group:       standard_actions + [:patch],
+    oneview_logical_switch_group:       standard_actions + scope_actions,
     oneview_logical_switch:             standard_actions + [:refresh],
     oneview_managed_san:                %i[refresh set_policy set_public_attributes],
     oneview_network_set:                standard_actions + scope_actions + %i[reset_connection_template],

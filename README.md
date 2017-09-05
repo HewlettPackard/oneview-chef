@@ -427,7 +427,8 @@ oneview_logical_switch_group 'LogicalSwitchGroup_1' do
   operation <op>                 # String. Used in patch action only. e.g., 'add'
   path <path>                    # String. Used in patch option only. e.g., '/scopeUris/-'
   value <val>                    # String. Used in patch option only. e.g., 'scope uri'
-  action [:create, :create_if_missing, :delete, :patch]
+  scopes <scope_names>           # Array - Optional. Array of scope names. Used in add_to_scopes, remove_from_scopes or replace_scopes options only. e.g., ['Scope1', 'Scope2']
+  action [:create, :create_if_missing, :delete, :patch, :add_to_scopes, :remove_from_scopes, :replace_scopes]
 end
 ```
 
