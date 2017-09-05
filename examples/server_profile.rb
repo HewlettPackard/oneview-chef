@@ -71,6 +71,13 @@ oneview_server_profile 'ServerProfile3' do
       'portId' => 'Auto'
     }
   )
+  fcoe_network_connections(
+    'fcoe1' => {
+      'name' => 'c1',
+      'functionType' => 'FibreChannel',
+      'portId' => 'Auto'
+    }
+  )
   action :create_if_missing
 end
 
