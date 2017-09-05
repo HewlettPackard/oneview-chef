@@ -1,12 +1,10 @@
 require_relative './../../../spec_helper'
 
 describe 'oneview_test_api300_synergy::logical_switch_group_patch' do
-  include_context 'chef context'
   let(:resource_name) { 'logical_switch_group' }
+  include_context 'chef context'
 
-  it 'performs patch operation' do
-    expect_any_instance_of(OneviewSDK::API300::C7000::LogicalSwitchGroup).to receive(:retrieve!).and_return(true)
-    allow_any_instance_of(OneviewSDK::API300::C7000::LogicalSwitchGroup).to receive(:patch).with('test', 'test/', 'TestMessage').and_return(true)
-    expect(real_chef_run).to patch_oneview_logical_switch_group('LogicalSwitchGroup1')
-  end
+  let(:target_class) { OneviewSDK::API300::C7000::LogicalSwitchGroup }
+  let(:target_match_method) { [:patch_oneview_logical_switch_group, 'LogicalSwitchGroup1'] }
+  it_behaves_like 'action :patch'
 end
