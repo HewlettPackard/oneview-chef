@@ -600,34 +600,13 @@ end
 ```
 
 ### [oneview_storage_system](examples/storage_system.rb)
-Note: If you add ip_hostname to credentials you don't need to specify a name to handle storage systems
+Note: If you add `ip_hostname` to credentials (prior to API500) or `hostname` (API500 onwards) you don't need to specify a name to handle storage systems
 
 ```ruby
-storage_system_credentials = {
-  'ip_hostname' => '<ip_hostname>',
-  'username' => 'user',
-  'password' => 'password'
-}
-
-oneview_storage_system 'ThreePAR7200-8147' do
+oneview_storage_system 'StorageSystem1' do
   client <my_client>
-  data(
-    credentials: storage_system_credentials,
-    managedDomain: 'TestDomain'
-  )
-  action [:add, :add_if_missing, :remove]
-end
-```
-
-```ruby
-oneview_storage_system 'ThreePAR7200-81471' do
-  client my_client
-  data(
-    ip_hostname: '127.0.0.1',
-    username: 'username',
-    password: 'password'
-  )
-  action :edit_credentials
+  data <storage_system_data>
+  action [:add, :add_if_missing, :remove, :refresh]
 end
 ```
 

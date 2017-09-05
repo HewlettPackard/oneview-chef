@@ -53,6 +53,12 @@ oneview_storage_system 'StorageSystem1' do
   action :edit_credentials
 end
 
+# Example: refresh storage system
+oneview_storage_system 'StorageSystem1' do
+  client my_client
+  action :refresh
+end
+
 # Example: remove storage system
 oneview_storage_system 'StorageSystem1' do
   client my_client
