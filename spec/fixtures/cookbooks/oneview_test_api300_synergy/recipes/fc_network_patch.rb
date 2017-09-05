@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: oneview_test
-# Recipe:: fc_network_create_if_missing
+# Cookbook Name:: oneview_test_api300_synergy
+# Recipe:: fc_network_patch
 #
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,12 +14,10 @@
 # specific language governing permissions and limitations under the License.
 #
 
-oneview_fc_network 'FCNetwork2' do
+oneview_fc_network 'FCNetwork4' do
   client node['oneview_test']['client']
-  associated_san 'SAN1'
-  data(
-    autoLoginRedistribution: true,
-    fabricType: 'FabricAttach'
-  )
-  action :create_if_missing
+  operation 'test'
+  path 'test/'
+  value 'TestMessage'
+  action :patch
 end

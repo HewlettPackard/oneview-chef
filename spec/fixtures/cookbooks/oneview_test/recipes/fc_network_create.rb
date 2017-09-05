@@ -16,6 +16,7 @@
 
 oneview_fc_network 'FCNetwork1' do
   client node['oneview_test']['client']
+  associated_san 'SAN1'
   data(
     autoLoginRedistribution: true,
     fabricType: 'FabricAttach'
