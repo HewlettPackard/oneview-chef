@@ -12,12 +12,15 @@
 # NOTE: This recipe requires:
 # Ethernet Networks: EthernetNetwork1, EthernetNetwork2
 # FC Network: FCNetwork1
+# Scopes: Scope1, Scope2
 
+# NOTE 2: The api_version client should be 300 or greater if you run the examples using Scopes
 
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
-  password: ENV['ONEVIEWSDK_PASSWORD']
+  password: ENV['ONEVIEWSDK_PASSWORD'],
+  api_version: 300
 }
 
 # LOGICAL INTERCONNECT GROUP 1 #
@@ -93,6 +96,35 @@ oneview_logical_interconnect_group 'LogicalInterconnectGroup3' do
 end
 ################################
 
+# Adds 'LogicalInterconnectGroup1' to 'Scope1' and 'Scope2'
+oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
+  client my_client
+  scopes ['Scope1', 'Scope2']
+  action :add_to_scopes
+end
+
+# Removes 'LogicalInterconnectGroup1' from 'Scope1'
+oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
+  client my_client
+  scopes ['Scope1']
+  action :remove_from_scopes
+end
+
+# Replaces scopes to 'Scope1' and 'Scope2'
+oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
+  client my_client
+  scopes ['Scope1', 'Scope2']
+  action :replace_scopes
+end
+
+# Replaces all scopes to empty list of scopes
+oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
+  client my_client
+  operation 'replace'
+  path '/scopeUris'
+  value []
+  action :patch
+end
 
 # CLEANING UP THE LOGICAL INTERCONNECT GROUPS #
 oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
