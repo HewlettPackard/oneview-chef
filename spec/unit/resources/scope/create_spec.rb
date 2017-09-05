@@ -1,7 +1,7 @@
 require_relative './../../../spec_helper'
 
 describe 'oneview_test_api300_synergy::scope_create' do
-  let(:klass) { OneviewSDK::API300::C7000::Scope }
+  let(:klass) { OneviewSDK::API300::Synergy::Scope }
   let(:resource_name) { 'scope' }
   include_context 'chef context'
 
