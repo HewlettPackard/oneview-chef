@@ -42,7 +42,7 @@ if defined?(ChefSpec)
     oneview_logical_switch_group:       standard_actions,
     oneview_logical_switch:             standard_actions + [:refresh],
     oneview_managed_san:                %i[refresh set_policy set_public_attributes],
-    oneview_network_set:                standard_actions,
+    oneview_network_set:                standard_actions + scope_actions + %i[reset_connection_template],
     oneview_power_device:               %i[add add_if_missing discover remove],
     oneview_rack:                       %i[add remove add_if_missing add_to_rack remove_from_rack],
     oneview_san_manager:                %i[add add_if_missing remove],
