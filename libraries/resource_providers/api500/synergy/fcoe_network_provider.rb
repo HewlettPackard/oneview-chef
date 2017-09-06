@@ -1,4 +1,4 @@
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -9,12 +9,14 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-require_relative 'fc_network_provider'
+require_relative '../../api300/synergy/fcoe_network_provider'
 
 module OneviewCookbook
-  module API200
-    # FCoENetwork API200 provider
-    class FCoENetworkProvider < FCNetworkProvider
+  module API500
+    module Synergy
+      # FCoENetwork API500 Synergy resource provider methods
+      class FCoENetworkProvider < API300::Synergy::FCoENetworkProvider
+      end
     end
   end
 end

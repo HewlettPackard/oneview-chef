@@ -29,7 +29,7 @@ if defined?(ChefSpec)
     oneview_event:                      [:create],
     oneview_fabric:                     [:set_reserved_vlan_range],
     oneview_fc_network:                 standard_actions + scope_actions + %i[reset_connection_template],
-    oneview_fcoe_network:               standard_actions,
+    oneview_fcoe_network:               standard_actions + scope_actions + %i[reset_connection_template],
     oneview_firmware:                   %i[add remove create_custom_spp],
     oneview_id_pool:                    %i[update allocate_list allocate_count collect_ids],
     oneview_interconnect:               %i[set_uid_light set_power_state reset reset_port_protection update_port],

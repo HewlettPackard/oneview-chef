@@ -11,6 +11,9 @@
 
 OneviewCookbook::ResourceBaseProperties.load(self)
 
+property :associated_san, String
+property :scopes, Array
+
 default_action :create
 
 action :create do
@@ -23,4 +26,24 @@ end
 
 action :delete do
   OneviewCookbook::Helper.do_resource_action(self, :FCoENetwork, :delete)
+end
+
+action :add_to_scopes do
+  OneviewCookbook::Helper.do_resource_action(self, :FCoENetwork, :add_to_scopes)
+end
+
+action :remove_from_scopes do
+  OneviewCookbook::Helper.do_resource_action(self, :FCoENetwork, :remove_from_scopes)
+end
+
+action :replace_scopes do
+  OneviewCookbook::Helper.do_resource_action(self, :FCoENetwork, :replace_scopes)
+end
+
+action :patch do
+  OneviewCookbook::Helper.do_resource_action(self, :FCoENetwork, :patch)
+end
+
+action :reset_connection_template do
+  OneviewCookbook::Helper.do_resource_action(self, :FCoENetwork, :reset_connection_template)
 end
