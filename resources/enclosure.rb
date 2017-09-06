@@ -15,9 +15,7 @@ OneviewCookbook::ResourceBaseProperties.load(self)
 property :enclosure_group, String # Name of Enclosure Group
 property :refresh_state, String, default: 'RefreshPending'
 property :options, Hash, default: {}
-
-# API300 or greater
-property :scopes, Array
+property :scopes, Array # API300 or greater
 
 default_action :add
 
