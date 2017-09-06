@@ -4,9 +4,7 @@ describe 'oneview_test_api300_synergy::fcoe_network_patch' do
   let(:resource_name) { 'fcoe_network' }
   include_context 'chef context'
 
-  it 'performs patch operation' do
-    expect_any_instance_of(OneviewSDK::API300::Synergy::FCoENetwork).to receive(:retrieve!).and_return(true)
-    expect_any_instance_of(OneviewSDK::API300::Synergy::FCoENetwork).to receive(:patch).with('test', 'test/', 'TestMessage').and_return(true)
-    expect(real_chef_run).to patch_oneview_fcoe_network('FCoENetwork1')
-  end
+  let(:target_class) { OneviewSDK::API300::Synergy::FCoENetwork }
+  let(:target_match_method) { [:patch_oneview_fcoe_network, 'FCoENetwork1'] }
+  it_behaves_like 'action :patch'
 end
