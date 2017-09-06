@@ -1,9 +1,9 @@
 require_relative './../../../spec_helper'
 
 describe 'oneview_test_api300_synergy::scope_change_resource_assignments' do
-  let(:klass) { OneviewSDK::API300::C7000::Scope }
-  let(:en_klass) { OneviewSDK::API300::C7000::Enclosure }
-  let(:sh_klass) { OneviewSDK::API300::C7000::ServerHardware }
+  let(:klass) { OneviewSDK::API300::Synergy::Scope }
+  let(:en_klass) { OneviewSDK::API300::Synergy::Enclosure }
+  let(:sh_klass) { OneviewSDK::API300::Synergy::ServerHardware }
   let(:resource_name) { 'scope' }
   include_context 'chef context'
 
