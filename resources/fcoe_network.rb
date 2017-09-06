@@ -11,8 +11,8 @@
 
 OneviewCookbook::ResourceBaseProperties.load(self)
 
-property :scopes, Array
 property :associated_san, String
+property :scopes, Array
 
 default_action :create
 
@@ -42,4 +42,8 @@ end
 
 action :patch do
   OneviewCookbook::Helper.do_resource_action(self, :FCoENetwork, :patch)
+end
+
+action :reset_connection_template do
+  OneviewCookbook::Helper.do_resource_action(self, :FCoENetwork, :reset_connection_template)
 end
