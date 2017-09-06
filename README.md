@@ -171,7 +171,10 @@ oneview_fcoe_network 'FCoE1' do
   client <my_client>
   data <resource_data>
   associated_san <san_name> # String - Optional. Can also set managedSanUri in data
-  action [:create, :create_if_missing, :delete]
+  path <path>               # String. Used in patch option only. e.g., '/scopeUris/-'
+  value <val>               # String. Used in patch option only. e.g., 'scope uri'
+  scopes <scope_names>      # Array - Optional. Array of scope names. Used in add_to_scopes, remove_from_scopes or replace_scopes options only. e.g., ['Scope1', 'Scope2']
+  action [:create, :create_if_missing, :delete, :reset_connection_template, :patch, :add_to_scopes, :remove_from_scopes, :replace_scopes]
 end
 ```
 
