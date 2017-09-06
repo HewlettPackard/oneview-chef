@@ -9,8 +9,11 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-# NOTE 1: This example requires two Scopes named "Scope1" and "Scope2" to be present in the appliance.
-# NOTE 2: The api_version client should be greater than 200 if you run the examples using Scopes
+# NOTE: This recipe requires:
+# Managed SAN: VSAN10 (must have state "Managed")
+# Scopes: Scope1, Scope2
+
+# NOTE 2: The api_version client should be 300 or greater if you run the examples using Scopes
 
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
@@ -21,41 +24,51 @@ my_client = {
 
 oneview_fcoe_network 'FCoE1' do
   data(
-    vlanId: 300
+    vlanId: 10,
+    bandwidth: {
+      typicalBandwidth: 2000,
+      maximumBandwidth: 9000
+    }
   )
-  associated_san 'SAN1_0'
+  associated_san 'VSAN10'
   client my_client
   action :create
 end
 
-# Example: Adds 'FCoE1' to 'Scope1' and 'Scope2'
+# Adds 'FCoE1' to 'Scope1' and 'Scope2'
 oneview_fcoe_network 'FCoE1' do
   client my_client
   scopes ['Scope1', 'Scope2']
   action :add_to_scopes
 end
 
-# Example: Removes 'FCoE1' from 'Scope1'
+# Removes 'FCoE1' from 'Scope1'
 oneview_fcoe_network 'FCoE1' do
   client my_client
   scopes ['Scope1']
   action :remove_from_scopes
 end
 
-# Example: Replaces 'Scope1' and 'Scope2' for 'FCoE1'
+# Replaces scopes to 'Scope1' and 'Scope2'
 oneview_fcoe_network 'FCoE1' do
   client my_client
   scopes ['Scope1', 'Scope2']
   action :replace_scopes
 end
 
-# Example: Replaces all scopes to empty list of scopes
+# Replaces all scopes to empty list of scopes
 oneview_fcoe_network 'FCoE1' do
   client my_client
   operation 'replace'
   path '/scopeUris'
   value []
   action :patch
+end
+
+# Reset the connection template for 'FCoE1'
+oneview_fcoe_network 'FCoE1' do
+  client my_client
+  action :reset_connection_template
 end
 
 oneview_fcoe_network 'FCoE1' do
