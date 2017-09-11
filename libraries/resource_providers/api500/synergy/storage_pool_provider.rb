@@ -10,22 +10,10 @@
 # specific language governing permissions and limitations under the License.
 
 module OneviewCookbook
-  module API200
-    # StoragePool API200 provider
-    class StoragePoolProvider < ResourceProvider
-      def load_storage_system
-        raise "Unspecified property: 'storage_system'. Please set it before attempting this action." unless @new_resource.storage_system
-        @item['poolName'] ||= @name
-        data = {
-          credentials: { ip_hostname: @new_resource.storage_system },
-          name: @new_resource.storage_system
-        }
-        @item.set_storage_system(load_resource(:StorageSystem, data))
-      end
-
-      def add_if_missing
-        load_storage_system
-        super
+  module API500
+    module Synergy
+      # StoragePool API500 C7000 provider
+      class StoragePoolProvider < API500::C7000::StoragePoolProvider
       end
     end
   end

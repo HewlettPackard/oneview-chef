@@ -22,3 +22,19 @@ end
 action :remove do
   OneviewCookbook::Helper.do_resource_action(self, :StoragePool, :remove)
 end
+
+action :add_for_management do
+  OneviewCookbook::Helper.do_resource_action(self, :StoragePool, :add_for_management)
+end
+
+action :remove_from_management do
+  OneviewCookbook::Helper.do_resource_action(self, :StoragePool, :remove_from_management)
+end
+
+action :update do
+  OneviewCookbook::Helper.do_resource_action(self, :StoragePool, :update)
+end
+
+action :refresh do
+  OneviewCookbook::Helper.do_resource_action(self, :StoragePool, :refresh)
+end
