@@ -10,7 +10,7 @@
 # specific language governing permissions and limitations under the License.
 
 # NOTE 1: This example requires two Scopes named "Scope1" and "Scope2" to be present in the appliance.
-# NOTE 2: The api_version client should be greater than 200 if you run the examples using Scopes
+# NOTE 2: The api_version client should be 300 or greater if you run the examples using Scopes
 
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
@@ -20,9 +20,10 @@ my_client = {
 }
 
 # Example: No action is executed.
-# In a resource that has only one action and no action is specified in the block
-# Chef executes this one. To prevent Chef from removing a switch as the standard action we created
-# the none action
+# In a resource that only has a remove action and other actions without great relevance to be considered
+# a standard action and no action is specified in the block Chef executes this one.
+# To prevent Chef from removing a switch or use an action without great relevance as the standard action
+# we created the none action.
 oneview_switch 'Switch1' do
   client my_client
 end
