@@ -9,49 +9,14 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-require_relative 'interconnect_provider'
-
 module OneviewCookbook
   module API300
     module Synergy
       # SAS Interconnect API300 Synergy provider
-      class SASInterconnectProvider < InterconnectProvider
-        def reset
-          reset_handler('/softResetState')
-        end
-
-        def hard_reset
-          reset_handler('/hardResetState')
-        end
-
-        def refresh
-          @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
-          refresh_ready = ['RefreshFailed', 'NotRefreshing', ''].include? @item['refreshState']
-          return Chef::Log.info("#{@resource_name} '#{@name}' refresh is already running. State: #{@item['refreshState']}") unless refresh_ready
-          @context.converge_by "#{@resource_name} '#{@name}' was refreshed." do
-            @item.set_refresh_state(@new_resource.refresh_state)
-          end
-        end
-
-        protected
-
-        def reset_handler(path)
-          @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
-          # Nothing to verify
-          @context.converge_by "#{path.delete('/').gsub(/([A-Z])/, ' \1').capitalize} #{@resource_name} '#{@name}'" do
-            @item.patch('replace', path, 'Reset')
-          end
-        end
-
-        private
-
-        def update_port
-          Chef::Log.error('InternalError: Method not supported by this resource')
-        end
-
-        def reset_port_protection
-          Chef::Log.error('InternalError: Method not supported by this resource')
-        end
+      class SASInterconnectProvider < ResourceProvider
+        include OneviewCookbook::PatchOperations::OnOff
+        include OneviewCookbook::PatchOperations::Reset
+        include OneviewCookbook::RefreshActions::SetRefreshState
       end
     end
   end
