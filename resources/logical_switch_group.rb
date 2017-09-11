@@ -13,6 +13,7 @@ OneviewCookbook::ResourceBaseProperties.load(self)
 
 property :switch_number, Integer
 property :switch_type, String
+property :scopes, Array
 
 default_action :create
 
@@ -26,4 +27,20 @@ end
 
 action :delete do
   OneviewCookbook::Helper.do_resource_action(self, :LogicalSwitchGroup, :delete)
+end
+
+action :add_to_scopes do
+  OneviewCookbook::Helper.do_resource_action(self, :LogicalSwitchGroup, :add_to_scopes)
+end
+
+action :remove_from_scopes do
+  OneviewCookbook::Helper.do_resource_action(self, :LogicalSwitchGroup, :remove_from_scopes)
+end
+
+action :replace_scopes do
+  OneviewCookbook::Helper.do_resource_action(self, :LogicalSwitchGroup, :replace_scopes)
+end
+
+action :patch do
+  OneviewCookbook::Helper.do_resource_action(self, :LogicalSwitchGroup, :patch)
 end
