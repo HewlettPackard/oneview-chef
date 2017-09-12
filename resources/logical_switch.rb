@@ -13,6 +13,7 @@ OneviewCookbook::ResourceBaseProperties.load(self)
 
 property :logical_switch_group, String
 property :credentials, Array
+property :scopes, Array
 
 default_action :create
 
@@ -30,4 +31,20 @@ end
 
 action :delete do
   OneviewCookbook::Helper.do_resource_action(self, :LogicalSwitch, :delete)
+end
+
+action :add_to_scopes do
+  OneviewCookbook::Helper.do_resource_action(self, :LogicalSwitch, :add_to_scopes)
+end
+
+action :remove_from_scopes do
+  OneviewCookbook::Helper.do_resource_action(self, :LogicalSwitch, :remove_from_scopes)
+end
+
+action :replace_scopes do
+  OneviewCookbook::Helper.do_resource_action(self, :LogicalSwitch, :replace_scopes)
+end
+
+action :patch do
+  OneviewCookbook::Helper.do_resource_action(self, :LogicalSwitch, :patch)
 end

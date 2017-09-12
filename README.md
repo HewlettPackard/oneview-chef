@@ -449,7 +449,11 @@ oneview_logical_switch 'LogicalSwitch_1' do
   client <my_client>
   data <resource_data>               # Logical Switch options
   credentials <switches_credentials> # Specify the credentials for all the switches
-  action [:create, :create_if_missing, :delete, :refresh]
+  operation <op>                     # String. Used in patch action only. e.g., 'add'
+  path <path>                        # String. Used in patch option only. e.g., '/scopeUris/-'
+  value <val>                        # String. Used in patch option only. e.g., 'scope uri'
+  scopes <scope_names>               # Array - Optional. Array of scope names. Used in add_to_scopes, remove_from_scopes or replace_scopes options only. e.g., ['Scope1', 'Scope2']
+  action [:create, :create_if_missing, :delete, :refresh, :patch, :add_to_scopes, :remove_from_scopes, :replace_scopes]
 end
 ```
 
