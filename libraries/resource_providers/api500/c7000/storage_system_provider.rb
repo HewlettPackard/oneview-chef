@@ -14,12 +14,7 @@ module OneviewCookbook
     module C7000
       # StorageSystem API500 C7000 provider
       class StorageSystemProvider < API300::C7000::StorageSystemProvider
-        def refresh
-          @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
-          @context.converge_by "#{@resource_name} '#{@name}' was refreshed." do
-            @item.request_refresh
-          end
-        end
+        include OneviewCookbook::RefreshActions::RequestRefresh
       end
     end
   end
