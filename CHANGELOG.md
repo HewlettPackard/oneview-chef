@@ -1,6 +1,7 @@
 ## 2.4.0 (Unreleased)
 Adds API 500 support to the following HPE OneView resources:
   - oneview_datacenter
+  - oneview_drive_enclosure
   - oneview_enclosure
   - oneview_enclosure_group
   - oneview_ethernet_network
