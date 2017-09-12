@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: oneview_test
+# Cookbook Name:: oneview_test_api500_synergy
 # Recipe:: storage_pool_remove
 #
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,8 +14,8 @@
 # specific language governing permissions and limitations under the License.
 #
 
-oneview_storage_pool 'StoragePool1' do
+oneview_storage_pool 'StoragePool' do
   client node['oneview_test']['client']
-  storage_system '10.1.1.1'
+  storage_system 'StorageSystem1'
   action :remove
 end

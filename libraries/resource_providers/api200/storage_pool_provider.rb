@@ -27,6 +27,11 @@ module OneviewCookbook
         load_storage_system
         super
       end
+
+      def remove
+        load_storage_system
+        super
+      end
     end
   end
 end

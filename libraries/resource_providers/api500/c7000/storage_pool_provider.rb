@@ -29,7 +29,7 @@ module OneviewCookbook
 
         def update_manage_state(managed)
           status = 'managed'
-          status = 'unmanaged' unless @item['isManaged']
+          status = 'unmanaged' unless managed
           return Chef::Log.info("#{@resource_name} '#{@name}' is already #{status}") if @item['isManaged'] == managed
           @context.converge_by "#{@resource_name} '#{@name}' is now #{status}" do
             @item.update(isManaged: managed)
@@ -60,13 +60,19 @@ module OneviewCookbook
 
         def update
           load_storage_system
+          desired_state = Marshal.load(Marshal.dump(@item.data))
           @item.retrieve! || raise("Resource not found: The #{@resource_name} '#{@name}' could not be found")
-          update_manage_state(@data['isManaged'])
-          diff = get_diff(@item, @data)
-          return Chef::Log.info("#{@resource_name} '#{@name}' has no need to update") if diff =~ /no diff/
-          @context.converge_by "Updated the #{@resource_name} '#{@name}'#{diff}" do
-            @item.update(@data)
+          update_manage_state(desired_state['isManaged'])
+          return Chef::Log.info("#{@resource_name} '#{@name}' has no need to update") if @item.like? desired_state
+          diff = get_diff(@item, desired_state)
+          Chef::Log.info "Update #{@resource_name} '#{@name}'#{diff}"
+          Chef::Log.debug "#{@resource_name} '#{@name}' Chef resource differs from OneView resource."
+          Chef::Log.debug "Current state: #{JSON.pretty_generate(@item.data)}"
+          Chef::Log.debug "Desired state: #{JSON.pretty_generate(desired_state)}"
+          @context.converge_by "Updated #{@resource_name} '#{@name}'" do
+            @item.update(desired_state)
           end
+          save_res_info
         end
       end
     end
