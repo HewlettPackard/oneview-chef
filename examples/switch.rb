@@ -20,10 +20,8 @@ my_client = {
 }
 
 # Example: No action is executed.
-# In a resource that only has a remove action and other actions without great relevance to be considered
-# a standard action and no action is specified in the block Chef executes this one.
-# To prevent Chef from removing a switch or use an action without great relevance as the standard action
-# we created the none action.
+# In a resource that only has destructive and non intuitive actions, Chef executes the none action to avoid mistakes.
+# To prevent Chef from removing a switch or using a non intuitive action as the standard action, we created the none action.
 oneview_switch 'Switch1' do
   client my_client
 end
