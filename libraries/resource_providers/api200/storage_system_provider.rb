@@ -13,6 +13,8 @@ module OneviewCookbook
   module API200
     # StorageSystem API200 provider
     class StorageSystemProvider < ResourceProvider
+      include OneviewCookbook::RefreshActions::SetRefreshState
+
       def add_or_edit
         temp = Marshal.load(Marshal.dump(@item.data))
         if @item.exists?
@@ -52,15 +54,6 @@ module OneviewCookbook
         Chef::Log.info "Updating #{@resource_name} '#{@name}' credentials"
         @context.converge_by "Updated #{@resource_name} '#{@name}' credentials" do
           @item.update(temp)
-        end
-      end
-
-      def refresh
-        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
-        refresh_ready = ['RefreshFailed', 'NotRefreshing', ''].include? @item['refreshState']
-        return Chef::Log.info("#{@resource_name} '#{@name}' refresh is already running. State: #{@item['refreshState']}") unless refresh_ready
-        @context.converge_by "#{@resource_name} '#{@name}' was refreshed." do
-          @item.set_refresh_state('RefreshPending')
         end
       end
     end

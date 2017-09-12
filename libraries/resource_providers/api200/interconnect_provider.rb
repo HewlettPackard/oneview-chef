@@ -13,33 +13,11 @@ module OneviewCookbook
   module API200
     # Interconnect API200 provider
     class InterconnectProvider < ResourceProvider
-      def set_uid_light
-        raise "Unspecified property: 'uid_light_state'. Please set it before attempting this action." unless @new_resource.uid_light_state
-        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
-        # Impossible to verify this value programatically
-        @context.converge_by "Set #{@resource_name} '#{@name}' UID light to #{@new_resource.uid_light_state.upcase}" do
-          @item.patch('replace', '/uidState', @new_resource.uid_light_state.capitalize)
-        end
-      end
-
-      def set_power_state
-        raise "Unspecified property: 'power_state'. Please set it before attempting this action." unless @new_resource.power_state
-        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
-        if @item['powerState'] != @new_resource.power_state
-          @context.converge_by "Power #{@resource_name} '#{@name}' #{@new_resource.power_state.upcase}" do
-            @item.patch('replace', '/powerState', @new_resource.power_state.capitalize)
-          end
-        else
-          Chef::Log.info("#{@resource_name} '#{@name}' is already powered #{@new_resource.power_state.upcase}")
-        end
-      end
+      include OneviewCookbook::PatchOperations::OnOff
+      include OneviewCookbook::PatchOperations::Reset
 
       def reset
-        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
-        # Nothing to verify
-        @context.converge_by "Reset #{@resource_name} '#{@name}'" do
-          @item.patch('replace', '/deviceResetState', 'Reset')
-        end
+        reset_handler('/deviceResetState')
       end
 
       def reset_port_protection

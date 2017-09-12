@@ -9,14 +9,14 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-# Improve it with a Mixin
-require_relative 'sas_interconnect_provider'
-
 module OneviewCookbook
   module API300
     module Synergy
       # Drive Enclosure API300 Synergy provider
-      class DriveEnclosureProvider < API300::Synergy::SASInterconnectProvider # Improve it with a Mixin
+      class DriveEnclosureProvider < ResourceProvider
+        include OneviewCookbook::PatchOperations::OnOff
+        include OneviewCookbook::PatchOperations::Reset
+        include OneviewCookbook::RefreshActions::SetRefreshState
       end
     end
   end
