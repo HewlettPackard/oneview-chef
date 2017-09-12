@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: oneview_test
-# Recipe:: logical_enclosure_support_dump
+# Recipe:: logical_enclosure_create_support_dump
 #
 # (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
@@ -19,5 +19,5 @@ oneview_logical_enclosure 'LogicalEnclosure1' do
   dump_options(
     errorCode: 'MyDump'
   )
-  action :support_dump
+  action :create_support_dump
 end

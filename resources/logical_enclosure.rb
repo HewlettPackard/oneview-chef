@@ -42,6 +42,6 @@ action :delete do
   OneviewCookbook::Helper.do_resource_action(self, :LogicalEnclosure, :delete)
 end
 
-action :support_dump do
-  OneviewCookbook::Helper.do_resource_action(self, :LogicalEnclosure, :support_dump)
+action :create_support_dump do
+  OneviewCookbook::Helper.do_resource_action(self, :LogicalEnclosure, :create_support_dump)
 end

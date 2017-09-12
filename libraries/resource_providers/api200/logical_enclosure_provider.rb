@@ -69,10 +69,10 @@ module OneviewCookbook
         end
       end
 
-      def support_dump
+      def create_support_dump
         @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
-        Chef::Log.info "Generating a support dump for #{@resource_name} '#{@name}'"
-        @context.converge_by "Generated support dump for #{@resource_name} '#{@name}'" do
+        Chef::Log.info "Creating a support dump for #{@resource_name} '#{@name}'"
+        @context.converge_by "Created support dump for #{@resource_name} '#{@name}'" do
           @item.support_dump(@new_resource.dump_options)
         end
       end

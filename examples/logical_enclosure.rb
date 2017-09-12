@@ -49,13 +49,13 @@ oneview_logical_enclosure 'Encl1' do
   action :set_script
 end
 
-# Example: Generates a support dump for the logical enclosure
+# Example: Creates a support dump for the logical enclosure
 oneview_logical_enclosure 'Encl1' do
   client my_client
   dump_options(
     errorCode: 'MyDump'
   )
-  action :support_dump
+  action :create_support_dump
 end
 
 # Example: Delete a logical enclosure, logical interconnects and put all attached enclosures and their components to the Monitored state
