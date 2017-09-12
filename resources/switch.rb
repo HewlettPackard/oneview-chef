@@ -11,9 +11,7 @@
 
 OneviewCookbook::ResourceBaseProperties.load(self)
 
-property :operation, String # To be used with :patch action
-property :path, String      # To be used with :patch action
-property :value, String     # To be used with :patch action
+property :scopes, Array
 
 # To prevent that the default action is remove
 default_action :none
@@ -23,6 +21,18 @@ end
 
 action :remove do
   OneviewCookbook::Helper.do_resource_action(self, :Switch, :remove)
+end
+
+action :add_to_scopes do
+  OneviewCookbook::Helper.do_resource_action(self, :Switch, :add_to_scopes)
+end
+
+action :remove_from_scopes do
+  OneviewCookbook::Helper.do_resource_action(self, :Switch, :remove_from_scopes)
+end
+
+action :replace_scopes do
+  OneviewCookbook::Helper.do_resource_action(self, :Switch, :replace_scopes)
 end
 
 action :patch do

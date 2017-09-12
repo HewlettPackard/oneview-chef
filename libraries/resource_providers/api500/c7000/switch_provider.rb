@@ -10,10 +10,10 @@
 # specific language governing permissions and limitations under the License.
 
 module OneviewCookbook
-  module API300
+  module API500
     module C7000
-      # Switch API300 C7000 provider
-      class SwitchProvider < API200::SwitchProvider
+      # Switch API500 C7000 provider
+      class SwitchProvider < API300::C7000::SwitchProvider
       end
     end
   end

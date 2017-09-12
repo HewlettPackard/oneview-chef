@@ -57,7 +57,7 @@ if defined?(ChefSpec)
     oneview_server_profile:             standard_actions + [:update_from_template],
     oneview_storage_pool:               %i[add_if_missing remove],
     oneview_storage_system:             %i[add remove edit_credentials add_if_missing refresh],
-    oneview_switch:                     %i[remove none patch],
+    oneview_switch:                     scope_actions + %i[remove none],
     oneview_unmanaged_device:           %i[add remove add_if_missing],
     oneview_uplink_set:                 standard_actions,
     oneview_user:                       standard_actions,
