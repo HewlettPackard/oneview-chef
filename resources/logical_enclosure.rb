@@ -14,7 +14,7 @@ OneviewCookbook::ResourceBaseProperties.load(self)
 property :script, String # script for set_script action
 property :enclosures, Array # List of enclosure names (or serialNumbers or OA IPs) for create & create_if_missing actions
 property :enclosure_group, String # Name of enclosure group for create & create_if_missing actions
-property :dump_options, Hash # Used in :support_dump action only
+property :dump_options, Hash # Used in :create_support_dump action only
 
 default_action :create_if_missing
 
