@@ -22,6 +22,7 @@ describe 'oneview_test::power_device_set_power_state_on' do
 
   it 'raise error when power device not found' do
     expect_any_instance_of(target_class).to receive(:retrieve!).and_return(false)
+    allow(target_class).to receive(:get_ipdu_devices).and_return([])
     expect { real_chef_run }.to raise_error(RuntimeError, /not found/)
   end
 end
@@ -48,6 +49,7 @@ describe 'oneview_test::power_device_set_power_state_off' do
 
   it 'raise error when power device not found' do
     expect_any_instance_of(target_class).to receive(:retrieve!).and_return(false)
+    allow(target_class).to receive(:get_ipdu_devices).and_return([])
     expect { real_chef_run }.to raise_error(RuntimeError, /not found/)
   end
 end

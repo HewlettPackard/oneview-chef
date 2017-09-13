@@ -39,6 +39,7 @@ describe 'oneview_test::power_device_refresh' do
 
   it 'raises an error when it does not exist' do
     allow_any_instance_of(target_class).to receive(:retrieve!).and_return(false)
+    allow(target_class).to receive(:get_ipdu_devices).and_return([])
     expect_any_instance_of(target_class).to_not receive(:set_refresh_state)
     expect { real_chef_run }.to raise_error(StandardError, /not found/)
   end
