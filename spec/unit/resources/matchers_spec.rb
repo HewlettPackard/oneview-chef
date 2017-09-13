@@ -171,6 +171,9 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not add_oneview_power_device_if_missing('')
     expect(chef_run).to_not discover_oneview_power_device('')
     expect(chef_run).to_not remove_oneview_power_device('')
+    expect(chef_run).to_not refresh_oneview_power_device('')
+    expect(chef_run).to_not set_oneview_power_device_power_state('')
+    expect(chef_run).to_not set_oneview_power_device_uid_state('')
 
     # oneview_rack
     expect(chef_run).to_not add_oneview_rack('')
