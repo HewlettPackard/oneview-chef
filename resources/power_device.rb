@@ -14,7 +14,7 @@ OneviewCookbook::ResourceBaseProperties.load(self)
 property :username, String
 property :password, String
 property :uid_state, [String, Symbol], regex: /^(on|off)$/i                   # Used in :set_power_state action only
-property :power_state, [String, Symbol], regex: /^(on|off)$/i                 # Used in :set_power_state action only
+property :power_state, [String, Symbol], regex: /^(on|off)$/i                 # Used in :set_uid_state action only
 property :refresh_options, Hash, default: { refreshState: 'RefreshPending' }  # Used in :refresh action only
 
 default_action :add
