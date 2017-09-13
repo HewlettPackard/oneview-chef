@@ -12,7 +12,7 @@
 module OneviewCookbook
   module API300
     module Synergy
-      # PowerDevice API300 Synergy resource provider methods
+      # PowerDevice API300 Synergy provider
       class PowerDeviceProvider < API200::PowerDeviceProvider
       end
     end
