@@ -64,7 +64,7 @@ module OneviewCookbook
         raise "Unspecified property: '#{property_name}'. Please set it before attempting this action." unless @new_resource.send(property_name)
         property_name = property_name.to_s
         current_state = @item.public_send('get_' + property_name)
-        desired_value = @new_resource.public_send(property_name).capitalize
+        desired_value = @new_resource.public_send(property_name).to_s.capitalize
         return Chef::Log.info("The #{property_name} of #{@resource_name} '#{@name}' is already #{desired_value}") if current_state == desired_value
         @context.converge_by "#{@resource_name} '#{@name}' #{property_name} set to #{desired_value}" do
           @item.public_send('set_' + property_name, desired_value)
