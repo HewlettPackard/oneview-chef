@@ -1,8 +1,4 @@
-#
-# Cookbook Name:: oneview_test
-# Recipe:: storage_pool_remove
-#
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,10 +8,13 @@
 # under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
-#
 
-oneview_storage_pool 'StoragePool1' do
-  client node['oneview_test']['client']
-  storage_system '10.1.1.1'
-  action :remove
+module OneviewCookbook
+  module API500
+    module Synergy
+      # StoragePool API500 C7000 provider
+      class StoragePoolProvider < API500::C7000::StoragePoolProvider
+      end
+    end
+  end
 end

@@ -46,8 +46,7 @@ if defined?(ChefSpec)
     oneview_power_device:               %i[add add_if_missing discover remove],
     oneview_rack:                       %i[add remove add_if_missing add_to_rack remove_from_rack],
     oneview_san_manager:                %i[add add_if_missing remove],
-    oneview_sas_logical_interconnect:   %i[none update_firmware stage_firmware activate_firmware update_from_group reapply_configuration
-                                           replace_drive_enclosure],
+    oneview_sas_logical_interconnect:   %i[none update_firmware stage_firmware activate_firmware update_from_group reapply_configuration replace_drive_enclosure],
     oneview_sas_interconnect:           %i[reset hard_reset patch refresh set_uid_light set_power_state],
     oneview_sas_logical_interconnect_group: standard_actions,
     oneview_scope:                      standard_actions + [:change_resource_assignments],
@@ -55,7 +54,7 @@ if defined?(ChefSpec)
     oneview_server_hardware_type:       %i[edit remove],
     oneview_server_profile_template:    standard_actions + [:new_profile],
     oneview_server_profile:             standard_actions + [:update_from_template],
-    oneview_storage_pool:               %i[add_if_missing remove],
+    oneview_storage_pool:               %i[add_if_missing remove update refresh add_for_management remove_from_management],
     oneview_storage_system:             %i[add remove edit_credentials add_if_missing refresh],
     oneview_switch:                     scope_actions + %i[remove none],
     oneview_unmanaged_device:           %i[add remove add_if_missing],

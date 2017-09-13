@@ -13,7 +13,7 @@ module OneviewCookbook
   module API200
     # StoragePool API200 provider
     class StoragePoolProvider < ResourceProvider
-      def add_if_missing
+      def load_storage_system
         raise "Unspecified property: 'storage_system'. Please set it before attempting this action." unless @new_resource.storage_system
         @item['poolName'] ||= @name
         data = {
@@ -21,6 +21,15 @@ module OneviewCookbook
           name: @new_resource.storage_system
         }
         @item.set_storage_system(load_resource(:StorageSystem, data))
+      end
+
+      def add_if_missing
+        load_storage_system
+        super
+      end
+
+      def remove
+        load_storage_system
         super
       end
     end
