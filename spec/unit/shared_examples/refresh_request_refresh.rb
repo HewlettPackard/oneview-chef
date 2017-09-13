@@ -15,7 +15,7 @@
 #  target_match_method - Array with name of match method called and with the argument of the match method,
 #    e.g: let(:target_match_method) { [:add_oneview_enclosure_to_scopes, 'EnclosureName'] }
 
-RSpec.shared_examples 'action :refresh' do
+RSpec.shared_examples 'action :refresh #request_refresh' do
   it 'refreshes it when it exists' do
     allow_any_instance_of(target_class).to receive(:retrieve!).and_return(true)
     expect_any_instance_of(target_class).to receive(:request_refresh).and_return(true)

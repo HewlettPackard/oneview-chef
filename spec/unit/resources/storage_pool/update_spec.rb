@@ -13,7 +13,7 @@ describe 'oneview_test_api500_synergy::storage_pool_update' do
 
   it 'raises an error if it does not exist' do
     expect_any_instance_of(base_sdk::StoragePool).to receive(:retrieve!).and_return(false)
-    expect{ real_chef_run }.to raise_error(StandardError, /not found/)
+    expect { real_chef_run }.to raise_error(StandardError, /not found/)
   end
 
   it 'does nothing when it is already up to date' do

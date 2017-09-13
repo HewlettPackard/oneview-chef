@@ -36,7 +36,7 @@ describe 'oneview_test_api500_synergy::storage_pool_add_if_missing' do
 
   it 'calls add_for_management action' do
     allow(Chef::Log).to receive(:warn).and_call_original
-    expect(Chef::Log).to receive(:warn).with(/add_for_management/)
+    expect(Chef::Log).to receive(:warn).with(/add_for_management/).and_return(true)
     expect_any_instance_of(provider_class).to receive(:add_for_management).and_return(true)
     expect(real_chef_run).to add_oneview_storage_pool_if_missing('StoragePool')
   end

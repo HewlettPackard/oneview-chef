@@ -33,7 +33,7 @@ describe 'oneview_test_api500_synergy::storage_pool_remove' do
 
   it 'calls remove_from_management action' do
     allow(Chef::Log).to receive(:warn).and_call_original
-    expect(Chef::Log).to receive(:warn).with(/remove_from_management/)
+    expect(Chef::Log).to receive(:warn).with(/remove_from_management/).and_return(true)
     expect_any_instance_of(provider_class).to receive(:remove_from_management).and_return(true)
     expect(real_chef_run).to remove_oneview_storage_pool('StoragePool')
   end

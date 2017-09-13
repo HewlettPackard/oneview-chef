@@ -237,6 +237,9 @@ describe 'oneview_test::default' do
     # oneview_storage_pool
     expect(chef_run).to_not add_oneview_storage_pool_if_missing('')
     expect(chef_run).to_not remove_oneview_storage_pool('')
+    expect(chef_run).to_not add_oneview_storage_pool_for_management('')
+    expect(chef_run).to_not remove_oneview_storage_pool_from_management('')
+    expect(chef_run).to_not refresh_oneview_storage_pool('')
 
     # oneview_storage_system
     expect(chef_run).to_not add_oneview_storage_system('')

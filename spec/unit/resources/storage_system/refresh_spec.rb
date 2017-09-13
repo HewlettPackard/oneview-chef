@@ -27,5 +27,5 @@ describe 'oneview_test_api500_synergy::storage_system_refresh' do
 
   let(:target_class) { OneviewSDK::API500::Synergy::StorageSystem }
   let(:target_match_method) { [:refresh_oneview_storage_system, 'StorageSystem1'] }
-  it_behaves_like 'action :refresh'
+  it_behaves_like 'action :refresh #request_refresh'
 end

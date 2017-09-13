@@ -16,7 +16,7 @@ module OneviewCookbook
     module C7000
       # StoragePool API500 C7000 provider
       class StoragePoolProvider < API300::C7000::StoragePoolProvider
-        include API500::C7000::StorageProviderHelper # Adds refresh operation
+        include OneviewCookbook::RefreshActions::RequestRefresh
 
         def load_storage_system
           raise("Unspecified property: 'storage_system'. Please set it before attempting this action.") unless @new_resource.storage_system
