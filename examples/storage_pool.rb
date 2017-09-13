@@ -32,5 +32,6 @@ end
 # Example: Removes storage pool from HPE OneView
 oneview_storage_pool 'CPG_FC-AO' do
   client my_client
+  storage_system '172.XX.XX.XX'
   action :remove
 end
