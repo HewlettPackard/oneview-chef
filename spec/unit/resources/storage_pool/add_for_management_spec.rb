@@ -29,7 +29,7 @@ describe 'oneview_test_api500_synergy::storage_pool_add_for_management' do
     expect_any_instance_of(base_sdk::StoragePool).to receive(:retrieve!).and_return(true)
     allow_any_instance_of(base_sdk::StoragePool).to receive(:[]).and_call_original
     allow_any_instance_of(base_sdk::StoragePool).to receive(:[]).with('isManaged').and_return(false)
-    expect_any_instance_of(base_sdk::StoragePool).to receive(:update).with(isManaged: true).and_return(true)
+    expect_any_instance_of(base_sdk::StoragePool).to receive(:manage).with(true).and_return(true)
     expect(real_chef_run).to add_oneview_storage_pool_for_management('StoragePool')
   end
 end

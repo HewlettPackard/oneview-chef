@@ -32,7 +32,7 @@ module OneviewCookbook
           status = 'unmanaged' unless managed
           return Chef::Log.info("#{@resource_name} '#{@name}' is already #{status}") if @item['isManaged'] == managed
           @context.converge_by "#{@resource_name} '#{@name}' is now #{status}" do
-            @item.update(isManaged: managed)
+            @item.manage(managed)
           end
         end
 
