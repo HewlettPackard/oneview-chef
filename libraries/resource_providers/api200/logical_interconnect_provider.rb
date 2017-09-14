@@ -38,7 +38,7 @@ module OneviewCookbook
       # Recursive helper method to set hash values
       def recursive_set(actual, updates)
         updates.each_pair do |k, v|
-          if v.respond_to?(:each_pair)
+          if v.respond_to?(:each_pair) && actual[k].respond_to?(:each_pair)
             recursive_set(actual[k], v)
           else
             actual[k] = v
