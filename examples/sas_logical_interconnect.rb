@@ -64,10 +64,6 @@ oneview_sas_logical_interconnect 'Encl1-SASLogicalInterconnectGroup1' do
   client my_client
   firmware 'ROM Flash - SPP'
   firmware_data(
-    ethernetActivationDelay: 10,
-    ethernetActivationType: 'OddEven',
-    fcActivationDelay: 10,
-    fcActivationType: 'Serial',
     force: false
   )
   action :stage_firmware
@@ -80,9 +76,9 @@ oneview_sas_logical_interconnect 'Encl1-SASLogicalInterconnectGroup1' do
   client my_client
   firmware 'ROM Flash - SPP'
   firmware_data(
-    ethernetActivationDelay: 15,
-    fcActivationDelay: 20,
-    force: true
+    fwActivationMode: 'Parallel',
+    validationType: 'None',
+    force: false
   )
   action :update_firmware
 end
