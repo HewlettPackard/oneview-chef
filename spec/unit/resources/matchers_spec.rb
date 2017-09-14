@@ -220,6 +220,9 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not set_oneview_server_hardware_power_state('')
     expect(chef_run).to_not update_oneview_server_hardware_ilo_firmware('')
     expect(chef_run).to_not patch_oneview_server_hardware('')
+    expect(chef_run).to_not add_oneview_server_hardware_to_scopes('')
+    expect(chef_run).to_not remove_oneview_server_hardware_from_scopes('')
+    expect(chef_run).to_not replace_oneview_server_hardware_scopes('')
 
     # oneview_server_hardware_type
     expect(chef_run).to_not edit_oneview_server_hardware_type('')

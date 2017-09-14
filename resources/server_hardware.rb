@@ -13,6 +13,7 @@ OneviewCookbook::ResourceBaseProperties.load(self)
 
 property :power_state, [String, Symbol], regex: /^(on|off)$/i # Used in :set_power_state action only
 property :refresh_options, Hash, default: {}                  # Used in :refresh action only
+property :scopes, Array                                       # Used in :add_to_scopes, :remove_from_scopes and :replace_scopes actions only
 
 default_action :add_if_missing
 
@@ -38,4 +39,16 @@ end
 
 action :patch do
   OneviewCookbook::Helper.do_resource_action(self, :ServerHardware, :patch)
+end
+
+action :add_to_scopes do
+  OneviewCookbook::Helper.do_resource_action(self, :ServerHardware, :add_to_scopes)
+end
+
+action :remove_from_scopes do
+  OneviewCookbook::Helper.do_resource_action(self, :ServerHardware, :remove_from_scopes)
+end
+
+action :replace_scopes do
+  OneviewCookbook::Helper.do_resource_action(self, :ServerHardware, :replace_scopes)
 end

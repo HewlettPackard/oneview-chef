@@ -21,7 +21,11 @@ module OneviewCookbook
         state_value = @new_resource.refresh_state if @new_resource.respond_to?(:refresh_state)
         state_value ||= 'RefreshPending'
         @context.converge_by "#{@resource_name} '#{@name}' was refreshed." do
-          @item.set_refresh_state(state_value)
+          if @new_resource.respond_to?(:refresh_options)
+            @item.set_refresh_state(state_value, @new_resource.refresh_options)
+          else
+            @item.set_refresh_state(state_value)
+          end
         end
       end
     end
