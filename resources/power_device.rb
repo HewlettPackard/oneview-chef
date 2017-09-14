@@ -13,6 +13,9 @@ OneviewCookbook::ResourceBaseProperties.load(self)
 
 property :username, String
 property :password, String
+property :uid_state, [String, Symbol], regex: /^(on|off)$/i                   # Used in :set_power_state action only
+property :power_state, [String, Symbol], regex: /^(on|off)$/i                 # Used in :set_uid_state action only
+property :refresh_options, Hash, default: { refreshState: 'RefreshPending' }  # Used in :refresh action only
 
 default_action :add
 
@@ -30,4 +33,16 @@ end
 
 action :remove do
   OneviewCookbook::Helper.do_resource_action(self, :PowerDevice, :remove)
+end
+
+action :refresh do
+  OneviewCookbook::Helper.do_resource_action(self, :PowerDevice, :refresh)
+end
+
+action :set_uid_state do
+  OneviewCookbook::Helper.do_resource_action(self, :PowerDevice, :set_uid_state)
+end
+
+action :set_power_state do
+  OneviewCookbook::Helper.do_resource_action(self, :PowerDevice, :set_power_state)
 end

@@ -35,9 +35,29 @@ end
 # Discovers an iPDU
 oneview_power_device '127.0.0.1' do
   client my_client
-  username 'usernmae'
+  username 'username'
   password 'password'
   action :discover
+end
+
+# Refreshes an iPDU
+oneview_power_device '127.0.0.1' do
+  client my_client
+  action :refresh
+end
+
+# Sets UID state of an iPDU (use a power device that accept change the uid state)
+oneview_power_device '127.0.0.1' do
+  client my_client
+  uid_state 'off'
+  action :set_uid_state
+end
+
+# Sets the power state of an iPDU (use a power device that accept change the power state)
+oneview_power_device '127.0.0.1' do
+  client my_client
+  power_state 'off'
+  action :set_power_state
 end
 
 # Removes a power delivery device

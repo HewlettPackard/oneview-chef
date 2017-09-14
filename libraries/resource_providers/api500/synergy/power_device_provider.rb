@@ -10,10 +10,10 @@
 # specific language governing permissions and limitations under the License.
 
 module OneviewCookbook
-  module API300
+  module API500
     module Synergy
-      # PowerDevice API300 Synergy provider
-      class PowerDeviceProvider < API200::PowerDeviceProvider
+      # PowerDevice API500 Synergy provider
+      class PowerDeviceProvider < API300::Synergy::PowerDeviceProvider
       end
     end
   end

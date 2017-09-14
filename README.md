@@ -675,7 +675,10 @@ oneview_power_device 'PowerDevice1' do
   data(
     ratedCapacity: 40
   )
-  action [:add, :add_if_missing, :remove]
+  power_state [:on, :off]    # Only used with the :set_power_state action
+  uid_state [:on, :off]      # Only used with the :set_uid_state action
+  refresh_options <options>  # Optional <Hash> - Used in :refresh action. It defaults to { refreshState: 'RefreshPending' }.
+  action [:add, :add_if_missing, :remove, :refresh, :set_power_state, :set_uid_state]
 end
 ```
 
