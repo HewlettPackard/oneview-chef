@@ -13,6 +13,7 @@ module OneviewCookbook
   module API200
     # Enclosure API200 provider
     class EnclosureProvider < ResourceProvider
+      include OneviewCookbook::RefreshActions::SetRefreshState
       def add_or_edit
         if @new_resource.enclosure_group
           eg = resource_named(:EnclosureGroup).new(@item.client, name: @new_resource.enclosure_group)
@@ -29,15 +30,6 @@ module OneviewCookbook
           end
         else
           Chef::Log.info("#{@resource_name} '#{@name}' configuration is already running. State: #{@item['reconfigurationState']}")
-        end
-      end
-
-      def refresh
-        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
-        refresh_ready = ['RefreshFailed', 'NotRefreshing', ''].include? @item['refreshState']
-        return Chef::Log.info("#{@resource_name} '#{@name}' refresh is already running. State: #{@item['refreshState']}") unless refresh_ready
-        @context.converge_by "#{@resource_name} '#{@name}' was refreshed." do
-          @item.set_refresh_state(@new_resource.refresh_state, @new_resource.options)
         end
       end
     end
