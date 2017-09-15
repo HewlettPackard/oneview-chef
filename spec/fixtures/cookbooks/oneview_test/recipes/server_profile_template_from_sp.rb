@@ -15,7 +15,7 @@
 #
 
 oneview_server_profile_template 'ServerProfileTemplate1' do
+  api_version 500
   client node['oneview_test']['client']
   server_profile_name 'Profile1'
-  action :new_profile
 end

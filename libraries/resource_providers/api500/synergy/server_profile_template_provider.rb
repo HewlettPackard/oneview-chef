@@ -1,8 +1,4 @@
-#
-# Cookbook Name:: oneview_test
-# Recipe:: server_profile_template_new_profile
-#
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,10 +8,13 @@
 # under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
-#
 
-oneview_server_profile_template 'ServerProfileTemplate1' do
-  client node['oneview_test']['client']
-  server_profile_name 'Profile1'
-  action :new_profile
+module OneviewCookbook
+  module API500
+    module Synergy
+      # Server Profile Template API500 Synergy provider
+      class ServerProfileTemplateProvider < API500::C7000::ServerProfileTemplateProvider
+      end
+    end
+  end
 end

@@ -19,7 +19,7 @@ property :firmware_driver, String
 property :ethernet_network_connections, Object
 property :network_set_connections, Object
 property :fc_network_connections, Object
-property :profile_name, String
+property :server_profile_name, String
 
 default_action :create
 
