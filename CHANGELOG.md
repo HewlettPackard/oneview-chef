@@ -35,6 +35,7 @@ Adds API 500 support to the following HPE OneView resources:
   - oneview_switch
   - oneview_unmanaged_device
   - oneview_user
+  - oneview_volume_template
 
 Enhancements:
 - [#246](https://github.com/HewlettPackard/oneview-chef/issues/246) Upgrade oneview-sdk gem to version 5.0.0
