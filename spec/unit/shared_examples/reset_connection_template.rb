@@ -10,9 +10,9 @@
 # specific language governing permissions and limitations under the License.
 
 # NOTE:
-# This shared examples needs of below variables:
-#  target_class - The full name of Oneview resource target of the test
-#  connection_template_class - The full name of Oneview ConnectionTemplate resource used in the test
+# This shared example requires the following variables:
+#  target_class - Full name of the OneView resource to be tested
+#  connection_template_class - Full name of Oneview ConnectionTemplate resource used in the test
 #  target_match_method - Array with name of match method called and with the argument of the match method,
 #    e.g: let(:target_match_method) { [:reset_oneview_ethernet_network_connection_template, 'EthernetNetworkName'] }
 

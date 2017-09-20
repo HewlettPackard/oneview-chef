@@ -13,6 +13,7 @@ module OneviewCookbook
   module API200
     # ServerHardware API200 provider
     class ServerHardwareProvider < ResourceProvider
+      include OneviewCookbook::RefreshActions::SetRefreshState
       def update_ilo_firmware
         @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         @context.converge_by "Updated iLO firmware on #{@resource_name} '#{@name}'" do
@@ -30,15 +31,6 @@ module OneviewCookbook
           @context.converge_by "Power #{ps} #{@resource_name} '#{@name}'" do
             @item.public_send("power_#{ps}".to_sym)
           end
-        end
-      end
-
-      def refresh
-        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
-        refresh_ready = ['RefreshFailed', 'NotRefreshing', ''].include? @item['refreshState']
-        return Chef::Log.info("#{@resource_name} '#{@name}' refresh is already running.") unless refresh_ready
-        @context.converge_by "Refresh #{@resource_name} '#{@name}'." do
-          @item.set_refresh_state('RefreshPending', @new_resource.refresh_options)
         end
       end
     end

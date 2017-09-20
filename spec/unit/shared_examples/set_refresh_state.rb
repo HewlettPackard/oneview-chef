@@ -15,16 +15,26 @@
 #  target_match_method - Array with name of match method called and with the argument of the match method,
 #    e.g: let(:target_match_method) { [:add_oneview_enclosure_to_scopes, 'EnclosureName'] }
 
-RSpec.shared_examples 'action :refresh #request_refresh' do
-  it 'refreshes it when it exists' do
-    allow_any_instance_of(target_class).to receive(:retrieve!).and_return(true)
-    expect_any_instance_of(target_class).to receive(:request_refresh).and_return(true)
+RSpec.shared_examples 'action :refresh #set_refresh_state' do
+  it 'refresh already triggered' do
+    expect_any_instance_of(target_class).to receive(:retrieve!).and_return(true)
+    allow_any_instance_of(target_class).to receive(:[]).with('refreshState').and_return('RefreshPending')
+    allow_any_instance_of(target_class).to receive(:[]).with('name').and_return(*target_match_method)
+    expect_any_instance_of(target_class).to_not receive(:set_refresh_state)
+    expect(real_chef_run).to send(*target_match_method)
+  end
+
+  it 'refresh with default options' do
+    expect_any_instance_of(target_class).to receive(:retrieve!).and_return(true)
+    allow_any_instance_of(target_class).to receive(:[]).with('refreshState').and_return('NotRefreshing')
+    allow_any_instance_of(target_class).to receive(:[]).with('name').and_return(*target_match_method)
+    expect_any_instance_of(target_class).to receive(:set_refresh_state).and_return(true)
     expect(real_chef_run).to send(*target_match_method)
   end
 
   it 'raises an error when it does not exist' do
     allow_any_instance_of(target_class).to receive(:retrieve!).and_return(false)
-    expect_any_instance_of(target_class).to_not receive(:request_refresh)
+    expect_any_instance_of(target_class).to_not receive(:set_refresh_state)
     expect { real_chef_run }.to raise_error(StandardError, /not found/)
   end
 end
