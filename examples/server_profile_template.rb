@@ -15,30 +15,46 @@ my_client = {
   password: ENV['ONEVIEWSDK_PASSWORD']
 }
 
+enclosure_group = 'eg1'
+server_hardware_type = 'SY 480 Gen9 2'
+sp_name = 'sp1'
+
 # Creates on server profile template with the desired Enclosure group and Server hardware type
 oneview_server_profile_template 'ServerProfileTemplate1' do
   client my_client
-  enclosure_group 'EnclosureGroup1'
-  server_hardware_type 'DL360 Gen8 1'
+  enclosure_group enclosure_group
+  server_hardware_type server_hardware_type
 end
 
 # Creates on server profile template with the desired Enclosure group and Server hardware type
 oneview_server_profile_template 'ServerProfileTemplate1' do
   client my_client
-  enclosure_group 'EnclosureGroup1'
-  server_hardware_type 'DL360 Gen8 1'
+  enclosure_group enclosure_group
+  server_hardware_type server_hardware_type
   action :create_if_missing
 end
 
-# Deletes server profile 'ServerProfile2'
-oneview_server_profile 'ServerProfileTemplate1' do
+# Creates a server profile template using the server profile 'sp1' as a template
+oneview_server_profile_template 'ServerProfileTemplate2' do
+  client my_client
+  server_profile_name sp_name
+end
+
+# Deletes server profile 'ServerProfileTemplate1'
+oneview_server_profile_template 'ServerProfileTemplate1' do
   client my_client
   action :delete
 end
 
-# Creates a server profile from 'ServerProfileTemplate1'
-oneview_server_profile 'ServerProfileTemplate1' do
+# Deletes server profile 'ServerProfileTemplate2'
+oneview_server_profile_template 'ServerProfileTemplate2' do
   client my_client
-  profile_name 'ServerProfile1'
+  action :delete
+end
+
+# Creates a new Server Profile based on a Server Profile Template
+oneview_server_profile_template 'ServerProfileTemplate1' do
+  client my_client
   action :new_profile
+  server_profile_name 'ServerProfile1'
 end

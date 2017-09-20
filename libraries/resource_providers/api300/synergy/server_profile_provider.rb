@@ -12,15 +12,8 @@
 module OneviewCookbook
   module API300
     module Synergy
-      # ServerProfile API300 Synergy provider
-      class ServerProfileProvider < API200::ServerProfileProvider
-        def create_or_update
-          load_os_deployment_plan
-          super
-        end
-
-        protected
-
+      # Helper module containing methods for loading OS Deployment Plans into @item
+      module ServerProfileHelpers
         def load_os_deployment_plan
           # Return if the property is not defined
           return unless @new_resource.os_deployment_plan
@@ -63,6 +56,15 @@ module OneviewCookbook
             end
           end
           target << custom_attribute unless was_replaced
+        end
+      end
+
+      # ServerProfile API300 Synergy provider
+      class ServerProfileProvider < API200::ServerProfileProvider
+        include OneviewCookbook::API300::Synergy::ServerProfileHelpers
+        def create_or_update
+          load_os_deployment_plan
+          super
         end
       end
     end

@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: oneview_test
+# Cookbook Name:: oneview_test_api500_synergy
 # Recipe:: server_profile_template_new_profile
 #
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,7 +15,8 @@
 #
 
 oneview_server_profile_template 'ServerProfileTemplate1' do
+  api_version 500
   client node['oneview_test']['client']
-  server_profile_name 'Profile1'
-  action :new_profile
+  os_deployment_plan 'OSDeploymentPlan1'
+  data('osDeploymentSettings' => { 'customAttributes' => [{ 'name' => 'it', 'value' => 'works' }] })
 end
