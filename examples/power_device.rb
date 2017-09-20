@@ -37,6 +37,7 @@ oneview_power_device '127.0.0.1' do
   client my_client
   username 'username'
   password 'password'
+  auto_import_cert false # Optional property, default is false
   action :discover
 end
 
