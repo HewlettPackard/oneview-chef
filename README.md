@@ -765,6 +765,7 @@ oneview_server_profile_template 'ServerProfileTemplate1' do
   fc_network_connections <fc_network_connections_data>
   network_set_connections <network_set_connections_data>
   server_profile_name <profile_name>  # String - Optional. In :new_profile action represents the name of the Server Profile to created. In create/create_if_missing is the name of the Server Profile be used as base for the Server Profile Template. Only available on API500 and onwards to be used as base.
+  os_deployment_plan <os_deployment_plan_name>
   action [:create, :create_if_missing, :delete, :new_profile]
 end
 ```

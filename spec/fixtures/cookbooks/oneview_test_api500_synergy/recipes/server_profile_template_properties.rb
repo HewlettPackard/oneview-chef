@@ -1,3 +1,7 @@
+#
+# Cookbook Name:: oneview_test_api500_synergy
+# Recipe:: server_profile_template_new_profile
+#
 # (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -8,18 +12,11 @@
 # under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
+#
 
-module OneviewCookbook
-  module API500
-    module Synergy
-      # Server Profile Template API500 Synergy provider
-      class ServerProfileTemplateProvider < API500::C7000::ServerProfileTemplateProvider
-        include OneviewCookbook::API300::Synergy::ServerProfileHelpers
-        def create_or_update
-          load_os_deployment_plan
-          super
-        end
-      end
-    end
-  end
+oneview_server_profile_template 'ServerProfileTemplate1' do
+  api_version 500
+  client node['oneview_test']['client']
+  os_deployment_plan 'OSDeploymentPlan1'
+  data('osDeploymentSettings' => { 'customAttributes' => [{ 'name' => 'it', 'value' => 'works' }] })
 end
