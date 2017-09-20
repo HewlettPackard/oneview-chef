@@ -283,16 +283,17 @@ Note: By default it performs the action `:none`.
 oneview_logical_interconnect 'LogicalInterconnect1' do
   client <my_client>
   data <resource_data>
-  firmware <firmware_name>           # String: Optional for actions like :<action>_firwmare (can be replaced by data attribute 'sppName')
-  firmware_data <firmware_data>      # Hash: Optional for actions like :<action>_firwmare
-  internal_networks <networks_names> # Array: Optional for :update_internal_networks
-  trap_destinations <trap_options>   # Hash: Optional for :update_snmp_configuration
-  enclosure <enclosure_name>         # String: Required for :add_interconnect and :remove_interconnect
-  bay_number <bay>                   # Integer: Required for :add_interconnect and :remove_interconnect
-  operation <op>                     # String. Used in patch action only. e.g., 'add'
-  path <path>                        # String. Used in patch option only. e.g., '/scopeUris/-'
-  value <val>                        # String. Used in patch option only. e.g., 'scope uri'
-  scopes <scope_names>               # Array - Optional. Array of scope names. Used in add_to_scopes, remove_from_scopes or replace_scopes options only. e.g., ['Scope1', 'Scope2']
+  firmware <firmware_name>            # String: Optional for actions like :<action>_firwmare (can be replaced by data attribute 'sppName')
+  firmware_data <firmware_data>       # Hash: Optional for actions like :<action>_firwmare
+  internal_networks <networks_names>  # Array: Optional for :update_internal_networks
+  trap_destinations <trap_options>    # Hash: Optional for :update_snmp_configuration
+  enclosure <enclosure_name>          # String: Required for :add_interconnect and :remove_interconnect
+  bay_number <bay>                    # Integer: Required for :add_interconnect and :remove_interconnect
+  port_monitor <port_monitor_options> # Hash: Optional for :update_port_monitor
+  operation <op>                      # String. Used in patch action only. e.g., 'add'
+  path <path>                         # String. Used in patch option only. e.g., '/scopeUris/-'
+  value <val>                         # String. Used in patch option only. e.g., 'scope uri'
+  scopes <scope_names>                # Array - Optional. Array of scope names. Used in add_to_scopes, remove_from_scopes or replace_scopes options only. e.g., ['Scope1', 'Scope2']
   action [:none, :add_interconnect, :remove_interconnect, :update_internal_networks,
           :update_settings,:update_ethernet_settings, :update_port_monitor, :update_qos_configuration,
           :update_telemetry_configuration, :update_snmp_configuration, :update_firmware, :stage_firmware,

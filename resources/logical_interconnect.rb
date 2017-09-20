@@ -18,6 +18,7 @@ property :trap_destinations, Hash, default: {}
 property :firmware, String
 property :firmware_data, Hash, default: {}
 property :scopes, Array
+property :port_monitor, Hash, default: {}
 
 default_action :none
 

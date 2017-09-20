@@ -16,10 +16,19 @@
 
 oneview_logical_interconnect 'LogicalInterconnect-update_port_monitor' do
   client node['oneview_test']['client']
-  data(
-    'portMonitor' => {
-      'unit' => 'Test'
-    }
+  port_monitor(
+    analyzerPort: {
+      port_name: 'Q1:3',
+      portMonitorConfigInfo: 'AnalyzerPort'
+    },
+    enablePortMonitor: true,
+    type: 'port-monitor',
+    monitoredPorts: [
+      {
+        port_name: 'd1',
+        portMonitorConfigInfo: 'MonitoredBoth'
+      }
+    ]
   )
   action :update_port_monitor
 end

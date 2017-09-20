@@ -82,6 +82,26 @@ module OneviewCookbook
         end
       end
 
+      def load_port(ports)
+        port = @item.get_unassigned_uplink_ports_for_port_monitor.select { |k| k['portName'] == ports['analyzerPort']['port_name'] }.first
+        raise("Port '#{ports['analyzerPort']['port_name']}' was not found or is already being monitored!") unless port
+        load_downlink_ports(ports['monitoredPorts'], port['interconnectName'])
+        ports['analyzerPort']['portUri'] = port['uri']
+        ports['analyzerPort'].delete('port_name')
+        ports['monitoredPorts'].each { |k| k.delete('port_name') }
+      end
+
+      def load_downlink_ports(monitored_ports, interconnect_name)
+        interconnect = resource_named(:Interconnect).find_by(@item.client, name: interconnect_name).first
+        monitored_ports.each do |downlink|
+          interconnect['ports'].each do |k|
+            downlink['portUri'] = k['uri'] if k['portName'] == downlink['port_name']
+            break if downlink['portUri']
+          end
+          raise("Downlink '#{downlink['port_name']}' was not found or is already being monitored!") unless downlink['portUri']
+        end
+      end
+
       def add_interconnect
         noaction = proc do
           Chef::Log.info("Interconnect already created in #{@new_resource.enclosure} at bay #{@new_resource.bay_number}")
@@ -129,6 +149,10 @@ module OneviewCookbook
       end
 
       def update_port_monitor
+        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
+        ports = convert_keys(@new_resource.port_monitor, :to_s)
+        load_port(ports) if ports['enablePortMonitor']
+        @item['portMonitor'] = ports
         update_handler(:update_port_monitor, 'portMonitor')
       end
 

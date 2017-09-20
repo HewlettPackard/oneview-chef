@@ -63,21 +63,31 @@ end
 # Activate the port monitor service
 oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
   client my_client
-  data(
-    portMonitor: {
-      analyzerPort: {
-        portUri: '/rest/interconnects/c3498956-ece5-4abf-9e7f-793cee92acca/ports/c3498956-ece5-4abf-9e7f-793cee92acca:1',
-        portMonitorConfigInfo: 'AnalyzerPort'
-      },
-      enablePortMonitor: true,
-      type: 'port-monitor',
-      monitoredPorts: [
-        {
-          portUri: '/rest/interconnects/c3498956-ece5-4abf-9e7f-793cee92acca/ports/c3498956-ece5-4abf-9e7f-793cee92acca:d3',
-          portMonitorConfigInfo: 'MonitoredBoth'
-        }
-      ]
-    }
+  port_monitor(
+    analyzerPort: {
+      port_name: 'Q1.3',
+      portMonitorConfigInfo: 'AnalyzerPort'
+    },
+    enablePortMonitor: true,
+    type: 'port-monitor',
+    monitoredPorts: [
+      {
+        port_name: 'd1',
+        portMonitorConfigInfo: 'MonitoredBoth'
+      }
+    ]
+  )
+  action :update_port_monitor
+end
+
+# Disable the port monitor service
+oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
+  client my_client
+  port_monitor(
+    analyzerPort: nil,
+    enablePortMonitor: false,
+    type: 'port-monitor',
+    monitoredPorts: []
   )
   action :update_port_monitor
 end
@@ -117,7 +127,7 @@ oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
     }
   )
   trap_destinations(
-    '172.18.6.16': {
+    '172.18.6.16' => {
       trapFormat: 'SNMPv1',
       communityString: 'public',
       severities: ['Critical', 'Major', 'Unknown'],

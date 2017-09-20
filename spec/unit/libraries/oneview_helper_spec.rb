@@ -269,6 +269,12 @@ RSpec.describe OneviewCookbook::Helper do
       expect(conv['a']).to eq(1)
     end
 
+    it 'converts an array of hash keys' do
+      array_hash = { hash: [{ a: 1, b: 2, c: 3 }] }
+      conv = described_class.convert_keys(array_hash, :to_s)
+      expect(conv).to eq('hash' => [{ 'a' => 1, 'b' => 2, 'c' => 3 }])
+    end
+
     it 'ignores empty hashes' do
       expect { described_class.convert_keys({}, :to_s) }.to_not raise_error
     end
