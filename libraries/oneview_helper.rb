@@ -168,7 +168,7 @@ module OneviewCookbook
       return nil unless info
       support = {}
       info.each do |k, v|
-        if v && v.class == Hash
+        if v.class == Hash
           con = convert_keys(v, conversion_method)
         elsif v.class == Array
           con = v.map { |h| convert_keys(h, conversion_method) } if v.any? { |value| value.class == Hash }
