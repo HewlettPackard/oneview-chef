@@ -27,9 +27,8 @@ module OneviewCookbook
       def load_storage_pool
         load_storage_system unless @storage_system
         raise "Unspecified property: 'storage_pool'. Please set it before attempting this action." unless @new_resource.storage_pool
-        @storage_pool = resource_named(:StoragePool).find_by(@item.client, name: @new_resource.storage_pool, storageSystemUri: @storage_system['uri']).first
-        raise "Storage Pool '#{@new_resource.storage_pool}' not found for Storage System '#{@new_resource.storage_system}'" unless @storage_pool
-        @storage_pool
+        storage_pool = resource_named(:StoragePool).find_by(@item.client, name: @new_resource.storage_pool, storageSystemUri: @storage_system['uri']).first
+        storage_pool || raise("Storage Pool '#{@new_resource.storage_pool}' not found for Storage System '#{@new_resource.storage_system}'")
       end
 
       # Loads the Storage System

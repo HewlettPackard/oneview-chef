@@ -25,7 +25,7 @@ module OneviewCookbook
         # @return [resource_named(:StoragePool)] The Snapshot Pool loaded
         def load_snapshot_pool
           load_storage_system unless @storage_system
-          @snapshot_pool = resource_named(:StoragePool).find_by(@item.client, name: @new_resource.snapshot_pool, storageSystemUri: @storage_system['uri']).first
+          resource_named(:StoragePool).find_by(@item.client, name: @new_resource.snapshot_pool, storageSystemUri: @storage_system['uri']).first
         end
 
         # Loads the Storage System
