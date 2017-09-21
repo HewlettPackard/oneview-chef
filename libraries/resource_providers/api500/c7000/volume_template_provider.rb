@@ -18,12 +18,10 @@ module OneviewCookbook
           validate_presence_of(:storage_system, :storage_pool)
           storage_system = load_storage_system
           root_template = storage_system.get_templates.find { |i| i['isRoot'] }
-          storage_pool = resource_named(:StoragePool).find_by(@item.client, name: @new_resource.storage_pool, storageSystemUri: storage_system['uri']).first
 
           @item.set_root_template(root_template)
-          @item.set_default_value('storagePool', storage_pool)
-          snapshot_pool = resource_named(:StoragePool).find_by(@item.client, name: @new_resource.snapshot_pool, storageSystemUri: storage_system['uri']).first if @new_resource.snapshot_pool
-          @item.set_default_value('snapshotPool', snapshot_pool) if snapshot_pool
+          @item.set_default_value('storagePool', load_resource(:StoragePool, name: @new_resource.storage_pool, storageSystemUri: storage_system['uri']))
+          @item.set_default_value('snapshotPool', load_resource(:StoragePool, name: @new_resource.snapshot_pool, storageSystemUri: storage_system['uri'])) if @new_resource.snapshot_pool
         end
 
         def load_storage_system

@@ -16,7 +16,10 @@ describe 'oneview_test::volume_template_create' do
       .and_return(base_sdk::StorageSystem.new(client, name: 'StorageSystem1', uri: '/rest/storage-systems/1'))
     allow_any_instance_of(base_sdk::StorageSystem).to receive(:exists?).and_return(true)
     allow_any_instance_of(base_sdk::StorageSystem).to receive(:retrieve!).and_return(true)
-    allow(base_sdk::StoragePool).to receive(:find_by).and_return([base_sdk::StoragePool.new(client, uri: 'rest/sp1')])
+    allow_any_instance_of(target_provider)
+      .to receive(:load_resource)
+      .with(:StoragePool, anything)
+      .and_return(base_sdk::StoragePool.new(client, uri: 'rest/sp1'))
   end
 
   it 'creates it when it does not exist' do
@@ -53,10 +56,16 @@ describe 'oneview_test_api500_synergy::volume_template_create' do
 
   before do
     allow_any_instance_of(target_provider).to receive(:load_resource).and_call_original
-    allow(base_sdk::StorageSystem).to receive(:find_by)
-      .and_return([base_sdk::StorageSystem.new(client, name: 'StorageSystem1', uri: '/rest/storage-systems/1')])
-    allow(base_sdk::StoragePool).to receive(:find_by)
-      .and_return([base_sdk::StoragePool.new(client, uri: 'rest/sp1')])
+    allow_any_instance_of(target_provider)
+      .to receive(:load_resource)
+      .with(:StorageSystem, anything)
+      .and_return(base_sdk::StorageSystem.new(client, name: 'StorageSystem1', uri: '/rest/storage-systems/1'))
+    allow_any_instance_of(base_sdk::StorageSystem).to receive(:exists?).and_return(true)
+    allow_any_instance_of(base_sdk::StorageSystem).to receive(:retrieve!).and_return(true)
+    allow_any_instance_of(target_provider)
+      .to receive(:load_resource)
+      .with(:StoragePool, anything)
+      .and_return(base_sdk::StoragePool.new(client, uri: 'rest/sp1'))
     allow_any_instance_of(base_sdk::StorageSystem).to receive(:get_templates).and_return([{ 'isRoot' => false }, { 'isRoot' => true }])
     expect_any_instance_of(target_class).to receive(:set_root_template)
     expect_any_instance_of(target_class).to receive(:set_default_value)
