@@ -82,17 +82,22 @@ module OneviewCookbook
         end
       end
 
-      def load_port(ports)
-        port = @item.get_unassigned_uplink_ports_for_port_monitor.select { |k| k['portName'] == ports['analyzerPort']['port_name'] }.first
-        raise("Port '#{ports['analyzerPort']['port_name']}' was not found or is already being monitored!") unless port
-        load_downlink_ports(ports['monitoredPorts'], port['interconnectName'])
-        ports['analyzerPort']['portUri'] = port['uri']
-        ports['analyzerPort'].delete('port_name')
-        ports['monitoredPorts'].each { |k| k.delete('port_name') }
+      def load_ports
+        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
+        port_monitor_attributes = convert_keys(@new_resource.port_monitor, :to_s)
+        if port_monitor_attributes['enablePortMonitor']
+          port = @item.get_unassigned_uplink_ports_for_port_monitor.select { |k| k['portName'] == port_monitor_attributes['analyzerPort']['port_name'] }.first
+          raise("Port '#{port_monitor_attributes['analyzerPort']['port_name']}' was not found or is already being monitored!") unless port
+          load_downlink_ports(port_monitor_attributes['monitoredPorts'], port['interconnectName'])
+          port_monitor_attributes['analyzerPort']['portUri'] = port['uri']
+          port_monitor_attributes['analyzerPort'].delete('port_name')
+          port_monitor_attributes['monitoredPorts'].each { |k| k.delete('port_name') }
+        end
+        @item['portMonitor'] = port_monitor_attributes
       end
 
       def load_downlink_ports(monitored_ports, interconnect_name)
-        interconnect = resource_named(:Interconnect).find_by(@item.client, name: interconnect_name).first
+        interconnect = load_resource(:Interconnect, interconnect_name)
         monitored_ports.each do |downlink|
           interconnect['ports'].each do |k|
             downlink['portUri'] = k['uri'] if k['portName'] == downlink['port_name']
@@ -149,10 +154,7 @@ module OneviewCookbook
       end
 
       def update_port_monitor
-        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
-        ports = convert_keys(@new_resource.port_monitor, :to_s)
-        load_port(ports) if ports['enablePortMonitor']
-        @item['portMonitor'] = ports
+        load_ports if @new_resource.port_monitor.any?
         update_handler(:update_port_monitor, 'portMonitor')
       end
 
