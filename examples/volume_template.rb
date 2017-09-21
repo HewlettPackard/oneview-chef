@@ -58,6 +58,7 @@ oneview_volume_template 'VolumeTemplate3' do
   )
   storage_system '172.18.11.11'
   storage_pool 'CPG-SSD'
+  snapshot_pool 'CPG-SSD'
   action :create_if_missing
 end
 
