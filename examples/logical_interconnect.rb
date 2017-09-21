@@ -65,14 +65,14 @@ oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
   client my_client
   port_monitor(
     analyzerPort: {
-      port_name: 'Q1.3',
+      portName: 'Q1.3',
       portMonitorConfigInfo: 'AnalyzerPort'
     },
     enablePortMonitor: true,
     type: 'port-monitor',
     monitoredPorts: [
       {
-        port_name: 'd1',
+        portName: 'd1',
         portMonitorConfigInfo: 'MonitoredBoth'
       }
     ]

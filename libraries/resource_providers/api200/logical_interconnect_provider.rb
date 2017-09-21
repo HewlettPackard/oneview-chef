@@ -86,24 +86,27 @@ module OneviewCookbook
         @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         port_monitor_attributes = convert_keys(@new_resource.port_monitor, :to_s)
         if port_monitor_attributes['enablePortMonitor']
-          port = @item.get_unassigned_uplink_ports_for_port_monitor.select { |k| k['portName'] == port_monitor_attributes['analyzerPort']['port_name'] }.first
-          raise("Port '#{port_monitor_attributes['analyzerPort']['port_name']}' was not found or is already being monitored!") unless port
+          port = @item.get_unassigned_uplink_ports_for_port_monitor.select { |k| k['portName'] == port_monitor_attributes['analyzerPort']['portName'] }.first
+          raise("Port '#{port_monitor_attributes['analyzerPort']['portName']}' was not found or is already being monitored!") unless port
           load_downlink_ports(port_monitor_attributes['monitoredPorts'], port['interconnectName'])
           port_monitor_attributes['analyzerPort']['portUri'] = port['uri']
-          port_monitor_attributes['analyzerPort'].delete('port_name')
-          port_monitor_attributes['monitoredPorts'].each { |k| k.delete('port_name') }
+          port_monitor_attributes['analyzerPort'].delete('portName')
+          port_monitor_attributes['monitoredPorts'].each { |k| k.delete('portName') }
         end
-        @item['portMonitor'] = port_monitor_attributes
+        temp = @item['portMonitor'] || {}
+        monitored_ports_temp = temp['monitoredPorts'] || []
+        @item['portMonitor'] = temp.merge(port_monitor_attributes)
+        @item['portMonitor']['monitoredPorts'] = monitored_ports_temp | port_monitor_attributes['monitoredPorts']
       end
 
       def load_downlink_ports(monitored_ports, interconnect_name)
         interconnect = load_resource(:Interconnect, interconnect_name)
         monitored_ports.each do |downlink|
           interconnect['ports'].each do |k|
-            downlink['portUri'] = k['uri'] if k['portName'] == downlink['port_name']
+            downlink['portUri'] = k['uri'] if k['portName'] == downlink['portName']
             break if downlink['portUri']
           end
-          raise("Downlink '#{downlink['port_name']}' was not found or is already being monitored!") unless downlink['portUri']
+          raise("Downlink '#{downlink['portName']}' was not found or is already being monitored!") unless downlink['portUri']
         end
       end
 
