@@ -14,36 +14,24 @@ module OneviewCookbook
     module C7000
       # VolumeTemplate API500 C7000 provider
       class VolumeTemplateProvider < API300::C7000::VolumeTemplateProvider
-        # Loads the VolumeTemplate with all the external resources (if needed)
         def load_resource_with_associated_resources
-          @item.set_root_template(load_root_template)
-          @item.set_default_value('storagePool', load_storage_pool)
-          @item.set_default_value('snapshotPool', load_snapshot_pool) if @new_resource.snapshot_pool
+          validate_presence_of(:storage_system, :storage_pool)
+          storage_system = load_storage_system
+          root_template = storage_system.get_templates.find { |i| i['isRoot'] }
+          storage_pool = resource_named(:StoragePool).find_by(@item.client, name: @new_resource.storage_pool, storageSystemUri: storage_system['uri']).first
+
+          @item.set_root_template(root_template)
+          @item.set_default_value('storagePool', storage_pool)
+          snapshot_pool = resource_named(:StoragePool).find_by(@item.client, name: @new_resource.snapshot_pool, storageSystemUri: storage_system['uri']).first if @new_resource.snapshot_pool
+          @item.set_default_value('snapshotPool', snapshot_pool) if snapshot_pool
         end
 
-        # Loads the Snapshot Pool
-        # @return [resource_named(:StoragePool)] The Snapshot Pool loaded
-        def load_snapshot_pool
-          load_storage_system unless @storage_system
-          resource_named(:StoragePool).find_by(@item.client, name: @new_resource.snapshot_pool, storageSystemUri: @storage_system['uri']).first
-        end
-
-        # Loads the Storage System
-        # The property storage_system needs to be used in the recipe for this code to load the Storage System.
-        # Hostname or storage system name can be used
-        # @return [resource_named(:StorageSystem)] The StorageSystem loaded
         def load_storage_system
-          raise "Unspecified property: 'storage_system'. Please set it before attempting this action." unless @new_resource.storage_system
-          @storage_system = resource_named(:StorageSystem).find_by(@item.client, name: @new_resource.storage_system).first
-          @storage_system ||= resource_named(:StorageSystem).find_by(@item.client, hostname: @new_resource.storage_system).first
-          @storage_system || raise("'storage_system' #{@new_resource.storage_system} not found. Please set a valid 'storage_system' before.")
-        end
-
-        # Loads the Root Template
-        # @return [resource_named(:StorageSystem)] The Root Template loaded
-        def load_root_template
-          load_storage_system unless @storage_system
-          @storage_system.get_templates.find { |i| i['isRoot'] }
+          data = {
+            hostname: @new_resource.storage_system,
+            name: @new_resource.storage_system
+          }
+          load_resource(:StorageSystem, data)
         end
       end
     end
