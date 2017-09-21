@@ -12,7 +12,7 @@
 module OneviewCookbook
   module API300
     module Synergy
-      # LogicalInterconnect API300 Synergy resource provider methods
+      # SASLogicalInterconnect API300 Synergy resource provider methods
       class SASLogicalInterconnectProvider < API200::LogicalInterconnectProvider
         def get_serial_number(drive_id)
           return unless drive_id
