@@ -82,10 +82,11 @@ module OneviewCookbook
         end
       end
 
-      def load_ports
-        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
+      def load_ports(item_to_update)
         port_monitor_attributes = convert_keys(@new_resource.port_monitor, :to_s)
-        if port_monitor_attributes['enablePortMonitor']
+        enable_port_monitor = item_to_update['portMonitor']['enablePortMonitor'] if item_to_update['portMonitor'] && item_to_update['portMonitor']['enablePortMonitor']
+        enable_port_monitor ||= port_monitor_attributes['enablePortMonitor']
+        if enable_port_monitor
           port = @item.get_unassigned_uplink_ports_for_port_monitor.select { |k| k['portName'] == port_monitor_attributes['analyzerPort']['portName'] }.first
           raise("Port '#{port_monitor_attributes['analyzerPort']['portName']}' was not found or is already being monitored!") unless port
           load_downlink_ports(port_monitor_attributes['monitoredPorts'], port['interconnectName'])
@@ -93,10 +94,8 @@ module OneviewCookbook
           port_monitor_attributes['analyzerPort'].delete('portName')
           port_monitor_attributes['monitoredPorts'].each { |k| k.delete('portName') }
         end
-        temp = @item['portMonitor'] || {}
-        monitored_ports_temp = temp['monitoredPorts'] || []
-        @item['portMonitor'] = temp.merge(port_monitor_attributes)
-        @item['portMonitor']['monitoredPorts'] = monitored_ports_temp | port_monitor_attributes['monitoredPorts']
+        temp = item_to_update['portMonitor'] || {}
+        item_to_update['portMonitor'] = temp.merge(port_monitor_attributes)
       end
 
       def load_downlink_ports(monitored_ports, interconnect_name)
@@ -157,7 +156,10 @@ module OneviewCookbook
       end
 
       def update_port_monitor
-        load_ports if @new_resource.port_monitor.any?
+        temp = Marshal.load(Marshal.dump(@item.data))
+        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
+        load_ports(temp) if @new_resource.port_monitor.any?
+        @item.data = temp
         update_handler(:update_port_monitor, 'portMonitor')
       end
 
