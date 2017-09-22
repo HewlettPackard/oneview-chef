@@ -18,5 +18,6 @@ oneview_power_device '127.0.0.1' do
   client node['oneview_test']['client']
   username 'username'
   password 'password'
+  auto_import_certificate false
   action :discover
 end

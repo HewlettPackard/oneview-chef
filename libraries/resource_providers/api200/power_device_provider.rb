@@ -17,10 +17,15 @@ module OneviewCookbook
         pd_klass = resource_named(:PowerDevice)
         power_devices_list = pd_klass.get_ipdu_devices(@item.client, @name)
         return Chef::Log.info("#{@resource_name} '#{@name}' is up to date") unless power_devices_list.empty?
-        import_certificate_for_ipdu if @new_resource.auto_import_cert
         Chef::Log.info "Discovering #{@resource_name} '#{@name}'"
         @context.converge_by "Discovered #{@resource_name} '#{@name}'" do
-          pd_klass.discover(@item.client, hostname: @name, username: @new_resource.username, password: @new_resource.password)
+          begin
+            pd_klass.discover(@item.client, hostname: @name, username: @new_resource.username, password: @new_resource.password)
+          rescue OneviewSDK::OneViewError => error
+            raise error unless @new_resource.auto_import_certificate && error.message.include?('Unable to retrieve the input certificate')
+            import_certificate_for_ipdu
+            pd_klass.discover(@item.client, hostname: @name, username: @new_resource.username, password: @new_resource.password)
+          end
         end
       end
 
@@ -75,7 +80,7 @@ module OneviewCookbook
       def import_certificate_for_ipdu
         Chef::Log.info("Verifying certificate for #{@resource_name} '#{@name}'")
         client_certificate = resource_named(:ClientCertificate).new(@item.client, aliasName: @name)
-        return Chef::Log.info("Certificate already imported for #{@resource_name} '#{@name}'") unless client_certificate.retrieve!
+        return Chef::Log.info("Certificate already imported for #{@resource_name} '#{@name}'") if client_certificate.retrieve!
         web_certificate = resource_named(:WebServerCertificate).get_certificate(@item.client, @name)
         Chef::Log.info("Importing certificate for #{@resource_name} '#{@name}'")
         client_certificate['base64SSLCertData'] = web_certificate['base64Data']

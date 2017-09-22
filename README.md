@@ -687,7 +687,7 @@ oneview_power_device '<iPDU hostname>' do
   client <my_client>
   username <username>
   password <password>
-  auto_import_cert [true, false] # Optional. Only used with the :discover action. Default value is false.
+  auto_import_certificate [true, false] # Optional. Only used with the :discover action. Default value is true.
   action :discover
 end
 ```
