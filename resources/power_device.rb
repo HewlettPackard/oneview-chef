@@ -16,6 +16,7 @@ property :password, String
 property :uid_state, [String, Symbol], regex: /^(on|off)$/i                   # Used in :set_power_state action only
 property :power_state, [String, Symbol], regex: /^(on|off)$/i                 # Used in :set_uid_state action only
 property :refresh_options, Hash, default: { refreshState: 'RefreshPending' }  # Used in :refresh action only
+property :auto_import_certificate, [TrueClass, FalseClass], default: true     # Used in :discover action only
 
 default_action :add
 

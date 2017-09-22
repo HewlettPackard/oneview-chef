@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: oneview_test
-# Recipe:: power_device_discover
+# Recipe:: power_device_discover_auto_import_certificate
 #
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,6 +18,6 @@ oneview_power_device '127.0.0.1' do
   client node['oneview_test']['client']
   username 'username'
   password 'password'
-  auto_import_certificate false
+  auto_import_certificate true
   action :discover
 end
