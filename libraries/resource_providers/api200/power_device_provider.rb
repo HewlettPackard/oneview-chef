@@ -23,6 +23,8 @@ module OneviewCookbook
             pd_klass.discover(@item.client, hostname: @name, username: @new_resource.username, password: @new_resource.password)
           rescue OneviewSDK::OneViewError => error
             raise error unless @new_resource.auto_import_certificate && error.message.include?('Unable to retrieve the input certificate')
+            Chef::Log.warn("Oneview returned the following error:\n: #{error.message}")
+            Chef::Log.info("Trying to import certificate for #{@resource_name} '#{@name}'")
             import_certificate_for_ipdu
             pd_klass.discover(@item.client, hostname: @name, username: @new_resource.username, password: @new_resource.password)
           end
