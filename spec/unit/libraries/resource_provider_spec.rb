@@ -497,13 +497,13 @@ RSpec.describe OneviewCookbook::ResourceProvider do
     it 'should not throw error when propeties are set' do
       expect(res.context.new_resource).to receive(:storage_system).and_return('some value')
       expect(res.context.new_resource).to receive(:storage_pool).and_return('some value')
-      expect { res.validates_presence_of!(:storage_system, :storage_pool) }.not_to raise_error
+      expect { res.validate_required_properties(:storage_system, :storage_pool) }.not_to raise_error
     end
 
     it 'should throw error when propeties are not set' do
       expect(res.context.new_resource).to receive(:storage_system).and_return('some value')
       expect(res.context.new_resource).to receive(:storage_pool).and_return(nil)
-      expect { res.validates_presence_of!(:storage_system, :storage_pool) }.to raise_error(/Unspecified property: 'storage_pool'./)
+      expect { res.validate_required_properties(:storage_system, :storage_pool) }.to raise_error(/Unspecified property: 'storage_pool'./)
     end
   end
 end

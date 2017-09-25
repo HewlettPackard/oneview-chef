@@ -15,7 +15,7 @@ module OneviewCookbook
     class VolumeTemplateProvider < ResourceProvider
       # Loads the VolumeTemplate with all the external resources (if needed)
       def load_resource_with_associated_resources
-        validates_presence_of!(:storage_system, :storage_pool)
+        validate_required_properties(:storage_system, :storage_pool)
         storage_system_data = { credentials: { ip_hostname: @new_resource.storage_system }, name: @new_resource.storage_system }
         storage_system = load_resource(:StorageSystem, storage_system_data)
         storage_pool = load_resource(:StoragePool, name: @new_resource.storage_pool, storageSystemUri: storage_system['uri'])
