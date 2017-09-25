@@ -92,7 +92,7 @@ oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
   action :update_port_monitor
 end
 
-# Activate the port monitor service with data properties
+# Activate the port monitor service with data
 oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup_1' do
   client my_client
   data(
@@ -114,7 +114,7 @@ oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup_1' do
   action :update_port_monitor
 end
 
-# Disable the port monitor service with data properties
+# Disable the port monitor service with data
 oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup_1' do
   client my_client
   data(
@@ -124,6 +124,30 @@ oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup_1' do
       type: 'port-monitor',
       monitoredPorts: []
     }
+  )
+  action :update_port_monitor
+end
+
+# Activate the port monitor service with data and port_monitor property
+oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup_1' do
+  client my_client
+  data(
+    portMonitor: {
+      analyzerPort: {
+        portUri: '/rest/interconnects/da9f7d38-c2bd-47e4-b651-9bcb4993ac9d/ports/da9f7d38-c2bd-47e4-b651-9bcb4993ac9d:Q1.3',
+        portMonitorConfigInfo: 'AnalyzerPort'
+      },
+      enablePortMonitor: true,
+      type: 'port-monitor'
+    }
+  )
+  port_monitor(
+    monitoredPorts: [
+      {
+        portName: 'd1',
+        portMonitorConfigInfo: 'MonitoredBoth'
+      }
+    ]
   )
   action :update_port_monitor
 end

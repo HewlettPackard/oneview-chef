@@ -82,17 +82,25 @@ module OneviewCookbook
         end
       end
 
+      def set_analyzer_port(param_name, data)
+        param_value = 'portUri' if param_name == 'uri'
+        param_value ||= param_name
+        port = @item.get_unassigned_uplink_ports_for_port_monitor.find { |k| k[param_name.to_s] == data[param_value.to_s] }
+        raise("Port with name or uri '#{data[param_value.to_s]}' was not found or is already being monitored!") unless port
+        data['portUri'] = port['uri']
+        data.delete('portName')
+        port
+      end
+
       def load_ports(item_to_update)
         port_monitor_attributes = convert_keys(@new_resource.port_monitor, :to_s)
-        enable_port_monitor = item_to_update['portMonitor']['enablePortMonitor'] if item_to_update['portMonitor'] && item_to_update['portMonitor']['enablePortMonitor']
+        enable_port_monitor = item_to_update['portMonitor']['enablePortMonitor'] if item_to_update['portMonitor']
         enable_port_monitor ||= port_monitor_attributes['enablePortMonitor']
         if enable_port_monitor
-          port = @item.get_unassigned_uplink_ports_for_port_monitor.select { |k| k['portName'] == port_monitor_attributes['analyzerPort']['portName'] }.first
-          raise("Port '#{port_monitor_attributes['analyzerPort']['portName']}' was not found or is already being monitored!") unless port
-          load_downlink_ports(port_monitor_attributes['monitoredPorts'], port['interconnectName'])
-          port_monitor_attributes['analyzerPort']['portUri'] = port['uri']
-          port_monitor_attributes['analyzerPort'].delete('portName')
-          port_monitor_attributes['monitoredPorts'].each { |k| k.delete('portName') }
+          port = nil
+          port = set_analyzer_port('uri', item_to_update['portMonitor']['analyzerPort']) if item_to_update['portMonitor'] && item_to_update['portMonitor']['analyzerPort']
+          port ||= set_analyzer_port('portName', port_monitor_attributes['analyzerPort'])
+          load_downlink_ports(port_monitor_attributes['monitoredPorts'], port['interconnectName']) unless item_to_update['portMonitor'] && item_to_update['portMonitor']['monitoredPorts']
         end
         temp = item_to_update['portMonitor'] || {}
         item_to_update['portMonitor'] = temp.merge(port_monitor_attributes)
@@ -102,8 +110,10 @@ module OneviewCookbook
         interconnect = load_resource(:Interconnect, interconnect_name)
         monitored_ports.each do |downlink|
           interconnect['ports'].each do |k|
-            downlink['portUri'] = k['uri'] if k['portName'] == downlink['portName']
-            break if downlink['portUri']
+            next unless k['portName'] == downlink['portName']
+            downlink['portUri'] = k['uri']
+            downlink.delete('portName')
+            break
           end
           raise("Downlink '#{downlink['portName']}' was not found or is already being monitored!") unless downlink['portUri']
         end
@@ -156,10 +166,10 @@ module OneviewCookbook
       end
 
       def update_port_monitor
-        temp = Marshal.load(Marshal.dump(@item.data))
+        new_data = Marshal.load(Marshal.dump(@item.data))
         @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
-        load_ports(temp) if @new_resource.port_monitor.any?
-        @item.data = temp
+        load_ports(new_data) if @new_resource.port_monitor.any?
+        @item.data = new_data
         update_handler(:update_port_monitor, 'portMonitor')
       end
 

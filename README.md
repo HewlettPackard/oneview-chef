@@ -278,6 +278,7 @@ end
 Performs actions on logical interconnect and associated interconnects.
 
 Note: By default it performs the action `:none`.
+Note 2: In :update_port_monitor action, if the data is informed, this will always precede the port_monitor property.
 
 ```ruby
 oneview_logical_interconnect 'LogicalInterconnect1' do
