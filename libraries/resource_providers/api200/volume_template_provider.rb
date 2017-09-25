@@ -13,29 +13,17 @@ module OneviewCookbook
   module API200
     # VolumeTemplate API200 provider
     class VolumeTemplateProvider < ResourceProvider
-      include OneviewCookbook::Validations::Presence
-
       # Loads the VolumeTemplate with all the external resources (if needed)
       def load_resource_with_associated_resources
-        validate_presence_of(:storage_system, :storage_pool)
-        storage_system = load_storage_system
+        validates_presence_of!(:storage_system, :storage_pool)
+        storage_system_data = { credentials: { ip_hostname: @new_resource.storage_system }, name: @new_resource.storage_system }
+        storage_system = load_resource(:StorageSystem, storage_system_data)
         storage_pool = load_resource(:StoragePool, name: @new_resource.storage_pool, storageSystemUri: storage_system['uri'])
 
         @item.set_storage_system(storage_system)
         @item['provisioning']['storagePoolUri'] = storage_pool['uri']
         @item['provisioning']['capacity'] = @item['provisioning']['capacity'].to_s if @item['provisioning'] && @item['provisioning']['capacity']
         @item.set_snapshot_pool(load_resource(:StoragePool, name: @new_resource.snapshot_pool, storageSystemUri: storage_system['uri'])) if @new_resource.snapshot_pool
-      end
-
-      # Loads the Storage System
-      # The property storage_system needs to be used in the recipe for this code to load the Storage System.
-      # @return [resource_named(:StorageSystem)] The StorageSystem loaded
-      def load_storage_system
-        data = {
-          credentials: { ip_hostname: @new_resource.storage_system },
-          name: @new_resource.storage_system
-        }
-        load_resource(:StorageSystem, data)
       end
 
       def create_or_update

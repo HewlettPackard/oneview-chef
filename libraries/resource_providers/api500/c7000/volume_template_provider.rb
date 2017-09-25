@@ -15,21 +15,14 @@ module OneviewCookbook
       # VolumeTemplate API500 C7000 provider
       class VolumeTemplateProvider < API300::C7000::VolumeTemplateProvider
         def load_resource_with_associated_resources
-          validate_presence_of(:storage_system, :storage_pool)
-          storage_system = load_storage_system
+          validates_presence_of!(:storage_system, :storage_pool)
+          storage_system_data = { hostname: @new_resource.storage_system, name: @new_resource.storage_system }
+          storage_system = load_resource(:StorageSystem, storage_system_data)
           root_template = storage_system.get_templates.find { |i| i['isRoot'] }
 
           @item.set_root_template(root_template)
           @item.set_default_value('storagePool', load_resource(:StoragePool, name: @new_resource.storage_pool, storageSystemUri: storage_system['uri']))
           @item.set_default_value('snapshotPool', load_resource(:StoragePool, name: @new_resource.snapshot_pool, storageSystemUri: storage_system['uri'])) if @new_resource.snapshot_pool
-        end
-
-        def load_storage_system
-          data = {
-            hostname: @new_resource.storage_system,
-            name: @new_resource.storage_system
-          }
-          load_resource(:StorageSystem, data)
         end
       end
     end
