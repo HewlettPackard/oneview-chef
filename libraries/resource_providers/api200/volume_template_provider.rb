@@ -15,26 +15,15 @@ module OneviewCookbook
     class VolumeTemplateProvider < ResourceProvider
       # Loads the VolumeTemplate with all the external resources (if needed)
       def load_resource_with_associated_resources
-        raise "Unspecified property: 'storage_system'. Please set it before attempting this action." unless @new_resource.storage_system
-        raise "Unspecified property: 'storage_pool'. Please set it before attempting this action." unless @new_resource.storage_pool
-        @item['provisioning']['capacity'] = @item['provisioning']['capacity'].to_s if @item['provisioning'] && @item['provisioning']['capacity']
-        load_storage_system
-        sp = resource_named(:StoragePool).find_by(@item.client, name: @new_resource.storage_pool, storageSystemUri: @item['storageSystemUri']).first
-        raise "Storage Pool '#{@new_resource.storage_pool}' not found for Storage System '#{@new_resource.storage_system}'" unless sp
-        @item['provisioning']['storagePoolUri'] = sp['uri']
-        @item.set_snapshot_pool(resource_named(:StoragePool).new(@item.client, name: @new_resource.snapshot_pool)) if @new_resource.snapshot_pool
-      end
+        validate_required_properties(:storage_system, :storage_pool)
+        storage_system_data = { credentials: { ip_hostname: @new_resource.storage_system }, name: @new_resource.storage_system }
+        storage_system = load_resource(:StorageSystem, storage_system_data)
+        storage_pool = load_resource(:StoragePool, name: @new_resource.storage_pool, storageSystemUri: storage_system['uri'])
 
-      # Loads Storage System in the given VolumeTemplate resource.
-      # The property storage_system needs to be used in the recipe for this code to load the Storage System.
-      # Hostname or storage system name can be used
-      # @return [resource_named(:VolumeTemplate)] VolumeTemplate with Storage System parameters updated
-      def load_storage_system
-        data = {
-          credentials: { ip_hostname: @new_resource.storage_system },
-          name: @new_resource.storage_system
-        }
-        @item.set_storage_system(load_resource(:StorageSystem, data))
+        @item.set_storage_system(storage_system)
+        @item['provisioning']['storagePoolUri'] = storage_pool['uri']
+        @item['provisioning']['capacity'] = @item['provisioning']['capacity'].to_s if @item['provisioning'] && @item['provisioning']['capacity']
+        @item.set_snapshot_pool(load_resource(:StoragePool, name: @new_resource.snapshot_pool, storageSystemUri: storage_system['uri'])) if @new_resource.snapshot_pool
       end
 
       def create_or_update

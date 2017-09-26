@@ -590,6 +590,8 @@ end
 
 ### [oneview_volume_template](examples/volume_template.rb)
 
+Note: if you are using API500, see the examples [here](examples/volume_template_api500.rb)
+
 ```ruby
 oneview_volume_template 'VolumeTemplate_1' do
   client <my_client>
@@ -601,18 +603,18 @@ oneview_volume_template 'VolumeTemplate_1' do
 end
 ```
 
-  - **storage_system** (String) Optional - IP address, hostname or name of the Storage System to associate the Volume.
-  - **storage_pool** (String) Optional - Name of the Storage Pool from the Storage System to associate the Volume.
+  - **storage_system** (String) Required - IP address, hostname or name of the Storage System to associate the Volume.
+  - **storage_pool** (String) Required - Name of the Storage Pool from the Storage System to associate the Volume.
   - **snapshot_pool** (String) Optional - Name of the Storage Pool containing the snapshots.
 
  :warning: **WARNING**: The resources `oneview_volume` and `oneview_volume_template` appear to accept the same data, but they have two characteristics that differ:
  1. `oneview_volume_template` does not accept the property **volume_template**. You cannot create a volume template from another volume template.
  2. The following table maps different provisioning data keys to each type:
 
-    oneview_volume          | oneview_volume_template
-    ----------------------- | -------------------------
-    :provisioningParameters | :provisioning
-    :requestedCapacity      | :capacity
+    oneview_volume          | oneview_volume_template   | oneview_volume_template (API500)
+    ----------------------- | ------------------------- | ------------------------------------------
+    :provisioningParameters | :provisioning             | properties: { provisioningType: { ... } }
+    :requestedCapacity      | :capacity                 | properties: { size: { ... } }
 
 
 ### [oneview_storage_pool](examples/storage_pool.rb)

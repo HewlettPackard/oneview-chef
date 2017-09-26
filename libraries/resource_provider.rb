@@ -281,6 +281,14 @@ module OneviewCookbook
         base_module: @sdk_base_module
       )
     end
+
+    # Validates the presence of resource properties
+    # @param [Symbol] property An property name to be validating presence
+    # @param [Symbol] ... More property names
+    # @raise [RuntimeError] if some property is not set
+    def validate_required_properties(*properties)
+      properties.each { |property| raise("Unspecified property: '#{property}'. Please set it before attempting this action.") unless @new_resource.public_send(property) }
+    end
   end
 end
 

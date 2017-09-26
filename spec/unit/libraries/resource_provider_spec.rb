@@ -492,4 +492,18 @@ RSpec.describe OneviewCookbook::ResourceProvider do
       expect(r).to eq('/fake')
     end
   end
+
+  describe '#validates_presence_of' do
+    it 'should not throw error when propeties are set' do
+      expect(res.context.new_resource).to receive(:storage_system).and_return('some value')
+      expect(res.context.new_resource).to receive(:storage_pool).and_return('some value')
+      expect { res.validate_required_properties(:storage_system, :storage_pool) }.not_to raise_error
+    end
+
+    it 'should throw error when propeties are not set' do
+      expect(res.context.new_resource).to receive(:storage_system).and_return('some value')
+      expect(res.context.new_resource).to receive(:storage_pool).and_return(nil)
+      expect { res.validate_required_properties(:storage_system, :storage_pool) }.to raise_error(/Unspecified property: 'storage_pool'./)
+    end
+  end
 end
