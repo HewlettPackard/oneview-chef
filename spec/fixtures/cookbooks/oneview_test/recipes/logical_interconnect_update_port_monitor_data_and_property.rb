@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: oneview_test
-# Recipe:: logical_interconnect_update_port_monitor
+# Recipe:: logical_interconnect_update_port_monitor_data_and_property
 #
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,15 +14,19 @@
 # specific language governing permissions and limitations under the License.
 #
 
-oneview_logical_interconnect 'LogicalInterconnect-update_port_monitor' do
+oneview_logical_interconnect 'LogicalInterconnect-update_port_monitor_data_and_property' do
   client node['oneview_test']['client']
+  data(
+    portMonitor: {
+      analyzerPort: {
+        portUri: '/rest/fake/Q1:3',
+        portMonitorConfigInfo: 'AnalyzerPort'
+      },
+      enablePortMonitor: true,
+      type: 'port-monitor'
+    }
+  )
   port_monitor(
-    analyzerPort: {
-      portName: 'Q1:3',
-      portMonitorConfigInfo: 'AnalyzerPort'
-    },
-    enablePortMonitor: true,
-    type: 'port-monitor',
     monitoredPorts: [
       {
         portName: 'd1',

@@ -9,8 +9,10 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-# NOTE: This recipe requires:
+# NOTE 1: This recipe requires:
 # Ethernet Networks: EthernetNetwork1, EthernetNetwork2
+# NOTE 2: This example requires two Scopes named "Scope1" and "Scope2" to be present in the appliance.
+# NOTE 3: The api_version client should be 300 or greater if you run the examples using Scopes
 
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
@@ -50,9 +52,9 @@ end
 oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
   client my_client
   data(
-    'ethernetSettings' => {
-      'igmpIdleTimeoutInterval' => 230,
-      'macRefreshInterval' => 15
+    ethernetSettings: {
+      igmpIdleTimeoutInterval: 230,
+      macRefreshInterval: 15
     }
   )
   action :update_ethernet_settings
@@ -61,10 +63,91 @@ end
 # Activate the port monitor service
 oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
   client my_client
+  port_monitor(
+    analyzerPort: {
+      portName: 'Q1.3',
+      portMonitorConfigInfo: 'AnalyzerPort'
+    },
+    enablePortMonitor: true,
+    type: 'port-monitor',
+    monitoredPorts: [
+      {
+        portName: 'd1',
+        portMonitorConfigInfo: 'MonitoredBoth'
+      }
+    ]
+  )
+  action :update_port_monitor
+end
+
+# Disable the port monitor service
+oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
+  client my_client
+  port_monitor(
+    analyzerPort: nil,
+    enablePortMonitor: false,
+    type: 'port-monitor',
+    monitoredPorts: []
+  )
+  action :update_port_monitor
+end
+
+# Activate the port monitor service with data
+oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup_1' do
+  client my_client
   data(
-    'portMonitor' => {
-      'enabled' => true
+    portMonitor: {
+      analyzerPort: {
+        portUri: '/rest/interconnects/da9f7d38-c2bd-47e4-b651-9bcb4993ac9d/ports/da9f7d38-c2bd-47e4-b651-9bcb4993ac9d:Q1.3',
+        portMonitorConfigInfo: 'AnalyzerPort'
+      },
+      enablePortMonitor: true,
+      type: 'port-monitor',
+      monitoredPorts: [
+        {
+          portUri: '/rest/interconnects/da9f7d38-c2bd-47e4-b651-9bcb4993ac9d/ports/da9f7d38-c2bd-47e4-b651-9bcb4993ac9d:d1',
+          portMonitorConfigInfo: 'MonitoredBoth'
+        }
+      ]
     }
+  )
+  action :update_port_monitor
+end
+
+# Disable the port monitor service with data
+oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup_1' do
+  client my_client
+  data(
+    portMonitor: {
+      analyzerPort: nil,
+      enablePortMonitor: false,
+      type: 'port-monitor',
+      monitoredPorts: []
+    }
+  )
+  action :update_port_monitor
+end
+
+# Activate the port monitor service with data and port_monitor property
+oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup_1' do
+  client my_client
+  data(
+    portMonitor: {
+      analyzerPort: {
+        portUri: '/rest/interconnects/da9f7d38-c2bd-47e4-b651-9bcb4993ac9d/ports/da9f7d38-c2bd-47e4-b651-9bcb4993ac9d:Q1.3',
+        portMonitorConfigInfo: 'AnalyzerPort'
+      },
+      enablePortMonitor: true,
+      type: 'port-monitor'
+    }
+  )
+  port_monitor(
+    monitoredPorts: [
+      {
+        portName: 'd1',
+        portMonitorConfigInfo: 'MonitoredBoth'
+      }
+    ]
   )
   action :update_port_monitor
 end
@@ -73,10 +156,10 @@ end
 oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
   client my_client
   data(
-    'qosConfiguration' => {
-      'activeQosConfig' => {
-        'configType' => 'Passthrough',
-        'description' => 'Configured by chef-oneview'
+    qosConfiguration: {
+      activeQosConfig: {
+        configType: 'Passthrough',
+        description: 'Configured by chef-oneview'
       }
     }
   )
@@ -87,9 +170,9 @@ end
 oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
   client my_client
   data(
-    'telemetryConfiguration' => {
-      'sampleCount' => 25,
-      'sampleInterval' => 225
+    telemetryConfiguration: {
+      sampleCount: 25,
+      sampleInterval: 225
     }
   )
   action :update_telemetry_configuration
@@ -99,18 +182,18 @@ end
 oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
   client my_client
   data(
-    'snmpConfiguration' => {
-      'snmpAccess' => ['172.18.6.15/24']
+    snmpConfiguration: {
+      snmpAccess: ['172.18.6.15/24']
     }
   )
   trap_destinations(
     '172.18.6.16' => {
-      'trapFormat' => 'SNMPv1',
-      'communityString' => 'public',
-      'severities' => ['Critical', 'Major', 'Unknown'],
-      'vcmTraps' => ['Legacy'],
-      'enetTraps' => ['PortStatus', 'PortThresholds'],
-      'fcTraps' => ['Other']
+      trapFormat: 'SNMPv1',
+      communityString: 'public',
+      severities: ['Critical', 'Major', 'Unknown'],
+      vcmTraps: ['Legacy'],
+      enetTraps: ['PortStatus', 'PortThresholds'],
+      fcTraps: ['Other']
     }
   )
   action :update_snmp_configuration
@@ -120,8 +203,8 @@ end
 oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
   client my_client
   data(
-    'snmpConfiguration' => {
-      'snmpAccess' => []
+    snmpConfiguration: {
+      snmpAccess: []
     }
   )
   action :update_snmp_configuration
@@ -175,4 +258,34 @@ end
 oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
   client my_client
   action :update_from_group
+end
+
+# Example: Adds 'Encl1-LogicalInterconnectGroup1' to 'Scope1' and 'Scope2'
+oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
+  client my_client
+  scopes ['Scope1', 'Scope2']
+  action :add_to_scopes
+end
+
+# Example: Removes 'Encl1-LogicalInterconnectGroup1' from 'Scope1'
+oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
+  client my_client
+  scopes ['Scope1']
+  action :remove_from_scopes
+end
+
+# Example: Replaces 'Scope1' and 'Scope2' for 'Encl1-LogicalInterconnectGroup1'
+oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
+  client my_client
+  scopes ['Scope1', 'Scope2']
+  action :replace_scopes
+end
+
+# Example: Replaces all scopes to empty list of scopes
+oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
+  client my_client
+  operation 'replace'
+  path '/scopeUris'
+  value []
+  action :patch
 end

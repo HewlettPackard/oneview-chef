@@ -17,6 +17,8 @@ property :internal_networks, Array, default: []
 property :trap_destinations, Hash, default: {}
 property :firmware, String
 property :firmware_data, Hash, default: {}
+property :scopes, Array
+property :port_monitor, Hash, default: {}
 
 default_action :none
 
@@ -77,4 +79,20 @@ end
 
 action :reapply_configuration do
   OneviewCookbook::Helper.do_resource_action(self, :LogicalInterconnect, :reapply_configuration)
+end
+
+action :add_to_scopes do
+  OneviewCookbook::Helper.do_resource_action(self, :LogicalInterconnect, :add_to_scopes)
+end
+
+action :remove_from_scopes do
+  OneviewCookbook::Helper.do_resource_action(self, :LogicalInterconnect, :remove_from_scopes)
+end
+
+action :replace_scopes do
+  OneviewCookbook::Helper.do_resource_action(self, :LogicalInterconnect, :replace_scopes)
+end
+
+action :patch do
+  OneviewCookbook::Helper.do_resource_action(self, :LogicalInterconnect, :patch)
 end
