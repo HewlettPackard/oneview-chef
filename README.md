@@ -779,6 +779,7 @@ oneview_server_profile_template 'ServerProfileTemplate1' do
   network_set_connections <network_set_connections_data>
   server_profile_name <profile_name>  # String - Optional. Used in create and create_if_missing actions. It is the name of the Server Profile be used as base for the Server Profile Template. Only available on API500 and onwards to be used as base.
   os_deployment_plan <os_deployment_plan_name>
+  volume_attachments <volume_attachments_data> # Array<Hash> - The volume attachments data to be created with Server Profile Template.
   action [:create, :create_if_missing, :delete]
 end
 ```
@@ -786,6 +787,25 @@ end
 You can specify the association of the server profile with each of the resources using the resource properties. Also it is easy to add connections using the connection properties:
 
 - **\<resource_name\>_connections** (Array/Hash) Optional - Specify connections with the desired resource type. The Hash entry should have `<network_name> => <connection_data>` associations. The Array contains these Hash entries. See the examples for more information.
+- **volume_attachments** (Array<Hash>) Optional - Specify a list of volume attachments to be created when create/update the Server Profile Template. See the [example](examples/server_profile_template.rb) for more information.
+
+  To attach a existent Volume use a data as the below to be the volume attachment data:
+  ```ruby
+  {
+    volume: 'test2', # name of existent Oneview Volume
+    attachment_data: {} # # key-pair data to be the specific attributes of Oneview Volume Attachment
+  }
+  ```
+  To create a new Volume and attach it, use a data as the below to be the volume attachment data:
+  ```ruby
+    {
+      volume_data: {}, # key-pair data to create a new Volume to the Oneview
+      storage_system: 'ThreePAR-1', # name of Storage System associated with the Volume Attachment
+      storage_pool: 'CPG-SSD', # name of Storage Pool associated with the Volume Attachment
+      host_os_type: 'Windows 2012 / WS2012 R2', # the hostOsType info of San Storage
+      attachment_data: {} # key-pair data to be the specific attributes of Oneview Volume Attachment
+    }
+  ```
 
 
 ### [oneview_server_profile](examples/server_profile.rb)
@@ -805,6 +825,7 @@ oneview_server_profile 'ServerProfile1' do
   fcoe_network_connections <fcoe_network_connections_data>
   network_set_connections <network_set_connections_data>
   os_deployment_plan <os_deployment_plan_name>
+  volume_attachments <volume_attachments_data> # Array<Hash> - The volume attachments data to be created with Server Profile Template.
   action [:create, :create_if_missing, :delete]
 end
 ```
@@ -813,6 +834,25 @@ You can specify the association of the server profile with each of the resources
 
 - **\<network_type\>_connections** (Hash) Optional - Specify connections with the desired resource type. The Hash should have `<network_name> => <connection_data>` associations. See the [examples](examples/server_profile.rb) for more information.
 - **os_deployment_plan** (String) Optional - Specify the OS Deployment Plan to be applied with the Server Profile. The OS Deployment Plan needs to be created in Image Streamer appliance in order to appear in OneView. See the [example](examples/image_streamer/server_profile_deploy.rb) for more information.
+- **volume_attachments** (Array<Hash>) Optional - Specify a list of volume attachments to be created when create/update the Server Profile. See the [example](examples/server_profile.rb) for more information.
+
+  To attach a existent Volume use a data as the below to be the volume attachment data:
+  ```ruby
+  {
+    volume: 'test2', # name of existent Oneview Volume
+    attachment_data: {} # # key-pair data to be the specific attributes of Oneview Volume Attachment
+  }
+  ```
+  To create a new Volume and attach it, use a data as the below to be the volume attachment data:
+  ```ruby
+    {
+      volume_data: {}, # key-pair data to create a new Volume to the Oneview
+      storage_system: 'ThreePAR-1', # name of Storage System associated with the Volume Attachment
+      storage_pool: 'CPG-SSD', # name of Storage Pool associated with the Volume Attachment
+      host_os_type: 'Windows 2012 / WS2012 R2', # the hostOsType info of San Storage
+      attachment_data: {} # key-pair data to be the specific attributes of Oneview Volume Attachment
+    }
+  ```
 
 
 ### [oneview_switch](examples/switch.rb)
