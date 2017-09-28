@@ -15,10 +15,52 @@ my_client = {
   password: ENV['ONEVIEWSDK_PASSWORD']
 }
 
+# my_server_profile_template = 'spt1'
+# my_server_hardware_type = 'SY 480 Gen9 2'
+# my_server_hardware = '0000A66101, bay 5'
+# my_enclosure_group = 'eg1'
 my_server_profile_template = 'spt1'
-my_server_hardware_type = 'SY 480 Gen9 2'
-my_server_hardware = '0000A66101, bay 5'
-my_enclosure_group = 'eg1'
+my_server_hardware_type = 'BL660c Gen9 1'
+my_server_hardware = 'Encl1, bay 2'
+my_enclosure_group = 'EG_1'
+
+# use this to create server profile with volume attachments using api200 or api300
+volume_data_api_200 = {
+  name: 'Volume1',
+  description: 'volume for api200 or api300',
+  provisioningParameters: {
+    provisionType: 'Full',
+    requestedCapacity: 1024 * 1024 * 1024,
+    shareable: false
+  }
+}
+
+# use this to create server profile with volume attachments using api500 or greater
+volume_data_api_500 = {
+  name: 'Volume1',
+  description: 'Volume store serv for api500',
+  size: 1024 * 1024 * 1024,
+  provisioningType: 'Thin',
+  isShareable: false
+}
+
+# use this to add storage paths to volume attachments using api200 or api300
+storage_paths_api_200 = [
+  {
+    isEnabled: true,
+    storageTargetType: 'Auto',
+    connectionId: 1
+  }
+]
+
+# use this to add storage paths to volume attachments using api500 or greater
+storage_paths_api500 = [
+  {
+    isEnabled: true,
+    targetSelector: 'Auto',
+    connectionId: 1
+  }
+]
 
 # Creates a server profile with the desired Enclosure group and Server hardware type
 oneview_server_profile 'ServerProfile1' do
@@ -38,7 +80,7 @@ oneview_server_profile 'ServerProfile2' do
     description: 'Override Description',
     boot: {
       order: [],
-      manageBoot: false
+      manageBoot: true
     }
   )
   server_profile_template my_server_profile_template
@@ -80,7 +122,7 @@ oneview_server_profile 'ServerProfile3' do
     fcoe1: {
       name: 'c1',
       functionType: 'FibreChannel',
-      portId: 'Auto'
+      portId: 'None'
     }
   )
   action :create_if_missing
@@ -121,22 +163,64 @@ oneview_server_profile 'ServerProfile3' do
   action :create
 end
 
-# Deletes server profile 'ServerProfile3'
-oneview_server_profile 'Delete ServerProfile3' do
+# Creates on server profile template with the desired Enclosure group and Server hardware type
+oneview_server_profile 'ServerProfile4' do
   client my_client
-  data(name: 'ServerProfile3')
+  enclosure_group my_enclosure_group
+  server_hardware_type my_server_hardware_type
+  fc_network_connections(
+    FCNetwork1: {
+      id: 1,
+      name: 'Connection1',
+      functionType: 'FibreChannel',
+      portId: 'Auto'
+    }
+  )
+  volume_attachments(
+    [
+      {
+        volume: 'test2',
+        attachment_data: {
+          id: 1,
+          lunType: 'Auto',
+          storagePaths: storage_paths_api_200
+        }
+      },
+      {
+        volume_data: volume_data_api_200,
+        storage_system: 'ThreePAR-1',
+        storage_pool: 'cpg-growth-limit-1TiB',
+        host_os_type: 'Windows 2012 / WS2012 R2',
+        attachment_data: {
+          id: 2,
+          lunType: 'Auto',
+          storagePaths: storage_paths_api_200
+        }
+      }
+    ]
+  )
+end
+
+# Clean up the profiles:
+oneview_server_profile 'Delete ServerProfile1' do
+  client my_client
+  data(name: 'ServerProfile1')
   action :delete
 end
 
-# Clean up the other profiles:
 oneview_server_profile 'Delete ServerProfile2' do
   client my_client
   data(name: 'ServerProfile2')
   action :delete
 end
 
-oneview_server_profile 'Delete ServerProfile1' do
+oneview_server_profile 'Delete ServerProfile3' do
   client my_client
-  data(name: 'ServerProfile1')
+  data(name: 'ServerProfile3')
+  action :delete
+end
+
+oneview_server_profile 'ServerProfile4' do
+  client my_client
   action :delete
 end
