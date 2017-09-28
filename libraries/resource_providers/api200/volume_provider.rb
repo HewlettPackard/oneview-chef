@@ -39,21 +39,18 @@ module OneviewCookbook
           credentials: { ip_hostname: @new_resource.storage_system },
           name: @new_resource.storage_system
         }
-        @item.set_storage_system(load_resource(:StorageSystem, data))
+        @storage_system = resource_named(:StorageSystem).new(@item.client, data)
+        @item.set_storage_system(@storage_system)
       end
 
       def load_storage_pool
-        raise 'Must specify a storage_system to use the storage_pool helper.' unless @item['storageSystemUri']
-        sp = resource_named(:StoragePool).find_by(@item.client, name: @new_resource.storage_pool, storageSystemUri: @item['storageSystemUri']).first
-        raise "Storage Pool '#{sp['name']}' not found" unless sp
-        @item['storagePoolUri'] = sp['uri']
+        data = { name: @new_resource.storage_pool, storageSystemUri: @storage_system['uri'] }
+        @item['storagePoolUri'] = load_resource(:StoragePool, data, 'uri')
       end
 
       def load_snapshot_pool
-        raise 'Must specify a storage_system to use the storage_pool helper.' unless @item['storageSystemUri']
-        @item.set_snapshot_pool(
-          resource_named(:StoragePool).find_by(@item.client, name: @new_resource.snapshot_pool, storageSystemUri: @item['storageSystemUri']).first
-        )
+        data = { name: @new_resource.snapshot_pool, storageSystemUri: @storage_system['uri'] }
+        @item['snapshotPoolUri'] = load_resource(:StoragePool, data, 'uri')
       end
 
       def set_provisioning_parameters
@@ -81,7 +78,7 @@ module OneviewCookbook
         temp = convert_keys(Marshal.load(Marshal.dump(@new_resource.snapshot_data)), :to_s)
         @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         snapshot = @item.get_snapshot(temp['name'])
-        return Chef::Log.info "Volume snapshot '#{temp['name']}' already exists" unless snapshot.empty?
+        return Chef::Log.info "Volume snapshot '#{temp['name']}' already exists" if snapshot
         Chef::Log.info "Creating oneview_volume '#{@name}' snapshot"
         @context.converge_by "Created oneview_volume '#{@name}' snapshot" do
           @item.create_snapshot(temp)

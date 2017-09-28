@@ -20,7 +20,7 @@ describe 'oneview_test::volume_create_snapshot' do
   it 'creates a snapshot when it does not exists' do
     allow_any_instance_of(OneviewSDK::Volume).to receive(:exists?).and_return(true)
     allow_any_instance_of(OneviewSDK::Volume).to receive(:retrieve!).and_return(true)
-    allow_any_instance_of(OneviewSDK::Volume).to receive(:get_snapshot).and_return([])
+    allow_any_instance_of(OneviewSDK::Volume).to receive(:get_snapshot).and_return(nil)
     expect_any_instance_of(OneviewSDK::Volume).to receive(:create_snapshot).and_return(true)
     expect(real_chef_run).to create_oneview_volume_snapshot('Volume1')
   end

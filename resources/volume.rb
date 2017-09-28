@@ -16,6 +16,11 @@ property :storage_pool, String
 property :volume_template, String
 property :snapshot_pool, String
 property :snapshot_data, Hash
+property :properties, Hash
+property :device_volume_name, String
+property :is_shareable, [TrueClass, FalseClass]
+property :is_permanent, [TrueClass, FalseClass], default: true
+property :delete_only_appliance, [TrueClass, FalseClass], default: false
 
 default_action :create
 
@@ -37,4 +42,16 @@ end
 
 action :delete_snapshot do
   OneviewCookbook::Helper.do_resource_action(self, :Volume, :delete_snapshot)
+end
+
+action :create_from_snapshot do
+  OneviewCookbook::Helper.do_resource_action(self, :Volume, :create_from_snapshot)
+end
+
+action :create_from_snapshot do
+  OneviewCookbook::Helper.do_resource_action(self, :Volume, :create_from_snapshot)
+end
+
+action :add do
+  OneviewCookbook::Helper.do_resource_action(self, :Volume, :add_or_edit)
 end

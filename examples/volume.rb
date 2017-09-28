@@ -84,8 +84,11 @@ oneview_volume 'CHEF_VOL_01' do
   action :delete_snapshot
 end
 
-# Example: Make sure a volume does not exist
-oneview_volume 'CHEF_VOL_04' do
-  client my_client
-  action :delete
+# Deletes the volumes created in this recipe:
+# Delete action will only need the name and client
+(1..3).each do |i|
+  oneview_volume "CHEF_VOL_0#{i}" do
+    client my_client
+    action :delete
+  end
 end
