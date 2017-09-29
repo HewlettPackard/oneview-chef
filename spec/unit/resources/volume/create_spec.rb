@@ -34,7 +34,7 @@ describe 'oneview_test_api500_synergy::volume_create' do
 
   before do
     allow_any_instance_of(target_provider).to receive(:load_resource).and_call_original
-    allow_any_instance_of(target_provider).to receive(:load_resource).with(:StorageSystem, anything).and_return(storage_system)
+    allow_any_instance_of(target_provider).to receive(:load_resource).with(:StorageSystem, anything, anything).and_return(storage_system)
     allow_any_instance_of(target_provider).to receive(:load_resource).with(:StoragePool, anything, anything).and_return('/rest/storage-systems/1')
   end
 

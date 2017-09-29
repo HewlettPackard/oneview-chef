@@ -585,7 +585,7 @@ oneview_volume 'Volume_1' do
   device_volume_name <device_volume_name>       # String. Name of the external volume that want to add. Used in add action only. Only available on API500 and onwards.
   is_shareable <is_shareable>                   # Optional <TrueClass, FalseClass> but required in create_from_snapshot. Only available on API500 and onwards.
   is_permanent <is_permanent>                   # <TrueClass, FalseClass>. Default: 'true'. Only available on API500 and onwards.
-  delete_only_appliance <delete_only_appliance> # <TrueClass, FalseClass>. Default: 'false'. Used in delete action only. If true remove from appliance and storage system, if false remove from appliance only. Only available on API500 and onwards.
+  delete_only_appliance <delete_only_appliance> # <TrueClass, FalseClass>. Default: 'false'. Used in delete action only. If true remove from appliance only, if false remove from appliance and storage system. Only available on API500 and onwards.
   action [:create, :create_if_missing, :delete, :create_from_snapshot, :add]
 end
 

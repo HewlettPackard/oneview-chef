@@ -19,8 +19,9 @@ module OneviewCookbook
             load_volume_template
           else
             validate_required_properties(:storage_system, :storage_pool)
-            load_storage_pool
-            load_snapshot_pool if @new_resource.snapshot_pool
+            storage_system_uri = load_storage_system
+            @item['storagePoolUri'] = load_resource(:StoragePool, { name: @new_resource.storage_pool, storageSystemUri: storage_system_uri }, 'uri')
+            @item['snapshotPoolUri'] = load_resource(:StoragePool, { name: @new_resource.snapshot_pool, storageSystemUri: storage_system_uri }, 'uri') if @new_resource.snapshot_pool
           end
           set_properties unless @item.exists?
         end
@@ -30,19 +31,14 @@ module OneviewCookbook
             hostname: @new_resource.storage_system,
             name: @new_resource.storage_system
           }
-          @storage_system = load_resource(:StorageSystem, data)
-        end
-
-        def load_storage_pool
-          load_storage_system
-          super
+          load_resource(:StorageSystem, data, 'uri')
         end
 
         def load_volume_template
           template = resource_named(:VolumeTemplate).new(@item.client, name: @new_resource.volume_template)
           @item.set_storage_volume_template(template)
           @item['storagePoolUri'] = template['storagePoolUri']
-          @item['snapshotPoolUri'] = template['storagePoolUri'] if template['family'] == 'StoreServ'
+          @item['snapshotPoolUri'] = template['properties']['snapshotPool']['default'] if template['family'] == 'StoreServ'
         end
 
         def create_from_snapshot
@@ -90,13 +86,13 @@ module OneviewCookbook
           @item['properties'] ||= {}
           @item['isPermanent'] ||= @new_resource.is_permanent
           @item['properties']['name'] = @new_resource.name
-          @item['properties']['description'] ||= @item['description'] if @item['description']
-          @item['properties']['storagePool'] ||= @item['storagePoolUri'] if @item['storagePoolUri']
+          @item['properties']['description'] ||= @item['description']
+          @item['properties']['storagePool'] ||= @item['storagePoolUri']
           @item['properties']['snapshotPool'] ||= @item['snapshotPoolUri'] if @item['snapshotPoolUri']
-          @item['properties']['provisioningType'] ||= @item['provisioningType'] if @item['provisioningType']
-          @item['properties']['size'] ||= @item['size'] if @item['size']
+          @item['properties']['provisioningType'] ||= @item['provisioningType']
+          @item['properties']['size'] ||= @item['size']
           @item['properties']['dataProtectionLevel'] ||= @item['dataProtectionLevel'] if @item['dataProtectionLevel']
-          @item['properties']['isShareable'] ||= @item['isShareable'] || @new_resource.is_shareable if @item['isShareable']
+          @item['properties']['isShareable'] ||= @item['isShareable'] || @new_resource.is_shareable
           attrs = ['name', 'description', 'storagePool', 'provisioningType', 'size', 'isShareable', 'dataProtectionLevel', 'storagePoolUri', 'snapshotPoolUri']
           attrs.each { |attr| @item.data.delete(attr) } unless @item['properties'].empty?
           @item.data.delete('properties') if @item['properties'].empty?

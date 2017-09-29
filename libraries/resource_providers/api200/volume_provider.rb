@@ -18,11 +18,12 @@ module OneviewCookbook
         if @new_resource.volume_template
           @item.set_storage_volume_template(resource_named(:VolumeTemplate).new(@item.client, name: @new_resource.volume_template))
         else # Can't set the storage_pool or snapshot_pool if we specify a volume_template
-          load_storage_system if @new_resource.storage_system
+          validate_required_properties(:storage_system, :storage_pool)
+          storage_system_uri = load_storage_system
           # @item.set_storage_pool(resource_named(:StoragePool).new(@item.client, name: storage_pool)) if storage_pool
           # Workaround for issue in oneview-sdk:
-          load_storage_pool if @new_resource.storage_pool
-          load_snapshot_pool if @new_resource.snapshot_pool
+          @item['storagePoolUri'] = load_resource(:StoragePool, { name: @new_resource.storage_pool, storageSystemUri: storage_system_uri }, 'uri')
+          @item['snapshotPoolUri'] = load_resource(:StoragePool, { name: @new_resource.snapshot_pool, storageSystemUri: storage_system_uri }, 'uri') if @new_resource.snapshot_pool
         end
 
         # Convert capacity integers to strings
@@ -39,18 +40,9 @@ module OneviewCookbook
           credentials: { ip_hostname: @new_resource.storage_system },
           name: @new_resource.storage_system
         }
-        @storage_system = resource_named(:StorageSystem).new(@item.client, data)
-        @item.set_storage_system(@storage_system)
-      end
-
-      def load_storage_pool
-        data = { name: @new_resource.storage_pool, storageSystemUri: @storage_system['uri'] }
-        @item['storagePoolUri'] = load_resource(:StoragePool, data, 'uri')
-      end
-
-      def load_snapshot_pool
-        data = { name: @new_resource.snapshot_pool, storageSystemUri: @storage_system['uri'] }
-        @item['snapshotPoolUri'] = load_resource(:StoragePool, data, 'uri')
+        storage_system = resource_named(:StorageSystem).new(@item.client, data)
+        @item.set_storage_system(storage_system)
+        storage_system['uri']
       end
 
       def set_provisioning_parameters
