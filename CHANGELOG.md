@@ -52,6 +52,9 @@ Bug fixes:
 - [#243](https://github.com/HewlettPackard/oneview-chef/issues/243) Chef-client 13.2.20 does not allow modification of property :save_resource_info
 - [#180](https://github.com/HewlettPackard/oneview-chef/issues/180) Create Mixins for the resource providers common methods
 
+### Breaking changes
+- The `new_profile` action of oneview_server_profile_template was removed.
+
 ## 2.3.0
 Adds support to the following HPE OneView resources:
   - Added oneview_event resource

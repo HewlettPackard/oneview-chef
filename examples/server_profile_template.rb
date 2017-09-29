@@ -51,10 +51,3 @@ oneview_server_profile_template 'ServerProfileTemplate2' do
   client my_client
   action :delete
 end
-
-# Creates a new Server Profile based on a Server Profile Template
-oneview_server_profile_template 'ServerProfileTemplate1' do
-  client my_client
-  action :new_profile
-  server_profile_name 'ServerProfile1'
-end
