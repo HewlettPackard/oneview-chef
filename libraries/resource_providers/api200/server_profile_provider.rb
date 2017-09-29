@@ -37,14 +37,15 @@ module OneviewCookbook
           volume_name = options['volume']
           volume_data = options['volume_data']
           attachment_data = options.fetch('attachment_data', {})
-          raise('To add volume attachments you need volume or volume_data into each data of volume_attachments') unless volume_name || volume_data
+          raise("To add volume attachments you need to specify the 'volume' or 'volume_data' insides 'volume_attachments' options") unless volume_name || volume_data
           if volume_name
             volume = load_resource(:Volume, name: volume_name)
             @item.add_volume_attachment(volume, attachment_data)
           else
             storage_system_name = options.delete('storage_system')
             storage_pool_name = options.delete('storage_pool')
-            raise('To create a new volume with attachment you need storage_system and storage_pool') unless storage_system_name && storage_pool_name
+            can_create_volume = storage_system_name && storage_pool_name
+            raise("To create a new volume with an attachment you need to specify the 'storage_system' and 'storage_pool' names inside 'volume_attachments' options.") unless can_create_volume
             storage_system_uri = load_resource(:StorageSystem, { hostname: storage_system_name, name: storage_system_name }, :uri)
             storage_pool = load_resource(:StoragePool, name: storage_pool_name, storageSystemUri: storage_system_uri)
             @item.create_volume_with_attachment(storage_pool, volume_data, attachment_data)
