@@ -43,18 +43,18 @@ oneview_server_profile_template 'ServerProfileTemplate1' do
         attachment_data: {
           id: 1,
           lunType: 'Auto',
-          storagePaths: node.run_state[:storage_paths_for_volume_attachment]
+          storagePaths: node.run_state['storage_paths_for_volume_attachment']
         }
       },
       {
-        volume_data: node.run_state[:volume_data_for_volume_attachment],
+        volume_data: node.run_state['volume_data_for_volume_attachment'],
         storage_system: 'ThreePAR-1',
         storage_pool: 'cpg-growth-limit-1TiB',
         host_os_type: 'Windows 2012 / WS2012 R2',
         attachment_data: {
           id: 2,
           lunType: 'Auto',
-          storagePaths: node.run_state[:storage_paths_for_volume_attachment]
+          storagePaths: node.run_state['storage_paths_for_volume_attachment']
         }
       }
     ]

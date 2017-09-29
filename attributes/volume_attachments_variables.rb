@@ -12,7 +12,7 @@
 # NOTE: variables to be used within server_profile and server_profile_template examples.
 
 # use this to create server profile or server profile template with volume attachments using api200 or api300
-volume_data_api_200 = {
+volume_data = {
   name: 'Volume1',
   description: 'volume for api200 or api300',
   provisioningParameters: {
@@ -23,16 +23,16 @@ volume_data_api_200 = {
 }
 
 # use this to create server profile or server profile template with volume attachments using api500 or greater
-volume_data_api_500 = {
-  name: 'Volume1',
-  description: 'Volume store serv for api500',
-  size: 1024 * 1024 * 1024,
-  provisioningType: 'Thin',
-  isShareable: false
-}
+# volume_data = {
+#   name: 'Volume1',
+#   description: 'Volume store serv for api500',
+#   size: 1024 * 1024 * 1024,
+#   provisioningType: 'Thin',
+#   isShareable: false
+# }
 
 # use this to add storage paths to volume attachments using api200 or api300
-storage_paths_api_200 = [
+storage_paths = [
   {
     isEnabled: true,
     storageTargetType: 'Auto',
@@ -41,13 +41,13 @@ storage_paths_api_200 = [
 ]
 
 # use this to add storage paths to volume attachments using api500 or greater
-storage_paths_api500 = [
-  {
-    isEnabled: true,
-    targetSelector: 'Auto',
-    connectionId: 1
-  }
-]
+# storage_paths = [
+#   {
+#     isEnabled: true,
+#     targetSelector: 'Auto',
+#     connectionId: 1
+#   }
+# ]
 
-node.run_state[:volume_data_for_volume_attachment] = volume_data_api_200 # change to 'volume_data_api_500' if you want use with api500
-node.run_state[:storage_paths_for_volume_attachment] = storage_paths_api_200 # change to 'storage_paths_api500' if you want use with api500
+node.run_state['volume_data_for_volume_attachment'] = volume_data
+node.run_state['storage_paths_for_volume_attachment'] = storage_paths
