@@ -789,21 +789,21 @@ You can specify the association of the server profile with each of the resources
 - **\<resource_name\>_connections** (Array/Hash) Optional - Specify connections with the desired resource type. The Hash entry should have `<network_name> => <connection_data>` associations. The Array contains these Hash entries. See the examples for more information.
 - **volume_attachments** (Array<Hash>) Optional - Specify a list of volume attachments to be created when create/update the Server Profile Template. See the [example](examples/server_profile_template.rb) for more information.
 
-  To attach a existent Volume use a data as the below to be the volume attachment data:
+  To attach a Volume already created, put into the 'volume_attachments' something like:
   ```ruby
   {
     volume: 'test2', # name of existent Oneview Volume
-    attachment_data: {} # # key-pair data to be the specific attributes of Oneview Volume Attachment
+    attachment_data: {} # key-pair data to be the specific attributes of the Oneview Volume Attachment
   }
   ```
-  To create a new Volume and attach it, use a data as the below to be the volume attachment data:
+  To create a new Volume and attach it, put into the 'volume_attachments' something like:
   ```ruby
     {
       volume_data: {}, # key-pair data to create a new Volume to the Oneview
       storage_system: 'ThreePAR-1', # name of Storage System associated with the Volume Attachment
       storage_pool: 'CPG-SSD', # name of Storage Pool associated with the Volume Attachment
       host_os_type: 'Windows 2012 / WS2012 R2', # the hostOsType info of San Storage
-      attachment_data: {} # key-pair data to be the specific attributes of Oneview Volume Attachment
+      attachment_data: {} # key-pair data to be the specific attributes of the Oneview Volume Attachment
     }
   ```
 
@@ -836,21 +836,21 @@ You can specify the association of the server profile with each of the resources
 - **os_deployment_plan** (String) Optional - Specify the OS Deployment Plan to be applied with the Server Profile. The OS Deployment Plan needs to be created in Image Streamer appliance in order to appear in OneView. See the [example](examples/image_streamer/server_profile_deploy.rb) for more information.
 - **volume_attachments** (Array<Hash>) Optional - Specify a list of volume attachments to be created when create/update the Server Profile. See the [example](examples/server_profile.rb) for more information.
 
-  To attach a existent Volume use a data as the below to be the volume attachment data:
+  To attach a Volume already created, put into the 'volume_attachments' something like:
   ```ruby
   {
     volume: 'test2', # name of existent Oneview Volume
-    attachment_data: {} # # key-pair data to be the specific attributes of Oneview Volume Attachment
+    attachment_data: {} # key-pair data to be the specific attributes of the Oneview Volume Attachment
   }
   ```
-  To create a new Volume and attach it, use a data as the below to be the volume attachment data:
+  To create a new Volume and attach it, put into the 'volume_attachments' something like:
   ```ruby
     {
       volume_data: {}, # key-pair data to create a new Volume to the Oneview
       storage_system: 'ThreePAR-1', # name of Storage System associated with the Volume Attachment
       storage_pool: 'CPG-SSD', # name of Storage Pool associated with the Volume Attachment
       host_os_type: 'Windows 2012 / WS2012 R2', # the hostOsType info of San Storage
-      attachment_data: {} # key-pair data to be the specific attributes of Oneview Volume Attachment
+      attachment_data: {} # key-pair data to be the specific attributes of the Oneview Volume Attachment
     }
   ```
 
