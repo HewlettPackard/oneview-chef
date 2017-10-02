@@ -31,13 +31,12 @@ module OneviewCookbook
       end
 
       def build_volume_attachments
-        return unless @new_resource.volume_attachments
         @new_resource.volume_attachments.each do |options|
           options = convert_keys(options, :to_s)
           volume_name = options['volume']
           volume_data = options['volume_data']
           attachment_data = options.fetch('attachment_data', {})
-          raise("To add volume attachments you need to specify the 'volume' or 'volume_data' insides 'volume_attachments' options") unless volume_name || volume_data
+          raise("To add volume attachments you need to specify the 'volume' or 'volume_data' inside 'volume_attachments' options") unless volume_name || volume_data
           if volume_name
             volume = load_resource(:Volume, name: volume_name)
             @item.add_volume_attachment(volume, attachment_data)

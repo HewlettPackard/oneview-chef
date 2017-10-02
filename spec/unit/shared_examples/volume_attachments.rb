@@ -89,6 +89,6 @@ RSpec.shared_examples 'action :create #create_volume_attachments with wrong data
     allow_any_instance_of(target_class).to receive(:exists?).and_return(false)
     expect_any_instance_of(target_class).not_to receive(:create_volume_with_attachment)
     expect_any_instance_of(target_class).not_to receive(:add_volume_attachment)
-    expect { real_chef_run }.to raise_error(/To add volume attachments you need to specify the 'volume' or 'volume_data' insides 'volume_attachments' options/)
+    expect { real_chef_run }.to raise_error(/specify the 'volume' or 'volume_data' inside 'volume_attachments'/)
   end
 end

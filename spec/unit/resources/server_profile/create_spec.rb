@@ -4,7 +4,7 @@ describe 'oneview_test::server_profile_create' do
   let(:resource_name) { 'server_profile' }
   include_context 'chef context'
 
-  let(:target_class) { OneviewSDK::ServerProfile }
+  let(:target_class) { OneviewSDK::API200::ServerProfile }
 
   it 'creates it when it does not exist' do
     expect_any_instance_of(target_class).to receive(:exists?).and_return(false)
