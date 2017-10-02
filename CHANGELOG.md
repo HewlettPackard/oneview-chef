@@ -45,6 +45,7 @@ Enhancements:
 - [#225](https://github.com/HewlettPackard/oneview-chef/issues/225) Support additional uplink port types in the LogicalInterconnectGroupProvider
 - [#304](https://github.com/HewlettPackard/oneview-chef/issues/304) Add refresh actions to oneview_storage_system
 - [#306](https://github.com/HewlettPackard/oneview-chef/issues/306) Create shared examples to unit tests that using scope actions
+- [#336](https://github.com/HewlettPackard/oneview-chef/issues/336) Remove :new_profile action of oneview_server_profile_template
 
 Bug fixes:
 - [#284](https://github.com/HewlettPackard/oneview-chef/issues/284) Nested and cyclic requires are causing the first resource to be skipped
@@ -53,7 +54,7 @@ Bug fixes:
 - [#180](https://github.com/HewlettPackard/oneview-chef/issues/180) Create Mixins for the resource providers common methods
 
 ### Breaking changes
-- The `:new_profile` action was incorporated into create and update actions of the `oneview_server_profile` resource where a `server_profile_template` is specified.
+- The `:new_profile` action was removed from oneview_server_profile_template and incorporated into create and update actions of the `oneview_server_profile` resource where a `server_profile_template` is specified.
 
 ## 2.3.0
 Adds support to the following HPE OneView resources:
