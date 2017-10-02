@@ -12,11 +12,11 @@
 # NOTES:
 # This example requires the following resources to be available in the appliance:
 #  - FC Network: 'FCNetwork1'
-#  - Server Profile: 'sp1'
+#  - Server Profile: 'ServerProfile1'
 #  - Server Hardware Type: 'BL660c Gen9 1'
 #  - Storage System: 'ThreePAR-1'
 #  - Storage Pool: 'cpg-growth-limit-1TiB' (managed)
-#  - Enclosure Group: 'EG_1'
+#  - Enclosure Group: 'EnclosureGroup1'
 #  - Volume: 'Volume2'
 # To create volume attachments:
 #  - The attributes file "volume_attachments_variables" is loading variables to be used in this example.
@@ -29,9 +29,9 @@ my_client = {
   password: ENV['ONEVIEWSDK_PASSWORD']
 }
 
-enclosure_group = 'EG_1'
+enclosure_group = 'EnclosureGroup1'
 server_hardware_type = 'BL660c Gen9 1'
-sp_name = 'sp1'
+sp_name = 'ServerProfile1'
 
 # Creates on server profile template with the desired Enclosure group and Server hardware type
 oneview_server_profile_template 'ServerProfileTemplate1' do
@@ -79,7 +79,7 @@ oneview_server_profile_template 'ServerProfileTemplate1' do
   action :create_if_missing
 end
 
-# Creates a server profile template using the server profile 'sp1' as a templates
+# Creates a server profile template using the server profile 'ServerProfile1' as a templates
 # Note: Only to api 500 or greater, comments this recipe if you do not running using api500
 oneview_server_profile_template 'ServerProfileTemplate2' do
   client my_client

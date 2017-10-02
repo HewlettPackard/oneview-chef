@@ -12,18 +12,18 @@
 # NOTES:
 # This example requires the following resources to be available in the appliance:
 #  - FC Network: 'FCNetwork1'
-#  - FCoE Network: 'fcoe1'
+#  - FCoE Network: 'FCoENetwork1'
 #  - Ethernet Network: 'EthernetNetwork1'
 #  - Storage System: 'ThreePAR-1'
 #  - Storage Pool: 'cpg-growth-limit-1TiB' (managed)
-#  - Server Profile Template: 'spt1'
+#  - Server Profile Template: 'ServerProfileTemplate1'
 #  - Server Hardware Type: 'BL660c Gen9 1'
 #  - Server Hardware: 'Encl1, bay 2'
-#  - Enclosure Group: 'EG_1'
+#  - Enclosure Group: 'EnclosureGroup1'
 # To create volume attachments:
 #  - The attributes file "volume_attachments_variables" is loading variables to be used in this example.
-#  - The Storage System must have at least one connection using 'FCNetwork1' and this same network network must have uplinkSet connected on the Interconnect,
-#   and the Server Hardware related to that network network is the Server Hardware used in this example.
+#  - The Storage System must have at least one connection using 'FCNetwork1' and this same network connection must have an uplinkSet connected on the Interconnect,
+#   and the Server Hardware related to that network connection is the Server Hardware used in this example.
 
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
@@ -31,10 +31,10 @@ my_client = {
   password: ENV['ONEVIEWSDK_PASSWORD']
 }
 
-my_server_profile_template = 'spt1'
+my_server_profile_template = 'ServerProfileTemplate1'
 my_server_hardware_type = 'BL660c Gen9 1'
 my_server_hardware = 'Encl1, bay 2'
-my_enclosure_group = 'EG_1'
+my_enclosure_group = 'EnclosureGroup1'
 
 # Creates a server profile with the desired Enclosure group and Server hardware type
 oneview_server_profile 'ServerProfile1' do
@@ -93,7 +93,7 @@ oneview_server_profile 'ServerProfile3' do
     }
   )
   fcoe_network_connections(
-    fcoe1: {
+    FCoENetwork1: {
       name: 'c1',
       functionType: 'FibreChannel',
       portId: 'None'
