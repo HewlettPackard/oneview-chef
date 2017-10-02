@@ -10,8 +10,18 @@
 # specific language governing permissions and limitations under the License.
 
 # NOTES:
-#  - It is needed configure previously some things like the network connections, storage pool, storage system, etc., to run this example.
+# This example requires the following resources to be available in the appliance:
+#  - FC Network: 'FCNetwork1'
+#  - Server Profile: 'sp1'
+#  - Server Hardware Type: 'BL660c Gen9 1'
+#  - Storage System: 'ThreePAR-1'
+#  - Storage Pool: 'cpg-growth-limit-1TiB' (managed)
+#  - Enclosure Group: 'EG_1'
+#  - Volume: 'Volume2'
+# To create volume attachments:
 #  - The attributes file "volume_attachments_variables" is loading variables to be used in this example.
+#  - The Storage System must have at least one connection using 'FCNetwork1' and this same network network must have uplinkSet connected on the Interconnect,
+#   and the Server Hardware related to that network network is the Server Hardware used in this example.
 
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
