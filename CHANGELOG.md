@@ -1,4 +1,4 @@
-## 2.4.0 (Unreleased)
+## 3.0.0 (Unreleased)
 Adds API 500 support to the following HPE OneView resources:
   - oneview_connection_template
   - oneview_datacenter
@@ -53,7 +53,7 @@ Bug fixes:
 - [#180](https://github.com/HewlettPackard/oneview-chef/issues/180) Create Mixins for the resource providers common methods
 
 ### Breaking changes
-- The `new_profile` action of oneview_server_profile_template was removed.
+- The `:new_profile` action was incorporated into create and update actions of the `oneview_server_profile` resource where a `server_profile_template` is specified.
 
 ## 2.3.0
 Adds support to the following HPE OneView resources:
