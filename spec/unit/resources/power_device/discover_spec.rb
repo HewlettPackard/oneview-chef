@@ -37,7 +37,7 @@ describe 'oneview_test::power_device_discover' do
     allow(target_class).to receive(:get_ipdu_devices).and_return([])
     allow(target_class).to receive(:discover) { OneviewSDK::TaskError.raise!('... Unable to retrieve the input certificate ...') }
     expect(target_class).to receive(:discover).once
-    expect { real_chef_run }.to raise_error(/Unable to retrieve the input certificate/)
+    expect { real_chef_run }.to raise_error(StandardError, /Unable to retrieve the input certificate/)
   end
 end
 
@@ -59,6 +59,7 @@ describe 'oneview_test::power_device_discover_auto_import_certificate' do
     allow(target_class).to receive(:discover) do
       OneviewSDK::TaskError.raise!('... Unable to retrieve the input certificate ...') if with_error_seq.shift
     end
+    expect(Chef::Log).to receive(:warn)
     expect(target_class).to receive(:discover)
       .with(
         kind_of(OneviewSDK::Client),
@@ -88,6 +89,7 @@ describe 'oneview_test::power_device_discover_auto_import_certificate' do
     allow(target_class).to receive(:discover) do
       OneviewSDK::TaskError.raise!('... Unable to retrieve the input certificate ...') if with_error_seq.shift
     end
+    expect(Chef::Log).to receive(:warn)
     expect_any_instance_of(base_sdk::ClientCertificate).to receive(:retrieve!).and_return(true)
     expect_any_instance_of(base_sdk::ClientCertificate).not_to receive(:import)
     expect(target_class).to receive(:discover).twice
@@ -98,6 +100,6 @@ describe 'oneview_test::power_device_discover_auto_import_certificate' do
     allow(target_class).to receive(:get_ipdu_devices).and_return([])
     allow(target_class).to receive(:discover) { OneviewSDK::TaskError.raise!('some error') }
     expect(target_class).to receive(:discover).once
-    expect { real_chef_run }.to raise_error(/some error/)
+    expect { real_chef_run }.to raise_error(StandardError, /some error/)
   end
 end
