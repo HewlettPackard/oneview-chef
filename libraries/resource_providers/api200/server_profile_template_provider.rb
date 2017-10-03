@@ -24,6 +24,7 @@ module OneviewCookbook
         set_connections(:EthernetNetwork, @new_resource.ethernet_network_connections)
         set_connections(:FCNetwork, @new_resource.fc_network_connections)
         set_connections(:NetworkSet, @new_resource.network_set_connections)
+        build_volume_attachments
       end
 
       def create_or_update

@@ -9,16 +9,24 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
+# NOTES:
+# This example requires the following resources to be available in the appliance:
+#  - FC Network: 'FCNetwork1'
+#  - FCoE Network: 'FCoENetwork1'
+#  - Ethernet Network: 'EthernetNetwork1'
+#  - Server Profile Template: 'ServerProfileTemplate1'
+#  - Server Hardware Type: 'BL660c Gen9 1'
+#  - Server Hardware: 'Encl1, bay 2'
+#  - Enclosure Group: 'EnclosureGroup1'
+
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD']
 }
 
-my_server_profile_template = 'spt1'
-my_server_hardware_type = 'SY 480 Gen9 2'
-my_server_hardware = '0000A66101, bay 5'
-my_enclosure_group = 'eg1'
+my_server_hardware_type = 'BL660c Gen9 1'
+my_enclosure_group = 'EnclosureGroup1'
 
 # Creates a server profile with the desired Enclosure group and Server hardware type
 oneview_server_profile 'ServerProfile1' do
@@ -38,11 +46,11 @@ oneview_server_profile 'ServerProfile2' do
     description: 'Override Description',
     boot: {
       order: [],
-      manageBoot: false
+      manageBoot: true
     }
   )
-  server_profile_template my_server_profile_template
-  server_hardware my_server_hardware
+  server_profile_template 'ServerProfileTemplate1'
+  server_hardware 'Encl1, bay 2'
 end
 
 # If a profile does get in an inconsistent state, you can update it from it's template. Note that this action
@@ -77,10 +85,10 @@ oneview_server_profile 'ServerProfile3' do
     }
   )
   fcoe_network_connections(
-    fcoe1: {
+    FCoENetwork1: {
       name: 'c1',
       functionType: 'FibreChannel',
-      portId: 'Auto'
+      portId: 'None'
     }
   )
   action :create_if_missing
@@ -121,22 +129,33 @@ oneview_server_profile 'ServerProfile3' do
   action :create
 end
 
-# Deletes server profile 'ServerProfile3'
-oneview_server_profile 'Delete ServerProfile3' do
+# Creates on server profile template with the desired Enclosure group and Server hardware type
+oneview_server_profile 'ServerProfile4' do
   client my_client
-  data(name: 'ServerProfile3')
+  enclosure_group my_enclosure_group
+  server_hardware_type my_server_hardware_type
+end
+
+# Clean up the profiles:
+oneview_server_profile 'Delete ServerProfile1' do
+  client my_client
+  data(name: 'ServerProfile1')
   action :delete
 end
 
-# Clean up the other profiles:
 oneview_server_profile 'Delete ServerProfile2' do
   client my_client
   data(name: 'ServerProfile2')
   action :delete
 end
 
-oneview_server_profile 'Delete ServerProfile1' do
+oneview_server_profile 'Delete ServerProfile3' do
   client my_client
-  data(name: 'ServerProfile1')
+  data(name: 'ServerProfile3')
+  action :delete
+end
+
+oneview_server_profile 'ServerProfile4' do
+  client my_client
   action :delete
 end

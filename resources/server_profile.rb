@@ -22,6 +22,7 @@ property :fcoe_network_connections, Object
 property :network_set_connections, Object
 property :server_profile_template, String
 property :os_deployment_plan, String
+property :volume_attachments, Array, default: []
 
 default_action :create
 

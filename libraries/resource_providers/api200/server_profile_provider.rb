@@ -30,6 +30,29 @@ module OneviewCookbook
         true
       end
 
+      def build_volume_attachments
+        @new_resource.volume_attachments.each do |options|
+          options = convert_keys(options, :to_s)
+          volume_name = options['volume']
+          volume_data = options['volume_data']
+          attachment_data = options.fetch('attachment_data', {})
+          raise("To add volume attachments you need to specify the 'volume' or 'volume_data' inside 'volume_attachments' options") unless volume_name || volume_data
+          if volume_name
+            volume = load_resource(:Volume, name: volume_name)
+            @item.add_volume_attachment(volume, attachment_data)
+          else
+            storage_system_name = options.delete('storage_system')
+            storage_pool_name = options.delete('storage_pool')
+            can_create_volume = storage_system_name && storage_pool_name
+            raise("To create a new volume with an attachment you need to specify the 'storage_system' and 'storage_pool' names inside 'volume_attachments' options.") unless can_create_volume
+            storage_system_uri = load_resource(:StorageSystem, { hostname: storage_system_name, name: storage_system_name }, :uri)
+            storage_pool = load_resource(:StoragePool, name: storage_pool_name, storageSystemUri: storage_system_uri)
+            @item.create_volume_with_attachment(storage_pool, volume_data, attachment_data)
+          end
+          @item['sanStorage']['hostOSType'] = options['host_os_type']
+        end
+      end
+
       def set_resource(type, name, method, args = [])
         return false unless name
         @item.public_send(method, load_resource(type, name), *args)
@@ -51,6 +74,7 @@ module OneviewCookbook
         set_connections(:FCNetwork, @new_resource.fc_network_connections)
         set_connections(:FCoENetwork, @new_resource.fcoe_network_connections)
         set_connections(:NetworkSet, @new_resource.network_set_connections)
+        build_volume_attachments
       end
 
       # Override create method to allow creation from a template

@@ -21,6 +21,7 @@ property :network_set_connections, Object
 property :fc_network_connections, Object
 property :server_profile_name, String
 property :os_deployment_plan, String
+property :volume_attachments, Array, default: []
 
 default_action :create
 
