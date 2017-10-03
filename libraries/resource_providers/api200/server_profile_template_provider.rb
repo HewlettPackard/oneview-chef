@@ -35,13 +35,6 @@ module OneviewCookbook
         load_with_properties
         super
       end
-
-      def new_profile
-        raise "Unspecified property: 'server_profile_name'. Please set it before attempting this action." unless @new_resource.server_profile_name
-        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
-        @item = @item.new_profile(@new_resource.server_profile_name)
-        create_if_missing
-      end
     end
   end
 end

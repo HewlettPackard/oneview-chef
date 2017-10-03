@@ -52,7 +52,7 @@ if defined?(ChefSpec)
     oneview_scope:                      standard_actions + [:change_resource_assignments],
     oneview_server_hardware:            %i[add_if_missing remove refresh set_power_state update_ilo_firmware] + scope_actions,
     oneview_server_hardware_type:       %i[edit remove],
-    oneview_server_profile_template:    standard_actions + [:new_profile],
+    oneview_server_profile_template:    standard_actions,
     oneview_server_profile:             standard_actions + [:update_from_template],
     oneview_storage_pool:               %i[add_if_missing remove update refresh add_for_management remove_from_management],
     oneview_storage_system:             %i[add remove edit_credentials add_if_missing refresh],

@@ -1,4 +1,4 @@
-## 2.4.0 (Unreleased)
+## 3.0.0 (Unreleased)
 Adds API 500 support to the following HPE OneView resources:
   - oneview_connection_template
   - oneview_datacenter
@@ -45,12 +45,16 @@ Enhancements:
 - [#225](https://github.com/HewlettPackard/oneview-chef/issues/225) Support additional uplink port types in the LogicalInterconnectGroupProvider
 - [#304](https://github.com/HewlettPackard/oneview-chef/issues/304) Add refresh actions to oneview_storage_system
 - [#306](https://github.com/HewlettPackard/oneview-chef/issues/306) Create shared examples to unit tests that using scope actions
+- [#336](https://github.com/HewlettPackard/oneview-chef/issues/336) Remove :new_profile action of oneview_server_profile_template
 
 Bug fixes:
 - [#284](https://github.com/HewlettPackard/oneview-chef/issues/284) Nested and cyclic requires are causing the first resource to be skipped
 - [#287](https://github.com/HewlettPackard/oneview-chef/issues/287) Disable FrozenString magic comment cop from Rubocop until the support is done
 - [#243](https://github.com/HewlettPackard/oneview-chef/issues/243) Chef-client 13.2.20 does not allow modification of property :save_resource_info
 - [#180](https://github.com/HewlettPackard/oneview-chef/issues/180) Create Mixins for the resource providers common methods
+
+### Breaking changes
+- The `:new_profile` action was removed from oneview_server_profile_template and incorporated into create and update actions of the `oneview_server_profile` resource where a `server_profile_template` is specified.
 
 ## 2.3.0
 Adds support to the following HPE OneView resources:

@@ -35,7 +35,3 @@ end
 action :delete do
   OneviewCookbook::Helper.do_resource_action(self, :ServerProfileTemplate, :delete)
 end
-
-action :new_profile do
-  OneviewCookbook::Helper.do_resource_action(self, :ServerProfileTemplate, :new_profile)
-end
