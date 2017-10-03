@@ -11,17 +11,9 @@
 
 # NOTES:
 # This example requires the following resources to be available in the appliance:
-#  - FC Network: 'FCNetwork1'
 #  - Server Profile: 'ServerProfile1'
 #  - Server Hardware Type: 'BL660c Gen9 1'
-#  - Storage System: 'ThreePAR-1'
-#  - Storage Pool: 'cpg-growth-limit-1TiB' (managed)
 #  - Enclosure Group: 'EnclosureGroup1'
-#  - Volume: 'Volume2'
-# To create volume attachments:
-#  - The attributes file "volume_attachments_variables" is loading variables to be used in this example.
-#  - The Storage System must have at least one connection using 'FCNetwork1' and this same network network must have uplinkSet connected on the Interconnect,
-#   and the Server Hardware related to that network network is the Server Hardware used in this example.
 
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
@@ -38,37 +30,6 @@ oneview_server_profile_template 'ServerProfileTemplate1' do
   client my_client
   enclosure_group enclosure_group
   server_hardware_type server_hardware_type
-  fc_network_connections(
-    FCNetwork1: {
-      id: 1,
-      name: 'Connection1',
-      functionType: 'FibreChannel',
-      portId: 'Auto'
-    }
-  )
-  volume_attachments(
-    [
-      {
-        volume: 'Volume2',
-        attachment_data: {
-          id: 1,
-          lunType: 'Auto',
-          storagePaths: node.run_state['storage_paths_for_volume_attachment']
-        }
-      },
-      {
-        volume_data: node.run_state['volume_data_for_volume_attachment'],
-        storage_system: 'ThreePAR-1',
-        storage_pool: 'cpg-growth-limit-1TiB',
-        host_os_type: 'Windows 2012 / WS2012 R2',
-        attachment_data: {
-          id: 2,
-          lunType: 'Auto',
-          storagePaths: node.run_state['storage_paths_for_volume_attachment']
-        }
-      }
-    ]
-  )
 end
 
 # Creates on server profile template with the desired Enclosure group and Server hardware type

@@ -14,16 +14,10 @@
 #  - FC Network: 'FCNetwork1'
 #  - FCoE Network: 'FCoENetwork1'
 #  - Ethernet Network: 'EthernetNetwork1'
-#  - Storage System: 'ThreePAR-1'
-#  - Storage Pool: 'cpg-growth-limit-1TiB' (managed)
 #  - Server Profile Template: 'ServerProfileTemplate1'
 #  - Server Hardware Type: 'BL660c Gen9 1'
 #  - Server Hardware: 'Encl1, bay 2'
 #  - Enclosure Group: 'EnclosureGroup1'
-# To create volume attachments:
-#  - The attributes file "volume_attachments_variables" is loading variables to be used in this example.
-#  - The Storage System must have at least one connection using 'FCNetwork1' and this same network connection must have an uplinkSet connected on the Interconnect,
-#   and the Server Hardware related to that network connection is the Server Hardware used in this example.
 
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
@@ -31,9 +25,7 @@ my_client = {
   password: ENV['ONEVIEWSDK_PASSWORD']
 }
 
-my_server_profile_template = 'ServerProfileTemplate1'
 my_server_hardware_type = 'BL660c Gen9 1'
-my_server_hardware = 'Encl1, bay 2'
 my_enclosure_group = 'EnclosureGroup1'
 
 # Creates a server profile with the desired Enclosure group and Server hardware type
@@ -57,8 +49,8 @@ oneview_server_profile 'ServerProfile2' do
       manageBoot: true
     }
   )
-  server_profile_template my_server_profile_template
-  server_hardware my_server_hardware
+  server_profile_template 'ServerProfileTemplate1'
+  server_hardware 'Encl1, bay 2'
 end
 
 # If a profile does get in an inconsistent state, you can update it from it's template. Note that this action
@@ -142,37 +134,6 @@ oneview_server_profile 'ServerProfile4' do
   client my_client
   enclosure_group my_enclosure_group
   server_hardware_type my_server_hardware_type
-  fc_network_connections(
-    FCNetwork1: {
-      id: 1,
-      name: 'Connection1',
-      functionType: 'FibreChannel',
-      portId: 'Auto'
-    }
-  )
-  volume_attachments(
-    [
-      {
-        volume: 'Volume2',
-        attachment_data: {
-          id: 1,
-          lunType: 'Auto',
-          storagePaths: node.run_state['storage_paths_for_volume_attachment']
-        }
-      },
-      {
-        volume_data: node.run_state['volume_data_for_volume_attachment'],
-        storage_system: 'ThreePAR-1',
-        storage_pool: 'cpg-growth-limit-1TiB',
-        host_os_type: 'Windows 2012 / WS2012 R2',
-        attachment_data: {
-          id: 2,
-          lunType: 'Auto',
-          storagePaths: node.run_state['storage_paths_for_volume_attachment']
-        }
-      }
-    ]
-  )
 end
 
 # Clean up the profiles:
