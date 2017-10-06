@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: oneview_test
-# Recipe:: volume_create_by_template
+# Cookbook Name:: oneview_test_api500_synergy
+# Recipe:: volume_create_from_snapshot
 #
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +14,16 @@
 # specific language governing permissions and limitations under the License.
 #
 
-oneview_volume 'VOL2' do
+oneview_volume 'VOL1' do
   client node['oneview_test']['client']
-  volume_template 'Template1' # Name of the VolumeTemplate
+  properties(
+    name: 'VOL2',
+    snapshotName: 'VOL1_SNAP_1',
+    description: 'Volume store serv',
+    isShareable: true,
+    provisioningType: 'Thin',
+    size: 1024 * 1024 * 1024 # 1GB
+  )
+  volume_template 'VolumeTemplate1'
+  action :create_from_snapshot
 end

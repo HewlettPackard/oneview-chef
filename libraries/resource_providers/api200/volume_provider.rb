@@ -18,11 +18,11 @@ module OneviewCookbook
         if @new_resource.volume_template
           @item.set_storage_volume_template(resource_named(:VolumeTemplate).new(@item.client, name: @new_resource.volume_template))
         else # Can't set the storage_pool or snapshot_pool if we specify a volume_template
-          load_storage_system if @new_resource.storage_system
-          # @item.set_storage_pool(resource_named(:StoragePool).new(@item.client, name: storage_pool)) if storage_pool
-          # Workaround for issue in oneview-sdk:
-          load_storage_pool if @new_resource.storage_pool
-          load_snapshot_pool if @new_resource.snapshot_pool
+          validate_required_properties(:storage_system, :storage_pool)
+          storage_system = resource_named(:StorageSystem).new(@item.client, credentials: { ip_hostname: @new_resource.storage_system }, name: @new_resource.storage_system)
+          @item.set_storage_system(storage_system)
+          @item.set_storage_pool(resource_named(:StoragePool).new(@item.client, name: @new_resource.storage_pool, storageSystemUri: storage_system['uri']))
+          @item.set_snapshot_pool(resource_named(:StoragePool).new(@item.client, name: @new_resource.snapshot_pool, storageSystemUri: storage_system['uri'])) if @new_resource.snapshot_pool
         end
 
         # Convert capacity integers to strings
@@ -32,38 +32,12 @@ module OneviewCookbook
         set_provisioning_parameters unless @item.exists? # Also set provisioningParameters if the volume does not exist
       end
 
-      # Loads Storage System into the given Volume resource.
-      # The storage_system property needs to be set to a name or IP in order to use this method
-      def load_storage_system
-        data = {
-          credentials: { ip_hostname: @new_resource.storage_system },
-          name: @new_resource.storage_system
-        }
-        @item.set_storage_system(load_resource(:StorageSystem, data))
-      end
-
-      def load_storage_pool
-        raise 'Must specify a storage_system to use the storage_pool helper.' unless @item['storageSystemUri']
-        sp = resource_named(:StoragePool).find_by(@item.client, name: @new_resource.storage_pool, storageSystemUri: @item['storageSystemUri']).first
-        raise "Storage Pool '#{sp['name']}' not found" unless sp
-        @item['storagePoolUri'] = sp['uri']
-      end
-
-      def load_snapshot_pool
-        raise 'Must specify a storage_system to use the storage_pool helper.' unless @item['storageSystemUri']
-        @item.set_snapshot_pool(
-          resource_named(:StoragePool).find_by(@item.client, name: @new_resource.snapshot_pool, storageSystemUri: @item['storageSystemUri']).first
-        )
-      end
-
       def set_provisioning_parameters
         @item['provisioningParameters'] ||= {}
         shareable = !@item['shareable'].nil? && @item['provisioningParameters']['shareable'].nil?
         @item['provisioningParameters']['shareable'] = @item['shareable'] if shareable
         @item['provisioningParameters']['provisionType'] ||= @item['provisionType'] if @item['provisionType']
         @item['provisioningParameters']['requestedCapacity'] ||= @item['provisionedCapacity'] if @item['provisionedCapacity']
-        @item['provisioningParameters']['storagePoolUri'] ||= @item['storagePoolUri'] if @item['storagePoolUri']
-        @item.data.delete('provisioningParameters') if @item['provisioningParameters'].empty?
       end
 
       def create_or_update
@@ -81,7 +55,7 @@ module OneviewCookbook
         temp = convert_keys(Marshal.load(Marshal.dump(@new_resource.snapshot_data)), :to_s)
         @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
         snapshot = @item.get_snapshot(temp['name'])
-        return Chef::Log.info "Volume snapshot '#{temp['name']}' already exists" unless snapshot.empty?
+        return Chef::Log.info "Volume snapshot '#{temp['name']}' already exists" if snapshot
         Chef::Log.info "Creating oneview_volume '#{@name}' snapshot"
         @context.converge_by "Created oneview_volume '#{@name}' snapshot" do
           @item.create_snapshot(temp)
