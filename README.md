@@ -1097,6 +1097,8 @@ This feedback is crucial for us to deliver a useful product. Do not assume we ha
  - Run all tests: `$ rake test`
  - Optional: Start guard to run tests automatically on file changes: `$ bundle exec guard`
 
+ For more information please refer to the [Testing guidelines](TESTING.md).
+
 ## Authors
  - Jared Smartt - [@jsmartt](https://github.com/jsmartt)
  - Henrique Diomede - [@hdiomede](https://github.com/hdiomede)
