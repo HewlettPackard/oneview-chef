@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: oneview_test_api500_synergy
-# Recipe:: volume_delete_appliance_only
+# Recipe:: volume_add_if_missing
 #
 # (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
@@ -16,6 +16,10 @@
 
 oneview_volume 'VOL1' do
   client node['oneview_test']['client']
-  delete_only_appliance true
-  action :delete
+  data(
+    description: 'Volume added',
+    isShareable: false
+  )
+  storage_system 'StorageSystem1'
+  action :add_if_missing
 end

@@ -20,33 +20,29 @@ module OneviewCookbook
           else
             validate_required_properties(:storage_system, :storage_pool)
             storage_system_uri = load_storage_system
-            @item['storagePoolUri'] = load_resource(:StoragePool, { name: @new_resource.storage_pool, storageSystemUri: storage_system_uri }, 'uri')
-            @item['snapshotPoolUri'] = load_resource(:StoragePool, { name: @new_resource.snapshot_pool, storageSystemUri: storage_system_uri }, 'uri') if @new_resource.snapshot_pool
+            @item.set_storage_pool(resource_named(:StoragePool).new(@item.client, name: @new_resource.storage_pool, storageSystemUri: storage_system_uri))
+            @item.set_snapshot_pool(resource_named(:StoragePool).new(@item.client, name: @new_resource.snapshot_pool, storageSystemUri: storage_system_uri)) if @new_resource.snapshot_pool
           end
-          set_properties unless @item.exists?
+          @item['properties']['name'] = @new_resource.name
+          @item.exists? ? @item.data.delete('properties') : set_properties
         end
 
         def load_storage_system
-          data = {
-            hostname: @new_resource.storage_system,
-            name: @new_resource.storage_system
-          }
-          load_resource(:StorageSystem, data, 'uri')
+          load_resource(:StorageSystem, { hostname: @new_resource.storage_system, name: @new_resource.storage_system }, 'uri')
         end
 
         def load_volume_template
           template = resource_named(:VolumeTemplate).new(@item.client, name: @new_resource.volume_template)
           @item.set_storage_volume_template(template)
-          @item['storagePoolUri'] = template['storagePoolUri']
-          @item['snapshotPoolUri'] = template['properties']['snapshotPool']['default'] if template['family'] == 'StoreServ'
+          @item.set_storage_pool(resource_named(:StoragePool).new(@item.client, uri: template['storagePoolUri']))
+          @item.set_snapshot_pool(resource_named(:StoragePool).new(@item.client, uri: template['properties']['snapshotPool']['default'])) if template['family'] == 'StoreServ'
         end
 
         def create_from_snapshot
           validate_required_properties(:properties)
           raise("#{@resource_name} '#{@name}' not found!") unless @item.retrieve!
           properties = convert_keys(@new_resource.properties, :to_s)
-          properties['isShareable'] ||= @new_resource.is_shareable
-          return Chef::Log.info "Volume '#{properties['name']}' already exists" if resource_named(:Volume).new(@item.client, name: properties['name']).retrieve!
+          return Chef::Log.info "Volume '#{properties['name']}' already exists" if resource_named(:Volume).new(@item.client, name: properties['name']).exists?
           snapshot_name = properties['snapshotName']
           properties.delete('snapshotName')
           volume_template = nil
@@ -57,14 +53,14 @@ module OneviewCookbook
           end
         end
 
-        def add_or_edit
-          validate_required_properties(:storage_system, :device_volume_name, :is_shareable)
-          options = Marshal.load(Marshal.dump(@item.data))
-          return Chef::Log.info "#{@resource_name} '#{@name}' already exists" if @item.exists?
-          storage_system = resource_named(:StorageSystem).new(@item.client, name: @new_resource.storage_system)
+        def add_if_missing
+          validate_required_properties(:storage_system) unless @item['storageSystemUri']
+          return Chef::Log.info("#{@resource_name} '#{@name}' already exists.") if @item.exists?
+          @item['storageSystemUri'] ||= load_storage_system
+          @item['deviceVolumeName'] ||= @name
           Chef::Log.info "Adding #{@resource_name} '#{@name}'"
           @context.converge_by "Added #{@resource_name} '#{@name}'" do
-            resource_named(:Volume).add(@item.client, storage_system, @new_resource.device_volume_name, @new_resource.is_shareable, options)
+            @item.add
           end
         end
 
@@ -73,8 +69,8 @@ module OneviewCookbook
         # @return [TrueClass, FalseClass] Returns true if the resource was deleted/removed
         def delete
           return false unless @item.retrieve!
-          flag = @new_resource.delete_only_appliance ? :oneview : :all
-          msg = @new_resource.delete_only_appliance ? 'only' : 'and the storage system'
+          flag = @new_resource.delete_from_appliance_only ? :oneview : :all
+          msg = @new_resource.delete_from_appliance_only ? 'only' : 'and the storage system'
           Chef::Log.info "Deleting #{@resource_name} '#{@name}' from appliance #{msg}"
           @context.converge_by "Deleted #{@resource_name} '#{@name}' from appliance #{msg}" do
             @item.delete(flag)
@@ -83,19 +79,14 @@ module OneviewCookbook
         end
 
         def set_properties
-          @item['properties'] ||= {}
           @item['isPermanent'] ||= @new_resource.is_permanent
-          @item['properties']['name'] = @new_resource.name
           @item['properties']['description'] ||= @item['description']
-          @item['properties']['storagePool'] ||= @item['storagePoolUri']
-          @item['properties']['snapshotPool'] ||= @item['snapshotPoolUri'] if @item['snapshotPoolUri']
           @item['properties']['provisioningType'] ||= @item['provisioningType']
           @item['properties']['size'] ||= @item['size']
           @item['properties']['dataProtectionLevel'] ||= @item['dataProtectionLevel'] if @item['dataProtectionLevel']
-          @item['properties']['isShareable'] ||= @item['isShareable'] || @new_resource.is_shareable
+          @item['properties']['isShareable'] ||= @item['isShareable']
           attrs = ['name', 'description', 'storagePool', 'provisioningType', 'size', 'isShareable', 'dataProtectionLevel', 'storagePoolUri', 'snapshotPoolUri']
-          attrs.each { |attr| @item.data.delete(attr) } unless @item['properties'].empty?
-          @item.data.delete('properties') if @item['properties'].empty?
+          attrs.each { |attr| @item.data.delete(attr) }
         end
       end
     end

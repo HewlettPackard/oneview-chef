@@ -19,11 +19,10 @@ module OneviewCookbook
           @item.set_storage_volume_template(resource_named(:VolumeTemplate).new(@item.client, name: @new_resource.volume_template))
         else # Can't set the storage_pool or snapshot_pool if we specify a volume_template
           validate_required_properties(:storage_system, :storage_pool)
-          storage_system_uri = load_storage_system
-          # @item.set_storage_pool(resource_named(:StoragePool).new(@item.client, name: storage_pool)) if storage_pool
-          # Workaround for issue in oneview-sdk:
-          @item['storagePoolUri'] = load_resource(:StoragePool, { name: @new_resource.storage_pool, storageSystemUri: storage_system_uri }, 'uri')
-          @item['snapshotPoolUri'] = load_resource(:StoragePool, { name: @new_resource.snapshot_pool, storageSystemUri: storage_system_uri }, 'uri') if @new_resource.snapshot_pool
+          storage_system = resource_named(:StorageSystem).new(@item.client, credentials: { ip_hostname: @new_resource.storage_system }, name: @new_resource.storage_system)
+          @item.set_storage_system(storage_system)
+          @item.set_storage_pool(resource_named(:StoragePool).new(@item.client, name: @new_resource.storage_pool, storageSystemUri: storage_system['uri']))
+          @item.set_snapshot_pool(resource_named(:StoragePool).new(@item.client, name: @new_resource.snapshot_pool, storageSystemUri: storage_system['uri'])) if @new_resource.snapshot_pool
         end
 
         # Convert capacity integers to strings
@@ -33,26 +32,12 @@ module OneviewCookbook
         set_provisioning_parameters unless @item.exists? # Also set provisioningParameters if the volume does not exist
       end
 
-      # Loads Storage System into the given Volume resource.
-      # The storage_system property needs to be set to a name or IP in order to use this method
-      def load_storage_system
-        data = {
-          credentials: { ip_hostname: @new_resource.storage_system },
-          name: @new_resource.storage_system
-        }
-        storage_system = resource_named(:StorageSystem).new(@item.client, data)
-        @item.set_storage_system(storage_system)
-        storage_system['uri']
-      end
-
       def set_provisioning_parameters
         @item['provisioningParameters'] ||= {}
         shareable = !@item['shareable'].nil? && @item['provisioningParameters']['shareable'].nil?
         @item['provisioningParameters']['shareable'] = @item['shareable'] if shareable
         @item['provisioningParameters']['provisionType'] ||= @item['provisionType'] if @item['provisionType']
         @item['provisioningParameters']['requestedCapacity'] ||= @item['provisionedCapacity'] if @item['provisionedCapacity']
-        @item['provisioningParameters']['storagePoolUri'] ||= @item['storagePoolUri'] if @item['storagePoolUri']
-        @item.data.delete('provisioningParameters') if @item['provisioningParameters'].empty?
       end
 
       def create_or_update

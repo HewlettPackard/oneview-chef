@@ -120,18 +120,19 @@ end
 # Example: Delete a volume from appliance only
 oneview_volume 'CHEF_VOL_01' do
   client my_client
-  delete_only_appliance true
+  delete_from_appliance_only true
   action :delete
 end
 
 # Example: Add a volume (created external to OneView) for management by the appliance
 oneview_volume 'CHEF_VOL_01' do
   client my_client
-  data(description: 'Volume store serv')
-  device_volume_name 'CHEF_VOL_01'
-  is_shareable true
+  data(
+    description: 'Volume added',
+    isShareable: false
+  )
   storage_system 'ThreePAR-1'
-  action :add
+  action :add_if_missing
 end
 
 # Example: Delete a volume snapshot

@@ -60,7 +60,7 @@ if defined?(ChefSpec)
     oneview_unmanaged_device:           %i[add remove add_if_missing],
     oneview_uplink_set:                 standard_actions,
     oneview_user:                       standard_actions,
-    oneview_volume:                     standard_actions + %i[add create_from_snapshot create_snapshot delete_snapshot],
+    oneview_volume:                     standard_actions + %i[add_if_missing create_from_snapshot create_snapshot delete_snapshot],
     oneview_volume_template:            standard_actions
   }
 

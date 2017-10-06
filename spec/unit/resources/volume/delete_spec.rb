@@ -4,7 +4,7 @@ describe 'oneview_test::volume_delete' do
   let(:resource_name) { 'volume' }
   include_context 'chef context'
 
-  let(:target_class) { OneviewSDK::Volume }
+  let(:target_class) { OneviewSDK::API200::Volume }
 
   it 'removes it if it does exist' do
     expect_any_instance_of(target_class).to receive(:retrieve!).and_return(true)
@@ -38,7 +38,7 @@ describe 'oneview_test_api500_synergy::volume_delete' do
   end
 end
 
-describe 'oneview_test_api500_synergy::volume_delete_appliance_only' do
+describe 'oneview_test_api500_synergy::volume_delete_from_appliance_only' do
   let(:resource_name) { 'volume' }
   include_context 'chef context'
 
