@@ -19,16 +19,12 @@ module OneviewCookbook
             load_volume_template
           else
             validate_required_properties(:storage_system, :storage_pool)
-            storage_system_uri = load_storage_system
+            storage_system_uri = load_resource(:StorageSystem, { hostname: @new_resource.storage_system, name: @new_resource.storage_system }, 'uri')
             @item.set_storage_pool(resource_named(:StoragePool).new(@item.client, name: @new_resource.storage_pool, storageSystemUri: storage_system_uri))
             @item.set_snapshot_pool(resource_named(:StoragePool).new(@item.client, name: @new_resource.snapshot_pool, storageSystemUri: storage_system_uri)) if @new_resource.snapshot_pool
           end
           @item['properties']['name'] = @new_resource.name
           @item.exists? ? @item.data.delete('properties') : set_properties
-        end
-
-        def load_storage_system
-          load_resource(:StorageSystem, { hostname: @new_resource.storage_system, name: @new_resource.storage_system }, 'uri')
         end
 
         def load_volume_template
@@ -56,7 +52,7 @@ module OneviewCookbook
         def add_if_missing
           validate_required_properties(:storage_system) unless @item['storageSystemUri']
           return Chef::Log.info("#{@resource_name} '#{@name}' already exists.") if @item.exists?
-          @item['storageSystemUri'] ||= load_storage_system
+          @item['storageSystemUri'] ||= load_resource(:StorageSystem, { hostname: @new_resource.storage_system, name: @new_resource.storage_system }, 'uri')
           @item['deviceVolumeName'] ||= @name
           Chef::Log.info "Adding #{@resource_name} '#{@name}'"
           @context.converge_by "Added #{@resource_name} '#{@name}'" do
