@@ -39,6 +39,8 @@ Adds API 500 support to the following HPE OneView resources:
   - oneview_user
   - oneview_volume_template
 
+Adds testing documentation into `TESTING.md`
+
 Enhancements:
 - [#246](https://github.com/HewlettPackard/oneview-chef/issues/246) Upgrade oneview-sdk gem to version 5.0.0
 - [#247](https://github.com/HewlettPackard/oneview-chef/issues/247) Remove deprecation and warnings for Chef 13
