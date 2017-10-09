@@ -1,5 +1,5 @@
 # Testing 'oneview' cookbook
-The 'oneview' cookbook already provides a unit testing strategy, besides having and linting tools to ensure its code style.
+The 'oneview' cookbook already provides a unit testing strategy, and linting tools to ensure its code style.
 This document will cover on how to execute and implement these tests.
 
 ## Executing tests
