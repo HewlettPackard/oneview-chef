@@ -54,6 +54,7 @@ Bug fixes:
 - [#287](https://github.com/HewlettPackard/oneview-chef/issues/287) Disable FrozenString magic comment cop from Rubocop until the support is done
 - [#243](https://github.com/HewlettPackard/oneview-chef/issues/243) Chef-client 13.2.20 does not allow modification of property :save_resource_info
 - [#180](https://github.com/HewlettPackard/oneview-chef/issues/180) Create Mixins for the resource providers common methods
+- [#340](https://github.com/HewlettPackard/oneview-chef/issues/340) Storage Pool provider for api500 is not working well
 
 ### Breaking changes
 - The `:new_profile` action was removed from oneview_server_profile_template and incorporated into create and update actions of the `oneview_server_profile` resource where a `server_profile_template` is specified.
