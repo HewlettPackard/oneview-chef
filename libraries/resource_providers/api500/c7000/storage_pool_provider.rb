@@ -18,20 +18,19 @@ module OneviewCookbook
       class StoragePoolProvider < API300::C7000::StoragePoolProvider
         include OneviewCookbook::RefreshActions::RequestRefresh
 
+        def refresh
+          load_storage_system
+          super
+        end
+
         def load_storage_system
           raise("Unspecified property: 'storage_system'. Please set it before attempting this action.") unless @new_resource.storage_system
-          data = {
-            hostname: @new_resource.storage_system,
-            name: @new_resource.storage_system
-          }
-          @item.set_storage_system(load_resource(:StorageSystem, data))
+          @item['storageSystemUri'] = load_resource(:StorageSystem, { hostname: @new_resource.storage_system, name: @new_resource.storage_system }, :uri)
         end
 
         def update_manage_state(managed)
-          status = 'managed'
-          status = 'unmanaged' unless managed
-          return Chef::Log.info("#{@resource_name} '#{@name}' is already #{status}") if @item['isManaged'] == managed
-          @context.converge_by "#{@resource_name} '#{@name}' is now #{status}" do
+          return Chef::Log.info("#{@resource_name} '#{@name}' managed status is already #{managed}") if @item['isManaged'] == managed
+          @context.converge_by "#{@resource_name} '#{@name}' managed status is now #{managed}" do
             @item.manage(managed)
           end
         end
@@ -62,7 +61,7 @@ module OneviewCookbook
           load_storage_system
           desired_state = Marshal.load(Marshal.dump(@item.data))
           @item.retrieve! || raise("Resource not found: The #{@resource_name} '#{@name}' could not be found")
-          update_manage_state(desired_state['isManaged'])
+          update_manage_state(desired_state['isManaged']) if desired_state['isManaged']
           return Chef::Log.info("#{@resource_name} '#{@name}' has no need to update") if @item.like? desired_state
           diff = get_diff(@item, desired_state)
           Chef::Log.info "Update #{@resource_name} '#{@name}'#{diff}"

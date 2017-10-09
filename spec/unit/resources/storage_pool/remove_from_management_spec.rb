@@ -7,7 +7,7 @@ describe 'oneview_test_api500_synergy::storage_pool_remove_from_management' do
   include_context 'chef context'
 
   before(:each) do
-    allow_any_instance_of(provider_class).to receive(:load_resource).with(:StorageSystem, anything).and_return('LoadedStorageSystem')
+    allow_any_instance_of(provider_class).to receive(:load_resource).with(:StorageSystem, anything, :uri).and_return('LoadedStorageSystem')
     allow_any_instance_of(base_sdk::StoragePool).to receive(:set_storage_system).with('LoadedStorageSystem').and_return(true)
   end
 
@@ -21,7 +21,7 @@ describe 'oneview_test_api500_synergy::storage_pool_remove_from_management' do
     allow_any_instance_of(base_sdk::StoragePool).to receive(:[]).and_call_original
     allow_any_instance_of(base_sdk::StoragePool).to receive(:[]).with('isManaged').and_return(false)
     allow(Chef::Log).to receive(:info).and_call_original
-    expect(Chef::Log).to receive(:info).with(/already unmanaged/)
+    expect(Chef::Log).to receive(:info).with(/is already false/)
     expect(real_chef_run).to remove_oneview_storage_pool_from_management('StoragePool')
   end
 
