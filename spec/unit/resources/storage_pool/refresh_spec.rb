@@ -8,7 +8,7 @@ describe 'oneview_test_api500_synergy::storage_pool_refresh' do
   let(:target_match_method) { [:refresh_oneview_storage_pool, 'StoragePool'] }
   it_behaves_like 'action :refresh #request_refresh' do
     before do
-      allow_any_instance_of(OneviewCookbook::API200::StoragePoolProvider).to receive(:load_resource).with(:StorageSystem, anything, :uri)
+      allow_any_instance_of(OneviewCookbook::API500::Synergy::StoragePoolProvider).to receive(:load_resource).with(:StorageSystem, anything, :uri)
     end
   end
 end
