@@ -30,7 +30,8 @@ oneview_storage_pool 'CPG-SSD' do
   client my_client
   storage_system @storage_system_ip
   data(
-    description: "SSD Storage pool - CHEF"
+    description: "SSD Storage pool - CHEF",
+    isManaged: false
   )
   action :update
 end

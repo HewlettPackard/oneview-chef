@@ -61,7 +61,7 @@ module OneviewCookbook
           load_storage_system
           desired_state = Marshal.load(Marshal.dump(@item.data))
           @item.retrieve! || raise("Resource not found: The #{@resource_name} '#{@name}' could not be found")
-          update_manage_state(desired_state['isManaged']) if desired_state['isManaged']
+          update_manage_state(desired_state['isManaged']) unless desired_state['isManaged'].nil?
           return Chef::Log.info("#{@resource_name} '#{@name}' has no need to update") if @item.like? desired_state
           diff = get_diff(@item, desired_state)
           Chef::Log.info "Update #{@resource_name} '#{@name}'#{diff}"
