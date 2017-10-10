@@ -40,7 +40,7 @@ end
 # Uses spp_file and hotfixes_files as reference
 oneview_firmware 'CustomSPP' do
   client my_client
-  spp_files '/bundles/firmware_bundle_name.iso'
+  spp_file '/bundles/firmware_bundle_name.iso'
   hotfixes_files ['/bundles/hotfix_name.rpm']
   action :create_custom_spp
 end
