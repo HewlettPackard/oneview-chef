@@ -21,7 +21,7 @@ describe 'oneview_test_api500_synergy::storage_pool_remove_from_management' do
     allow_any_instance_of(base_sdk::StoragePool).to receive(:[]).and_call_original
     allow_any_instance_of(base_sdk::StoragePool).to receive(:[]).with('isManaged').and_return(false)
     allow(Chef::Log).to receive(:info).and_call_original
-    expect(Chef::Log).to receive(:info).with(/is already false/)
+    expect(Chef::Log).to receive(:info).with(/already unmanaged/)
     expect(real_chef_run).to remove_oneview_storage_pool_from_management('StoragePool')
   end
 

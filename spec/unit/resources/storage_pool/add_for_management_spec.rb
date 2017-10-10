@@ -20,7 +20,7 @@ describe 'oneview_test_api500_synergy::storage_pool_add_for_management' do
     allow_any_instance_of(base_sdk::StoragePool).to receive(:[]).and_call_original
     allow_any_instance_of(base_sdk::StoragePool).to receive(:[]).with('isManaged').and_return(true)
     allow(Chef::Log).to receive(:info).and_call_original
-    expect(Chef::Log).to receive(:info).with(/is already true/)
+    expect(Chef::Log).to receive(:info).with(/already managed/)
     expect(real_chef_run).to add_oneview_storage_pool_for_management('StoragePool')
   end
 
