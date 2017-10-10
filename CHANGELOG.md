@@ -50,6 +50,7 @@ Enhancements:
 - [#306](https://github.com/HewlettPackard/oneview-chef/issues/306) Create shared examples to unit tests that using scope actions
 - [#336](https://github.com/HewlettPackard/oneview-chef/issues/336) Remove :new_profile action of oneview_server_profile_template
 - [#309](https://github.com/HewlettPackard/oneview-chef/issues/309) Add volume_attachment property to Server Profiles and SP Templates so VAs can be more easily managed
+- [#343](https://github.com/HewlettPackard/oneview-chef/issues/343) Use helper method of OneviewSDK StoragePool to set StorageSystem to a StoragePool of API500
 
 Bug fixes:
 - [#284](https://github.com/HewlettPackard/oneview-chef/issues/284) Nested and cyclic requires are causing the first resource to be skipped

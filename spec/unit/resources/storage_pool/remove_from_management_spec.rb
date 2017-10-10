@@ -7,8 +7,8 @@ describe 'oneview_test_api500_synergy::storage_pool_remove_from_management' do
   include_context 'chef context'
 
   before(:each) do
-    allow_any_instance_of(provider_class).to receive(:load_resource).with(:StorageSystem, anything, :uri).and_return('LoadedStorageSystem')
-    allow_any_instance_of(base_sdk::StoragePool).to receive(:set_storage_system).with('LoadedStorageSystem').and_return(true)
+    allow_any_instance_of(base_sdk::StorageSystem).to receive(:retrieve!).and_return(true)
+    allow_any_instance_of(provider_class).to receive(:load_resource).with(:StorageSystem, anything).and_return(base_sdk::StorageSystem.new(client500, uri: '/sotrage-system/1'))
   end
 
   it 'raises an error if it does not exist' do
