@@ -1,4 +1,4 @@
-## 3.0.0 (Unreleased)
+## 3.0.0
 Adds API 500 support to the following HPE OneView resources:
   - oneview_connection_template
   - oneview_datacenter
@@ -43,20 +43,20 @@ Adds API 500 support to the following HPE OneView resources:
 Adds testing documentation into `TESTING.md`
 
 Enhancements:
+- [#225](https://github.com/HewlettPackard/oneview-chef/issues/225) Support additional uplink port types in the LogicalInterconnectGroupProvider
 - [#246](https://github.com/HewlettPackard/oneview-chef/issues/246) Upgrade oneview-sdk gem to version 5.0.0
 - [#247](https://github.com/HewlettPackard/oneview-chef/issues/247) Remove deprecation and warnings for Chef 13
-- [#225](https://github.com/HewlettPackard/oneview-chef/issues/225) Support additional uplink port types in the LogicalInterconnectGroupProvider
 - [#304](https://github.com/HewlettPackard/oneview-chef/issues/304) Add refresh actions to oneview_storage_system
 - [#306](https://github.com/HewlettPackard/oneview-chef/issues/306) Create shared examples to unit tests that using scope actions
-- [#336](https://github.com/HewlettPackard/oneview-chef/issues/336) Remove :new_profile action of oneview_server_profile_template
 - [#309](https://github.com/HewlettPackard/oneview-chef/issues/309) Add volume_attachment property to Server Profiles and SP Templates so VAs can be more easily managed
+- [#336](https://github.com/HewlettPackard/oneview-chef/issues/336) Remove :new_profile action of oneview_server_profile_template
 - [#343](https://github.com/HewlettPackard/oneview-chef/issues/343) Use helper method of OneviewSDK StoragePool to set StorageSystem to a StoragePool of API500
 
 Bug fixes:
+- [#180](https://github.com/HewlettPackard/oneview-chef/issues/180) Create Mixins for the resource providers common methods
+- [#243](https://github.com/HewlettPackard/oneview-chef/issues/243) Chef-client 13.2.20 does not allow modification of property :save_resource_info
 - [#284](https://github.com/HewlettPackard/oneview-chef/issues/284) Nested and cyclic requires are causing the first resource to be skipped
 - [#287](https://github.com/HewlettPackard/oneview-chef/issues/287) Disable FrozenString magic comment cop from Rubocop until the support is done
-- [#243](https://github.com/HewlettPackard/oneview-chef/issues/243) Chef-client 13.2.20 does not allow modification of property :save_resource_info
-- [#180](https://github.com/HewlettPackard/oneview-chef/issues/180) Create Mixins for the resource providers common methods
 - [#340](https://github.com/HewlettPackard/oneview-chef/issues/340) Storage pool actions for API 500 are not working
 
 ### Breaking changes
