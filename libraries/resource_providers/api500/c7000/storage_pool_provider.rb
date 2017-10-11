@@ -25,7 +25,7 @@ module OneviewCookbook
 
         def load_storage_system
           raise("Unspecified property: 'storage_system'. Please set it before attempting this action.") unless @new_resource.storage_system
-          @item['storageSystemUri'] = load_resource(:StorageSystem, { hostname: @new_resource.storage_system, name: @new_resource.storage_system }, :uri)
+          @item.set_storage_system(load_resource(:StorageSystem, hostname: @new_resource.storage_system, name: @new_resource.storage_system))
         end
 
         def update_manage_state(managed)
