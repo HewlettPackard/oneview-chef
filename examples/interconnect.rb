@@ -12,7 +12,8 @@
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
-  password: ENV['ONEVIEWSDK_PASSWORD']
+  password: ENV['ONEVIEWSDK_PASSWORD'],
+  api_version: 500
 }
 
 # It will not do anything if no action is selected
@@ -50,4 +51,11 @@ end
 oneview_interconnect 'Encl1, interconnect 1' do
   client my_client
   action :reset
+end
+
+# Only for api500
+oneview_interconnect 'Encl1, interconnect 1' do
+  client my_client
+  api_version 500
+  action :reapply_configuration
 end
