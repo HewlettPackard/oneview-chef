@@ -1,3 +1,8 @@
+## 3.1.0 (Unreleased)
+
+## New Features:
+- [#346](https://github.com/HewlettPackard/oneview-chef/issues/346) Add action to reapply configuration of oneview_interconnect API500
+
 ## 3.0.0
 Adds API 500 support to the following HPE OneView resources:
   - oneview_connection_template

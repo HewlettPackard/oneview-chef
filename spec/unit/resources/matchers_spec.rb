@@ -97,6 +97,7 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not reset_oneview_interconnect_port_protection('')
     expect(chef_run).to_not reset_oneview_interconnect('')
     expect(chef_run).to_not update_oneview_interconnect_port('')
+    expect(chef_run).to_not reapply_oneview_interconnect_configuration('')
 
     # oneview_logical_enclosure
     expect(chef_run).to_not update_oneview_logical_enclosure_from_group('')

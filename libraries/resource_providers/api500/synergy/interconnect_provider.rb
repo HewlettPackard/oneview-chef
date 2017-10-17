@@ -13,7 +13,7 @@ module OneviewCookbook
   module API500
     module Synergy
       # Interconnect API500 Synergy provider
-      class InterconnectProvider < API300::Synergy::InterconnectProvider
+      class InterconnectProvider < API500::C7000::InterconnectProvider
       end
     end
   end
