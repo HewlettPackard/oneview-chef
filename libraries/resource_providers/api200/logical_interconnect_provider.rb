@@ -13,6 +13,8 @@ module OneviewCookbook
   module API200
     # LogicalInterconnect API200 provider
     class LogicalInterconnectProvider < ResourceProvider
+      include OneviewCookbook::ReapplyConfigurationAction
+
       def interconnect_handler(present_block, absent_block)
         raise "Unspecified property: 'bay_number'. Please set it before attempting this action." unless @new_resource.bay_number
         raise "Unspecified property: 'enclosure'. Please set it before attempting this action." unless @new_resource.enclosure
@@ -210,14 +212,6 @@ module OneviewCookbook
         # Nothing to verify
         @context.converge_by "Update #{@resource_name} '#{@name}' from group" do
           @item.compliance
-        end
-      end
-
-      def reapply_configuration
-        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
-        # Nothing to verify
-        @context.converge_by "Reapply configuration in #{@resource_name} '#{@name}'" do
-          @item.configuration
         end
       end
     end
