@@ -14,7 +14,8 @@ module OneviewCookbook
   module ReapplyConfigurationAction
     def reapply_configuration
       @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
-      @context.converge_by "Reapply configuration in #{@resource_name} '#{@name}'" do
+      Chef::Log.info "Reapplying configuration in #{@resource_name} '#{@name}'"
+      @context.converge_by "Reapplied configuration in #{@resource_name} '#{@name}'" do
         @item.configuration
       end
     end
