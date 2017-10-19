@@ -10,7 +10,8 @@
 # specific language governing permissions and limitations under the License.
 
 # NOTE 1: This example requires two Scopes named "Scope1" and "Scope2" to be present in the appliance.
-# NOTE 2: The api_version client should be 300 or greater if you run the examples using Scopes
+# NOTE 2: In the :update_port action is only for ports under the management of OneView and those that are unlinked.
+# NOTE 3: The api_version client should be 300 or greater if you run the examples using Scopes and to update ports.
 
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
@@ -24,6 +25,18 @@ my_client = {
 # To prevent Chef from removing a switch or using a non intuitive action as the standard action, we created the none action.
 oneview_switch 'Switch1' do
   client my_client
+end
+
+oneview_switch 'Switch1' do
+  client my_client
+  api_variant 'C7000'
+  api_version 300
+  port_options(
+    name: '1.1',
+    portName: '1.1',
+    enabled: true
+  )
+  action :update_port
 end
 
 # Example: Adds 'Switch1' to 'Scope1' and 'Scope2'
