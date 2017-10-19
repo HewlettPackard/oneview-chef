@@ -39,3 +39,7 @@ end
 action :update_port do
   OneviewCookbook::Helper.do_resource_action(self, :Interconnect, :update_port)
 end
+
+action :reapply_configuration do
+  OneviewCookbook::Helper.do_resource_action(self, :Interconnect, :reapply_configuration)
+end

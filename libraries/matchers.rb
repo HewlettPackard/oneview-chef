@@ -32,7 +32,7 @@ if defined?(ChefSpec)
     oneview_fcoe_network:               standard_actions + scope_actions + %i[reset_connection_template],
     oneview_firmware:                   %i[add remove create_custom_spp],
     oneview_id_pool:                    %i[update allocate_list allocate_count collect_ids],
-    oneview_interconnect:               %i[set_uid_light set_power_state reset reset_port_protection update_port],
+    oneview_interconnect:               %i[set_uid_light set_power_state reset reset_port_protection update_port reapply_configuration],
     oneview_logical_enclosure:          %i[create_if_missing create update_from_group reconfigure set_script delete create_support_dump],
     oneview_logical_interconnect_group: standard_actions + scope_actions,
     oneview_logical_interconnect:       %i[none add_interconnect remove_interconnect update_internal_networks update_settings

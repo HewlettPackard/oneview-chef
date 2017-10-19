@@ -245,7 +245,7 @@ oneview_interconnect 'Interconnect1' do
   port_options <port_data_hash>            # Required for :update_port
   uid_light_state <uid_light_state_string> # Required for :set_uid_light
   power_state <power_state_string>         # Required for :set_power_state
-  action [:reset, :reset_port_protection, :update_port, :set_uid_light, :set_power_state]
+  action [:reset, :reset_port_protection, :update_port, :set_uid_light, :set_power_state, :reapply_configuration]
 end
 ```
 
