@@ -10,7 +10,7 @@
 # specific language governing permissions and limitations under the License.
 
 # NOTE 1: This example requires two Scopes named "Scope1" and "Scope2" to be present in the appliance.
-# NOTE 2: In the :update_port action is only for ports under the management of OneView and those that are unlinked.
+# NOTE 2: The :update_port action is only for ports under the management of OneView and those that are unlinked.
 # NOTE 3: The api_version client should be 300 or greater if you run the examples using Scopes and to update ports.
 
 my_client = {

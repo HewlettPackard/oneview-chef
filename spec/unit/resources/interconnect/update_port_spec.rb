@@ -2,62 +2,18 @@ require_relative './../../../spec_helper'
 
 describe 'oneview_test::interconnect_update_port' do
   let(:resource_name) { 'interconnect' }
-  let(:target_class) { OneviewSDK::API200::Interconnect }
   include_context 'chef context'
+  include_context 'shared context'
 
-  let(:port_to_update) { { 'name' => 'X1', 'enabled' => false } }
-  let(:port_up_to_date) { { 'name' => 'X1', 'enabled' => true } }
-
-  it 'updates the port' do
-    ports = [
-      { 'name' => 'X1', 'enabled' => false },
-      { 'name' => 'X2', 'enabled' => true },
-      { 'name' => 'X3', 'enabled' => true }
-    ]
-
-    allow_any_instance_of(target_class).to receive(:retrieve!).and_return(true)
-    allow_any_instance_of(target_class).to receive(:[]).with('name')
-    allow_any_instance_of(target_class).to receive(:[]).with('ports').and_return(ports)
-    expect_any_instance_of(target_class).to receive(:update_port).with('X1', anything).and_return(true)
-
-    expect(real_chef_run).to update_oneview_interconnect_port('Interconnect5')
-  end
-
-  it 'leaves it as is since it is up to date' do
-    ports = [
-      { 'name' => 'X1', 'enabled' => true },
-      { 'name' => 'X2', 'enabled' => false },
-      { 'name' => 'X3', 'enabled' => false }
-    ]
-    allow_any_instance_of(target_class).to receive(:retrieve!).and_return(true)
-    allow_any_instance_of(target_class).to receive(:[]).with('name')
-    allow_any_instance_of(target_class).to receive(:[]).with('ports').and_return(ports)
-    expect_any_instance_of(target_class).to_not receive(:update_port)
-    expect(real_chef_run).to update_oneview_interconnect_port('Interconnect5')
-  end
-
-  it 'fails when trying to update an unexistant port' do
-    ports = [
-      { 'name' => 'Z0', 'enabled' => true }
-    ]
-    allow_any_instance_of(target_class).to receive(:retrieve!).and_return(true)
-    allow_any_instance_of(target_class).to receive(:[]).with('name')
-    allow_any_instance_of(target_class).to receive(:[]).with('ports').and_return(ports)
-    expect { real_chef_run }.to raise_error(RuntimeError, /Could not find port/)
-  end
-
-  it 'fails if the resource is not found' do
-    expect_any_instance_of(target_class).to receive(:retrieve!).and_return(false)
-    expect { real_chef_run }.to raise_error(RuntimeError, /not found/)
-  end
+  let(:target_class) { OneviewSDK::API200::Interconnect }
+  let(:target_match_method) { [:update_oneview_interconnect_port, 'Interconnect5'] }
+  it_behaves_like 'action :update_port'
 end
 
 describe 'oneview_test::interconnect_update_port_invalid' do
   let(:resource_name) { 'interconnect' }
   include_context 'chef context'
 
-  it 'fails if port_options property is not set' do
-    allow_any_instance_of(OneviewSDK::API200::Interconnect).to receive(:retrieve!).and_return(true)
-    expect { real_chef_run }.to raise_error(RuntimeError, /Unspecified property: 'port_options'/)
-  end
+  let(:target_class) { OneviewSDK::API200::Interconnect }
+  it_behaves_like 'action :update_port #update_port with an invalid port'
 end
