@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: oneview_test
-# Recipe:: interconnect_update_port
+# Recipe:: switch_update_port_invalid
 #
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,11 +14,9 @@
 # specific language governing permissions and limitations under the License.
 #
 
-oneview_interconnect 'Interconnect5' do
+oneview_switch 'Switch1' do
   client node['oneview_test']['client']
-  port_options(
-    name: '1.1',
-    enabled: true
-  )
+  api_version 300
+  api_variant 'C7000'
   action :update_port
 end

@@ -15,6 +15,7 @@ module OneviewCookbook
     class InterconnectProvider < ResourceProvider
       include OneviewCookbook::PatchOperations::OnOff
       include OneviewCookbook::PatchOperations::Reset
+      include OneviewCookbook::PortActions::UpdatePort
 
       def reset
         reset_handler('/deviceResetState')
@@ -25,25 +26,6 @@ module OneviewCookbook
         # Nothing to verify
         @context.converge_by "Reset #{@resource_name} '#{@name}' port protection" do
           @item.reset_port_protection
-        end
-      end
-
-      def update_port
-        raise "Unspecified property: 'port_options'. Please set it before attempting this action." unless @new_resource.port_options
-        parsed_port_options = convert_keys(@new_resource.port_options, :to_s)
-        raise "Required value \"name\" for 'port_options' not specified" unless parsed_port_options['name']
-        @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
-        target_port = (@item['ports'].select { |port| port['name'] == parsed_port_options['name'] }).first
-        raise "Could not find port: #{parsed_port_options['name']}" unless target_port
-        # Update only if there are options that differ from the current ones
-        if parsed_port_options.any? { |k, v| target_port[k] != v }
-          diff = get_diff(target_port, parsed_port_options)
-          Chef::Log.info "Updating #{@resource_name} '#{@name}'#{diff}"
-          @context.converge_by "Update #{@resource_name} '#{@name}' port #{parsed_port_options['name']}" do
-            @item.update_port(parsed_port_options['name'], parsed_port_options)
-          end
-        else
-          Chef::Log.info("#{@resource_name} '#{@name}' port #{parsed_port_options['name']} is up to date.")
         end
       end
     end

@@ -869,11 +869,12 @@ Note: API300 includes the `:patch` operation.
 oneview_switch 'Switch1' do
   client <my_client>
   data <data>
-  operation <op>        # String. Used in patch action only. e.g., 'replace'
-  path <path>           # String. Used in patch option only. e.g., '/name'
-  value <val>           # String. Used in patch option only. e.g., 'New Name'
-  scopes <scope_names>  # Array - Optional. Array of scope names. Used in add_to_scopes, remove_from_scopes or replace_scopes options only. e.g., ['Scope1', 'Scope2']
-  action [:remove, :none, :patch, :add_to_scopes, :remove_from_scopes, :replace_scopes]
+  operation <op>                # String. Used in patch action only. e.g., 'replace'
+  path <path>                   # String. Used in patch option only. e.g., '/name'
+  value <val>                   # String. Used in patch option only. e.g., 'New Name'
+  port_options <port_data_hash> # Hash. Used in update_port action only. Only available on API300 and onwards with the C7000 variant.
+  scopes <scope_names>          # Array - Optional. Array of scope names. Used in add_to_scopes, remove_from_scopes or replace_scopes options only. e.g., ['Scope1', 'Scope2']
+  action [:remove, :none, :patch, :update_port, :add_to_scopes, :remove_from_scopes, :replace_scopes]
 end
 ```
 

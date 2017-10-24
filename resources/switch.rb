@@ -12,6 +12,7 @@
 OneviewCookbook::ResourceBaseProperties.load(self)
 
 property :scopes, Array
+property :port_options, Hash
 
 # To prevent that the default action is remove
 default_action :none
@@ -37,4 +38,8 @@ end
 
 action :patch do
   OneviewCookbook::Helper.do_resource_action(self, :Switch, :patch)
+end
+
+action :update_port do
+  OneviewCookbook::Helper.do_resource_action(self, :Switch, :update_port)
 end

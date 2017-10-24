@@ -14,6 +14,7 @@ module OneviewCookbook
     module C7000
       # Switch API300 C7000 provider
       class SwitchProvider < API200::SwitchProvider
+        include OneviewCookbook::PortActions::UpdatePort
       end
     end
   end

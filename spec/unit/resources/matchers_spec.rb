@@ -266,6 +266,7 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not remove_oneview_switch_from_scopes('')
     expect(chef_run).to_not replace_oneview_switch_scopes('')
     expect(chef_run).to_not patch_oneview_switch('')
+    expect(chef_run).to_not update_oneview_switch_port('')
 
     # oneview_unmanaged_device
     expect(chef_run).to_not add_oneview_unmanaged_device('')
