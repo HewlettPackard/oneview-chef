@@ -19,7 +19,7 @@ my_client = {
 oneview_ethernet_network 'ChefEthernet_3001' do
   client my_client
   data(
-    vlanId: 3001,
+    vlanId: "3001",
     purpose:  'General',
     smartLink:  false,
     privateNetwork:  false,
@@ -110,4 +110,3 @@ oneview_fc_network 'Fibre Channel A' do
   client my_client
   action :delete
 end
-
