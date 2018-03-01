@@ -1016,7 +1016,7 @@ end
   my_client = { url: 'https://oneview.example.com', user: 'Administrator', password: 'secret123' }
 
   eth_net_data = {
-    vlanId: 50,
+    vlanId: "50",
     purpose: 'General',
     smartLink: false,
     privateNetwork: false

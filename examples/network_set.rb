@@ -24,7 +24,7 @@ my_client = {
   oneview_ethernet_network "Chef-Eth-Net-#{i}" do
     client my_client
     data(
-      vlanId: "5#{i}".to_i,
+      vlanId: "5#{i}",
       purpose: 'General',
       smartLink: false,
       privateNetwork: false

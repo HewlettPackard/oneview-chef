@@ -23,7 +23,7 @@ my_client = {
 oneview_ethernet_network 'Eth1' do
   client my_client
   data(
-    vlanId: 1001,
+    vlanId: "1001",
     purpose: 'General',
     smartLink: false,
     privateNetwork: false
@@ -35,7 +35,7 @@ end
 oneview_ethernet_network 'Eth1' do
   client my_client
   data(
-    vlanId: 1001,
+    vlanId: "1001",
     purpose: 'General',
     smartLink: false,
     privateNetwork: false,

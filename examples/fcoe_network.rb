@@ -24,7 +24,7 @@ my_client = {
 
 oneview_fcoe_network 'FCoE1' do
   data(
-    vlanId: 10,
+    vlanId: "10",
     bandwidth: {
       typicalBandwidth: 2000,
       maximumBandwidth: 9000
