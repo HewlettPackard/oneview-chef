@@ -10,8 +10,8 @@
 # language governing permissions and limitations under the License.
 
 module OneviewCookbook
-  module API500
-    # Module for API500 C7000
+  module API600
+    # Module for API600 C7000
     module C7000
     end
   end
