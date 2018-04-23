@@ -22,7 +22,7 @@ ChefSpec::Coverage.start!
 RSpec.configure do |config|
   # Set the default Fauxhai platform and version
   config.platform = 'redhat'
-  config.version = '7.2'
+  config.version = '7.4'
 
   config.before(:each) do
     # Mock appliance version and login api requests, as well as loading trusted certs
