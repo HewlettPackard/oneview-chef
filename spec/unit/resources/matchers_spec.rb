@@ -220,6 +220,7 @@ describe 'oneview_test::default' do
 
     # oneview_server_hardware
     expect(chef_run).to_not add_oneview_server_hardware_if_missing('')
+    expect(chef_run).to_not add_multiple_servers_oneview_server_hardware('')
     expect(chef_run).to_not remove_oneview_server_hardware('')
     expect(chef_run).to_not refresh_oneview_server_hardware('')
     expect(chef_run).to_not set_oneview_server_hardware_power_state('')
