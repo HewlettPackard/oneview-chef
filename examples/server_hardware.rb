@@ -15,17 +15,18 @@
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
-  password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 300
+  password: ENV['ONEVIEWSDK_PASSWORD']
+  api_version: 600,
+  ssl_enabled: false
 }
 
 # Example: Add server hardware to OneView for management
 # Note that the default action is :add_if_missing, and there is no :add action available.
 # This is because ServerHardware resources cannot be updated after being added.
-oneview_server_hardware '172.18.6.4' do
+oneview_server_hardware '172.18.6.6' do
   client my_client
   data(
-    hostname: '172.18.6.4',
+    hostname: '172.18.6.6',
     username: 'user',
     password: 'password',
     licensingIntent: 'OneViewStandard',
@@ -33,23 +34,36 @@ oneview_server_hardware '172.18.6.4' do
   )
 end
 
+oneview_server_hardware '172.18.6.6' do
+  client my_client
+  data(
+    hostname: '172.18.6.6',
+    username: 'user',
+    password: 'password',
+    licensingIntent: 'OneViewStandard',
+    configurationState: 'Monitored',
+    mpHostsAndRanges: ["hostname.domain", "172.18.6.5-172.18.6.24"]
+  )
+  action :add_multiple_servers
+end
+
 # Example: Make sure the server is powered on
 # Note: The data hash is not required or used with this action or any of the following.
-oneview_server_hardware '172.18.6.4' do
+oneview_server_hardware '172.18.6.6' do
   client my_client
   power_state 'on'
   action :set_power_state
 end
 
 # Example: Refresh the server hardware to fix configuration issues
-oneview_server_hardware '172.18.6.4' do
+oneview_server_hardware '172.18.6.6' do
   client my_client
   action :refresh
 end
 
 # Example: Refresh the server hardware to fix configuration issues, and pass in refresh_options.
 # See the API docs for other options (these will get passed into the request body)
-oneview_server_hardware '172.18.6.4' do
+oneview_server_hardware '172.18.6.6' do
   client my_client
   refresh_options(
     refreshActions: [:ClearSyslog, :PowerOff]
@@ -59,34 +73,38 @@ end
 
 # Example: Update the iLO firmware on a physical server to a minimum ILO firmware
 # version required by OneView to manage the server
-oneview_server_hardware '172.18.6.4' do
+oneview_server_hardware '172.18.6.6' do
   client my_client
   action :update_ilo_firmware
 end
 
-# Example: Adds '172.18.6.4' to 'Scope1' and 'Scope2'
-oneview_server_hardware '172.18.6.4' do
+# Example: Adds '172.18.6.6' to 'Scope1' and 'Scope2'
+# Available only in Api300 and Api500
+oneview_server_hardware '172.18.6.6' do
   client my_client
-  scopes ['Scope1', 'Scope2']
+  scopes ['Scope1','Scope2']
   action :add_to_scopes
 end
 
-# Example: Removes '172.18.6.4' from 'Scope1'
-oneview_server_hardware '172.18.6.4' do
+# Example: Removes '172.18.6.6' from 'Scope1'
+# Available only in Api300 and Api500
+oneview_server_hardware '172.18.6.6' do
   client my_client
   scopes ['Scope1']
   action :remove_from_scopes
 end
 
-# Example: Replaces 'Scope1' and 'Scope2' for '172.18.6.4'
-oneview_server_hardware '172.18.6.4' do
+# Example: Replaces 'Scope1' and 'Scope2' for '172.18.6.6'
+# Available only in Api300 and Api500
+oneview_server_hardware '172.18.6.6' do
   client my_client
   scopes ['Scope1', 'Scope2']
   action :replace_scopes
 end
 
 # Example: Replaces all scopes to empty list of scopes
-oneview_server_hardware '172.18.6.4' do
+# Available only in Api300 and Api500
+oneview_server_hardware '172.18.6.6' do
   client my_client
   operation 'replace'
   path '/scopeUris'
@@ -95,7 +113,7 @@ oneview_server_hardware '172.18.6.4' do
 end
 
 # Example: Remove the server hardware from OneView
-oneview_server_hardware '172.18.6.4' do
+oneview_server_hardware '172.18.6.5' do
   client my_client
   action :remove
 end
