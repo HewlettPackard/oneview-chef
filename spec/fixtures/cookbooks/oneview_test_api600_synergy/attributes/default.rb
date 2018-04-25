@@ -15,6 +15,6 @@
 #
 
 default['oneview']['api_version'] = 600
-default['oneview']['api_variant'] = 'C7000'
+default['oneview']['api_variant'] = 'Synergy'
 
 default['oneview_test']['client'] = { url: 'https://oneview.example.com', user: 'Administrator', password: 'secret123', api_version: 600 }

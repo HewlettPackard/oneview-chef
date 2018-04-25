@@ -16,6 +16,7 @@
 
 oneview_server_hardware 'ServerHardware1' do
   api_version 600
+  api_variant 'C7000'
   data(
     hostname: '172.18.6.4',
     username: 'dcs',
