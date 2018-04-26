@@ -1,8 +1,11 @@
 ## 3.1.0 (Unreleased)
+Adds API 600 support to the following HPE OneView resources:
+- oneview_server_hardware
 
-## New Features:
+## Enhancements:
 - [#346](https://github.com/HewlettPackard/oneview-chef/issues/346) Add action to reapply configuration of oneview_interconnect API500
 - [#348](https://github.com/HewlettPackard/oneview-chef/issues/348) Add the update_port action in the Switch API300
+- [#355](https://github.com/HewlettPackard/oneview-chef/issues/355) DEPRICATION Notice for the Fauxhai redhat platform 7.2
 
 ## 3.0.0
 Adds API 500 support to the following HPE OneView resources:
