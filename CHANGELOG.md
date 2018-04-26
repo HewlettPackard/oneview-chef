@@ -7,6 +7,9 @@ Adds API 600 support to the following HPE OneView resources:
 - [#348](https://github.com/HewlettPackard/oneview-chef/issues/348) Add the update_port action in the Switch API300
 - [#355](https://github.com/HewlettPackard/oneview-chef/issues/355) DEPRICATION Notice for the Fauxhai redhat platform 7.2
 
+Adds API 600 support to the following HPE OneView resources:
+  - oneview_fc_network
+
 ## 3.0.0
 Adds API 500 support to the following HPE OneView resources:
   - oneview_connection_template
