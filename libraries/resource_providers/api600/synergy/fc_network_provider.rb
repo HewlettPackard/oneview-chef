@@ -11,7 +11,7 @@
 
 module OneviewCookbook
   module API600
-    module Synergy 
+    module Synergy
       # FcNetwork API600 Synergy provider
       class FCNetworkProvider < OneviewCookbook::API500::Synergy::FCNetworkProvider
       end
