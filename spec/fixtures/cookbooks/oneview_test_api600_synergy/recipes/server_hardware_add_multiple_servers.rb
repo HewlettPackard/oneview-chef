@@ -1,3 +1,7 @@
+#
+# Cookbook Name:: oneview_test
+# Recipe:: server_hardware_add_multiple_servers
+#
 # (c) Copyright 2018 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -8,17 +12,19 @@
 # under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
+#
 
-module OneviewCookbook
-  module API600
-    module C7000
-      # ServerHardware API600 C7000 provider
-      class ServerHardwareProvider < API500::C7000::ServerHardwareProvider
-        def add_multiple_servers
-          multiple_servers = resource_named(:ServerHardware).new(@item.client, @item.data)
-          multiple_servers.add_multiple_servers
-        end
-      end
-    end
-  end
+oneview_server_hardware 'ServerHardware1' do
+  api_version 600
+  api_variant 'C7000'
+  data(
+    hostname: '172.18.6.4',
+    username: 'dcs',
+    password: 'dcs',
+    licensingIntent: 'OneViewStandard',
+    configurationState: 'Monitored',
+    mpHostsAndRanges: ['hostname.domain', '172.18.6.2-172.18.6.10']
+  )
+  client node['oneview_test']['client']
+  action :add_multiple_servers
 end

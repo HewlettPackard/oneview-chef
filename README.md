@@ -753,8 +753,7 @@ oneview_server_hardware 'ServerHardware1' do
   path <path>             # String. Used in patch option only. e.g., '/name'
   value <val>             # String. Used in patch option only. e.g., 'New Name'
   scopes <scope_names>    # Array - Optional. Array of scope names. Used in add_to_scopes, remove_from_scopes or replace_scopes options only. e.g., ['Scope1', 'Scope2']
-  action [:add_if_missing, :remove, :refresh, :set_power_state, :update_ilo_firmware, :patch,
-          :add_to_scopes, :remove_from_scopes, :replace_scopes]
+  action [:add_if_missing, :remove, :refresh, :set_power_state, :update_ilo_firmware, :add_multiple_servers, :patch, :add_to_scopes, :remove_from_scopes, :replace_scopes]
 end
 ```
 
