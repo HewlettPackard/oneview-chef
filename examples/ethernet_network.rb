@@ -47,7 +47,7 @@ oneview_ethernet_network 'Eth1' do
   action :create_if_missing
 end
 
-# Only for V500 and V600
+# Only for V300 and V500
 # Example: Adds 'Eth1' to 'Scope1' and 'Scope2'
 oneview_ethernet_network 'Eth1' do
   client my_client
@@ -55,7 +55,7 @@ oneview_ethernet_network 'Eth1' do
   action :add_to_scopes
 end
 
-# Only for V500 and V600
+# Only for V300 and V500
 # Example: Removes 'Eth1' from 'Scope1'
 oneview_ethernet_network 'Eth1' do
   client my_client
@@ -63,7 +63,7 @@ oneview_ethernet_network 'Eth1' do
   action :remove_from_scopes
 end
 
-# Only for V500 and V600
+# Only for V300 and V500
 # Example: Replaces 'Scope1' and 'Scope2' for 'Eth1'
 oneview_ethernet_network 'Eth1' do
   client my_client
@@ -71,7 +71,7 @@ oneview_ethernet_network 'Eth1' do
   action :replace_scopes
 end
 
-# Only for V500 and V600
+# Only for V300 and V500
 # Example: Replaces all scopes to empty list of scopes
 oneview_ethernet_network 'Eth1' do
   client my_client
