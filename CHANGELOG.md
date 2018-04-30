@@ -1,6 +1,8 @@
 ## 3.1.0 (Unreleased)
 Adds API 600 support to the following HPE OneView resources:
 - oneview_ethernet_network
+- oneview_logical_enclosure
+- oneview_logical_interconnect
 - oneview_server_hardware
 
 ## Enhancements:

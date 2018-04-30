@@ -26,6 +26,7 @@ oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
 end
 
 # Remove from management the interconnect in the enclosure 'Encl1' in bay 1
+# Available only in Api200
 oneview_logical_interconnect 'Remove Encl 1, interconnect 1' do
   client my_client
   enclosure 'Encl1'
@@ -34,6 +35,7 @@ oneview_logical_interconnect 'Remove Encl 1, interconnect 1' do
 end
 
 # Add the interconnect in the enclosure 'Encl1' in bay 1 for management in HPE OneView
+# Available only in Api200
 oneview_logical_interconnect 'Add Encl 1, interconnect 1' do
   client my_client
   enclosure 'Encl1'
@@ -261,6 +263,7 @@ oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
 end
 
 # Example: Adds 'Encl1-LogicalInterconnectGroup1' to 'Scope1' and 'Scope2'
+# Available only in Api300 and Api500
 oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
   client my_client
   scopes ['Scope1', 'Scope2']
@@ -268,6 +271,7 @@ oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
 end
 
 # Example: Removes 'Encl1-LogicalInterconnectGroup1' from 'Scope1'
+# Available only in Api300 and Api500
 oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
   client my_client
   scopes ['Scope1']
@@ -275,6 +279,7 @@ oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
 end
 
 # Example: Replaces 'Scope1' and 'Scope2' for 'Encl1-LogicalInterconnectGroup1'
+# Available only in Api300 and Api500
 oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
   client my_client
   scopes ['Scope1', 'Scope2']
@@ -282,6 +287,7 @@ oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
 end
 
 # Example: Replaces all scopes to empty list of scopes
+# Available only in Api300 and Api500
 oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
   client my_client
   operation 'replace'
