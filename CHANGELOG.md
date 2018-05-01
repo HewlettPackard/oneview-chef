@@ -2,6 +2,7 @@
 Adds API 600 support to the following HPE OneView resources:
 - oneview_fcoe_network
 - oneview_logical_interconnect
+- oneview_sas_logical_interconnect_group
 - oneview_server_hardware
 
 ## Enhancements:
