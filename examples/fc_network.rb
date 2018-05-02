@@ -45,6 +45,7 @@ oneview_fc_network 'Fc1' do
 end
 
 # Example: Adds 'Fc1' to 'Scope1' and 'Scope2'
+# Available only in Api300 and Api500
 oneview_fc_network 'Fc1' do
   client my_client
   scopes ['Scope1', 'Scope2']
@@ -52,6 +53,7 @@ oneview_fc_network 'Fc1' do
 end
 
 # Example: Removes 'Fc1' from 'Scope1'
+# Available only in Api300 and Api500
 oneview_fc_network 'Fc1' do
   client my_client
   scopes ['Scope1']
@@ -59,6 +61,7 @@ oneview_fc_network 'Fc1' do
 end
 
 # Example: Replaces 'Scope1' and 'Scope2' for 'Fc1'
+# Available only in Api300 and Api500
 oneview_fc_network 'Fc1' do
   client my_client
   scopes ['Scope1', 'Scope2']
@@ -66,6 +69,7 @@ oneview_fc_network 'Fc1' do
 end
 
 # Example: Replaces all scopes to empty list of scopes
+# Available only in Api300 and Api500
 oneview_fc_network 'Fc1' do
   client my_client
   operation 'replace'

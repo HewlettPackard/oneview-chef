@@ -12,12 +12,8 @@
 module OneviewCookbook
   module API600
     module C7000
-      # ServerHardware API600 C7000 provider
-      class ServerHardwareProvider < API500::C7000::ServerHardwareProvider
-        def add_multiple_servers
-          multiple_servers = resource_named(:ServerHardware).new(@item.client, @item.data)
-          multiple_servers.add_multiple_servers
-        end
+      # EthernetNetworkProvider API600 C7000 provider
+      class EthernetNetworkProvider < API500::C7000::EthernetNetworkProvider
       end
     end
   end
