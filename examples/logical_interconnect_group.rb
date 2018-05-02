@@ -97,6 +97,7 @@ end
 ################################
 
 # Adds 'LogicalInterconnectGroup1' to 'Scope1' and 'Scope2'
+# Only for V300 and V500
 oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
   client my_client
   scopes ['Scope1', 'Scope2']
@@ -104,6 +105,7 @@ oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
 end
 
 # Removes 'LogicalInterconnectGroup1' from 'Scope1'
+# Only for V300 and V500
 oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
   client my_client
   scopes ['Scope1']
@@ -111,6 +113,7 @@ oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
 end
 
 # Replaces scopes to 'Scope1' and 'Scope2'
+# Only for V300 and V500
 oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
   client my_client
   scopes ['Scope1', 'Scope2']
@@ -118,6 +121,7 @@ oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
 end
 
 # Replaces all scopes to empty list of scopes
+# Only for V300 and V500
 oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
   client my_client
   operation 'replace'
