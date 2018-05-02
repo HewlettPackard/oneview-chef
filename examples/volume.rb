@@ -1,4 +1,4 @@
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,61 +12,74 @@
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
-  password: ENV['ONEVIEWSDK_PASSWORD']
+  password: ENV['ONEVIEWSDK_PASSWORD'],
+  api_version: 600
 }
 
-# Example: Create a volume
-# In this example, we'll set all the data necessary to create a new volume from scratch.
-# You'll notice that in the OneView API docs, there is a "provisioningParameters" hash that defines
-# most of the data for creating new volumes, but when you retrieve or update them, that hash is
-# gone (and everything has moved to the top level). This model is a little confusing, so we've made
-# it a little easier. All you have to do is define the data attributes like you would for an update,
-# and and the oneview_volume resource automatically populates the provisioningParameters hash for you.
-# This resource also provides some helpful properties that automatically retrieve URIs for the
-# StorageSystem, StoragePool, VolumeTemplate, and SnapshotPool; all you have to do is specify the name.
+store_serv_properties = {
+  description: 'Volume store serv',
+  isShareable: true,
+  provisioningType: 'Thin',
+  size: 1024 * 1024 * 1024 # 1GB
+}
+
+store_virtual_properties = {
+  description: 'Volume store virtual',
+  isShareable: true,
+  provisioningType: 'Thin',
+  size: 1024 * 1024 * 1024, # 1GB
+  dataProtectionLevel: 'NetworkRaid10Mirror2Way'
+}
+
+# Example: Create a simple store serv volume
 oneview_volume 'CHEF_VOL_01' do
   client my_client
-  data(
-    description: 'Created by Chef',
-    shareable: true,
-    provisionType: 'Thin', # Or 'Full'
-    provisionedCapacity: 1024 * 1024 * 1024 # 1GB
-  )
-  storage_system 'ThreePAR7200-3167' # Name of the storage system
-  storage_pool 'CPG_FC-AO' # Name of the storage pool
-  snapshot_pool 'CPG_FC-AO' # Name of the storage pool used for snapshots
+  data(store_serv_properties)
+  storage_pool 'CPG-SSD-AO'
+  storage_system 'ThreePAR-1'
 end
 
-# Example: Create a volume (using the storage system IP)
-# This example is identical to the one above, except we use an IP for the the "storage_system" property
-# instead of a name.
+# Example: Update a volume
+oneview_volume 'CHEF_VOL_01' do
+  client my_client
+  data(description: 'Volume store serv Updated')
+  storage_pool 'CPG-SSD-AO'
+  storage_system 'ThreePAR-1'
+end
+
+# Example: Create a store serv volume from a volume template
 oneview_volume 'CHEF_VOL_02' do
   client my_client
-  data(
-    description: 'Created by Chef',
-    shareable: true,
-    provisionType: 'Thin', # Or 'Full'
-    provisionedCapacity: 1024 * 1024 * 1024 # 1GB
-  )
-  storage_system '172.18.11.11' # IP of the storage system
-  storage_pool 'CPG_FC-AO' # Name of the storage pool
-  snapshot_pool 'CPG_FC-AO' # Name of the storage pool used for snapshots
+  data(store_serv_properties)
+  volume_template 'VolumeTemplate_1'
 end
 
-# Example: Create a volume using a VolumeTemplate
-# VolumeTemplates are very helpful when you want to (mostly) the same settings for multiple volumes.
-# We can override the template options with the data property, but you really only need to provide volume_template.
+# Example: Create a store serv volume with snapshot pool specified
 oneview_volume 'CHEF_VOL_03' do
   client my_client
-  data(
-    description: 'Created by Chef using template', # Override the template's description
-    provisionedCapacity: 1024 * 1024 * 1024 * 2 # Override the template and provision 2GB
-  )
-  volume_template 'Template1' # Name of the VolumeTemplate
+  data(store_serv_properties)
+  storage_pool 'CPG-SSD-AO'
+  snapshot_pool 'CPG-SSD-AO'
+  storage_system 'ThreePAR-1'
+end
+
+# Example: Create a simple store virtual volume
+oneview_volume 'CHEF_VIRTUAL_VOL_01' do
+  client my_client
+  data(store_virtual_properties)
+  storage_system 'Cluster-1'
+  storage_pool 'Cluster-1'
+end
+
+# Example: Create a store virtual volume from a volume template
+oneview_volume 'CHEF_VIRTUAL_VOL_02' do
+  client my_client
+  data(store_virtual_properties)
+  volume_template 'VolumeTemplateVirtual_1'
 end
 
 # Example: Create a snapshot from the volume created by this recipe
-oneview_volume 'CHEF_VOL_01' do
+oneview_volume 'CHEF_VOL_03' do
   client my_client
   snapshot_data(
     name: 'CHEF_VOL_SNAP_01',
@@ -75,8 +88,55 @@ oneview_volume 'CHEF_VOL_01' do
   action :create_snapshot
 end
 
-# Example: Delete a volume snapshot
+# Example: Create a volume from snapshot
+oneview_volume 'CHEF_VOL_03' do
+  client my_client
+  properties(
+    name: 'CHEF_VOL_04',
+    snapshotName: 'CHEF_VOL_SNAP_01',
+    description: 'Volume store serv',
+    isShareable: true,
+    provisioningType: 'Thin',
+    size: 1024 * 1024 * 1024 # 1GB
+  )
+  action :create_from_snapshot
+end
+
+# Example: Create a volume from snapshot and a specific volume template
+oneview_volume 'CHEF_VOL_03' do
+  client my_client
+  properties(
+    name: 'CHEF_VOL_05',
+    snapshotName: 'CHEF_VOL_SNAP_01',
+    description: 'Volume store serv',
+    isShareable: true,
+    provisioningType: 'Thin',
+    size: 1024 * 1024 * 1024 # 1GB
+  )
+  volume_template 'VolumeTemplate_1'
+  action :create_from_snapshot
+end
+
+# Example: Delete a volume from appliance only
 oneview_volume 'CHEF_VOL_01' do
+  client my_client
+  delete_from_appliance_only true
+  action :delete
+end
+
+# Example: Add a volume (created external to OneView) for management by the appliance
+oneview_volume 'CHEF_VOL_01' do
+  client my_client
+  data(
+    description: 'Volume added',
+    isShareable: false
+  )
+  storage_system 'ThreePAR-1'
+  action :add_if_missing
+end
+
+# Example: Delete a volume snapshot
+oneview_volume 'CHEF_VOL_03' do
   client my_client
   snapshot_data(
     name: 'CHEF_VOL_SNAP_01'
@@ -84,10 +144,19 @@ oneview_volume 'CHEF_VOL_01' do
   action :delete_snapshot
 end
 
-# Deletes the volumes created in this recipe:
+# Deletes the storeserv volumes from aplliance and storage system:
 # Delete action will only need the name and client
-(1..3).each do |i|
+(1..5).each do |i|
   oneview_volume "CHEF_VOL_0#{i}" do
+    client my_client
+    action :delete
+  end
+end
+
+# Deletes the storevirtual volumes from aplliance and storage system:
+# Delete action will only need the name and client
+(1..2).each do |i|
+  oneview_volume "CHEF_VIRTUAL_VOL_0#{i}" do
     client my_client
     action :delete
   end

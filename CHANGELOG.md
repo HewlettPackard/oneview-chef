@@ -17,6 +17,7 @@ Adds API 600 support to the following HPE OneView resources:
   - oneview_server_profile_template
   - oneview_storage_system
   - oneview_uplink_set
+  - oneview_volume
 
 ## Enhancements:
 - [#346](https://github.com/HewlettPackard/oneview-chef/issues/346) Add action to reapply configuration of oneview_interconnect API500
