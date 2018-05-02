@@ -1,12 +1,14 @@
 ## 3.1.0 (Unreleased)
 Adds API 600 support to the following HPE OneView resources:
-- oneview_enclosure_group
-- oneview_ethernet_network
-- oneview_fcoe_network
-- oneview_logical_interconnect
-- oneview_sas_logical_interconnect_group
-- oneview_server_hardware
-- oneview_server_profile_template
+  - oneview_enclosure_group
+  - oneview_ethernet_network
+  - oneview_fc_network
+  - oneview_fcoe_network
+  - oneview_logical_interconnect
+  - oneview_sas_interconnect
+  - oneview_sas_logical_interconnect_group
+  - oneview_server_hardware
+  - oneview_server_profile_template
 
 ## Enhancements:
 - [#346](https://github.com/HewlettPackard/oneview-chef/issues/346) Add action to reapply configuration of oneview_interconnect API500
