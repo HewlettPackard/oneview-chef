@@ -21,6 +21,10 @@ action :add_if_missing do
   OneviewCookbook::Helper.do_resource_action(self, :ServerHardware, :add_if_missing)
 end
 
+action :add_multiple_servers do
+  OneviewCookbook::Helper.do_resource_action(self, :ServerHardware, :add_multiple_servers)
+end
+
 action :remove do
   OneviewCookbook::Helper.do_resource_action(self, :ServerHardware, :remove)
 end

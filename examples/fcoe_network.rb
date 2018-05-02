@@ -36,6 +36,7 @@ oneview_fcoe_network 'FCoE1' do
 end
 
 # Adds 'FCoE1' to 'Scope1' and 'Scope2'
+# Available only in Api300 and Api500
 oneview_fcoe_network 'FCoE1' do
   client my_client
   scopes ['Scope1', 'Scope2']
@@ -43,6 +44,7 @@ oneview_fcoe_network 'FCoE1' do
 end
 
 # Removes 'FCoE1' from 'Scope1'
+# Available only in Api300 and Api500
 oneview_fcoe_network 'FCoE1' do
   client my_client
   scopes ['Scope1']
@@ -50,6 +52,7 @@ oneview_fcoe_network 'FCoE1' do
 end
 
 # Replaces scopes to 'Scope1' and 'Scope2'
+# Available only in Api300 and Api500
 oneview_fcoe_network 'FCoE1' do
   client my_client
   scopes ['Scope1', 'Scope2']
@@ -57,6 +60,7 @@ oneview_fcoe_network 'FCoE1' do
 end
 
 # Replaces all scopes to empty list of scopes
+# Available only in Api300 and Api500
 oneview_fcoe_network 'FCoE1' do
   client my_client
   operation 'replace'
@@ -71,6 +75,7 @@ oneview_fcoe_network 'FCoE1' do
   action :reset_connection_template
 end
 
+#Deletes 'FCoE1' network
 oneview_fcoe_network 'FCoE1' do
   client my_client
   action :delete

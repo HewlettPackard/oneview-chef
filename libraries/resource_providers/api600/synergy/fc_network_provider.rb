@@ -1,4 +1,4 @@
-# (c) Copyright 2018 Hewlett Packard Enterprise Development LP
+# Copyright 2018 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11,13 +11,9 @@
 
 module OneviewCookbook
   module API600
-    module C7000
-      # ServerHardware API600 C7000 provider
-      class ServerHardwareProvider < API500::C7000::ServerHardwareProvider
-        def add_multiple_servers
-          multiple_servers = resource_named(:ServerHardware).new(@item.client, @item.data)
-          multiple_servers.add_multiple_servers
-        end
+    module Synergy
+      # FcNetwork API600 Synergy provider
+      class FCNetworkProvider < OneviewCookbook::API500::Synergy::FCNetworkProvider
       end
     end
   end
