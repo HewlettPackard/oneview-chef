@@ -44,7 +44,9 @@ oneview_uplink_set 'UplinkSet1' do
       {
         locationEntries:
         [
-          { value: 'MyEnclosure', type: 'Enclosure' }
+          {value: 'bay_number', type: 'Bay'},
+          { value: 'MyEnclosure', type: 'Enclosure' },
+          { value: 'port_number', type: 'Port'}
         ]
       }
     ]
@@ -52,7 +54,7 @@ oneview_uplink_set 'UplinkSet1' do
   logical_interconnect 'LogicalInterconnect1' # Name of the associated logical interconnect
   networks ['Ethernet1', 'Ethernet2'] # Array of strings containing the name of the associated ethernet networks (can be empty - [])
   fc_networks ['FCNetwork1'] # Array of strings containing the name of the associated fc networks (can be empty - [])
-  fcoe_network ['FCoENetwork1'] # Array of strings containing the name of the associated fcoe networks (can be empty - [])
+  fcoe_networks ['FCoENetwork1'] # Array of strings containing the name of the associated fcoe networks (can be empty - [])
   native_network nil # Name of the native network (can be nil)
 end
 
