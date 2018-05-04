@@ -10,7 +10,7 @@
 # specific language governing permissions and limitations under the License.
 
 module OneviewCookbook
-  module API500
+  module API600
     module Synergy
       # Volume API600 Synergy provider
       class VolumeProvider < API600::C7000::VolumeProvider

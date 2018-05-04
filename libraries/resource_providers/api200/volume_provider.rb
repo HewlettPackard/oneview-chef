@@ -73,6 +73,15 @@ module OneviewCookbook
           @item.delete_snapshot(temp['name'])
         end
       end
+
+      def repair
+        return false unless @item.retrieve!
+        Chef::Log.info "Removing extra presentations from #{@resource_name} '#{@name}'"
+        @context.converge_by "Removing extra presentations from #{@resource_name} '#{@name}'" do
+          @item.repair
+        end
+        true
+      end
     end
   end
 end

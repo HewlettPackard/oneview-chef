@@ -1,3 +1,7 @@
+#
+# Cookbook Name:: oneview_test
+# Recipe:: volume_repair
+#
 # (c) Copyright 2018 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -8,13 +12,9 @@
 # under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
+#
 
-module OneviewCookbook
-  module API600
-    module C7000
-      # Volume API600 C7000 provider
-      class VolumeProvider < API500::C7000::VolumeProvider
-      end
-    end
-  end
+oneview_volume 'VOL1' do
+  client node['oneview_test']['client']
+  action :repair
 end
