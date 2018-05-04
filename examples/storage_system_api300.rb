@@ -1,4 +1,4 @@
-# (c) Copyright 2017 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -9,43 +9,57 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-# Below recipes are for API500 and higher
-# For API300 and lower, checkout the recipes in `storage_system.rb`
-node.default['oneview']['api_version'] = 500
-
+# Below recipes are for API300 and lower.
+# For API500 and higher, Please checkout the recipes in `storage_system_store_serv.rb`
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
-  password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 500
+  password: ENV['ONEVIEWSDK_PASSWORD']
+}
+
+# Replace these credentials with your own:
+storage_system_credentials = {
+  ip_hostname: '',
+  username: '',
+  password: ''
 }
 
 # Example: add storage system or update if it already exists
 oneview_storage_system 'StorageSystem1' do
   client my_client
   data(
-    credentials: {
-      username: @storage_system_username,
-      password: @storage_system_password
-    },
-    hostname: @storage_system_ip,
-    family: 'StoreServ',
-    deviceSpecificAttributes: {
-      managedDomain: 'TestDomain'
-    }
+    credentials: storage_system_credentials,
+    managedDomain: 'TestDomain'
   )
   action :add
 end
 
-# Example: Refresh storage system using its hostname
+# Example: add storage system if it does not exist
 oneview_storage_system 'StorageSystem1' do
   client my_client
   data(
-    hostname: '172.18.11.11'
+    credentials: storage_system_credentials,
+    managedDomain: 'TestDomain'
   )
-  action :refresh
+  action :add_if_missing
 end
 
+# Example: edit storage system credentials
+oneview_storage_system 'StorageSystem1' do
+  client my_client
+  data(
+    ip_hostname: '127.0.0.1',
+    username: 'username',
+    password: 'password'
+  )
+  action :edit_credentials
+end
+
+# Example: refresh storage system
+oneview_storage_system 'StorageSystem1' do
+  client my_client
+  action :refresh
+end
 
 # Example: remove storage system
 oneview_storage_system 'StorageSystem1' do
