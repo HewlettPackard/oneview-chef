@@ -44,7 +44,6 @@ oneview_storage_system 'StorageSystem1' do
   action :refresh
 end
 
-
 # Example: remove storage system
 oneview_storage_system 'StorageSystem1' do
   client my_client
