@@ -9,7 +9,7 @@ gem 'chef', chef_version
 gem 'chefspec'
 gem 'codeclimate-test-reporter'
 gem 'foodcritic', '~> 7.1.0'
-gem 'oneview-sdk', '~> 5.4.0'
+gem 'oneview-sdk', '~> 5.5.0'
 gem 'pry'
 gem 'rubocop', '~> 0.49.1'
 gem 'simplecov'
