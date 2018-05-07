@@ -1,4 +1,4 @@
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2018 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -61,6 +61,7 @@ oneview_network_set 'ChefNetworkSet_2' do
 end
 
 # Example: Adds 'ChefNetworkSet_1' to 'Scope1' and 'Scope2'
+# Only for API300 and API500
 oneview_network_set 'ChefNetworkSet_1' do
   client my_client
   scopes ['Scope1', 'Scope2']
@@ -68,6 +69,7 @@ oneview_network_set 'ChefNetworkSet_1' do
 end
 
 # Example: Removes 'ChefNetworkSet_1' from 'Scope1'
+# Only for API300 and API500
 oneview_network_set 'ChefNetworkSet_1' do
   client my_client
   scopes ['Scope1']
@@ -75,6 +77,7 @@ oneview_network_set 'ChefNetworkSet_1' do
 end
 
 # Example: Replaces 'Scope1' and 'Scope2' for 'ChefNetworkSet_1'
+# Only for API300 and API500
 oneview_network_set 'ChefNetworkSet_1' do
   client my_client
   scopes ['Scope1', 'Scope2']
@@ -82,6 +85,7 @@ oneview_network_set 'ChefNetworkSet_1' do
 end
 
 # Example: Replaces all scopes to empty list of scopes
+# Only for API300 and API500
 oneview_network_set 'ChefNetworkSet_1' do
   client my_client
   operation 'replace'
