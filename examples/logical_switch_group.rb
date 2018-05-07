@@ -35,6 +35,7 @@ oneview_logical_switch_group 'LogicalSwitchGroup2' do
 end
 
 # Example: Adds 'LogicalSwitchGroup1' to 'Scope1' and 'Scope2'
+# Only availavle for V300 and V500
 oneview_logical_switch_group 'LogicalSwitchGroup1' do
   client my_client
   scopes ['Scope1', 'Scope2']
@@ -42,6 +43,7 @@ oneview_logical_switch_group 'LogicalSwitchGroup1' do
 end
 
 # Example: Removes 'LogicalSwitchGroup1' from 'Scope1'
+# Only availavle for V300 and V500
 oneview_logical_switch_group 'LogicalSwitchGroup1' do
   client my_client
   scopes ['Scope1']
@@ -49,6 +51,7 @@ oneview_logical_switch_group 'LogicalSwitchGroup1' do
 end
 
 # Example: Replaces 'Scope1' and 'Scope2' for 'LogicalSwitchGroup1'
+# Only availavle for V300 and V500
 oneview_logical_switch_group 'LogicalSwitchGroup1' do
   client my_client
   scopes ['Scope1', 'Scope2']
@@ -56,6 +59,7 @@ oneview_logical_switch_group 'LogicalSwitchGroup1' do
 end
 
 # Example: Replaces all scopes to empty list of scopes
+# Only availavle for V300 and V500
 oneview_logical_switch_group 'LogicalSwitchGroup1' do
   client my_client
   operation 'replace'
