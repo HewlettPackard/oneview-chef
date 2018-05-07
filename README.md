@@ -13,8 +13,8 @@ Chef cookbook that provides resources for managing HPE OneView.
 ## Requirements
  - Ruby 2.2.6 or higher (We recommend using Ruby 2.4.1 or higher)
  - Chef 12.0 or higher (We recommend using Chef 13.12 or higher if possible)
- - For oneview resources: HPE OneView 2.0, 3.0 or 3.10 (API versions 200, 300 or 500). May work with other versions too, but no guarantees
- - For image_streamer resources: HPE Synergy Image Streamer appliance (API version 300)
+ - For oneview resources: HPE OneView 2.0, 3.0, 3.10 or 4.0 (API versions 200, 300, 500 or 600). May work with other versions too, but no guarantees
+ - For image_streamer resources: HPE Synergy Image Streamer appliance (API version 300, 500 or 600)
 
 ## Usage
 This cookbook is not intended to include any recipes.
@@ -571,7 +571,7 @@ end
 
 ### [oneview_volume](examples/volume.rb)
 
-Note: if you are using API500, see the examples [here](examples/volume_api500.rb)
+Note: if you are using API500 and onwards, see the examples [here](examples/volume_api500.rb)
 
 ```ruby
 oneview_volume 'Volume_1' do
@@ -584,7 +584,7 @@ oneview_volume 'Volume_1' do
   properties <volume_properties>                # Hash. Used in create_from_snapshot action only. Only available on API500 and onwards.
   is_permanent <is_permanent>                   # <TrueClass, FalseClass>. Default: 'true'. Only available on API500 and onwards.
   delete_from_appliance_only <delete_from_appliance_only> # <TrueClass, FalseClass>. Default: 'false'. Used in delete action only. If true remove from appliance only, if false remove from appliance and storage system. Only available on API500 and onwards.
-  action [:create, :create_if_missing, :delete, :create_from_snapshot, :add_if_missing]
+  action [:create, :create_if_missing, :delete, :repair, :create_from_snapshot, :add_if_missing]
 end
 
 oneview_volume 'Volume_1' do
@@ -601,9 +601,9 @@ end
 
 :memo: **NOTE**: The OneView API has a provisioningParameters hash for creation, but not updates. In recipes, use same data as you would for an update, and this resource will handle creating the provisioningParameters for you if the volume needs created. (Define the desired state, not how to create it). See the [volume example](examples/volume.rb) for more on this.
 
-### [oneview_volume_template](examples/volume_template.rb)
+### [oneview_volume_template](examples/volume_template_api300.rb)
 
-Note: if you are using API500, see the examples [here](examples/volume_template_api500.rb)
+Note: if you are using API500 and above, see the examples [here](examples/volume_template.rb)
 
 ```ruby
 oneview_volume_template 'VolumeTemplate_1' do

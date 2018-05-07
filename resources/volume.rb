@@ -49,3 +49,7 @@ end
 action :add_if_missing do
   OneviewCookbook::Helper.do_resource_action(self, :Volume, :add_if_missing)
 end
+
+action :repair do
+  OneviewCookbook::Helper.do_resource_action(self, :Volume, :repair)
+end

@@ -17,7 +17,13 @@ Adds API 600 support to the following HPE OneView resources:
   - oneview_server_hardware
   - oneview_server_profile_template
   - oneview_storage_system
+  - oneview_switch
   - oneview_uplink_set
+  - oneview_volume
+  - oneview_volume_template
+
+Adds API500 and API600 support to HPE Synergy Image Streamer resources:
+  - image_streamer_os_build_plan
 
 ## Enhancements:
 - [#346](https://github.com/HewlettPackard/oneview-chef/issues/346) Add action to reapply configuration of oneview_interconnect API500
