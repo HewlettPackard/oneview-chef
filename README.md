@@ -571,7 +571,7 @@ end
 
 ### [oneview_volume](examples/volume.rb)
 
-Note: if you are using API500, see the examples [here](examples/volume_api500.rb)
+Note: if you are using API500 and onwards, see the examples [here](examples/volume_api500.rb)
 
 ```ruby
 oneview_volume 'Volume_1' do
@@ -584,7 +584,7 @@ oneview_volume 'Volume_1' do
   properties <volume_properties>                # Hash. Used in create_from_snapshot action only. Only available on API500 and onwards.
   is_permanent <is_permanent>                   # <TrueClass, FalseClass>. Default: 'true'. Only available on API500 and onwards.
   delete_from_appliance_only <delete_from_appliance_only> # <TrueClass, FalseClass>. Default: 'false'. Used in delete action only. If true remove from appliance only, if false remove from appliance and storage system. Only available on API500 and onwards.
-  action [:create, :create_if_missing, :delete, :create_from_snapshot, :add_if_missing]
+  action [:create, :create_if_missing, :delete, :repair, :create_from_snapshot, :add_if_missing]
 end
 
 oneview_volume 'Volume_1' do

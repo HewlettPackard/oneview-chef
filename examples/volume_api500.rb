@@ -13,7 +13,7 @@ my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 500
+  api_version: 600
 }
 
 store_serv_properties = {
@@ -133,6 +133,12 @@ oneview_volume 'CHEF_VOL_01' do
   )
   storage_system 'ThreePAR-1'
   action :add_if_missing
+end
+
+# Example: Repair a volume
+oneview_volume 'CHEF_VOL_01' do
+  client my_client
+  action :repair
 end
 
 # Example: Delete a volume snapshot
