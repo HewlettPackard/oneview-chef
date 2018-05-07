@@ -10,12 +10,17 @@ Adds API 600 support to the following HPE OneView resources:
   - oneview_logical_interconnect_group
   - oneview_logical_switch
   - oneview_logical_switch_group
+<<<<<<< HEAD
   - oneview_managed_san
+=======
+  - oneview_network_set
+>>>>>>> 5b41bbaa3484a7dc9c265d171b21aa9cf52a2462
   - oneview_sas_interconnect
   - oneview_sas_logical_interconnect
   - oneview_sas_logical_interconnect_group
   - oneview_server_hardware
   - oneview_server_profile_template
+  - oneview_storage_pool
   - oneview_storage_system
   - oneview_switch
   - oneview_uplink_set
