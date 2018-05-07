@@ -7,12 +7,15 @@ Adds API 600 support to the following HPE OneView resources:
   - oneview_interconnect
   - oneview_logical_interconnect
   - oneview_logical_interconnect_group
+  - oneview_logical_switch
   - oneview_logical_switch_group
   - oneview_sas_interconnect
   - oneview_sas_logical_interconnect
   - oneview_sas_logical_interconnect_group
   - oneview_server_hardware
   - oneview_server_profile_template
+  - oneview_storage_system
+  - oneview_uplink_set
 
 ## Enhancements:
 - [#346](https://github.com/HewlettPackard/oneview-chef/issues/346) Add action to reapply configuration of oneview_interconnect API500
