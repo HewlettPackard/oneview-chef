@@ -25,6 +25,7 @@ Adds API 600 support to the following HPE OneView resources:
   - oneview_volume_template
 
 Adds API500 and API600 support to HPE Synergy Image Streamer resources:
+  - image_streamer_golden_image
   - image_streamer_os_build_plan
 
 ## Enhancements:
