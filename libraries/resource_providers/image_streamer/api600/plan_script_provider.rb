@@ -13,7 +13,7 @@ module OneviewCookbook
   module ImageStreamer
     module API600
       # PlanScript Provider API600
-      class PlanScriptProvider < ImageStreamer::API300::PlanScriptProvider
+      class PlanScriptProvider < ImageStreamer::API500::PlanScriptProvider
       end
     end
   end
