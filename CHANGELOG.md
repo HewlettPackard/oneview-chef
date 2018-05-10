@@ -27,6 +27,7 @@ Adds API 600 support to the following HPE OneView resources:
 
 Adds API500 and API600 support to HPE Synergy Image Streamer resources:
   - image_streamer_os_build_plan
+  - image_streamer_plan_script
 
 ## Enhancements:
 - [#346](https://github.com/HewlettPackard/oneview-chef/issues/346) Add action to reapply configuration of oneview_interconnect API500
