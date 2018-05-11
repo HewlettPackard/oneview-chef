@@ -16,6 +16,10 @@ property :enclosure_group, String # Name of Enclosure Group
 property :refresh_state, String, default: 'RefreshPending'
 property :options, Hash, default: {}
 property :scopes, Array # API300 or greater
+property :csr_data, Hash, default: {}
+property :bay_number, Integer
+property :csr_file_path, String
+property :csr_type, String, default: 'CertificateDtoV2'
 
 default_action :add
 
@@ -49,4 +53,12 @@ end
 
 action :replace_scopes do
   OneviewCookbook::Helper.do_resource_action(self, :Enclosure, :replace_scopes)
+end
+
+action :create_csr_request do
+  OneviewCookbook::Helper.do_resource_action(self, :Enclosure, :create_csr_request)
+end
+
+action :import_certificates do
+  OneviewCookbook::Helper.do_resource_action(self, :Enclosure, :import_certificate)
 end

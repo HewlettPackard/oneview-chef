@@ -80,6 +80,33 @@ oneview_enclosure 'Encl1' do
   action :replace_scopes
 end
 
+#Generate certificate Signing Request
+oneview_enclosure 'Encl1' do
+  client my_client
+  bay_number 1
+  csr_file_path 'absolute_file_path_to_csr'
+  csr_data(
+    type: 'CertificateDtoV2',
+    organization: 'Acme Corp.',
+    organizationalUnit: 'IT',
+    locality: 'Townburgh',
+    state: 'Mississippi',
+    country: 'US',
+    email: 'admin@example.com',
+    commonName: 'fe80::2:0:9:1%eth2'
+  )
+  action :create_csr_request
+end
+
+#Import a signed server certtificate into 'Encl1'
+oneview_enclosure 'Encl1' do
+  client my_client
+  bay_number 1
+  csr_file_path 'absolute_file_path_to_csr'
+  csr_type 'CertificateDtoV2'
+  action :import_certificate
+end
+
 # Removes it from the appliance
 oneview_enclosure 'Encl1' do
   client my_client
