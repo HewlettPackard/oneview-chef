@@ -23,25 +23,11 @@ i3s_client = {
   oneview_client: oneview_client
 }
 
-
-oneview_client = {
-  url: "https://192.168.1.80",
-  user: "kattumun",
-  password: "Passw0rd!",
-  ssl_enabled: false
-}
-
-i3s_client = {
-  url: "https://192.168.1.217",
-  oneview_client: oneview_client,
-  ssl_enabled: false
-}
-
 # Create or update the Golden Image 'GoldenImage1'
 image_streamer_golden_image 'GoldenImage1' do
   client i3s_client
   os_build_plan 'HPE - Foundation 1.0 - capture OS Volume as is-2017-03-24'
-  os_volume 'OSVolume-33' 
+  os_volume 'OSVolume-33'
   data(
     description: 'Chef created Golden Image',
     imageCapture: true
@@ -60,10 +46,10 @@ image_streamer_golden_image 'GoldenImage2' do
   action :create_if_missing
 end
 
-# Download the 'GoldenImage1' with timeout of 1200 seconds (20 minutes).
+# Download the 'GoldenImage1'
 image_streamer_golden_image 'GoldenImage1' do
   client i3s_client
-  file_path '/home/sijeesh/Documents/OneViewIntegration/chef-development/cookbooks/oneview/recipes/GoldenImage12_download.zip'
+  file_path 'path/to/file/GoldenImage1_download.zip'
   timeout 20 * 60
   action :download
 end
@@ -71,7 +57,7 @@ end
 # Download the 'GoldenImage1' details archive.
 image_streamer_golden_image 'GoldenImage1' do
   client i3s_client
-  file_path '/home/sijeesh/Documents/OneViewIntegration/chef-development/cookbooks/oneview/recipes/GoldenImage12_details_archive.txt'
+  file_path 'path/to/file/GoldenImage1_details_archive.txt'
   action :download_details_archive
 end
 
@@ -90,7 +76,7 @@ end
 # If it already exists it won't upload.
 image_streamer_golden_image 'GoldenImage1' do
   client i3s_client
-  file_path '/home/sijeesh/Documents/OneViewIntegration/chef-development/cookbooks/oneview/recipes/GoldenImage12_download.zip'
+  file_path 'path/to/file/GoldenImage1_download.zip'
   timeout 30 * 60
   data(
     description: 'Upload a new one'

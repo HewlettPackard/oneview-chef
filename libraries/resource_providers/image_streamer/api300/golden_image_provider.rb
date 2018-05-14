@@ -51,21 +51,18 @@ module OneviewCookbook
         end
 
         def download
-          if download_validation
-            #connection_timeout = @new_resource.timeout || resource_named(:GoldenImage)::READ_TIMEOUT
-            Chef::Log.info("Downloading #{@resource_type} '#{@name}' to '#{@new_resource.file_path}'")
-            @context.converge_by("Download #{@resource_type} '#{@name}' to '#{@new_resource.file_path}'") do
-              @item.download(@new_resource.file_path)
-            end
+          return unless download_validation
+          Chef::Log.info("Downloading #{@resource_type} '#{@name}' to '#{@new_resource.file_path}'")
+          @context.converge_by("Download #{@resource_type} '#{@name}' to '#{@new_resource.file_path}'") do
+            @item.download(@new_resource.file_path)
           end
         end
 
         def download_details_archive
-          if download_validation
-            Chef::Log.info("Downloading' #{@resource_type} '#{@name}' details to '#{@new_resource.file_path}'")
-            @context.converge_by("Download' #{@resource_type} '#{@name}' details to '#{@new_resource.file_path}'") do
-              @item.download_details_archive(@new_resource.file_path)
-            end
+          return unless download_validation
+          Chef::Log.info("Downloading' #{@resource_type} '#{@name}' details to '#{@new_resource.file_path}'")
+          @context.converge_by("Download' #{@resource_type} '#{@name}' details to '#{@new_resource.file_path}'") do
+            @item.download_details_archive(@new_resource.file_path)
           end
         end
       end
