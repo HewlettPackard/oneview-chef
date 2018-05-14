@@ -33,7 +33,7 @@ module OneviewCookbook
               type: @new_resource.csr_type,
               base64Data: certificate_data
             }
-            @item.import_certificate(csr_data. @new_resource.bay_number)
+            @item.import_certificate(csr_data, @new_resource.bay_number)
          end
        end
       end

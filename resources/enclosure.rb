@@ -59,6 +59,6 @@ action :create_csr_request do
   OneviewCookbook::Helper.do_resource_action(self, :Enclosure, :create_csr_request)
 end
 
-action :import_certificates do
+action :import_certificate do
   OneviewCookbook::Helper.do_resource_action(self, :Enclosure, :import_certificate)
 end
