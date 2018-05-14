@@ -41,7 +41,7 @@ oneview_server_profile_template 'ServerProfileTemplate1' do
 end
 
 # Creates a server profile template using the server profile 'ServerProfile1' as a templates
-# Note: Only to api 500 or greater, comments this recipe if you do not running using api500
+# Note: Only for api 500 or higher, comment this recipe if you are not using api500 or higher.
 oneview_server_profile_template 'ServerProfileTemplate2' do
   client my_client
   api_version 500

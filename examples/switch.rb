@@ -10,14 +10,15 @@
 # specific language governing permissions and limitations under the License.
 
 # NOTE 1: This example requires two Scopes named "Scope1" and "Scope2" to be present in the appliance.
-# NOTE 2: The :update_port action is only for ports under the management of OneView and those that are unlinked.
-# NOTE 3: The api_version client should be 300 or greater if you run the examples using Scopes and to update ports.
+# NOTE 2: The :update_port action is only for ports under the management of OneView and those that are unlinked
+#         and is available for 300 or higher api version.
+# NOTE 3: The api_version client should be 300 or 500 if you run the examples using Scopes.
 
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 300
+  api_version: 600
 }
 
 # Example: No action is executed.
@@ -40,6 +41,7 @@ oneview_switch 'Switch1' do
 end
 
 # Example: Adds 'Switch1' to 'Scope1' and 'Scope2'
+# Available only in Api300 and Api500
 oneview_switch 'Switch1' do
   client my_client
   scopes ['Scope1', 'Scope2']
@@ -47,6 +49,7 @@ oneview_switch 'Switch1' do
 end
 
 # Example: Removes 'Switch1' from 'Scope1'
+# Available only in Api300 and Api500
 oneview_switch 'Switch1' do
   client my_client
   scopes ['Scope1']
@@ -54,6 +57,7 @@ oneview_switch 'Switch1' do
 end
 
 # Example: Replaces 'Scope1' and 'Scope2' for 'Switch1'
+# Available only in Api300 and Api500
 oneview_switch 'Switch1' do
   client my_client
   scopes ['Scope1', 'Scope2']
@@ -61,6 +65,7 @@ oneview_switch 'Switch1' do
 end
 
 # Example: Replaces all scopes to empty list of scopes
+# Available only in Api300 and Api500
 oneview_switch 'Switch1' do
   client my_client
   operation 'replace'

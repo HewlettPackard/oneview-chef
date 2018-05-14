@@ -1,8 +1,36 @@
 ## 3.1.0 (Unreleased)
+Adds API 600 support to the following HPE OneView resources:
+  - oneview_enclosure_group
+  - oneview_ethernet_network
+  - oneview_fc_network
+  - oneview_fcoe_network
+  - oneview_interconnect
+  - oneview_logical_enclosure
+  - oneview_logical_interconnect
+  - oneview_logical_interconnect_group
+  - oneview_logical_switch
+  - oneview_logical_switch_group
+  - oneview_managed_san
+  - oneview_network_set
+  - oneview_sas_interconnect
+  - oneview_sas_logical_interconnect
+  - oneview_sas_logical_interconnect_group
+  - oneview_server_hardware
+  - oneview_server_profile_template
+  - oneview_storage_pool
+  - oneview_storage_system
+  - oneview_switch
+  - oneview_uplink_set
+  - oneview_volume
+  - oneview_volume_template
 
-## New Features:
+Adds API500 and API600 support to HPE Synergy Image Streamer resources:
+  - image_streamer_os_build_plan
+
+## Enhancements:
 - [#346](https://github.com/HewlettPackard/oneview-chef/issues/346) Add action to reapply configuration of oneview_interconnect API500
 - [#348](https://github.com/HewlettPackard/oneview-chef/issues/348) Add the update_port action in the Switch API300
+- [#355](https://github.com/HewlettPackard/oneview-chef/issues/355) DEPRICATION Notice for the Fauxhai redhat platform 7.2
 
 ## 3.0.0
 Adds API 500 support to the following HPE OneView resources:

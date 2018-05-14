@@ -10,13 +10,13 @@
 # specific language governing permissions and limitations under the License.
 
 # NOTE 1: This example requires two Scopes named "Scope1" and "Scope2" to be present in the appliance.
-# NOTE 2: The api_version client should be 300 or greater if you run the examples using Scopes
+# NOTE 2: The api_version client should be 300 or 500 if you run the examples using Scopes
 
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 300
+  api_version: 600
 }
 
 # Load credentials to use in the switches in the Logical Switch
@@ -57,6 +57,7 @@ oneview_logical_switch 'LogicalSwitch1' do
 end
 
 # Example: Adds 'LogicalSwitch1' to 'Scope1' and 'Scope2'
+# Available only in Api300 and Api500
 oneview_logical_switch 'LogicalSwitch1' do
   client my_client
   scopes ['Scope1', 'Scope2']
@@ -64,6 +65,7 @@ oneview_logical_switch 'LogicalSwitch1' do
 end
 
 # Example: Removes 'LogicalSwitch1' from 'Scope1'
+# Available only in Api300 and Api500
 oneview_logical_switch 'LogicalSwitch1' do
   client my_client
   scopes ['Scope1']
@@ -71,6 +73,7 @@ oneview_logical_switch 'LogicalSwitch1' do
 end
 
 # Example: Replaces 'Scope1' and 'Scope2' for 'LogicalSwitch1'
+# Available only in Api300 and Api500
 oneview_logical_switch 'LogicalSwitch1' do
   client my_client
   scopes ['Scope1', 'Scope2']
@@ -78,6 +81,7 @@ oneview_logical_switch 'LogicalSwitch1' do
 end
 
 # Example: Replaces all scopes to empty list of scopes
+# Available only in Api300 and Api500
 oneview_logical_switch 'LogicalSwitch1' do
   client my_client
   operation 'replace'

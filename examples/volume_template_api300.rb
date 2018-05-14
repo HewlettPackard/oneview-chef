@@ -1,4 +1,4 @@
-# (c) Copyright 2017 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,42 +12,24 @@
 # NOTE: This recipe requires one Storage System with IP '172.18.11.11'
 # and one Storage Pool named 'CPG-SSD' associated to this Storage System
 
+# Below recipes are for API300 and below.
+# For recipes for API500 and above, refer `volume_template.rb` file.
+
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
-  password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 500
-}
-
-properties = {
-  provisioningType: {
-    type: 'string',
-    required: true,
-    enum: [
-      'Thin',
-      'Full'
-    ],
-    default: 'Full'
-  },
-  isShareable: {
-    type: 'boolean',
-    default: true,
-    meta: {
-      locked: true
-    }
-  },
-  size: {
-    type: 'integer',
-    minimum: 1024 * 1024 * 1024 # 1GB
-  }
+  password: ENV['ONEVIEWSDK_PASSWORD']
 }
 
 # Example: create or update a volume template, specifying a storage system hostname/IP
 oneview_volume_template 'VolumeTemplate1' do
   client my_client
   data(
-    description: 'VolumeTemplate1 description',
-    properties: properties
+    provisioning: {
+      provisionType: 'Full',
+      shareable: true,
+      capacity: 1024 * 1024 * 1024 # 1GB
+    }
   )
   storage_system '172.18.11.11'
   storage_pool 'CPG-SSD'
@@ -57,10 +39,13 @@ end
 oneview_volume_template 'VolumeTemplate2' do
   client my_client
   data(
-    description: 'VolumeTemplate2 description',
-    properties: properties
+    provisioning: {
+      provisionType: 'Full',
+      shareable: false,
+      capacity: 1024 * 1024 * 1024 # 1GB
+    }
   )
-  storage_system 'ThreePAR-1'
+  storage_system 'ThreePAR7200-8147'
   storage_pool 'CPG-SSD'
 end
 
@@ -68,36 +53,20 @@ end
 oneview_volume_template 'VolumeTemplate3' do
   client my_client
   data(
-    description: 'VolumeTemplate3 description',
-    properties: properties
+    provisioning: {
+      provisionType: 'Full',
+      shareable: true,
+      capacity: 1024 * 1024 * 1024 # 1GB
+    }
   )
   storage_system '172.18.11.11'
   storage_pool 'CPG-SSD'
+  snapshot_pool 'CPG-SSD'
   action :create_if_missing
 end
 
-# Example: updates a volume template
-oneview_volume_template 'VolumeTemplate1' do
-  client my_client
-  storage_system '172.18.11.11'
-  storage_pool 'CPG-SSD'
-  snapshot_pool 'CPG-SSD'
-end
-
 # Example: delete a volume template
 oneview_volume_template 'VolumeTemplate1' do
-  client my_client
-  action :delete
-end
-
-# Example: delete a volume template
-oneview_volume_template 'VolumeTemplate2' do
-  client my_client
-  action :delete
-end
-
-# Example: delete a volume template
-oneview_volume_template 'VolumeTemplate3' do
   client my_client
   action :delete
 end

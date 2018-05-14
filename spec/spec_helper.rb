@@ -22,7 +22,7 @@ ChefSpec::Coverage.start!
 RSpec.configure do |config|
   # Set the default Fauxhai platform and version
   config.platform = 'redhat'
-  config.version = '7.2'
+  config.version = '7.4'
 
   config.before(:each) do
     # Mock appliance version and login api requests, as well as loading trusted certs
@@ -31,7 +31,7 @@ RSpec.configure do |config|
     allow(OneviewSDK::SSLHelper).to receive(:load_trusted_certs).and_return(nil)
 
     # Mock Image stremaer appliance version
-    allow_any_instance_of(OneviewSDK::ImageStreamer::Client).to receive(:appliance_i3s_api_version).and_return(300)
+    allow_any_instance_of(OneviewSDK::ImageStreamer::Client).to receive(:appliance_i3s_api_version).and_return(600)
 
     # Clear environment variables
     OneviewSDK::ENV_VARS.each { |name| ENV[name] = nil }
@@ -88,5 +88,13 @@ RSpec.shared_context 'chef context', a: :b do
 
   let(:i3s_client300) do
     OneviewSDK::ImageStreamer::Client.new(url: 'https://i3s.example.com', token: 'token123', api_version: 300)
+  end
+
+  let(:i3s_client500) do
+    OneviewSDK::ImageStreamer::Client.new(url: 'https://i3s.example.com', token: 'token123', api_version: 500)
+  end
+
+  let(:i3s_client600) do
+    OneviewSDK::ImageStreamer::Client.new(url: 'https://i3s.example.com', token: 'token123', api_version: 600)
   end
 end

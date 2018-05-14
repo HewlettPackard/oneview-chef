@@ -16,7 +16,7 @@ if defined?(ChefSpec)
   scope_actions = %i[add_to_scopes remove_from_scopes replace_scopes patch]
   # Lists all the possible action verbs
   action_list = %w[create add delete remove set reset refresh update configure reconfigure edit none discover apply reapply activate
-                   stage new patch replace change load download upload extract backup allocate collect]
+                   stage new patch replace change load download upload extract backup allocate collect repair]
 
   oneview_resources = {
     oneview_resource:                   standard_actions,
@@ -50,7 +50,7 @@ if defined?(ChefSpec)
     oneview_sas_interconnect:           %i[reset hard_reset patch refresh set_uid_light set_power_state],
     oneview_sas_logical_interconnect_group: standard_actions,
     oneview_scope:                      standard_actions + [:change_resource_assignments],
-    oneview_server_hardware:            %i[add_if_missing remove refresh set_power_state update_ilo_firmware] + scope_actions,
+    oneview_server_hardware:            %i[add_if_missing remove refresh set_power_state update_ilo_firmware add_multiple_servers] + scope_actions,
     oneview_server_hardware_type:       %i[edit remove],
     oneview_server_profile_template:    standard_actions,
     oneview_server_profile:             standard_actions + [:update_from_template],
@@ -60,7 +60,7 @@ if defined?(ChefSpec)
     oneview_unmanaged_device:           %i[add remove add_if_missing],
     oneview_uplink_set:                 standard_actions,
     oneview_user:                       standard_actions,
-    oneview_volume:                     standard_actions + %i[add_if_missing create_from_snapshot create_snapshot delete_snapshot],
+    oneview_volume:                     standard_actions + %i[add_if_missing create_from_snapshot create_snapshot delete_snapshot repair],
     oneview_volume_template:            standard_actions
   }
 
