@@ -42,24 +42,30 @@ module OneviewCookbook
 
         def download_validation
           raise 'InvalidFilePath: The file_path was not specified. Please set it and try again' unless @new_resource.file_path
-          return Chef::Log.info("#{@resource_type} '#{@name}' file '#{@new_resource.file_path}' already exist") if File.exist?(@new_resource.file_path)
-          @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
+          unless File.exist?(@new_resource.file_path)
+            @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
+            return true
+          end
+          Chef::Log.info("#{@resource_type} '#{@name}' file '#{@new_resource.file_path}' already exist")
+          false
         end
 
         def download
-          download_validation
-          connection_timeout = @new_resource.timeout || resource_named(:GoldenImage)::READ_TIMEOUT
-          Chef::Log.info("Downloading #{@resource_type} '#{@name}' to '#{@new_resource.file_path}'. Timeout is #{connection_timeout} seconds")
-          @context.converge_by("Download #{@resource_type} '#{@name}' to '#{@new_resource.file_path}'") do
-            @item.download(@new_resource.file_path, connection_timeout)
+          if download_validation
+            #connection_timeout = @new_resource.timeout || resource_named(:GoldenImage)::READ_TIMEOUT
+            Chef::Log.info("Downloading #{@resource_type} '#{@name}' to '#{@new_resource.file_path}'")
+            @context.converge_by("Download #{@resource_type} '#{@name}' to '#{@new_resource.file_path}'") do
+              @item.download(@new_resource.file_path)
+            end
           end
         end
 
         def download_details_archive
-          download_validation
-          Chef::Log.info("Downloading' #{@resource_type} '#{@name}' details to '#{@new_resource.file_path}'")
-          @context.converge_by("Download' #{@resource_type} '#{@name}' details to '#{@new_resource.file_path}'") do
-            @item.download_details_archive(@new_resource.file_path)
+          if download_validation
+            Chef::Log.info("Downloading' #{@resource_type} '#{@name}' details to '#{@new_resource.file_path}'")
+            @context.converge_by("Download' #{@resource_type} '#{@name}' details to '#{@new_resource.file_path}'") do
+              @item.download_details_archive(@new_resource.file_path)
+            end
           end
         end
       end
