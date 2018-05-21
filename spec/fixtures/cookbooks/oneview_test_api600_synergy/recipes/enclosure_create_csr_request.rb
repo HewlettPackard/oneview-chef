@@ -19,15 +19,16 @@ oneview_enclosure 'Enclosure1' do
   api_version 600
   api_variant 'C7000'
   csr_data(
-    type: 'CertificateDtoV2',
-    organization: 'Acme Corp.',
-    organizationalUnit: 'IT',
-    locality: 'Townburgh',
-    state: 'Mississippi',
-    country: 'US',
-    email: 'admin@example.com',
-    commonName: 'fe80::2:0:9:1%eth2'
+    'type' => 'CertificateDtoV2',
+    'organization' => 'Acme Corp.',
+    'organizationalUnit' => 'IT',
+    'locality' => 'Townburgh',
+    'state' => 'Mississippi',
+    'country' => 'US',
+    'email' => 'admin@example.com',
+    'commonName' => 'fe80::2:0:9:1%eth2'
   )
   bay_number 1
-  csr_file_path '/fake/path'
+  csr_file_path 'csr_data_file.txt'
+  action :create_csr_request
 end

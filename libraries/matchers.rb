@@ -16,7 +16,7 @@ if defined?(ChefSpec)
   scope_actions = %i[add_to_scopes remove_from_scopes replace_scopes patch]
   # Lists all the possible action verbs
   action_list = %w[create add delete remove set reset refresh update configure reconfigure edit none discover apply reapply activate
-                   stage new patch replace change load download upload extract backup allocate collect repair]
+                   stage new patch replace change load download upload extract backup allocate collect repair import]
 
   oneview_resources = {
     oneview_resource:                   standard_actions,
@@ -80,6 +80,11 @@ if defined?(ChefSpec)
         description = action.to_s.split('_')
         # Finds the last action cited in the action description
         action_indexes = recognized_actions.map { |action_word| description.rindex(action_word) }
+#        puts "AI:"
+ #       puts resource_type
+  #      puts action
+   #     puts description
+    #    puts action_indexes
         last_action_index = action_indexes.compact.max
         # Inserts the resource type after the action
         description.insert(last_action_index + 1, resource_type.to_s)

@@ -19,6 +19,7 @@ oneview_enclosure 'Enclosure1' do
   api_version 600
   api_variant 'C7000'
   bay_number 1
-  csr_file_path '/fake/path'
+  csr_file_path 'csr_data_file.txt'
   csr_type 'CertificateDataV2'
+  action :import_certificate
 end
