@@ -80,11 +80,6 @@ if defined?(ChefSpec)
         description = action.to_s.split('_')
         # Finds the last action cited in the action description
         action_indexes = recognized_actions.map { |action_word| description.rindex(action_word) }
-#        puts "AI:"
- #       puts resource_type
-  #      puts action
-   #     puts description
-    #    puts action_indexes
         last_action_index = action_indexes.compact.max
         # Inserts the resource type after the action
         description.insert(last_action_index + 1, resource_type.to_s)
