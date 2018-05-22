@@ -27,7 +27,6 @@ describe 'oneview_test_api600_synergy::enclosure_create_csr_request' do
     expect_any_instance_of(base_sdk::Enclosure).to receive(:retrieve!).and_return(true)
     expect_any_instance_of(base_sdk::Enclosure).to receive(:create_csr_request).with(csr_data, 1).and_return(true)
     expect_any_instance_of(base_sdk::Enclosure).to receive(:get_csr_request).with(1).and_return(certificate_request)
-    expect_any_instance_of(File).to receive(:write).with('encrypted_data').and_return(true)
     expect(real_chef_run).to create_oneview_enclosure_csr_request('Enclosure1')
   end
 end
