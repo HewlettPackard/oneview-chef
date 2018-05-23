@@ -11,7 +11,6 @@ describe 'oneview_test_api600_synergy::enclosure_import_ertificate' do
       'base64Data' => 'encrypted_data'
     }
   end
-  let(:file_path) { '/fake/path' }
 
   it 'imports a signed certificate' do
     expect_any_instance_of(base_sdk::Enclosure).to receive(:retrieve!).and_return(true)

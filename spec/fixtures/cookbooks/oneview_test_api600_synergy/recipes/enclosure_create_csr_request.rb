@@ -29,6 +29,6 @@ oneview_enclosure 'Enclosure1' do
     'commonName' => 'fe80::2:0:9:1%eth2'
   )
   bay_number 1
-  csr_file_path 'csr_data_file.txt'
+  csr_file_path '/fake/path'
   action :create_csr_request
 end
