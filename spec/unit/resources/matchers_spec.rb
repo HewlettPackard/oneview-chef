@@ -38,6 +38,8 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not add_oneview_enclosure_to_scopes('')
     expect(chef_run).to_not remove_oneview_enclosure_from_scopes('')
     expect(chef_run).to_not replace_oneview_enclosure_scopes('')
+    expect(chef_run).to_not create_oneview_enclosure_csr_request('')
+    expect(chef_run).to_not import_oneview_enclosure_certificate('')
 
     # oneview_enclosure_group
     expect(chef_run).to_not create_oneview_enclosure_group('')

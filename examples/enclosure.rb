@@ -34,6 +34,33 @@ oneview_enclosure 'Encl1' do
   action :add
 end
 
+#Generate certificate Signing Request
+oneview_enclosure 'e10' do
+  client my_client
+  bay_number 1
+  csr_file_path 'file_path_of_csr_file'
+  csr_data(
+    type: 'CertificateDtoV2',
+    organization: 'Acme Corp.',
+    organizationalUnit: 'IT',
+    locality: 'Townburgh',
+    state: 'Mississippi',
+    country: 'US',
+    email: 'admin@example.com',
+    commonName: 'fe80::2:0:9:1%eth2'
+  )
+  action :create_csr_request
+end
+
+#Import a signed server certtificate into 'Encl1'
+oneview_enclosure 'e10' do
+  client my_client
+  bay_number 1
+  csr_file_path 'file_path_of_csr_file'
+  csr_type 'CertificateDataV2'
+  action :import_certificate
+end
+
 # Rename enclosure
 # Warning: Operation persists in hardware
 oneview_enclosure 'Encl1' do
