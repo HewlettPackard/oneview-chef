@@ -24,7 +24,7 @@ Then use any of the resources provided by this cookbook.
 ```ruby
 # my_cookbook/metadata.rb
 ...
-depends 'oneview', '~> 4.0.0'
+depends 'oneview', '~> 3.1.0'
 ```
 
 ### Credentials
