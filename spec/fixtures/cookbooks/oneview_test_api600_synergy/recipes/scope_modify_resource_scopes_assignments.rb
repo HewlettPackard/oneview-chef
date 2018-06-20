@@ -20,7 +20,7 @@ oneview_scope 'Scope-modify_resource_scopes_assignments' do
     Scope: ['scope2']
   )
   remove(
-    Scope: ['Scope1']
+    Scope: ['scope1']
   )
   resource(
     ServerHardware: ['0000A66101, bay 3']
