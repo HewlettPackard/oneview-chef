@@ -26,7 +26,8 @@ i3s_client = {
 # Create or update the Golden Image 'GoldenImage1'
 image_streamer_golden_image 'GoldenImage1' do
   client i3s_client
-  os_build_plan 'ESXi - Capture OS Build Plan'
+  os_build_plan 'HPE - Foundation 1.0 - capture OS Volume as is-2017-03-24'
+  os_volume 'OSVolume-33'
   data(
     description: 'Chef created Golden Image',
     imageCapture: true
@@ -36,7 +37,8 @@ end
 # Create Golden Image 'GoldenImage2' if missing
 image_streamer_golden_image 'GoldenImage2' do
   client i3s_client
-  os_volume 'OSVolume1'
+  os_build_plan 'HPE - Foundation 1.0 - capture OS Volume as is-2017-03-24'
+  os_volume 'OSVolume-33'
   data(
     description: 'Chef created Golden Image',
     imageCapture: true
@@ -44,7 +46,7 @@ image_streamer_golden_image 'GoldenImage2' do
   action :create_if_missing
 end
 
-# Download the 'GoldenImage1' with timeout of 1200 seconds (20 minutes).
+# Download the 'GoldenImage1'
 image_streamer_golden_image 'GoldenImage1' do
   client i3s_client
   file_path 'path/to/file/GoldenImage1_download.zip'
@@ -76,5 +78,8 @@ image_streamer_golden_image 'GoldenImage1' do
   client i3s_client
   file_path 'path/to/file/GoldenImage1_download.zip'
   timeout 30 * 60
+  data(
+    description: 'Upload a new one'
+  )
   action :upload_if_missing
 end

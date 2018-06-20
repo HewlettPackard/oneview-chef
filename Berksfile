@@ -18,4 +18,6 @@ group :test do
   cookbook 'oneview_test_api500_synergy', path: './spec/fixtures/cookbooks/oneview_test_api500_synergy'
   cookbook 'oneview_test_api600_synergy', path: './spec/fixtures/cookbooks/oneview_test_api600_synergy'
   cookbook 'image_streamer_test_api300', path: './spec/fixtures/cookbooks/image_streamer_test_api300'
+  cookbook 'image_streamer_test_api500', path: './spec/fixtures/cookbooks/image_streamer_test_api500'
+  cookbook 'image_streamer_test_api600', path: './spec/fixtures/cookbooks/image_streamer_test_api600'
 end

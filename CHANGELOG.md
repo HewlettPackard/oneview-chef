@@ -1,19 +1,38 @@
-## 3.1.0 (Unreleased)
+## 3.1.0
 Adds API 600 support to the following HPE OneView resources:
+  - oneview_connection_template
+  - oneview_enclosure
   - oneview_enclosure_group
   - oneview_ethernet_network
   - oneview_fc_network
   - oneview_fcoe_network
   - oneview_interconnect
+  - oneview_logical_enclosure
   - oneview_logical_interconnect
   - oneview_logical_interconnect_group
+  - oneview_logical_switch
+  - oneview_logical_switch_group
+  - oneview_managed_san
+  - oneview_network_set
   - oneview_sas_interconnect
   - oneview_sas_logical_interconnect
   - oneview_sas_logical_interconnect_group
   - oneview_scope
   - oneview_server_hardware
+  - oneview_server_profile
   - oneview_server_profile_template
+  - oneview_storage_pool
   - oneview_storage_system
+  - oneview_switch
+  - oneview_uplink_set
+  - oneview_volume
+  - oneview_volume_template
+
+Adds API500 and API600 support to HPE Synergy Image Streamer resources:
+  - image_streamer_deployment_plan
+  - image_streamer_golden_image
+  - image_streamer_os_build_plan
+  - image_streamer_plan_script
 
 ## Enhancements:
 - [#346](https://github.com/HewlettPackard/oneview-chef/issues/346) Add action to reapply configuration of oneview_interconnect API500

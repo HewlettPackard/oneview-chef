@@ -94,12 +94,30 @@ RSpec.describe OneviewCookbook::ResourceProvider do
     end
 
     it 'builds valid ImageStreamer::API300 resources' do
-      r = OneviewCookbook::ImageStreamer::API300::PlanScriptProvider.new(@context)
-      expect(r.sdk_resource_type).to eq('PlanScript')
+      r = OneviewCookbook::ImageStreamer::API300::BuildPlanProvider.new(@context)
+      expect(r.sdk_resource_type).to eq('BuildPlan')
       expect(r.sdk_api_version).to eq(300)
       expect(r.sdk_variant).to eq(nil)
       expect(r.sdk_base_module).to eq(OneviewSDK::ImageStreamer)
-      expect(r.item.class).to eq(OneviewSDK::ImageStreamer::API300::PlanScript)
+      expect(r.item.class).to eq(OneviewSDK::ImageStreamer::API300::BuildPlan)
+    end
+
+    it 'builds valid ImageStreamer::API500 resources' do
+      r = OneviewCookbook::ImageStreamer::API500::BuildPlanProvider.new(@context)
+      expect(r.sdk_resource_type).to eq('BuildPlan')
+      expect(r.sdk_api_version).to eq(500)
+      expect(r.sdk_variant).to eq(nil)
+      expect(r.sdk_base_module).to eq(OneviewSDK::ImageStreamer)
+      expect(r.item.class).to eq(OneviewSDK::ImageStreamer::API500::BuildPlan)
+    end
+
+    it 'builds valid ImageStreamer::API600 resources' do
+      r = OneviewCookbook::ImageStreamer::API600::BuildPlanProvider.new(@context)
+      expect(r.sdk_resource_type).to eq('BuildPlan')
+      expect(r.sdk_api_version).to eq(600)
+      expect(r.sdk_variant).to eq(nil)
+      expect(r.sdk_base_module).to eq(OneviewSDK::ImageStreamer)
+      expect(r.item.class).to eq(OneviewSDK::ImageStreamer::API600::BuildPlan)
     end
 
     it 'fails to build valid resource due to some unpredictable and catastrophicly wrong provider namespace' do

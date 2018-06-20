@@ -16,14 +16,14 @@ if defined?(ChefSpec)
   scope_actions = %i[add_to_scopes remove_from_scopes replace_scopes patch]
   # Lists all the possible action verbs
   action_list = %w[create add delete remove set reset refresh update configure reconfigure edit none discover apply reapply activate
-                   stage new patch replace change load download upload extract backup allocate collect modify]
+                   stage new patch replace change load download upload extract backup allocate collect repair import]
 
   oneview_resources = {
     oneview_resource:                   standard_actions,
     oneview_connection_template:        %i[update reset],
     oneview_datacenter:                 %i[add remove add_if_missing],
     oneview_drive_enclosure:            %i[hard_reset patch refresh set_uid_light set_power_state],
-    oneview_enclosure:                  %i[add remove refresh reconfigure] + scope_actions,
+    oneview_enclosure:                  %i[add remove refresh reconfigure create_csr_request import_certificate] + scope_actions,
     oneview_enclosure_group:            standard_actions + [:set_script],
     oneview_ethernet_network:           standard_actions + scope_actions + %i[reset_connection_template],
     oneview_event:                      [:create],
@@ -60,7 +60,7 @@ if defined?(ChefSpec)
     oneview_unmanaged_device:           %i[add remove add_if_missing],
     oneview_uplink_set:                 standard_actions,
     oneview_user:                       standard_actions,
-    oneview_volume:                     standard_actions + %i[add_if_missing create_from_snapshot create_snapshot delete_snapshot],
+    oneview_volume:                     standard_actions + %i[add_if_missing create_from_snapshot create_snapshot delete_snapshot repair],
     oneview_volume_template:            standard_actions
   }
 
