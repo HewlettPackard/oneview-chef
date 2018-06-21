@@ -16,7 +16,7 @@ if defined?(ChefSpec)
   scope_actions = %i[add_to_scopes remove_from_scopes replace_scopes patch]
   # Lists all the possible action verbs
   action_list = %w[create add delete remove set reset refresh update configure reconfigure edit none discover apply reapply activate
-                   stage new patch replace change load download upload extract backup allocate collect repair import]
+                   stage new patch replace change load download upload extract backup allocate collect repair import modify]
 
   oneview_resources = {
     oneview_resource:                   standard_actions,
