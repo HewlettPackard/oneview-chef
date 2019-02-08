@@ -2,6 +2,9 @@
 Extending support to API 600 with the following HPE OneView resource:
 - oneview_scope
 
+## Bugs & Enhancements:
+- [#398](https://github.com/HewlettPackard/oneview-chef/issues/398) Travis Build has failed due to cucumber-core:gherkin incompatibility
+
 ## 3.1.0
 Adds API 600 support to the following HPE OneView resources:
   - oneview_connection_template
