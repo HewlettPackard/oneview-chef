@@ -8,12 +8,12 @@ chef_version = Gem::Version.new(RUBY_VERSION) > Gem::Version.new('2.3.0') ? '>= 
 gem 'chef', chef_version
 gem 'chefspec'
 gem 'codeclimate-test-reporter'
+gem 'cucumber-core', '~> 3.2.1'
 gem 'foodcritic', '~> 7.1.0'
 gem 'oneview-sdk', '~> 5.5.0'
 gem 'pry'
 gem 'rubocop', '~> 0.49.1'
 gem 'simplecov'
-gem 'cucumber-core', '~> 3.2.1'
 gem 'stove'
 
 begin
