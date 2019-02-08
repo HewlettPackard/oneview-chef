@@ -13,6 +13,9 @@ OneviewCookbook::ResourceBaseProperties.load(self)
 
 property :add, Hash, default: {}
 property :remove, Hash, default: {}
+property :replace, Hash, default: {}
+property :scopes, Array
+property :resource, Hash, default: {}
 
 default_action :create
 
@@ -30,4 +33,12 @@ end
 
 action :change_resource_assignments do
   OneviewCookbook::Helper.do_resource_action(self, :Scope, :change_resource_assignments)
+end
+
+action :replace_resource_scopes_assignments do
+  OneviewCookbook::Helper.do_resource_action(self, :Scope, :replace_resource_scopes_assignments)
+end
+
+action :modify_resource_scopes_assignments do
+  OneviewCookbook::Helper.do_resource_action(self, :Scope, :modify_resource_scopes_assignments)
 end

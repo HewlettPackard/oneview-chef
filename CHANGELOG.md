@@ -1,3 +1,7 @@
+## 3.1.1(unreleased)
+Extending support to API 600 with the following HPE OneView resource:
+- oneview_scope
+
 ## 3.1.0
 Adds API 600 support to the following HPE OneView resources:
   - oneview_connection_template

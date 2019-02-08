@@ -9,19 +9,19 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-# NOTE: Support only in API300 onwards.
+# NOTE: Support only in API600 onwards.
 
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 300
+  api_version: 600
 }
 
 # Example: Create a Scope with a simple description
 oneview_scope 'Scope1' do
   client my_client
-  api_version 300
+  api_version 600
   data(
     description: 'Sample Scope description'
   )
@@ -31,7 +31,7 @@ end
 # previously created
 oneview_scope 'Scope1' do
   client my_client
-  api_version 300
+  api_version 600
   add(
     Enclosure: ['Encl1'],
     ServerHardware: ['Server1']
@@ -43,7 +43,7 @@ end
 # previously created, while removing the first Enclosure and Server Hardware
 oneview_scope 'Scope1' do
   client my_client
-  api_version 300
+  api_version 600
   add(
     Enclosure: ['Encl2'],
     ServerHardware: ['Server2']
@@ -58,16 +58,77 @@ end
 # Example: Remove the second Enclosure added to the scope
 oneview_scope 'Scope1' do
   client my_client
-  api_version 300
+  api_version 600
   remove(
     Enclosure: ['Encl2'],
   )
   action :change_resource_assignments
 end
 
+# Example: Replace a resource scope with a list of scopes
+# and is available for API600 or greater
+oneview_scope 'replace resource scopes assignments' do
+  client my_client
+  api_version 600
+  api_variant 'Synergy'
+  replace(
+    Enclosure: ['0000A66101']
+  )
+  scopes ['Scope2']
+  action :replace_resource_scopes_assignments
+end
+
+# Example: Add a scope and remove scope which was previously added to resource
+# and is available for API600 or greater
+oneview_scope 'modify resource scopes assignments' do
+  client my_client
+  api_version 600
+  api_variant 'Synergy'
+  add(
+    Scope: ['Scope2']
+  )
+  remove(
+    Scope: ['Scope1']
+  )
+  resource(
+    ServerHardware: ['0000A66101, bay 3']
+  )
+  action :modify_resource_scopes_assignments
+end
+
+# Example: Remove scope which was previously added to resource
+# and is available for API600 or greater
+oneview_scope 'modify resource scopes assignments' do
+  client my_client
+  api_version 600
+  api_variant 'Synergy'
+  remove(
+    Scope: ['Scope2']
+  )
+  resource(
+    ServerHardware: ['0000A66101, bay 3']
+  )
+  action :modify_resource_scopes_assignments
+end
+
+# Example: Add a scope to a resource and is available
+# for API600 or greater
+oneview_scope 'modify resource scopes assignments' do
+  client my_client
+  api_version 600
+  api_variant 'Synergy'
+  add(
+    Scope: ['Scope2']
+  )
+  resource(
+    Enclosure: ['0000A66101']
+  )
+  action :modify_resource_scopes_assignments
+end
+
 # Example: Delete the Scope created in this example
 oneview_scope 'Scope1' do
   client my_client
-  api_version 300
+  api_version 600
   action :delete
 end
