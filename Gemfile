@@ -13,6 +13,7 @@ gem 'oneview-sdk', '~> 5.5.0'
 gem 'pry'
 gem 'rubocop', '~> 0.49.1'
 gem 'simplecov'
+gem 'cucumber-core', '~> 3.2.1'
 gem 'stove'
 
 begin
