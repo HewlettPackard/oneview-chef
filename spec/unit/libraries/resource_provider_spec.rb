@@ -92,6 +92,54 @@ RSpec.describe OneviewCookbook::ResourceProvider do
       expect(r.sdk_variant).to eq('Synergy')
       expect(r.item.class).to eq(OneviewSDK::API600::Synergy::Scope)
     end
+    
+    it 'builds valid API800::C7000 resources' do
+      r = OneviewCookbook::API800::C7000::FCNetworkProvider.new(@context)
+      expect(r.sdk_resource_type).to eq('FCNetwork')
+      expect(r.sdk_api_version).to eq(800)
+      expect(r.sdk_variant).to eq('C7000')
+      expect(r.item.class).to eq(OneviewSDK::API800::C7000::FCNetwork)
+    end
+
+    it 'builds valid API800::Synergy resources' do
+      r = OneviewCookbook::API800::Synergy::FCNetworkProvider.new(@context)
+      expect(r.sdk_resource_type).to eq('FCNetwork')
+      expect(r.sdk_api_version).to eq(800)
+      expect(r.sdk_variant).to eq('Synergy')
+      expect(r.item.class).to eq(OneviewSDK::API800::Synergy::FCNetwork)
+    end
+    
+    it 'builds valid API1000::C7000 resources' do
+      r = OneviewCookbook::API1000::C7000::FCNetworkProvider.new(@context)
+      expect(r.sdk_resource_type).to eq('FCNetwork')
+      expect(r.sdk_api_version).to eq(1000)
+      expect(r.sdk_variant).to eq('C7000')
+      expect(r.item.class).to eq(OneviewSDK::API1000::C7000::FCNetwork)
+    end
+
+    it 'builds valid API1000::Synergy resources' do
+      r = OneviewCookbook::API1000::Synergy::FCNetworkProvider.new(@context)
+      expect(r.sdk_resource_type).to eq('FCNetwork')
+      expect(r.sdk_api_version).to eq(1000)
+      expect(r.sdk_variant).to eq('Synergy')
+      expect(r.item.class).to eq(OneviewSDK::API1000::Synergy::FCNetwork)
+    end
+    
+    it 'builds valid API1200::C7000 resources' do
+      r = OneviewCookbook::API1200::C7000::FCNetworkProvider.new(@context)
+      expect(r.sdk_resource_type).to eq('FCNetwork')
+      expect(r.sdk_api_version).to eq(1200)
+      expect(r.sdk_variant).to eq('C7000')
+      expect(r.item.class).to eq(OneviewSDK::API1200::C7000::FCNetwork)
+    end
+
+    it 'builds valid API1200::Synergy resources' do
+      r = OneviewCookbook::API1200::Synergy::FCNetworkProvider.new(@context)
+      expect(r.sdk_resource_type).to eq('FCNetwork')
+      expect(r.sdk_api_version).to eq(1200)
+      expect(r.sdk_variant).to eq('Synergy')
+      expect(r.item.class).to eq(OneviewSDK::API1200::Synergy::FCNetwork)
+    end
 
     it 'builds valid ImageStreamer::API300 resources' do
       r = OneviewCookbook::ImageStreamer::API300::BuildPlanProvider.new(@context)
