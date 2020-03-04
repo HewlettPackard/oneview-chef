@@ -92,7 +92,7 @@ RSpec.describe OneviewCookbook::ResourceProvider do
       expect(r.sdk_variant).to eq('Synergy')
       expect(r.item.class).to eq(OneviewSDK::API600::Synergy::Scope)
     end
-    
+
     it 'builds valid API800::C7000 resources' do
       r = OneviewCookbook::API800::C7000::FCNetworkProvider.new(@context)
       expect(r.sdk_resource_type).to eq('FCNetwork')
@@ -108,7 +108,7 @@ RSpec.describe OneviewCookbook::ResourceProvider do
       expect(r.sdk_variant).to eq('Synergy')
       expect(r.item.class).to eq(OneviewSDK::API800::Synergy::FCNetwork)
     end
-    
+
     it 'builds valid API1000::C7000 resources' do
       r = OneviewCookbook::API1000::C7000::FCNetworkProvider.new(@context)
       expect(r.sdk_resource_type).to eq('FCNetwork')
@@ -124,7 +124,7 @@ RSpec.describe OneviewCookbook::ResourceProvider do
       expect(r.sdk_variant).to eq('Synergy')
       expect(r.item.class).to eq(OneviewSDK::API1000::Synergy::FCNetwork)
     end
-    
+
     it 'builds valid API1200::C7000 resources' do
       r = OneviewCookbook::API1200::C7000::FCNetworkProvider.new(@context)
       expect(r.sdk_resource_type).to eq('FCNetwork')
