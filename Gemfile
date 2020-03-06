@@ -14,7 +14,7 @@ gem 'foodcritic', '~> 7.1.0'
 gem 'oneview-sdk', '~> 5.10.0'
 gem 'pry'
 gem 'rubocop', '~> 0.49.1'
-gem 'simplecov'
+gem 'simplecov', '~> 0.17.1'
 gem 'stove'
 
 begin
