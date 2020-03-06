@@ -2,10 +2,10 @@ source 'https://rubygems.org'
 
 ruby RUBY_VERSION # Needed to consider & solve for Ruby version requirements
 
-gem 'berkshelf'
+gem 'berkshelf', '~> 6.3.4'
 # Workaround due to bug in Chef v12.21.20. Waiting for gem with the fix being released on RubyGems
-# chef_version = Gem::Version.new(RUBY_VERSION) > Gem::Version.new('2.3.0') ? '>= 13.0' : '<= 12.21.14'
-gem 'chef', '~> 13.12.3'
+chef_version = Gem::Version.new(RUBY_VERSION) > Gem::Version.new('2.3.0') ? '>= 13.0' : '<= 12.21.14'
+#gem 'chef', '~> 13.12.3'
 gem 'chefspec'
 gem 'codeclimate-test-reporter'
 gem 'cucumber-core', '~> 3.2.1'
