@@ -1,9 +1,15 @@
-## 3.1.1(unreleased)
-Extending support to API 600 with the following HPE OneView resource:
+## 3.2.0(unreleased)
+### Notes
+- This release supports OneView Rest API versions 800/1000/1200 minimally where we can use OneView v4.10/v4.20/v5.0 with this SDK. No new fields are added/deleted to support OneView Rest API 800/1000/1200. Complete support will be done in next releases.
+- Extending support to API 600 with the following HPE OneView resource:
 - oneview_scope
+
+### Oneview Features supported
+- oneview_fc_network
 
 ## Bugs & Enhancements:
 - [#398](https://github.com/HewlettPackard/oneview-chef/issues/398) Travis Build has failed due to cucumber-core:gherkin incompatibility
+- [#401](https://github.com/HewlettPackard/oneview-chef/issues/401)  Travis Build is failing at multiple points due to incompatibilty between the dependencies
 
 ## 3.1.0
 Adds API 600 support to the following HPE OneView resources:
