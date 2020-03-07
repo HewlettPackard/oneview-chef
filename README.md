@@ -11,9 +11,9 @@
 Chef cookbook that provides resources for managing HPE OneView.
 
 ## Requirements
- - Ruby 2.2.6 or higher (We recommend using Ruby 2.4.1 or higher)
+ - Ruby 2.3.1 or higher (We recommend using Ruby 2.4.1 or higher)
  - Chef 12.0 or higher (We recommend using Chef 13.12 or higher if possible)
- - For oneview resources: HPE OneView 2.0, 3.0, 3.10 or 4.0 (API versions 200, 300, 500 or 600). May work with other versions too, but no guarantees
+ - For oneview resources: HPE OneView 2.0, 3.0, 3.10, 4.0, 4.10 or 5.0 (API versions 200, 300, 500, 600, 800, 1000 or 1200). May work with other versions too, but no guarantees
  - For image_streamer resources: HPE Synergy Image Streamer appliance (API version 300, 500 or 600)
 
 ## Usage
@@ -24,7 +24,7 @@ Then use any of the resources provided by this cookbook.
 ```ruby
 # my_cookbook/metadata.rb
 ...
-depends 'oneview', '~> 3.1.0'
+depends 'oneview', '~> 3.2.0'
 ```
 
 ### Credentials
