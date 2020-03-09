@@ -1,4 +1,4 @@
-## 4.0.0(unreleased)
+## 3.2.0(unreleased)
 ### Notes
 - This release supports OneView Rest API versions 800/1000/1200 minimally where we can use OneView v4.10/v4.20/v5.0 with this SDK. No new fields are added/deleted to support OneView Rest API 800/1000/1200. Complete support will be done in next releases.
 
