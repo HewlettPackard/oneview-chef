@@ -2,8 +2,8 @@
 
 | Item | Meaning |
 | ------------------ | --------------------------------------------- |
-|  :white_check_mark: | Endpoint implemented in the Puppet SDK for this API version :tada: |
-|  :heavy_multiplication_x: | Endpoint considered as 'out-of-scope' for the Puppet SDK |
+|  :white_check_mark: | Endpoint implemented in the Chef SDK for this API version :tada: |
+|  :heavy_multiplication_x: | Endpoint considered as 'out-of-scope' for the Chef SDK |
 |  :heavy_minus_sign: | Endpoint not available for this API Version |
 
 <br />
@@ -11,7 +11,7 @@
 ***Notes***
 
 * If an endpoint is not marked as implemented for a specific API, it can still be used in compatibility mode for the supported API versions.
-* If an example is not working on a supported API version, verify the [HPE OneView REST API Documentation](http://h17007.www1.hpe.com/docs/enterprise/servers/oneview4.1/cic-api/en/index.html#)  for the API version being used, since the expected attributes for that resource might have changed.
+* If an example is not working on a supported API version, verify the [HPE OneView REST API Documentation](https://techlibrary.hpe.com/docs/enterprise/servers/oneview5.0/cicf-api/en/index.html)  for the API version being used, since the expected attributes for that resource might have changed.
 <br />
 
 ## HPE OneView
