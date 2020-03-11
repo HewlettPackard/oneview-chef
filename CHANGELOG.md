@@ -6,6 +6,7 @@
 - [#398](https://github.com/HewlettPackard/oneview-chef/issues/398) Travis Build has failed due to cucumber-core:gherkin incompatibility
 
 ### Oneview Features supported
+  - oneview_enclosure_group
   - oneview_server_hardware_type
 
 ## 3.1.0
