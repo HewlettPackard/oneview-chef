@@ -5,6 +5,7 @@
 - oneview_scope
 
 ### Oneview Features supported
+- oneview_connection_template
 - oneview_ethernet_network
 - oneview_fc_network
 - oneview_fcoe_network
