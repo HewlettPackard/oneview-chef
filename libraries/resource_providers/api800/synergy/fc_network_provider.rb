@@ -1,4 +1,4 @@
-# (c) Copyright 2020 Hewlett Packard Enterprise Development LP
+# Copyright 2020 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -6,16 +6,15 @@
 #
 # Unless required by applicable law or agreed to in writing, software distributed
 # under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-# CONDITIONS OF ANY KIND, either express or implied. See the License for the specific
-# language governing permissions and limitations under the License.
+# CONDITIONS OF ANY KIND, either express or implied. See the License for the
+# specific language governing permissions and limitations under the License.
 
 module OneviewCookbook
   module API800
-    # Module for API800 C7000
-    module C7000
+    module Synergy
+      # FcNetwork API800 Synergy provider
+      class FCNetworkProvider < OneviewCookbook::API600::Synergy::FCNetworkProvider
+      end
     end
   end
 end
-
-# Load all API-specific resources:
-Dir[File.dirname(__FILE__) + '/c7000/*.rb'].each { |file| require file }
