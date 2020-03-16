@@ -5,7 +5,11 @@
 - oneview_scope
 
 ### Oneview Features supported
+- oneview_ethernet_network
 - oneview_fc_network
+- oneview_fcoe_network
+- oneview_network_set
+- oneview_uplink_set
 
 ## Bugs & Enhancements:
 - [#398](https://github.com/HewlettPackard/oneview-chef/issues/398) Travis Build has failed due to cucumber-core:gherkin incompatibility
