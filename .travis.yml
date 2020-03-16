@@ -1,8 +1,8 @@
 language: ruby
 rvm:
-  - 2.2.6
   - 2.3.1
   - 2.4
+  - 2.5
 
 before_install: gem update bundler
 
@@ -12,4 +12,4 @@ script:
 
 matrix:
   allow_failures:
-    - rvm: 2.4
+    - rvm: 2.5
