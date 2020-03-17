@@ -5,6 +5,7 @@
 - oneview_scope
 
 ### Oneview Features supported
+- oneview_enclosure
 - oneview_fc_network
 
 ## Bugs & Enhancements:
