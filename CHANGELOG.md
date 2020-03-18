@@ -86,7 +86,7 @@ Adds API 500 support to the following HPE OneView resources:
   - oneview_server_hardware_type
   - oneview_server_profile
   - oneview_server_profile_template
-  - oneview_storage_p
+  - oneview_storage_pool
   - oneview_storage_system
   - oneview_switch
   - oneview_unmanaged_device
