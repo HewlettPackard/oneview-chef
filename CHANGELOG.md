@@ -9,7 +9,14 @@
 - oneview_storage_system
 
 ### Oneview Features supported
+- oneview_connection_template
+- oneview_enclosure
+- oneview_ethernet_network
 - oneview_fc_network
+- oneview_fcoe_network
+- oneview_logical_interconnect_group
+- oneview_network_set
+- oneview_uplink_set
 
 ## Bugs & Enhancements:
 - [#398](https://github.com/HewlettPackard/oneview-chef/issues/398) Travis Build has failed due to cucumber-core:gherkin incompatibility
