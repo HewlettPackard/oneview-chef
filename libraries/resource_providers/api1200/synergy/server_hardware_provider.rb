@@ -10,10 +10,10 @@
 # specific language governing permissions and limitations under the License.
 
 module OneviewCookbook
-  module API800
+  module API1200
     module Synergy
-      # ServerHardware API800 Synergy provider
-      class ServerHardwareProvider < API600::Synergy::ServerHardwareProvider
+      # ServerHardware API1200 Synergy provider
+      class ServerHardwareProvider < API1000::Synergy::ServerHardwareProvider
       end
     end
   end
