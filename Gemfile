@@ -18,7 +18,7 @@ gem 'simplecov', '~> 0.17.1'
 gem 'stove'
 
 begin
-  if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.3.1')
+  if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.2.6')
     group :development do
       gem 'guard-rake'
       gem 'guard-rspec'
