@@ -11,6 +11,8 @@
 - oneview_fcoe_network
 - oneview_logical_interconnect_group
 - oneview_network_set
+- oneview_server_profile
+- oneview_server_profile_template
 - oneview_uplink_set
 
 ## Bugs & Enhancements:
