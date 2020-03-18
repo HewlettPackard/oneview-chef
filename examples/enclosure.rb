@@ -86,6 +86,7 @@ oneview_enclosure 'Encl1' do
   action :refresh
 end
 
+# Supported for API 300 till 500
 # Adds 'Encl1' to 'Scope1' and 'Scope2'
 oneview_enclosure 'Encl1' do
   client my_client
@@ -93,6 +94,7 @@ oneview_enclosure 'Encl1' do
   action :add_to_scopes
 end
 
+# Supported for API 300 till 500
 # Removes 'Encl1' from 'Scope1'
 oneview_enclosure 'Encl1' do
   client my_client
@@ -100,6 +102,7 @@ oneview_enclosure 'Encl1' do
   action :remove_from_scopes
 end
 
+# Supported for API 300 till 500
 # Replaces 'Scope1' and 'Scope2' for 'Encl1'
 oneview_enclosure 'Encl1' do
   client my_client
