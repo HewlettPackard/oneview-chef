@@ -6,6 +6,7 @@
 
 ### Oneview Features supported
 - oneview_fc_network
+- oneview_server_hardware
 
 ## Bugs & Enhancements:
 - [#398](https://github.com/HewlettPackard/oneview-chef/issues/398) Travis Build has failed due to cucumber-core:gherkin incompatibility
