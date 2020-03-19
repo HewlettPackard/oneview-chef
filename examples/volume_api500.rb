@@ -37,6 +37,7 @@ oneview_volume 'CHEF_VOL_01' do
   data(store_serv_properties)
   storage_pool 'CPG-SSD-AO'
   storage_system 'ThreePAR-1'
+  action :create_if_missing
 end
 
 # Example: Update a volume
@@ -52,6 +53,7 @@ oneview_volume 'CHEF_VOL_02' do
   client my_client
   data(store_serv_properties)
   volume_template 'VolumeTemplate_1'
+  action :create_if_missing
 end
 
 # Example: Create a store serv volume with snapshot pool specified
@@ -77,6 +79,7 @@ oneview_volume 'CHEF_VIRTUAL_VOL_02' do
   client my_client
   data(store_virtual_properties)
   volume_template 'VolumeTemplateVirtual_1'
+  action :create_if_missing
 end
 
 # Example: Create a snapshot from the volume created by this recipe
