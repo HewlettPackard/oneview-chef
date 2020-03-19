@@ -20,7 +20,7 @@ property :properties, Hash
 property :is_permanent, [TrueClass, FalseClass], default: true
 property :delete_from_appliance_only, [TrueClass, FalseClass], default: false
 
-default_action :create
+default_action :create_if_missing
 
 action :create do
   OneviewCookbook::Helper.do_resource_action(self, :Volume, :create_or_update)
