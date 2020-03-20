@@ -1,4 +1,4 @@
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2020 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,12 +12,15 @@
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
-  password: ENV['ONEVIEWSDK_PASSWORD']
+  password: ENV['ONEVIEWSDK_PASSWORD'],
+  api_version: 1200
 }
 
 # Example: Create a logical enclosure if it's missing
+# Available only for Synergy
 oneview_logical_enclosure 'LE1' do
   client my_client
+  api_variant 'Synergy'
   data(
     firmwareBaselineUri: nil
   )
@@ -29,7 +32,7 @@ end
 # Example: Make a logical enclosure consistent with the enclosure group
 # Note that this resource will do this action every time; it's meant to be notified to run,
 # not as a standalone resource like this.
-oneview_logical_enclosure 'Encl1' do
+oneview_logical_enclosure 'LE1' do
   client my_client
   action :update_from_group
 end
@@ -37,20 +40,21 @@ end
 # Example: Reapply the appliance's configuration on enclosures for a logical enclosure
 # Note that this resource will do this action every time; it's meant to be notified to run,
 # not as a standalone resource like this.
-oneview_logical_enclosure 'Encl1' do
+oneview_logical_enclosure 'LE1' do
   client my_client
   action :reconfigure
 end
 
 # Example: Set the configuration script of the logical enclosure and on all enclosures in the logical enclosure
-oneview_logical_enclosure 'Encl1' do
+# Available only for C7000
+oneview_logical_enclosure 'LE1' do
   client my_client
   script '# My script commands here'
   action :set_script
 end
 
 # Example: Creates a support dump for the logical enclosure
-oneview_logical_enclosure 'Encl1' do
+oneview_logical_enclosure 'LE1' do
   client my_client
   dump_options(
     errorCode: 'MyDump'
@@ -59,7 +63,9 @@ oneview_logical_enclosure 'Encl1' do
 end
 
 # Example: Delete a logical enclosure, logical interconnects and put all attached enclosures and their components to the Monitored state
+# Available only for Synergy
 oneview_logical_enclosure 'LE1' do
   client my_client
+  api_variant 'Synergy'
   action :delete
 end
