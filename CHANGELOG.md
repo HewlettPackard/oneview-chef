@@ -14,6 +14,10 @@
 - oneview_network_set
 - oneview_storage_pool
 - oneview_storage_system
+- oneview_server_hardware
+- oneview_server_hardware_type
+- oneview_server_profile
+- oneview_server_profile_template
 - oneview_uplink_set
 - oneview_volume
 - oneview_volume_template
