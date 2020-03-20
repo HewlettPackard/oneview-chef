@@ -11,8 +11,10 @@
 - oneview_ethernet_network
 - oneview_fc_network
 - oneview_fcoe_network
+- oneview_logical_enclosure
 - oneview_logical_interconnect_group
 - oneview_network_set
+- oneview_server_hardware
 - oneview_server_hardware_type
 - oneview_uplink_set
 

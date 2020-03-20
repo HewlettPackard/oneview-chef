@@ -1,4 +1,4 @@
-# (c) Copyright 2016-2017 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2016-2020 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ my_client = {
 # Example: Add server hardware to OneView for management
 # Note that the default action is :add_if_missing, and there is no :add action available.
 # This is because ServerHardware resources cannot be updated after being added.
+# This is supported only in C7000 variant.
 oneview_server_hardware '172.18.6.6' do
   client my_client
   data(
@@ -33,6 +34,7 @@ oneview_server_hardware '172.18.6.6' do
   )
 end
 
+# This is supported only in C7000 variant.
 oneview_server_hardware '172.18.6.6' do
   client my_client
   data(
