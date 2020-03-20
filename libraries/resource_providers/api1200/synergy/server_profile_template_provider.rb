@@ -13,7 +13,7 @@ module OneviewCookbook
   module API1200
     module Synergy
       # Server Profile Template API1200 Synergy provider
-      class ServerProfileTemplateProvider < OneviewCookbook::API1000::C7000::ServerProfileTemplateProvider
+      class ServerProfileTemplateProvider < OneviewCookbook::API1200::C7000::ServerProfileTemplateProvider
       end
     end
   end
