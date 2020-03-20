@@ -12,7 +12,7 @@
 module OneviewCookbook
   module API800
     module Synergy
-      # StorageSystem API600 Synergy provider
+      # StorageSystem API800 Synergy provider
       class StorageSystemProvider < API800::C7000::StorageSystemProvider
       end
     end

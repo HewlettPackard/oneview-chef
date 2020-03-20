@@ -12,7 +12,7 @@
 module OneviewCookbook
   module API800
     module C7000
-      # StorageSystem API600 C7000 provider
+      # StorageSystem API800 C7000 provider
       class StorageSystemProvider < API600::C7000::StorageSystemProvider
         include OneviewCookbook::RefreshActions::RequestRefresh
       end

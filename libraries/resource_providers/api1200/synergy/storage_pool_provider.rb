@@ -12,7 +12,7 @@
 module OneviewCookbook
   module API1200
     module Synergy
-      # StoragePool API1200 C7000 provider
+      # StoragePool API1200 Synergy provider
       class StoragePoolProvider < API1200::C7000::StoragePoolProvider
       end
     end
