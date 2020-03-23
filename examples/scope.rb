@@ -21,9 +21,16 @@ my_client = {
 # Example: Create a Scope with a simple description
 oneview_scope 'Scope1' do
   client my_client
-  api_version 600
   data(
-    description: 'Sample Scope description'
+    description: 'Sample Scope1 description'
+  )
+end
+
+# Example: Create another Scope with a simple description
+oneview_scope 'Scope2' do
+  client my_client
+  data(
+    description: 'Sample Scope2 description'
   )
 end
 
@@ -31,7 +38,6 @@ end
 # previously created
 oneview_scope 'Scope1' do
   client my_client
-  api_version 600
   add(
     Enclosure: ['Encl1'],
     ServerHardware: ['Server1']
@@ -43,7 +49,6 @@ end
 # previously created, while removing the first Enclosure and Server Hardware
 oneview_scope 'Scope1' do
   client my_client
-  api_version 600
   add(
     Enclosure: ['Encl2'],
     ServerHardware: ['Server2']
@@ -58,7 +63,6 @@ end
 # Example: Remove the second Enclosure added to the scope
 oneview_scope 'Scope1' do
   client my_client
-  api_version 600
   remove(
     Enclosure: ['Encl2'],
   )
@@ -69,7 +73,6 @@ end
 # and is available for API600 or greater
 oneview_scope 'replace resource scopes assignments' do
   client my_client
-  api_version 600
   api_variant 'Synergy'
   replace(
     Enclosure: ['0000A66101']
@@ -82,7 +85,6 @@ end
 # and is available for API600 or greater
 oneview_scope 'modify resource scopes assignments' do
   client my_client
-  api_version 600
   api_variant 'Synergy'
   add(
     Scope: ['Scope2']
@@ -100,7 +102,6 @@ end
 # and is available for API600 or greater
 oneview_scope 'modify resource scopes assignments' do
   client my_client
-  api_version 600
   api_variant 'Synergy'
   remove(
     Scope: ['Scope2']
@@ -115,7 +116,6 @@ end
 # for API600 or greater
 oneview_scope 'modify resource scopes assignments' do
   client my_client
-  api_version 600
   api_variant 'Synergy'
   add(
     Scope: ['Scope2']
@@ -129,6 +129,5 @@ end
 # Example: Delete the Scope created in this example
 oneview_scope 'Scope1' do
   client my_client
-  api_version 600
   action :delete
 end
