@@ -18,7 +18,11 @@
 - oneview_server_hardware_type
 - oneview_server_profile
 - oneview_server_profile_template
+- oneview_storage_pool
+- oneview_storage_system
 - oneview_uplink_set
+- oneview_volume
+- oneview_volume_template
 
 ## Bugs & Enhancements:
 - [#398](https://github.com/HewlettPackard/oneview-chef/issues/398) Travis Build has failed due to cucumber-core:gherkin incompatibility
