@@ -24,7 +24,6 @@
 - oneview_volume
 - oneview_volume_template
 
-
 ## Bugs & Enhancements:
 - [#398](https://github.com/HewlettPackard/oneview-chef/issues/398) Travis Build has failed due to cucumber-core:gherkin incompatibility
 - [#401](https://github.com/HewlettPackard/oneview-chef/issues/401)  Travis Build is failing at multiple points due to incompatibilty between the dependencies
