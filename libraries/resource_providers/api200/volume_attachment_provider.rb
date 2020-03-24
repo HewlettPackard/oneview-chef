@@ -11,7 +11,7 @@
 
 module OneviewCookbook
   module API200
-    # VolumeAttachement API200 provider
+    # VolumeAttachment API200 provider
     class VolumeAttachmentProvider < ResourceProvider
       def repair
         return false unless @item.retrieve!

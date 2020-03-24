@@ -14,5 +14,5 @@ OneviewCookbook::ResourceBaseProperties.load(self)
 default_action :none
 
 action :repair do
-  OneviewCookbook::Helper.do_resource_action(self, :VolumeAttachemnt, :repair)
+  OneviewCookbook::Helper.do_resource_action(self, :VolumeAttachment, :repair)
 end
