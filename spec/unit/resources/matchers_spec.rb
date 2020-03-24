@@ -300,7 +300,6 @@ describe 'oneview_test::default' do
 
     # oneview_volume_attachment
     expect(chef_run).to_not repair_oneview_volume_attachment('')
-  end
 
     # oneview_volume_template
     expect(chef_run).to_not create_oneview_volume_template('')
