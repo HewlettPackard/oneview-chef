@@ -13,7 +13,11 @@ module OneviewCookbook
   module API800
     module C7000
       # StoragePool API800 C7000 provider
+<<<<<<< HEAD
       class StoragePoolProvider < OneviewCookbook::API500::C7000::StoragePoolProvider
+=======
+      class StoragePoolProvider < OneviewCookbook::API600::C7000::StoragePoolProvider
+>>>>>>> bc1d2b4c731ed9ec46e6a1d2bbbc0b706781b022
       end
     end
   end

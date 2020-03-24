@@ -12,7 +12,11 @@
 module OneviewCookbook
   module API1000
     module Synergy
+<<<<<<< HEAD
       # StoragePool API500 C7000 provider
+=======
+      # StoragePool API1000 C7000 provider
+>>>>>>> bc1d2b4c731ed9ec46e6a1d2bbbc0b706781b022
       class StoragePoolProvider < API1000::C7000::StoragePoolProvider
       end
     end
