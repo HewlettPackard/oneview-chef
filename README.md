@@ -276,7 +276,7 @@ end
 
 ### [oneview_logical_interconnect](examples/logical_interconnect.rb)
 
-Note: if you are using API1200 and onwards, see examples[here](examples/logical_interconnect_api_1200.rb).
+Note: if you are using API1200 and onwards, see examples [here](examples/logical_interconnect_api_1200.rb).
 
 Performs actions on logical interconnect and associated interconnects.
 
