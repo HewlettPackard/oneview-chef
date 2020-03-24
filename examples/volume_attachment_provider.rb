@@ -9,12 +9,15 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-module OneviewCookbook
-  module API500
-    module C7000
-      # VolumeAttachment API500 C7000 provider
-      class VolumeAttachmentProvider < API300::C7000::VolumeAttachmentProvider
-      end
-    end
-  end
+my_client = {
+  url: ENV['ONEVIEWSDK_URL'],
+  user: ENV['ONEVIEWSDK_USER'],
+  password: ENV['ONEVIEWSDK_PASSWORD'],
+  api_version: 800
+}
+
+# Example: Repair a volume
+oneview_volume 'VolumeAttachment1' do
+  client my_client
+  action :repair
 end

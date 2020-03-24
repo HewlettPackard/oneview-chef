@@ -11,9 +11,9 @@
 
 OneviewCookbook::ResourceBaseProperties.load(self)
 
-action :create_if_missing do
-  OneviewCookbook::Helper.do_resource_action(self, :VolumeAttachemnt, :create_if_missing)
-end
+# action :create_if_missing do
+#   OneviewCookbook::Helper.do_resource_action(self, :VolumeAttachemnt, :create_if_missing)
+# end
 
 action :repair do
   OneviewCookbook::Helper.do_resource_action(self, :VolumeAttachemnt, :repair)

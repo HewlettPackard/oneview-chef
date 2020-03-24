@@ -12,7 +12,7 @@
 module OneviewCookbook
   module API500
     module Synergy
-      # VolumeAttachment API500 Synergy provider
+      # VolumeAttachment API500 C7000 provider
       class VolumeAttachmentProvider < API500::C7000::VolumeAttachmentProvider
       end
     end

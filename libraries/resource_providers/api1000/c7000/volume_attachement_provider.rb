@@ -10,10 +10,10 @@
 # specific language governing permissions and limitations under the License.
 
 module OneviewCookbook
-  module API500
+  module API1000
     module C7000
-      # VolumeAttachment API500 C7000 provider
-      class VolumeAttachmentProvider < API300::C7000::VolumeAttachmentProvider
+      # VolumeAttachment API1000 C7000 provider
+      class VolumeAttachmentProvider < API800::C7000::VolumeAttachmentProvider
       end
     end
   end

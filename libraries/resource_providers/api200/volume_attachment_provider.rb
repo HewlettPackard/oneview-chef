@@ -10,10 +10,16 @@
 # specific language governing permissions and limitations under the License.
 
 module OneviewCookbook
-  module API500
-    module C7000
-      # VolumeAttachment API500 C7000 provider
-      class VolumeAttachmentProvider < API300::C7000::VolumeAttachmentProvider
+  module API200
+    # VolumeAttachement API200 provider
+    class VolumeAttachmentProvider < ResourceProvider
+      def repair
+        return false unless @item.retrieve!
+        Chef::Log.info "Removing extra presentations from #{@resource_name} '#{@name}'"
+        @context.converge_by "Removing extra presentations from #{@resource_name} '#{@name}'" do
+          @item.repair
+        end
+        true
       end
     end
   end
