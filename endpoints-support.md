@@ -84,7 +84,7 @@
 |<sub>/rest/interconnects/{id}/statistics/{portName:.+}/subport/{subportNum}</sub>        | GET      |  :white_check_mark:   | :white_check_mark:   | :white_check_mark:   |
 |<sub>/rest/interconnects/{id}/update-ports</sub>                                         | PUT      |  :white_check_mark:   | :white_check_mark:   | :white_check_mark:   |
 |<sub>/rest/interconnects/{id}/nameServers</sub>                                          | GET      |  :white_check_mark:   | :white_check_mark:   | :white_check_mark:   |
-|     **Logical Enclosures**                                                                                                 |
+|     **Logical Enclosures**               |
 |<sub>/rest/logical-enclosures</sub>                                                      | GET      | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   |:white_check_mark:  | :white_check_mark:  | :white_check_mark:  | :white_check_mark:  |
 |<sub>/rest/logical-enclosures</sub>                                                      | POST     | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   |:white_check_mark:  | :white_check_mark:  | :white_check_mark:  | :white_check_mark:  |
 |<sub>/rest/logical-enclosures/{id}</sub>                                                 | GET      | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   |:white_check_mark:  | :white_check_mark:  | :white_check_mark:  | :white_check_mark:  |

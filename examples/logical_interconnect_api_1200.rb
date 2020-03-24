@@ -11,6 +11,7 @@
 
 # NOTE 1: This recipe requires:
 # Ethernet Networks: EthernetNetwork1, EthernetNetwork2
+# For apiversion:1200 type is portMonitorV1
 
 
 my_client = {
@@ -28,7 +29,7 @@ end
 # Set the EthernetNetwork1 and EthernetNetwork2 as internal networks for the logical interconnect
 oneview_logical_interconnect 'test_chef-test_chef' do
   client my_client
-  internal_networks ['EthernetNetwork1_15', 'EthernetNetwork1_13']
+  internal_networks ['EthernetNetwork1', 'EthernetNetwork2']
   action :update_internal_networks
 end
 
