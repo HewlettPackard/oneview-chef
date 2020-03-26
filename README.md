@@ -601,6 +601,18 @@ end
 
 :memo: **NOTE**: The OneView API has a provisioningParameters hash for creation, but not updates. In recipes, use same data as you would for an update, and this resource will handle creating the provisioningParameters for you if the volume needs created. (Define the desired state, not how to create it). See the [volume example](examples/volume.rb) for more on this.
 
+### [oneview_volume_attachment](examples/volume_attachment.rb)
+Performs action on volume Attachments
+
+Note: By default it performs action `:none`
+
+```ruby
+oneview_volume_attachment 'VolumeAttachment1' do
+  client my_client
+  action :repair
+end
+```
+
 ### [oneview_volume_template](examples/volume_template_api300.rb)
 
 Note: if you are using API500 and above, see the examples [here](examples/volume_template.rb)
