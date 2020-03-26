@@ -12,11 +12,7 @@
 module OneviewCookbook
   module API800
     module C7000
-<<<<<<< HEAD
       # StorageSystem API600 C7000 provider
-=======
-      # StorageSystem API800 C7000 provider
->>>>>>> bc1d2b4c731ed9ec46e6a1d2bbbc0b706781b022
       class StorageSystemProvider < API600::C7000::StorageSystemProvider
         include OneviewCookbook::RefreshActions::RequestRefresh
       end
