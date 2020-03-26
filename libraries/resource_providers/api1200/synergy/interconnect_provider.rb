@@ -10,10 +10,10 @@
 # specific language governing permissions and limitations under the License.
 
 module OneviewCookbook
-  module API600
+  module API1200
     module Synergy
-      # Interconnect API600 Synergy provider
-      class InterconnectProvider < API600::C7000::InterconnectProvider
+      # Interconnect AP1200 Synergy provider
+      class InterconnectProvider < API1200::C7000::InterconnectProvider
       end
     end
   end
