@@ -1,18 +1,28 @@
 ## 3.2.0(unreleased)
 ### Notes
 - This release supports OneView Rest API versions 800/1000/1200 minimally where we can use OneView v4.10/v4.20/v5.0 with this SDK. No new fields are added/deleted to support OneView Rest API 800/1000/1200. Complete support will be done in next releases.
-- Extending support to API 600 with the following HPE OneView resource:
-- oneview_scope
+- Added support for HPE OneView resource oneview_scope for API 600.
 
 ### Oneview Features supported
 - oneview_connection_template
 - oneview_enclosure
+- oneview_enclosure_group
 - oneview_ethernet_network
 - oneview_fc_network
 - oneview_fcoe_network
+- oneview_logical_enclosure
 - oneview_logical_interconnect_group
 - oneview_network_set
+- oneview_scope
+- oneview_server_hardware
+- oneview_server_hardware_type
+- oneview_server_profile
+- oneview_server_profile_template
+- oneview_storage_pool
+- oneview_storage_system
 - oneview_uplink_set
+- oneview_volume
+- oneview_volume_template
 
 ## Bugs & Enhancements:
 - [#398](https://github.com/HewlettPackard/oneview-chef/issues/398) Travis Build has failed due to cucumber-core:gherkin incompatibility
