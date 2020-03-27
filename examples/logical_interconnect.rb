@@ -15,15 +15,32 @@
 # NOTE 3: The api_version client should be 300 or greater if you run the examples using Scopes
 
 my_client = {
-  url: 'https://10.170.16.33',
-  user: 'Administrator',
-  password: 'madhav123',
-  api_version: 1200,
+  url: ENV['ONEVIEWSDK_URL'],
+  user: ENV['ONEVIEWSDK_USER'],
+  password: ENV['ONEVIEWSDK_PASSWORD']
 }
 
 # No action
 oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
   client my_client
+end
+
+# Remove from management the interconnect in the enclosure 'Encl1' in bay 1
+# Available only in Api200
+oneview_logical_interconnect 'Remove Encl 1, interconnect 1' do
+  client my_client
+  enclosure 'Encl1'
+  bay_number 1
+  action :remove_interconnect
+end
+
+# Add the interconnect in the enclosure 'Encl1' in bay 1 for management in HPE OneView
+# Available only in Api200
+oneview_logical_interconnect 'Add Encl 1, interconnect 1' do
+  client my_client
+  enclosure 'Encl1'
+  bay_number 1
+  action :add_interconnect
 end
 
 # Set the EthernetNetwork1 and EthernetNetwork2 as internal networks for the logical interconnect
