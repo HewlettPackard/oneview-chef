@@ -22,8 +22,12 @@
 - oneview_storage_system
 - oneview_uplink_set
 - oneview_volume
-- oneview_volume_attachment
+
 - oneview_volume_template
+
+### New features and resources
+  - New actions and features from API800:
+    - oneview_volume_attachment `:repair` action
 
 ## Bugs & Enhancements:
 - [#398](https://github.com/HewlettPackard/oneview-chef/issues/398) Travis Build has failed due to cucumber-core:gherkin incompatibility
