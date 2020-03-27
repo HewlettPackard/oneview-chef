@@ -22,11 +22,10 @@
 - oneview_storage_system
 - oneview_uplink_set
 - oneview_volume
-
 - oneview_volume_template
 
 ### New features and resources
-  - New actions and features from API800:
+  - Added support for following resources
     - oneview_volume_attachment `:repair` action
 
 ## Bugs & Enhancements:
