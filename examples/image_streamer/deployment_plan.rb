@@ -25,18 +25,18 @@ i3s_client = {
 }
 
 # Create or update the Deployment Plan named 'DeploymentPlan1'
-image_streamer_deployment_plan 'RHEL-7.6-test' do
+image_streamer_deployment_plan 'DeploymentPlan1' do
   client i3s_client
   data(
     description: 'AnyDescription',
     hpProvided: false
   )
-  os_build_plan 'RHEL-personalize-and-configure-NICs-LVM-BP-2018-09-11'
-  golden_image 'RHEI-capture'
+  os_build_plan 'Test-OSBuildPlan'
+  golden_image 'RHEl-capture'
 end
 
 # Update the Deployment Plan named 'DeploymentPlan1' with a new description
-image_streamer_deployment_plan 'RHEL-7.6-test' do
+image_streamer_deployment_plan 'DeploymentPlan1' do
   client i3s_client
   data(
     description: 'Chef created and updated Deployment Plan - 1'
@@ -51,11 +51,17 @@ image_streamer_deployment_plan 'DeploymentPlan2' do
     hpProvided: false
   )
   os_build_plan 'RHEL-personalize-and-configure-NICs-LVM-BP-2018-09-11'
-  golden_image 'RHEI-capture'
+  golden_image 'RHEl-capture'
   action :create_if_missing
 end
 
 # Delete the Deployment Plan named 'DeploymentPlan1' if it exists
+image_streamer_deployment_plan 'DeploymentPlan1' do
+  client i3s_client
+  action :delete
+end
+
+# Delete the Deployment Plan named 'DeploymentPlan2' if it exists
 image_streamer_deployment_plan 'DeploymentPlan2' do
   client i3s_client
   action :delete
