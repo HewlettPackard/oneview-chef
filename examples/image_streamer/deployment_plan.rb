@@ -1,4 +1,4 @@
-# (c) Copyright 2017 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2020 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -9,17 +9,19 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
+# Defaults API version to 300
+node.default['oneview']['api_version'] = 300
+
 oneview_client = {
-  url: 'https://10.50.4.100',
-  user: 'bala-sai-harika',
-  password: 'Gowtham@1990',
-  api_version: 1000,
-  ssl_enabled: false
+  url: ENV['ONEVIEWSDK_URL'],
+  user: ENV['ONEVIEWSDK_USER'],
+  password: ENV['ONEVIEWSDK_PASSWORD']
 }
 
 i3s_client = {
-  url: 'https://10.50.4.106',
-  oneview_client: oneview_client
+  url: ENV['I3S_URL'],
+  oneview_client: oneview_client,
+  api_version: 1200
 }
 
 # Create or update the Deployment Plan named 'DeploymentPlan1'
@@ -58,4 +60,3 @@ image_streamer_deployment_plan 'DeploymentPlan2' do
   client i3s_client
   action :delete
 end
-
