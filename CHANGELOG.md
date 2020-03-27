@@ -11,6 +11,7 @@
 - oneview_fc_network
 - oneview_fcoe_network
 - oneview_logical_enclosure
+- oneview_logical_interconnect
 - oneview_logical_interconnect_group
 - oneview_network_set
 - oneview_scope
@@ -24,6 +25,8 @@
 - oneview_volume
 - oneview_volume_template
 
+Adds API800, API1000 and API1200 support to HPE Synergy Image Streamer resources:
+  - image_streamer_deployment_plan
 ### New features and resources
   - Added support for following resources
     - oneview_volume_attachment `:repair` action
