@@ -17,5 +17,4 @@ module OneviewCookbook
       end
     end
   end
-end
-    
+end  

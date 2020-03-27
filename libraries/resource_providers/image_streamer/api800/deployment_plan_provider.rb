@@ -18,4 +18,3 @@ module OneviewCookbook
     end
   end
 end
-  
