@@ -12,8 +12,8 @@
 require_relative 'api1000'
 
 module OneviewCookbook
-  # Module for Oneview API 1020 Resources
-  module API1020
+  # Module for Oneview API 1200 Resources
+  module API1200
     SUPPORTED_VARIANTS ||= %w[C7000 Synergy].freeze
 
     # Get resource class that matches the type given
@@ -28,4 +28,4 @@ module OneviewCookbook
 end
 
 # Load all API-specific resources:
-Dir[File.dirname(__FILE__) + '/api1020/*.rb'].each { |file| require file }
+Dir[File.dirname(__FILE__) + '/api1200/*.rb'].each { |file| require file }
