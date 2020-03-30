@@ -1,3 +1,7 @@
+#
+# Cookbook Name:: image_streamer_test_api1020
+# Attributes:: default
+#
 # (c) Copyright 2020 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -8,13 +12,8 @@
 # under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
+#
 
-module OneviewCookbook
-  module ImageStreamer
-    module API1200
-      # Deployment Plan Provider API1200
-      class DeploymentPlanProvider < ImageStreamer::API1000::DeploymentPlanProvider
-      end
-    end
-  end
-end
+default['oneview']['api_version'] = 1020
+
+default['image_streamer_test']['client'] = { url: 'https://imagestreamer.example.com', token: 'token123', api_version: 1020 }

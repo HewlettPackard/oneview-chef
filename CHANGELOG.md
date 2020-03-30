@@ -25,8 +25,9 @@
 - oneview_volume
 - oneview_volume_template
 
-Adds API800, API1000 and API1200 support to HPE Synergy Image Streamer resources:
+Adds API800, API1000 and API1020 support to HPE Synergy Image Streamer resources:
   - image_streamer_deployment_plan
+  
 ### New features and resources
   - Added support for following resources
     - oneview_volume_attachment `:repair` action

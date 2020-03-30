@@ -118,7 +118,7 @@ RSpec.shared_context 'chef context', a: :b do
     OneviewSDK::ImageStreamer::Client.new(url: 'https://i3s.example.com', token: 'token123', api_version: 1000)
   end
 
-  let(:i3s_client1200) do
-    OneviewSDK::ImageStreamer::Client.new(url: 'https://i3s.example.com', token: 'token123', api_version: 1200)
+  let(:i3s_client1020) do
+    OneviewSDK::ImageStreamer::Client.new(url: 'https://i3s.example.com', token: 'token123', api_version: 1020)
   end
 end

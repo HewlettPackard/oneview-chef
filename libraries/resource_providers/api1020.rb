@@ -12,8 +12,8 @@
 require_relative 'api1000'
 
 module OneviewCookbook
-  # Module for Oneview API 1200 Resources
-  module API1200
+  # Module for Oneview API 1020 Resources
+  module API1020
     SUPPORTED_VARIANTS ||= %w[C7000 Synergy].freeze
 
     # Get resource class that matches the type given
