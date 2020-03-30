@@ -12,6 +12,7 @@
 - oneview_fcoe_network
 - oneview_interconnect
 - oneview_logical_enclosure
+- oneview_logical_interconnect
 - oneview_logical_interconnect_group
 - oneview_network_set
 - oneview_scope
@@ -24,6 +25,10 @@
 - oneview_uplink_set
 - oneview_volume
 - oneview_volume_template
+
+### New features and resources
+  - Added support for following resources
+    - oneview_volume_attachment `:repair` action
 
 ## Bugs & Enhancements:
 - [#398](https://github.com/HewlettPackard/oneview-chef/issues/398) Travis Build has failed due to cucumber-core:gherkin incompatibility

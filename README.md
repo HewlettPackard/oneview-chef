@@ -275,6 +275,9 @@ end
 ```
 
 ### [oneview_logical_interconnect](examples/logical_interconnect.rb)
+
+Note: if you are using API1200 and onwards, see examples [here](examples/logical_interconnect_api_1200.rb).
+
 Performs actions on logical interconnect and associated interconnects.
 
 Note: By default it performs the action `:none`.
@@ -600,6 +603,18 @@ end
   - **snapshot_data** (Hash) Required for create_snapshot & delete_snapshot - Typically includes name and description
 
 :memo: **NOTE**: The OneView API has a provisioningParameters hash for creation, but not updates. In recipes, use same data as you would for an update, and this resource will handle creating the provisioningParameters for you if the volume needs created. (Define the desired state, not how to create it). See the [volume example](examples/volume.rb) for more on this.
+
+### [oneview_volume_attachment](examples/volume_attachment.rb)
+Performs action on volume Attachments
+
+Note: By default it performs action `:none`
+
+```ruby
+oneview_volume_attachment 'VolumeAttachment1' do
+  client my_client
+  action :repair
+end
+```
 
 ### [oneview_volume_template](examples/volume_template_api300.rb)
 
