@@ -69,8 +69,7 @@
 |<sub>/rest/fcoe-networks/{id}</sub>                                                      | PATCH    | :heavy_minus_sign:   | :white_check_mark:   | :white_check_mark:   | :heavy_minus_sign:   | :heavy_minus_sign:   | :heavy_minus_sign:   | :heavy_minus_sign:   |
 |<sub>/rest/fcoe-networks/{id}</sub>                                                      | PUT      | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   |
 |<sub>/rest/fcoe-networks/{id}</sub>                                                      | DELETE   | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   |
-
-|     **Interconnects**                                                                                                                               |
+|   **Interconnects**                                                                                                                           |
 |<sub>/rest/interconnects/</sub>                                                        | GET    | :heavy_minus_sign:  | :heavy_minus_sign:   | :heavy_minus_sign:  | :heavy_minus_sign:  |:heavy_minus_sign:   | :heavy_minus_sign: | :heavy_minus_sign:  |
 |<sub>/rest/interconnects/schema</sub>                                                  | GET    | :heavy_minus_sign:  | :heavy_minus_sign:   | :heavy_minus_sign:  | :heavy_minus_sign:  |:heavy_minus_sign:   | :heavy_minus_sign: | :heavy_minus_sign:  |
 |<sub>/rest/interconnects/schema/security-compatibility-checker</sub>                   | POST    | :heavy_minus_sign:  | :heavy_minus_sign:   | :heavy_minus_sign:  | :heavy_minus_sign:  |:heavy_minus_sign:   | :heavy_minus_sign: | :heavy_minus_sign:  |
