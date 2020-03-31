@@ -1,4 +1,4 @@
-## 3.2.0(unreleased)
+## 3.2.0
 ### Notes
 - This release supports OneView Rest API versions 800/1000/1200 minimally where we can use OneView v4.10/v4.20/v5.0 with this SDK. No new fields are added/deleted to support OneView Rest API 800/1000/1200. Complete support will be done in next releases.
 - Added support for HPE OneView resource oneview_scope for API 600.
@@ -28,7 +28,7 @@
 
 Adds API800, API1000 and API1020 support to HPE Synergy Image Streamer resources:
   - image_streamer_deployment_plan
-  
+
 ### New features and resources
   - Added support for following resources
     - oneview_volume_attachment `:repair` action
