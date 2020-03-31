@@ -53,7 +53,7 @@ oneview_interconnect 'Encl1, interconnect 1' do
   action :reset
 end
 
-# for Api grater than Api500
+# for Api greater than Api500
 oneview_interconnect 'Encl1, interconnect 1' do
   client my_client
   api_version 500
