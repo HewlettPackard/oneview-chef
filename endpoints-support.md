@@ -144,7 +144,6 @@
 |<sub>/rest/logical-interconnects/{id}/telemetry-configurations/{tcId}</sub>              | PUT       | :white_check_mark:   | :white_check_mark:   |  :white_check_mark:   |:white_check_mark:   |:white_check_mark:   |:white_check_mark:   |:white_check_mark:   |
 |<sub>/rest/logical-interconnects/compliance</sub>                                        | PUT      | :heavy_multiplication_x:       | :heavy_multiplication_x: | :heavy_multiplication_x: | :heavy_multiplication_x: | :heavy_multiplication_x: |:heavy_multiplication_x: |:heavy_multiplication_x:   |
 |<sub>/rest/logical-interconnects/{id}</sub>                                              | PATCH     | :white_check_mark:   | :white_check_mark:   | :heavy_minus_sign:   |:heavy_minus_sign:   |:heavy_minus_sign:   |:heavy_minus_sign:   |:heavy_minus_sign:  |
->>>>>>> cc6428e31c16ea72577d47b72aa634db257d5754
 |     **Logical Interconnect Groups**                                                                                                               |
 |<sub>/rest/logical-interconnect-groups</sub>                                             | GET      | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   |:white_check_mark:   |:white_check_mark:   |:white_check_mark:   |
 |<sub>/rest/logical-interconnect-groups</sub>                                             | POST     | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   |:white_check_mark:   |:white_check_mark:   |:white_check_mark:   |
@@ -274,4 +273,4 @@
 |<sub> /rest/deployment-plans </sub>                                       | GET              | :white_check_mark: | :white_check_mark: | :white_check_mark: |  :white_check_mark: | :white_check_mark: | :white_check_mark: |
 |<sub> /rest/deployment-plans/{id} </sub>                                  | GET              | :white_check_mark: | :white_check_mark: | :white_check_mark: |  :white_check_mark: | :white_check_mark: | :white_check_mark: |
 |<sub> /rest/deployment-plans/{id} </sub>                                  | PUT              | :white_check_mark: | :white_check_mark: | :white_check_mark: |  :white_check_mark: | :white_check_mark: | :white_check_mark: |
-|<sub> /rest/deployment-plans/{id} </sub>                                  | DELETE           | :white_check_mark: | :white_check_mark: | :white_check_mark: |  :white_check_mark: | :white_check_mark: | :white_check_mark: | 
+|<sub> /rest/deployment-plans/{id} </sub>                                  | DELETE           | :white_check_mark: | :white_check_mark: | :white_check_mark: |  :white_check_mark: | :white_check_mark: | :white_check_mark: |
