@@ -86,7 +86,6 @@
 |<sub>/rest/logical-enclosures/{id}/script</sub>                                          | PUT      | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   |:white_check_mark:  | :white_check_mark:  | :white_check_mark:  |
 |<sub>/rest/logical-enclosures/{id}/support-dumps</sub>                                   | POST     | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   |:white_check_mark:  | :white_check_mark:  | :white_check_mark:  |
 |<sub>/rest/logical-enclosures/{id}/updateFromGroup</sub>                                 | PUT      | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   |:white_check_mark:  | :white_check_mark:  | :white_check_mark:  |
-
 |     **Logical Interconnects**                                                                                               |
 |<sub>/rest/logical-interconnects</sub>                                                   | GET       | :white_check_mark:   | :white_check_mark:   |  :white_check_mark:   |:white_check_mark:   |:white_check_mark:   |:white_check_mark:   |:white_check_mark:   |
 |<sub>/rest/logical-interconnects/locations/interconnects</sub>                           | POST      | :heavy_minus_sign:   | :heavy_minus_sign:   |  :heavy_minus_sign:   |:heavy_minus_sign:   |:heavy_minus_sign:   |:heavy_minus_sign:   |:heavy_minus_sign:   |
