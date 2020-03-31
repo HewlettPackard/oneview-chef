@@ -70,7 +70,6 @@
 |<sub>/rest/fcoe-networks/{id}</sub>                                                      | PUT      | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   |
 |<sub>/rest/fcoe-networks/{id}</sub>                                                      | DELETE   | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   |
 
-
 |     **Interconnects**                                                                                                                               |
 |<sub>/rest/interconnects/</sub>                                                        | GET    | :heavy_minus_sign:  | :heavy_minus_sign:   | :heavy_minus_sign:  | :heavy_minus_sign:  |:heavy_minus_sign:   | :heavy_minus_sign: | :heavy_minus_sign:  |
 |<sub>/rest/interconnects/schema</sub>                                                  | GET    | :heavy_minus_sign:  | :heavy_minus_sign:   | :heavy_minus_sign:  | :heavy_minus_sign:  |:heavy_minus_sign:   | :heavy_minus_sign: | :heavy_minus_sign:  |
@@ -93,7 +92,6 @@
 |<sub>/rest/interconnects/{id}/update-port</sub>                                        | PUT    | :white_check_mark:  | :white_check_mark:   |  :white_check_mark:  | :white_check_mark:  |:white_check_mark:   | :white_check_mark: | :white_check_mark:  |
 |<sub>/rest/interconnects/{id}/utilization</sub>                                        | GET    | :heavy_minus_sign:  | :heavy_minus_sign:   | :heavy_minus_sign:  | :heavy_minus_sign:  |:heavy_minus_sign:   | :heavy_minus_sign: | :heavy_minus_sign:  |
 |<sub>/rest/interconnects/{interconnectsId}/nameServers</sub>                           | GET    | :heavy_minus_sign:  | :heavy_minus_sign:   | :heavy_minus_sign:  | :heavy_minus_sign:  |:heavy_minus_sign:   | :heavy_minus_sign: | :heavy_minus_sign:  |
-
 |     **Logical Enclosures**                                                                                                                        |
 |<sub>/rest/logical-enclosures</sub>                                                      | GET      | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   |:white_check_mark:  | :white_check_mark:  | :white_check_mark:  |
 |<sub>/rest/logical-enclosures</sub>                                                      | POST     | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   |:white_check_mark:  | :white_check_mark:  | :white_check_mark:  |
@@ -106,7 +104,6 @@
 |<sub>/rest/logical-enclosures/{id}/script</sub>                                          | PUT      | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   |:white_check_mark:  | :white_check_mark:  | :white_check_mark:  |
 |<sub>/rest/logical-enclosures/{id}/support-dumps</sub>                                   | POST     | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   |:white_check_mark:  | :white_check_mark:  | :white_check_mark:  |
 |<sub>/rest/logical-enclosures/{id}/updateFromGroup</sub>                                 | PUT      | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   |:white_check_mark:  | :white_check_mark:  | :white_check_mark:  |
-=======
 |     **Logical Enclosures**                                                                                                 |
 |<sub>/rest/logical-enclosures</sub>                                                      | GET      | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   |:white_check_mark:  | :white_check_mark:  | :white_check_mark:  | :white_check_mark:  |
 |<sub>/rest/logical-enclosures</sub>                                                      | POST     | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   |:white_check_mark:  | :white_check_mark:  | :white_check_mark:  | :white_check_mark:  |
