@@ -37,10 +37,6 @@ RUN knife cookbook site download compat_resource --force
 RUN tar -xzf compat_resource-*.tar.gz && rm compat_resource*.tar.gz
 RUN git clone https://github.com/HewlettPackard/oneview-chef.git oneview
 WORKDIR /chef-repo/cookbooks/oneview/
-RUN gem install bundler --force
-# RUN gem install nokogiri -v 1.6.7.1
-# RUN gem install foodcritic
-# RUN bundle install
 RUN mkdir recipes
 ENV ONEVIEWSDK_SSL_ENABLED=false
 RUN cp -r examples/image_streamer/*.rb recipes/
