@@ -1,4 +1,4 @@
-## 3.2.0(unreleased)
+## 3.2.0
 ### Notes
 - This release supports OneView Rest API versions 800/1000/1200 minimally where we can use OneView v4.10/v4.20/v5.0 with this SDK. No new fields are added/deleted to support OneView Rest API 800/1000/1200. Complete support will be done in next releases.
 - Added support for HPE OneView resource oneview_scope for API 600.
@@ -10,6 +10,7 @@
 - oneview_ethernet_network
 - oneview_fc_network
 - oneview_fcoe_network
+- oneview_interconnect
 - oneview_logical_enclosure
 - oneview_logical_interconnect
 - oneview_logical_interconnect_group
@@ -24,6 +25,13 @@
 - oneview_uplink_set
 - oneview_volume
 - oneview_volume_template
+
+Adds API800, API1000 and API1020 support to HPE Synergy Image Streamer resources:
+  - image_streamer_deployment_plan
+
+### New features and resources
+  - Added support for following resources
+    - oneview_volume_attachment `:repair` action
 
 ## Bugs & Enhancements:
 - [#398](https://github.com/HewlettPackard/oneview-chef/issues/398) Travis Build has failed due to cucumber-core:gherkin incompatibility
