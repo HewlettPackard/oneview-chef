@@ -20,7 +20,6 @@ RUN DEBIAN_FRONTEND=noninteractive \
 # Some optional but recommended packages
 RUN DEBIAN_FRONTEND=noninteractive \
     apt-get install -y --no-install-recommends --no-upgrade \
-    # apt-get autoremove -y \
     git \
     vim \
     unzip
@@ -30,7 +29,6 @@ RUN gem install oneview-sdk # Ignore the warning about the path not containing g
 RUN mkdir -p /chef-repo/.chef/
 RUN mkdir -p /chef-repo/cookbooks
 WORKDIR /chef-repo
-RUN touch knife.rb
 RUN echo 'cookbook_path ["#{File.dirname(__FILE__)}/../cookbooks"]' > .chef/knife.rb
 WORKDIR /chef-repo/cookbooks/
 RUN knife cookbook site download compat_resource --force
