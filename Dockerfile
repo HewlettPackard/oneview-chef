@@ -34,6 +34,7 @@ WORKDIR /chef-repo/cookbooks/
 RUN knife cookbook site download compat_resource
 RUN tar -xzf compat_resource-*.tar.gz && rm compat_resource*.tar.gz
 RUN git clone https://github.com/HewlettPackard/oneview-chef oneview
+ADD . oneview/
 WORKDIR /chef-repo/cookbooks/oneview
 RUN gem install bundler --force
 RUN bundle install
