@@ -51,6 +51,7 @@ if defined?(ChefSpec)
     oneview_sas_logical_interconnect_group: standard_actions,
     oneview_scope:                      standard_actions + %i[change_resource_assignments replace_resource_scopes_assignments modify_resource_scopes_assignments],
     oneview_server_hardware:            %i[add_if_missing remove refresh set_power_state update_ilo_firmware add_multiple_servers] + scope_actions,
+    oneview_server_certificate:         %i[import_certificate update_certificate remove_certificate],
     oneview_server_hardware_type:       %i[edit remove],
     oneview_server_profile_template:    standard_actions,
     oneview_server_profile:             standard_actions + [:update_from_template],
