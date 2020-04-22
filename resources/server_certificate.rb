@@ -11,6 +11,8 @@
 
 OneviewCookbook::ResourceBaseProperties.load(self)
 
+default_action :none
+
 action :none do
 end
 
