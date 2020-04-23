@@ -1,4 +1,4 @@
-## 3.2.1(unreleased)
+## 3.3.0(unreleased)
 ### Notes
 - This release adds support to Oneview Rest API version 600, 800, 1000, and 1200 for C7000 and Synergy to the features Server Certificate.
 
