@@ -12,7 +12,7 @@
 module OneviewCookbook
   module API600
     module C7000
-      # ServerCertificate API600 provider
+      # ServerCertificate API600 C7000 provider
       class ServerCertificateProvider < ResourceProvider
         def import_certificate
           @item.data['remoteIp'] = @item.data['name']
