@@ -1,10 +1,13 @@
-## 3.2.1(unreleased)
+## 3.3.0(unreleased)
 ### Notes
 - This release adds support to Oneview Rest API version 800, 1000, and 1200 for C7000 and Synergy to the features Hypervisor Manager.
 
 ### New features and resources
   - Added support for following resources
     - oneview_hypervisor_manager
+
+## Bugs & Enhancements:
+- [#419](https://github.com/HewlettPackard/oneview-chef/issues/419) Dockerfile is failing because of insufficient libraries.
 
 ## 3.2.0
 ### Notes
