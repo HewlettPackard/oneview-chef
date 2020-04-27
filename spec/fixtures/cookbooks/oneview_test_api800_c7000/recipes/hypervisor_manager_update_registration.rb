@@ -16,7 +16,7 @@
 
 oneview_hypervisor_manager '172.18.13.11' do
   client my_client
-  new_name "172.18.13.12"
+  new_name '172.18.13.12'
   data(
     username: 'dcs',
     password: 'dcs'

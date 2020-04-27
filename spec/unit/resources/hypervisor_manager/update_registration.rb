@@ -9,4 +9,3 @@ describe 'oneview_test_api800_c7000::hypervisor_manager_update_resgistration' do
     expect(real_chef_run).to update_registration_oneview_hypervisor_manager('172.18.13.11')
   end
 end
-

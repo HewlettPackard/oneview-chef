@@ -15,9 +15,6 @@ module OneviewCookbook
       # Hypervisor Manager API800 provider
       class HypervisorManagerProvider < ResourceProvider
         def update_registration
-          ret_val = false
-          method2 = :update
-          method1 = :create
           if @item.exists?
             @item.retrieve!
             old_name = @item.data['name']
@@ -34,18 +31,7 @@ module OneviewCookbook
               end
             end
           else
-            @item.data['name'] = @new_resource.new_name
-            create_from_update(method1)
-            ret_val = true
-          end
-          save_res_info
-          ret_val
-        end
-
-        def create_from_update(method = :create)
-          Chef::Log.info "#{method.to_s.capitalize} #{@resource_name} '#{@new_resource.new_name}'"
-          @context.converge_by "#{method.to_s.capitalize} #{@resource_name} '#{@new_resource.new_name}'" do
-            @item.send(method)
+            Chef::Log.info("#{@resource_name} '#{@name} does not exist")
           end
         end
       end
