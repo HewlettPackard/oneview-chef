@@ -69,11 +69,19 @@
 |<sub>/rest/fcoe-networks/{id}</sub>                                                      | PATCH    | :heavy_minus_sign:   | :white_check_mark:   | :white_check_mark:   | :heavy_minus_sign:   | :heavy_minus_sign:   | :heavy_minus_sign:   | :heavy_minus_sign:   |
 |<sub>/rest/fcoe-networks/{id}</sub>                                                      | PUT      | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   |
 |<sub>/rest/fcoe-networks/{id}</sub>                                                      | DELETE   | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   | :white_check_mark:   |
+<<<<<<< HEAD
 |   **Hypervisor Managers**                                                                                                                           |
 |<sub>/rest/hypervisor-managers/</sub>                                                    | POST     | :heavy_minus_sign:   | :heavy_minus_sign:   | :heavy_minus_sign:   | :heavy_minus_sign:  |:white_check_mark:   | :white_check_mark: | :white_check_mark:  |
 |<sub>/rest/hypervisor-managers/{id}</sub>                                                | GET      | :heavy_minus_sign:   | :heavy_minus_sign:   | :heavy_minus_sign:   | :heavy_minus_sign:  |:white_check_mark:   | :white_check_mark: | :white_check_mark:  |
 |<sub>/rest/hypervisor-managers/{id}</sub>                                                | PUT      | :heavy_minus_sign:   | :heavy_minus_sign:   | :heavy_minus_sign:   | :heavy_minus_sign:  |:white_check_mark:   | :white_check_mark: | :white_check_mark:  |
 |<sub>/rest/hypervisor-managers/{id}</sub>                                                | DELETE   | :heavy_minus_sign:   | :heavy_minus_sign:   | :heavy_minus_sign:   | :heavy_minus_sign:  |:white_check_mark:   | :white_check_mark: | :white_check_mark:  |
+=======
+|   **Hypervisor Cluster Profiles**                                                                                                                 |
+|<sub>/rest/hypervisor-cluster-profiles</sub>                                             | POST    | :heavy_minus_sign:  | :heavy_minus_sign:   | :heavy_minus_sign:  | :heavy_minus_sign:  |:white_check_mark:   | :white_check_mark: | :white_check_mark:  |
+|<sub>/rest/hypervisor-cluster-profiles/{id}</sub>                                        | GET     | :heavy_minus_sign:  | :heavy_minus_sign:   | :heavy_minus_sign:  | :heavy_minus_sign:  |:white_check_mark:   | :white_check_mark: | :white_check_mark:  |
+|<sub>/rest/hypervisor-cluster-profiles/{id}</sub>                                        | PUT     | :heavy_minus_sign:  | :heavy_minus_sign:   | :heavy_minus_sign:  | :heavy_minus_sign:  |:white_check_mark:   | :white_check_mark: | :white_check_mark:  |
+|<sub>/rest/hypervisor-cluster-profiles/{id}</sub>                                        | DELETE  | :heavy_minus_sign:  | :heavy_minus_sign:   | :heavy_minus_sign:  | :heavy_minus_sign:  |:white_check_mark:   | :white_check_mark: | :white_check_mark:  |
+>>>>>>> 087b5c24702759c6616f5eb19b3726c25499d8d4
 |   **Interconnects**                                                                                                                           |
 |<sub>/rest/interconnects/{id}</sub>                                                    | PATCH    | :white_check_mark:  | :white_check_mark:   | :white_check_mark:   | :white_check_mark:  |:white_check_mark:   | :white_check_mark: | :white_check_mark:  |
 |<sub>/rest/interconnects/{id}/configuration</sub>                                      | PUT    | :white_check_mark:  | :white_check_mark:   | :white_check_mark:  | :white_check_mark:  |:white_check_mark:   | :white_check_mark: | :white_check_mark:  |
