@@ -24,12 +24,8 @@ module OneviewCookbook
             'type' => x['certificateDetails'][0]['type'],
             'base64Data' => x['certificateDetails'][0]['base64Data']
           }
-          @item.data['name'] = @item.data['remoteIp']
-          @item.data['aliasName'] = @item.data['remoteIp']
-          @item.data['uri'] = "/rest/certificates/servers/#{@item.data['aliasName']}"
-          @item.data.delete('remoteIp')
-          Chef::Log.info 'SSL_CERTIFCATE IMPORTED SUCCESSFULLY'
           @item.import
+          Chef::Log.info 'SSL_CERTIFCATE IMPORTED SUCCESSFULLY'
         end
 
         def remove_certificate
@@ -41,26 +37,22 @@ module OneviewCookbook
         def update_certificate
           item.data['aliasName'] = item.data['name']
           alias_name = item.data['name']
-          if @item.retrieve!
-            Chef::Log.info 'SSL_CERTIFCATE EXIST'
-            item.data.clear
-            @item.data['remoteIp'] = alias_name
-            x = @item.get_certificate
-            @item.data.clear
-            @item.data['type'] = x['type']
-            @item.data['certificateDetails'] = []
-            @item.data['certificateDetails'][0] = {
-              'type' => x['certificateDetails'][0]['type'],
-              'aliasName' => alias_name,
-              'base64Data' => x['certificateDetails'][0]['base64Data']
-            }
-            @item.data['uri'] = "/rest/certificates/servers/#{alias_name}"
-            item.data.delete('remoteIp')
-            item.update
-            Chef::Log.info 'SSL_CERTIFICATE UPDATED'
-          else
-            Chef::Log.info 'SSL_CERTIFICATE DO NOT EXIST'
-          end
+          @item.retrieve!
+          Chef::Log.info 'SSL_CERTIFCATE FOUND'
+          item.data.clear
+          @item.data['remoteIp'] = alias_name
+          x = @item.get_certificate
+          @item.data.clear
+          @item.data['type'] = x['type']
+          @item.data['certificateDetails'] = []
+          @item.data['certificateDetails'][0] = {
+            'type' => x['certificateDetails'][0]['type'],
+            'aliasName' => alias_name,
+            'base64Data' => x['certificateDetails'][0]['base64Data']
+          }
+          @item.data['uri'] = "/rest/certificates/servers/#{alias_name}"
+          item.update
+          Chef::Log.info 'SSL_CERTIFICATE UPDATED'
         end
       end
     end
