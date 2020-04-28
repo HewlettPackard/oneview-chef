@@ -31,11 +31,8 @@ if defined?(ChefSpec)
     oneview_fc_network:                 standard_actions + scope_actions + %i[reset_connection_template],
     oneview_fcoe_network:               standard_actions + scope_actions + %i[reset_connection_template],
     oneview_firmware:                   %i[add remove create_custom_spp],
-<<<<<<< HEAD
     oneview_hypervisor_manager:         standard_actions + %i[update_registration],
-=======
     oneview_hypervisor_cluster_profile: standard_actions + %i[update],
->>>>>>> 087b5c24702759c6616f5eb19b3726c25499d8d4
     oneview_id_pool:                    %i[update allocate_list allocate_count collect_ids],
     oneview_interconnect:               %i[set_uid_light set_power_state reset reset_port_protection update_port reapply_configuration],
     oneview_logical_enclosure:          %i[create_if_missing create update_from_group reconfigure set_script delete create_support_dump],
