@@ -225,6 +225,11 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not replace_oneview_scope_resource_scopes_assignments('')
     expect(chef_run).to_not modify_oneview_scope_resource_scopes_assignments('')
 
+    # oneview_server_certificate
+    expect(chef_run).to_not import_certificate_oneview_server_certificate('')
+    expect(chef_run).to_not remove_certificate_oneview_server_certificate('')
+    expect(chef_run).to_not update_certificate_oneview_server_certificate('')
+
     # oneview_server_hardware
     expect(chef_run).to_not add_oneview_server_hardware_if_missing('')
     expect(chef_run).to_not add_multiple_servers_oneview_server_hardware('')
