@@ -11,6 +11,18 @@
 
 # This example is used to provision an Infrastructure with OS on Synergy with Image Streamer.
 
+# Be able to provision compute (with server settings), networking, and OS Deployment.
+#       Create a server profile template with the following options:
+#               OS Deployment Settings
+#               Network connections
+#               Boot mode
+#               Boot settings
+#               Create a server profile from a server profile template and assign to hardware
+#               Power on server
+# This example works for api_variant "Synergy".
+# This example works with either resource uri or resource name.
+# This example has been tested againts Oneview API Version 800.
+
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
