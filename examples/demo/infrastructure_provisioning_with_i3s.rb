@@ -12,11 +12,10 @@
 # This example is used to provision an Infrastructure with OS on Synergy with Image Streamer.
 
 my_client = {
-  url: 'https://10.50.4.100',
-  user: 'asis_bagga',
-  password: 'password123',
-  api_version: 800,
-  ssl_enabled: false
+  url: ENV['ONEVIEWSDK_URL'],
+  user: ENV['ONEVIEWSDK_USER'],
+  password: ENV['ONEVIEWSDK_PASSWORD'],
+  api_version: 800
 }
 
 my_server_hardware_type = 'SY 480 Gen9 2'

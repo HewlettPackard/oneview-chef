@@ -21,11 +21,11 @@
 # This example works with either resource uri or resource name.
 
 my_client = {
-  url: 'https://10.50.4.100',
-  user: 'asis_bagga',
-  password: 'password123',
-  api_version: 800,
-  ssl_enabled: false
+  url: ENV['ONEVIEWSDK_URL'],
+  user: ENV['ONEVIEWSDK_USER'],
+  password: ENV['ONEVIEWSDK_PASSWORD'],
+  api_version: 800
+
 }
 my_server_hardware_type = 'DL380p Gen8 1'
 my_enclosure_group = 'SYN03_EC'
