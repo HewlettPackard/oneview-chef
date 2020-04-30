@@ -33,42 +33,50 @@ my_client = {
 my_server_hardware_type = 'SY 480 Gen9 2'
 my_enclosure_group = 'SYN03_EC'
 
+my_eth_connections = [
+  { vlan512:  {
+    id: 1,
+    name: 'dep1',
+    functionType: 'Ethernet',
+    portId: 'Mezz 3:1-a',
+    boot: { priority: 'Primary', bootVolumeSource: 'UserDefined', ethernetBootType: 'iSCSI' },
+    ipv4: { ipAddressSource: 'SubnetPool' }
+  } },
+  { vlan512: {
+    id: 2,
+    name: 'dep2',
+    functionType: 'Ethernet',
+    portId: 'Mezz 3:2-a',
+    boot: { priority: 'Secondary', bootVolumeSource: 'UserDefined', ethernetBootType: 'iSCSI' },
+    ipv4: { ipAddressSource: 'SubnetPool' }
+  } },
+  { vlan504: {
+    id: 3,
+    name: 'c1',
+    functionType: 'Ethernet',
+    portId: 'Mezz 3:1-c',
+    boot: { priority: 'NotBootable' }
+  } },
+  { vlan504: {
+    id: 4,
+    name: 'c2',
+    functionType: 'Ethernet',
+    portId: 'Mezz 3:2-c',
+    requestedMbps: '2000',
+    boot: { priority: 'NotBootable' }
+  } }
+]
+
+my_deployment_plan = 'Ansible-demo-ubuntu'
+
 # To create server profile template with i3s settings.
-oneview_server_profile_template 'SP-101-IS' do
+oneview_server_profile_template 'SP-102-IS' do
   client my_client
   enclosure_group my_enclosure_group
   server_hardware_type my_server_hardware_type
+  os_deployment_plan my_deployment_plan
+  ethernet_network_connections my_eth_connections
   data(
-    osDeploymentSettings: { osDeploymentPlanUri: '/rest/os-deployment-plans/056041be-a7b3-478f-8e78-a37fd80b6654' },
-    connectionSettings: { manageConnections: true, connections: [
-      { id: 1,
-        networkUri: '/rest/ethernet-networks/29af1597-7f2e-45d8-aaed-ee1be6c42ae2',
-        name: 'dep1',
-        functionType: 'Ethernet',
-        portId: 'Mezz 3:1-a',
-        boot: { priority: 'Primary', bootVolumeSource: 'UserDefined', ethernetBootType: 'iSCSI' },
-        ipv4: { ipAddressSource: 'SubnetPool' } },
-      { id: 2,
-        networkUri: '/rest/ethernet-networks/29af1597-7f2e-45d8-aaed-ee1be6c42ae2',
-        name: 'dep2',
-        functionType: 'Ethernet',
-        portId: 'Mezz 3:2-a',
-        boot: { priority: 'Secondary', bootVolumeSource: 'UserDefined', ethernetBootType: 'iSCSI' },
-        ipv4: { ipAddressSource: 'SubnetPool' } },
-      { id: 3,
-        networkUri: '/rest/ethernet-networks/6de2920a-8ad4-4cd8-865c-1907d3b4682e',
-        name: 'c1',
-        functionType: 'Ethernet',
-        portId: 'Mezz 3:1-c',
-        boot: { priority: 'NotBootable' } },
-      { id: 4,
-        networkUri: '/rest/ethernet-networks/6de2920a-8ad4-4cd8-865c-1907d3b4682e',
-        name: 'c2',
-        functionType: 'Ethernet',
-        portId: 'Mezz 3:2-c',
-        requestedMbps: '2000',
-        boot: { priority: 'NotBootable' } }
-    ] },
     boot: { manageBoot: true, order: ['HardDisk'] },
     bootMode: { manageMode: true, mode: 'UEFIOptimized', pxeBootPolicy: 'Auto' },
     bios: { manageBios: true }
