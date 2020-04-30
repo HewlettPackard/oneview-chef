@@ -1,6 +1,9 @@
 ## 3.3.0(unreleased)
 ### Notes
 - This release adds support to Oneview Rest API version 800, 1000, and 1200 for C7000 and Synergy to the features Hypervisor Manager and Hypervisor Cluster Profile, and Oneview Rest API version 600, 800, 1000, and 1200 for C7000 and Synergy to the feature Server Certificate.
+- Added usecases for the following scenarios:
+    - Infrastructure provisioning with OS on Synergy with Image Streamer.
+    - Infrastructure provisioning on Synergy with compute (with server settings), networking, and storage.
 
 ### New features and resources
   - Added support for following resources
