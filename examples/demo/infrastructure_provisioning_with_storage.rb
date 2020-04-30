@@ -81,7 +81,7 @@ oneview_server_profile 'SP-asis' do
   client my_client
   enclosure_group my_enclosure_group
   server_hardware_type my_server_hardware_type
-  server_profile_template 'SP-101'
+  server_profile_template 'SP-102'
   server_hardware 'SYN03_Frame1, bay 3'
 end
 
