@@ -25,7 +25,7 @@ my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 800
+  api_version: 1200
 }
 
 my_server_hardware_type = 'DL380p Gen8 1'
@@ -62,7 +62,7 @@ volume_attachment_data = [
 ]
 
 # To create server profile template
-oneview_server_profile_template 'SP-102' do
+oneview_server_profile_template 'SPT-102' do
   client my_client
   enclosure_group my_enclosure_group
   server_hardware_type my_server_hardware_type
@@ -77,11 +77,11 @@ oneview_server_profile_template 'SP-102' do
 end
 
 # Creating SP with FC and ethernet networks
-oneview_server_profile 'SP-asis' do
+oneview_server_profile 'SP' do
   client my_client
   enclosure_group my_enclosure_group
   server_hardware_type my_server_hardware_type
-  server_profile_template 'SP-102'
+  server_profile_template 'SPT-102'
   server_hardware 'SYN03_Frame1, bay 3'
 end
 

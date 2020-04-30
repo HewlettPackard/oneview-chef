@@ -27,7 +27,7 @@ my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 800
+  api_version: 1200
 }
 
 my_server_hardware_type = 'SY 480 Gen9 2'
@@ -67,10 +67,10 @@ my_eth_connections = [
   } }
 ]
 
-my_deployment_plan = 'Ansible-demo-ubuntu'
+my_deployment_plan = 'demo-ubuntu'
 
 # To create server profile template with i3s settings.
-oneview_server_profile_template 'SP-102-IS' do
+oneview_server_profile_template 'SPT-IS' do
   client my_client
   enclosure_group my_enclosure_group
   server_hardware_type my_server_hardware_type
@@ -85,11 +85,11 @@ oneview_server_profile_template 'SP-102-IS' do
 end
 
 # Creates Server Profile from the Server Profile Teamplate.
-oneview_server_profile 'SP-IS-asis' do
+oneview_server_profile 'SP-IS' do
   client my_client
   enclosure_group my_enclosure_group
   server_hardware_type my_server_hardware_type
-  server_profile_template 'SP-102-IS'
+  server_profile_template 'SPT-IS'
   server_hardware 'SYN03_Frame1, bay 12'
 end
 
