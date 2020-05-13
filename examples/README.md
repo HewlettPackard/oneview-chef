@@ -64,24 +64,30 @@ All you need is Docker and git (optional).
 
 1. Clone this repo and cd into it:
    ```bash
-   $ git clone https://github.com/HewlettPackard/oneview-chef.git
+   $ git clone https://github.com/HewlettPackard/oneview-chef
    $ cd oneview-chef
    ```
 
    Note: You can navigate to the repo url and download the repo as a zip file if you don't want to use git
 
-2. Build the docker image: `$ docker build -t chef-oneview .`
+2. Create new directory with name `recipes`. Then copy an example file which you want to run to this folder `recipes`.
+
+3. Build the docker image: `$ docker build -t chef-oneview .`
 
    Note: If you're behind a proxy, please edit the Dockerfile before building, uncommenting/adding the necessary ENV directives for your environment.
 
-3. Now you can run any of the example recipes in this directory:
+4. Now you can run any of the example recipes in this directory:
    ```bash
    # Run the container, passing in your credentials to OneView and specifying which example recipe to run.
    # Description of chef-client options:
-   #  -z : Run chef-client in zero mode (aka local-mode)
-   #  -o : Override the runlist, specifying a specific recipe to run
-   #       (Replace "connection_template" with the name of the recipe you'd like to run)
-   $ docker run -it \
+   # -z : Run chef-client in zero mode (aka local-mode)
+   # -o : Override the runlist, specifying a specific recipe to run
+   # -v : The volume on which repo code is mounted
+   # Replace "connection_template" with the name of the recipe you'd like to run)
+   # Replace "pwd" with the path of the example file you'd like to run.
+
+   $ docker run -it --rm \
+     -v $(pwd)/:/chef-repo/cookbooks/oneview
      -e ONEVIEWSDK_URL='https://ov.example.com' \
      -e ONEVIEWSDK_USER='Administrator' \
      -e ONEVIEWSDK_PASSWORD='secret123' \
@@ -91,8 +97,10 @@ All you need is Docker and git (optional).
    The Image Streamer examples are flattened into the same cookbook, so to run an Image Streamer example recipe:
    ```bash
    # Note that we need an additional (I3S_URL) environment variable set
-   # (Replace "plan_script" with the name of the recipe you'd like to run)
-   $ docker run -it \
+   # Replace "plan_script" with the name of the recipe you'd like to run
+   # Replace "pwd" with the path of the example file you'd like to run.
+   $ docker run -it --rm\
+     -v $(pwd)/:/chef-repo/cookbooks/oneview
      -e ONEVIEWSDK_URL='https://ov.example.com' \
      -e ONEVIEWSDK_USER='Administrator' \
      -e ONEVIEWSDK_PASSWORD='secret123' \
@@ -100,4 +108,4 @@ All you need is Docker and git (optional).
      chef-oneview chef-client -z -o oneview::plan_script
    ```
 
-That's it! If you'd like to modify a recipe, simply modify the recipe file (on the host), then re-build the image and run it.
+That's it! If you'd like to modify a recipe, simply modify the recipe file (on the host), then re-run the image.

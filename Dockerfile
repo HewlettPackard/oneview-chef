@@ -6,7 +6,6 @@ FROM ubuntu:18.04
 # ENV http_proxy="http://proxy.example.com:8080"
 # ENV https_proxy=${http_proxy}
 # ENV no_proxy="localhost,127.0.0.1"
-ENV PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/chef/bin:/opt/chef/embedded/bin"
 
 # Install chef-client
 RUN DEBIAN_FRONTEND=noninteractive \
@@ -35,10 +34,7 @@ RUN knife cookbook site download compat_resource --force
 RUN tar -xzf compat_resource-*.tar.gz && rm compat_resource*.tar.gz
 ADD . oneview/
 WORKDIR /chef-repo/cookbooks/oneview/
-RUN mkdir recipes
 ENV ONEVIEWSDK_SSL_ENABLED=false
-RUN cp -r examples/image_streamer/*.rb recipes/
-RUN cp -r examples/*.rb recipes/
 
 # Clean and remove not required packages
 RUN DEBIAN_FRONTEND=noninteractive \
