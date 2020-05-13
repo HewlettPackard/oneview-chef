@@ -64,7 +64,7 @@ All you need is Docker and git (optional).
 
 1. Clone this repo and cd into it:
    ```bash
-   $ git clone https://github.com/HewlettPackard/oneview-chef
+   $ git clone https://github.com/HewlettPackard/oneview-chef.git
    $ cd oneview-chef
    ```
 
