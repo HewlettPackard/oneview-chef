@@ -10,8 +10,8 @@
 # specific language governing permissions and limitations under the License.
 
 module OneviewCookbook
-    module API1600
-      module C7000
+  module API1600
+    module C7000
       # ServerHardwareType API1600 C7000 provider
       class ServerHardwareTypeProvider < API1200::C7000::ServerHardwareTypeProvider
       end

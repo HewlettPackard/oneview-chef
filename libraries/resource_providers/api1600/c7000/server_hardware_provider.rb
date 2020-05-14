@@ -10,10 +10,10 @@
 # specific language governing permissions and limitations under the License.
 
 module OneviewCookbook
-    module API1600
-      module C7000
-        # ServerHardware API1600 C7000 provider
-        class ServerHardwareProvider < API1200::C7000::ServerHardwareProvider
+  module API1600
+    module C7000
+      # ServerHardware API1600 C7000 provider
+      class ServerHardwareProvider < API1200::C7000::ServerHardwareProvider
       end
     end
   end
