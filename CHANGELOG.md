@@ -1,3 +1,11 @@
+## 3.4.0(unreleased)
+### Notes
+- This release extends support of the SDK to OneView REST API version 1600 (OneView v5.20).
+
+### Oneview Features supported
+- oneview_server_hardware
+- oneview_server_hardware_type
+
 ## 3.3.0
 ### Notes
 - This release adds support to Oneview Rest API version 800, 1000, and 1200 for C7000 and Synergy to the features Hypervisor Manager and Hypervisor Cluster Profile, and Oneview Rest API version 600, 800, 1000, and 1200 for C7000 and Synergy to the feature Server Certificate.
