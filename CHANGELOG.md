@@ -1,6 +1,6 @@
 ## 3.4.0(unreleased)
 ### Notes
-- This release adds support to Oneview Rest API version 800, 1000, 1200, and 1600 for C7000 and Synergy to the following features
+- This release extends support of the SDK to OneView REST API version 1600 (OneView v5.20).
 
 ### Oneview Features supported
 - oneview_server_hardware
