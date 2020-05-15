@@ -5,6 +5,7 @@
 ### Oneview Features supported
 - oneview_server_hardware
 - oneview_server_hardware_type
+- oneview_interconnect
 
 ## 3.3.0
 ### Notes
