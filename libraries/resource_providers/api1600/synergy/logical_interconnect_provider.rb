@@ -12,7 +12,7 @@
 module OneviewCookbook
   module API1600
     module Synergy
-    # LogicalInterconnect API1600 Synergy provider
+      # LogicalInterconnect API1600 Synergy provider
       class LogicalInterconnectProvider < API1200::C7000::LogicalInterconnectProvider
       end
     end
