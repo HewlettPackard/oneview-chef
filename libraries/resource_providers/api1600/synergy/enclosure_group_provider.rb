@@ -10,10 +10,10 @@
 # specific language governing permissions and limitations under the License.
 
 module OneviewCookbook
-  module API1200
+  module API1600
     module Synergy
-      # EnclosureGroup API1200 Synergy provider
-      class EnclosureGroupProvider < API1000::Synergy::EnclosureGroupProvider
+      # EnclosureGroup API1600 Synergy provider
+      class EnclosureGroupProvider < API1200::Synergy::EnclosureGroupProvider
       end
     end
   end
