@@ -60,8 +60,8 @@ describe 'oneview_test::default' do
     # oneview_event
     expect(chef_run).to_not create_oneview_event('')
 
-    # oneview_hypervisor_cluster_profile
-    expect(chef_run).to_not delete_oneview_hypervisor_cluster_profile('')
+    # oneview_hypervisor_cluster_profile
+    expect(chef_run).to_not delete_oneview_hypervisor_cluster_profile('')
 
     # oneview_hypervisor_manager
     expect(chef_run).to_not update_registration_oneview_hypervisor_manager('')
