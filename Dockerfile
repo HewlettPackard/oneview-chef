@@ -42,6 +42,11 @@ RUN DEBIAN_FRONTEND=noninteractive \
     apt-get clean -y && \
     rm -rf /var/cache/apt/archives/* /var/cache/apt/lists/* /tmp/* /root/cache/.
 
+#Install gem and its dependencies
+RUN gem install bundler --force
+RUN apt-get -y install patch build-essential zlib1g-dev liblzma-dev
+RUN bundle update
+
 CMD "/bin/bash"
 
 # When you run this image, you'll need to set the following environment variables:
