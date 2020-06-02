@@ -1,4 +1,4 @@
-# (c) Copyright 2017 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2020 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,7 +20,9 @@ oneview_client = {
 
 i3s_client = {
   url: ENV['I3S_URL'],
-  oneview_client: oneview_client
+  oneview_client: oneview_client,
+  api_version: 1600,
+  ssl_enabled: false
 }
 
 # Creates the artifact bundle and assigns resources to it.
@@ -64,7 +66,7 @@ image_streamer_artifact_bundle 'ArtifactBundle1' do
 end
 
 # Creates a backup bundle with all the artifacts present on the appliance. At any given point only one backup bundle will exist on the appliance.
-image_streamer_artifact_bundle 'DeploymentGroup1' do
+image_streamer_artifact_bundle 'OSDS' do
   client i3s_client
   action :backup
 end
@@ -80,13 +82,13 @@ end
 image_streamer_artifact_bundle 'BKP01' do
   client i3s_client
   file_path '/tmp/BKP01.zip'
-  deployment_group 'DeploymentGroup1'
+  deployment_group 'OSDS'
   timeout 300
   action :backup_from_file
 end
 
 # Extracts the existing backup bundle on the appliance and creates all the artifacts.
-image_streamer_artifact_bundle 'BKP01' do
+image_streamer_artifact_bundle 'OSDS' do
   client i3s_client
   file_path '/tmp/BKP01.zip'
   action :extract_backup
