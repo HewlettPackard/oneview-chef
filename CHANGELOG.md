@@ -4,6 +4,7 @@
 
 ### Oneview Features supported
 - oneview_interconnect
+- oneview_logical_interconnect
 - oneview_server_hardware
 - oneview_server_hardware_type
 
