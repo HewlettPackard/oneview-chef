@@ -4,6 +4,7 @@
 
 ### Oneview Features supported
 - oneview_hypervisor_manager
+- oneview_interconnect
 - oneview_logical_interconnect
 - oneview_server_certificate
 - oneview_server_hardware
