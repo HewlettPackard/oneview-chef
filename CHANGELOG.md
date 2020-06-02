@@ -9,6 +9,9 @@
 - oneview_server_certificate
 - oneview_server_hardware
 - oneview_server_hardware_type
+- oneview_storage_pool
+- oneview_storage_system
+- oneview_volume_template
 
 ## 3.3.0
 ### Notes
@@ -22,9 +25,6 @@
     - oneview_hypervisor_cluster_profile
     - oneview_hypervisor_manager
     - oneview_server_certificate
-    - oneview_storage_pool
-    - oneview_storage_system
-    - oneview_volume_template
 
 ## Bugs & Enhancements:
 - [#419](https://github.com/HewlettPackard/oneview-chef/issues/419) Dockerfile is failing because of insufficient libraries.
