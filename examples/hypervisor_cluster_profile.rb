@@ -44,10 +44,10 @@ oneview_hypervisor_cluster_profile 'Cluster5' do
   action :update
 end
 
-#Deletes the Cluster5 Hypervisor Cluster Profile.
+# Deletes the Cluster5 Hypervisor Cluster Profile.
 # Delete method accepts 2 optional parameters(softDelete and force) till API1200
 # In API1600, softDelete is mandatory paramter for delete method
-# pass the 2 parameters in data or else delete will consider 'false' as default value
+# Either pass the 2 parameters in data or else don't pass data so that delete will consider 'false' as default values
 oneview_hypervisor_cluster_profile 'Cluster5' do 
   client my_client
   data(

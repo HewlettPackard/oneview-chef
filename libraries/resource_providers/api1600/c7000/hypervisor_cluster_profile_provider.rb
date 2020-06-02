@@ -16,9 +16,9 @@ module OneviewCookbook
       class HypervisorClusterProfileProvider < API1200::C7000::HypervisorClusterProfileProvider
         def delete
           return false unless @item.retrieve!
-          Chef::Log.info "Deleting oneview_hypervisor_cluster_profile using soft delete '#{@name}'"
+          Chef::Log.info "Deleting oneview_hypervisor_cluster_profile '#{@name}'"
           @context.converge_by "Deleted oneview_hypervisor_cluster_profile '#{@name}'" do
-	    if @item.data['softDelete'] and @item.data['force']
+	    if @item.data['softDelete'] or @item.data['force']
 	      @item.delete(@item.data['softDelete'],@item.data['force'])
 	    else
 	      @item.delete
