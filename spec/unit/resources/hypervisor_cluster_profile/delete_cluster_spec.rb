@@ -1,9 +1,9 @@
 require_relative './../../../spec_helper'
 
-describe 'oneview_test::hypervisor_cluster_profile_delete' do
+describe 'oneview_test_api1600_c7000::hypervisor_cluster_profile_delete' do
   let(:resource_name) { 'hypervisor_cluster_profile' }
   include_context 'chef context'
-  let(:target_class) { OneviewSDK::HypervisorClusterProfile }
+  let(:target_class) { OneviewSDK::API1600::C7000::HypervisorClusterProfile }
 
   it 'removes it with soft delete if it exist' do
     expect_any_instance_of(target_class).to receive(:retrieve!).and_return(true)
