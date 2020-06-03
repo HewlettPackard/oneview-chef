@@ -66,6 +66,7 @@ module OneviewCookbook
 
         def extract
           raise "#{@resource_name} #{@name} does not exist in the appliance. Cannot run extract action." unless @item.exists?
+          @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
           @context.converge_by "Extract #{@resource_name}'s '#{@name}'completed successfully" do
             @item.extract
           end
