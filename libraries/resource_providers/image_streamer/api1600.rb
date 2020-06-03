@@ -13,7 +13,7 @@ require_relative 'api1020'
 
 module OneviewCookbook
   module ImageStreamer
-    # Module for Image Streamer API 1020 Resources
+    # Module for Image Streamer API 1600 Resources
     module API1600
       # Get resource class that matches the type given
       # @param [String] type Name of the desired class type
