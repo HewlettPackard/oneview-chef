@@ -18,7 +18,6 @@ module OneviewCookbook
           @item.data['remoteIp'] = @item.data['name']
           x = @item.get_certificate
           @item.data.clear
-          @item.data['type'] = x['type']
           @item.data['certificateDetails'] = []
           @item.data['certificateDetails'][0] = {
             'type' => x['certificateDetails'][0]['type'],

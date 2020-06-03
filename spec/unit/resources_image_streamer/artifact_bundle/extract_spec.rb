@@ -8,6 +8,7 @@ describe 'image_streamer_test_api300::artifact_bundle_extract' do
 
   it 'extracts resource when it exists' do
     expect_any_instance_of(base_sdk::ArtifactBundle).to receive(:exists?).and_return(true)
+    expect_any_instance_of(base_sdk::ArtifactBundle).to receive(:retrieve!).and_return(true)
     expect_any_instance_of(base_sdk::ArtifactBundle).to receive(:extract).and_return(true)
     expect(real_chef_run).to extract_image_streamer_artifact_bundle('ArtifactBundle1')
   end

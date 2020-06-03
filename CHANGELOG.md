@@ -1,10 +1,20 @@
 ## 3.4.0(unreleased)
 ### Notes
-- This release extends support of the SDK to OneView REST API version 1600 (OneView v5.20).
+- This release extends support of the SDK to OneView REST API version 1600 (OneView v5.20) and (ImageStreamer v5.20).
 
 ### Oneview Features supported
+- image_streamer_artifact_bundle
+- oneview_enclosure
+- oneview_hypervisor_cluster_profile
+- oneview_hypervisor_manager
+- oneview_interconnect
+- oneview_logical_enclosure
+- oneview_logical_interconnect
+- oneview_server_certificate
 - oneview_server_hardware
 - oneview_server_hardware_type
+- oneview_server_profile
+- oneview_server_profile_template
 
 ## 3.3.0
 ### Notes
