@@ -14,7 +14,7 @@ my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 1200
+  api_version: 1600
 }
 
 # Example: Creates hypervisor cluster profile with attributes set in data.
@@ -22,11 +22,11 @@ oneview_hypervisor_cluster_profile 'Cluster5' do
   client my_client
   data(
   type: 'HypervisorClusterProfileV3',
-  hypervisorManagerUri: '/rest/hypervisor-managers/8cf6690a-937f-4bf5-921e-f93405ef71d3',
+  hypervisorManagerUri: '/rest/hypervisor-managers/96ba2244-53d3-4f63-b556-806d771785b5',
   path: 'DC2',
   hypervisorType: 'Vmware',
   hypervisorHostProfileTemplate: {
-    serverProfileTemplateUri: '/rest/server-profile-templates/ab05987d-0313-481c-81f2-583382960f51',
+    serverProfileTemplateUri: '/rest/server-profile-templates/edc7ee03-eb09-42ea-9d81-3887b8ebad38',
     deploymentPlan: {
     deploymentPlanUri: '/rest/os-deployment-plans/c7957678-8a8d-4493-ae60-7e508be548ca',
       serverPassword: 'dcs'},
@@ -44,8 +44,15 @@ oneview_hypervisor_cluster_profile 'Cluster5' do
   action :update
 end
 
-#Delets the Cluster5 Hypervisor Cluster Profile.
+# Deletes the Cluster5 Hypervisor Cluster Profile.
+# Delete method accepts 2 optional parameters(softDelete and force) till API1200
+# In API1600, softDelete is mandatory paramter for delete method
+# Either pass the 2 parameters in data or else don't pass data so that delete will consider 'false' as default values
 oneview_hypervisor_cluster_profile 'Cluster5' do 
   client my_client
+  data(
+    force: true,
+    softDelete: true
+  )
   action :delete
 end
