@@ -10,6 +10,7 @@
 - oneview_interconnect
 - oneview_logical_enclosure
 - oneview_logical_interconnect
+- oneview_scope
 - oneview_server_certificate
 - oneview_server_hardware
 - oneview_server_hardware_type
