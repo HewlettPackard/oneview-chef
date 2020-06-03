@@ -323,7 +323,7 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not upload_image_streamer_artifact_bundle('')
     expect(chef_run).to_not extract_image_streamer_artifact_bundle('')
     expect(chef_run).to_not extract_backup_image_streamer_artifact_bundle('')
-    expect(chef_run).to_not update_image_streamer_artifact_bundle('')
+    expect(chef_run).to_not update_image_streamer_artifact_bundle_name('')
     expect(chef_run).to_not download_image_streamer_artifact_bundle('')
     expect(chef_run).to_not download_backup_image_streamer_artifact_bundle('')
 
