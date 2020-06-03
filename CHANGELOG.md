@@ -19,13 +19,13 @@
 - oneview_server_certificate
 - oneview_server_hardware
 - oneview_server_hardware_type
-- oneview_uplink_set
 - oneview_server_profile
 - oneview_server_profile_template
 - oneview_storage_pool
 - oneview_storage_system
 - oneview_storage_volume
 - oneview_volume_template
+- oneview_uplink_set
 
 Adds API1600 support to HPE Synergy Image Streamer resources:
   - image_streamer_deployment_plan
