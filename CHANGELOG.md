@@ -4,12 +4,17 @@
 
 ### Oneview Features supported
 - image_streamer_artifact_bundle
+- oneview_connection_template
+- oneview_ethernet_network
+- oneview_fc_network
+- oneview_fcoe_network
 - oneview_enclosure
 - oneview_hypervisor_cluster_profile
 - oneview_hypervisor_manager
 - oneview_interconnect
 - oneview_logical_enclosure
 - oneview_logical_interconnect
+- oneview_network_set
 - oneview_scope
 - oneview_server_certificate
 - oneview_server_hardware
@@ -20,6 +25,7 @@
 - oneview_storage_system
 - oneview_storage_volume
 - oneview_volume_template
+- oneview_uplink_set
 
 Adds API1600 support to HPE Synergy Image Streamer resources:
   - image_streamer_deployment_plan

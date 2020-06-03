@@ -1,4 +1,4 @@
-# (c) Copyright 2018 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2020 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@ my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 300
+  api_version: 1600
 }
 
 # Create a few networks for the next examples
