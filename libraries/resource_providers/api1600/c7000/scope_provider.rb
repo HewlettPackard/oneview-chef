@@ -10,10 +10,10 @@
 # specific language governing permissions and limitations under the License.
 
 module OneviewCookbook
-  module API1200
+  module API1600
     module C7000
-      # Scope API1200 C7000 provider
-      class ScopeProvider < OneviewCookbook::API1000::C7000::ScopeProvider
+      # Scope API1600 C7000 provider
+      class ScopeProvider < OneviewCookbook::API1200::C7000::ScopeProvider
       end
     end
   end
