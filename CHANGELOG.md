@@ -5,6 +5,7 @@
 ### Oneview Features supported
 - image_streamer_artifact_bundle
 - oneview_enclosure
+- oneview_hypervisor_cluster_profile
 - oneview_hypervisor_manager
 - oneview_interconnect
 - oneview_logical_enclosure
