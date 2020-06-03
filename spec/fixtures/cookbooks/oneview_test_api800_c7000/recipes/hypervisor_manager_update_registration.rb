@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: oneview_test_api800_c7000
-# Recipe:: server_certificate_update_registration
+# Recipe:: hypervisor_manager_update_registration
 #
 # (c) Copyright 2020 Hewlett Packard Enterprise Development LP
 #
