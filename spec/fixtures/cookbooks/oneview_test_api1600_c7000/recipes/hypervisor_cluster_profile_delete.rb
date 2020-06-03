@@ -15,7 +15,7 @@
 #
 
 oneview_hypervisor_cluster_profile 'ClusterProfile1' do
-  client my_client
+  client node['oneview_test']['client']
   data(
     force: true,
     softDelete: true
