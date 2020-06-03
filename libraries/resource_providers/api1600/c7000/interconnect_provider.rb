@@ -1,7 +1,3 @@
-#
-# Cookbook Name:: oneview_test_api1600_c7000
-# Recipe:: hypervisor_cluster_profile_delete
-#
 # (c) Copyright 2020 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,13 +8,14 @@
 # under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
-#
 
-oneview_hypervisor_cluster_profile 'ClusterProfile1' do
-  client my_client
-  data(
-    force: true,
-    softDelete: true
-  )
-  action :delete
+module OneviewCookbook
+  module API1600
+    module C7000
+      # Interconnect API1600 C7000 provider
+      class InterconnectProvider < API1200::C7000::InterconnectProvider
+        include OneviewCookbook::ReapplyConfigurationAction
+      end
+    end
+  end
 end
