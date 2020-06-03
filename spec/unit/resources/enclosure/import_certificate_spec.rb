@@ -1,7 +1,7 @@
 require_relative './../../../spec_helper'
 require 'FileUtils'
 
-describe 'oneview_test_api600_synergy::enclosure_import_ertificate' do
+describe 'oneview_test_api600_synergy::enclosure_import_certificate' do
   let(:resource_name) { 'enclosure' }
   let(:base_sdk) { OneviewSDK::API600::C7000 }
   include_context 'chef context'
