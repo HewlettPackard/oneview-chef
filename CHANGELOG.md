@@ -3,12 +3,18 @@
 - This release extends support of the SDK to OneView REST API version 1600 (OneView v5.20).
 
 ### Oneview Features supported
+- oneview_connection_template
+- oneview_ethernet_network
+- oneview_fc_network
+- oneview_fcoe_network
 - oneview_hypervisor_manager
 - oneview_interconnect
 - oneview_logical_interconnect
+- oneview_network_set
 - oneview_server_certificate
 - oneview_server_hardware
 - oneview_server_hardware_type
+- oneview_uplink_set
 
 ## 3.3.0
 ### Notes
