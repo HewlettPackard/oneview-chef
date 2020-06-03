@@ -319,6 +319,17 @@ describe 'oneview_test::default' do
   end
 
   it 'supports all image streamer matchers' do
+    # image_streamer_artifact_bundle
+    expect(chef_run).to_not backup_image_streamer_artifact_bundle('')
+    expect(chef_run).to_not delete_image_streamer_artifact_bundle('')
+    expect(chef_run).to_not create_image_streamer_artifact_bundle_if_missing('')
+    expect(chef_run).to_not upload_image_streamer_artifact_bundle('')
+    expect(chef_run).to_not extract_image_streamer_artifact_bundle('')
+    expect(chef_run).to_not extract_backup_image_streamer_artifact_bundle('')
+    expect(chef_run).to_not update_image_streamer_artifact_bundle_name('')
+    expect(chef_run).to_not download_image_streamer_artifact_bundle('')
+    expect(chef_run).to_not download_backup_image_streamer_artifact_bundle('')
+
     # image_streamer_deployment_plan
     expect(chef_run).to_not create_image_streamer_deployment_plan('')
     expect(chef_run).to_not delete_image_streamer_deployment_plan('')
