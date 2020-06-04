@@ -25,8 +25,8 @@
 - oneview_storage_pool
 - oneview_storage_system
 - oneview_storage_volume
-- oneview_volume_template
 - oneview_uplink_set
+- oneview_volume_template
 
 Adds API1600 support to HPE Synergy Image Streamer resources:
   - image_streamer_artifact_bundle
