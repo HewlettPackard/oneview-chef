@@ -15,6 +15,6 @@
 #
 
 oneview_server_certificate '172.18.13.11' do
-  client my_client
+  client node['oneview_test']['client']
   action :import_certificate
 end

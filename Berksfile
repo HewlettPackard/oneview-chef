@@ -1,4 +1,4 @@
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2020 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,6 +17,9 @@ group :test do
   cookbook 'oneview_test_api300_synergy', path: './spec/fixtures/cookbooks/oneview_test_api300_synergy'
   cookbook 'oneview_test_api500_synergy', path: './spec/fixtures/cookbooks/oneview_test_api500_synergy'
   cookbook 'oneview_test_api600_synergy', path: './spec/fixtures/cookbooks/oneview_test_api600_synergy'
+  cookbook 'oneview_test_api600_c7000', path: './spec/fixtures/cookbooks/oneview_test_api600_c7000'
+  cookbook 'oneview_test_api800_c7000', path: './spec/fixtures/cookbooks/oneview_test_api800_c7000'
+  cookbook 'oneview_test_api1600_c7000', path: './spec/fixtures/cookbooks/oneview_test_api1600_c7000'
   cookbook 'image_streamer_test_api300', path: './spec/fixtures/cookbooks/image_streamer_test_api300'
   cookbook 'image_streamer_test_api500', path: './spec/fixtures/cookbooks/image_streamer_test_api500'
   cookbook 'image_streamer_test_api600', path: './spec/fixtures/cookbooks/image_streamer_test_api600'
