@@ -1,4 +1,4 @@
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2020 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 # FC Network: FCNetwork1
 # Scopes: Scope1, Scope2
 
-# NOTE: The api_version client should be 300 or greater if you run the examples using Scopes
+# NOTE: The api_version client should be 300 and 500 if you run the examples using Scopes
 
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
@@ -74,6 +74,7 @@ end
 ################################
 
 # Adds 'LogicalInterconnectGroup1' to 'Scope1' and 'Scope2'
+# Available only in Api300 and Api500
 oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
   client my_client
   api_variant 'Synergy'
@@ -82,6 +83,7 @@ oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
 end
 
 # Removes 'LogicalInterconnectGroup1' from 'Scope1'
+# Available only in Api300 and Api500
 oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
   client my_client
   api_variant 'Synergy'
@@ -90,6 +92,7 @@ oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
 end
 
 # Replaces scopes to 'Scope1' and 'Scope2'
+# Available only in Api300 and Api500
 oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
   client my_client
   api_variant 'Synergy'
@@ -98,6 +101,7 @@ oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
 end
 
 # Replaces all scopes to empty list of scopes
+# Available only in Api300 and Api500
 oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
   client my_client
   api_variant 'Synergy'
