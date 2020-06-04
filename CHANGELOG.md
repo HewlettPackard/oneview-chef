@@ -4,11 +4,11 @@
 
 ### Oneview Features supported
 - oneview_connection_template
+- oneview_enclosure
 - oneview_enclosure_group
 - oneview_ethernet_network
 - oneview_fc_network
 - oneview_fcoe_network
-- oneview_enclosure
 - oneview_hypervisor_cluster_profile
 - oneview_hypervisor_manager
 - oneview_interconnect
