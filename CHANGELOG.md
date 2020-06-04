@@ -5,6 +5,7 @@
 ### Oneview Features supported
 - image_streamer_artifact_bundle
 - oneview_connection_template
+- oneview_enclosure_group
 - oneview_ethernet_network
 - oneview_fc_network
 - oneview_fcoe_network
