@@ -1,15 +1,14 @@
-## 3.4.0(unreleased)
+## 3.4.0
 ### Notes
-- This release extends support of the SDK to OneView REST API version 1600 (OneView v5.20) and (ImageStreamer v5.20).
+- This release extends support of the SDK to OneView REST API version 1600 (OneView v5.20).
 
 ### Oneview Features supported
-- image_streamer_artifact_bundle
 - oneview_connection_template
+- oneview_enclosure
 - oneview_enclosure_group
 - oneview_ethernet_network
 - oneview_fc_network
 - oneview_fcoe_network
-- oneview_enclosure
 - oneview_hypervisor_cluster_profile
 - oneview_hypervisor_manager
 - oneview_interconnect
@@ -26,10 +25,11 @@
 - oneview_storage_pool
 - oneview_storage_system
 - oneview_storage_volume
-- oneview_volume_template
 - oneview_uplink_set
+- oneview_volume_template
 
 Adds API1600 support to HPE Synergy Image Streamer resources:
+  - image_streamer_artifact_bundle
   - image_streamer_deployment_plan
 
 ## 3.3.0
