@@ -1,6 +1,6 @@
 ## 3.4.0
 ### Notes
-- This release extends support of the SDK to OneView REST API version 1600 (OneView v5.20) and (ImageStreamer v5.20).
+- This release extends support of the SDK to OneView REST API version 1600 (OneView v5.20).
 
 ### Oneview Features supported
 - oneview_connection_template
