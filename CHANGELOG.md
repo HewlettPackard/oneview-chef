@@ -3,7 +3,6 @@
 - This release extends support of the SDK to OneView REST API version 1600 (OneView v5.20) and (ImageStreamer v5.20).
 
 ### Oneview Features supported
-- image_streamer_artifact_bundle
 - oneview_connection_template
 - oneview_enclosure_group
 - oneview_ethernet_network
@@ -30,6 +29,7 @@
 - oneview_uplink_set
 
 Adds API1600 support to HPE Synergy Image Streamer resources:
+  - image_streamer_artifact_bundle
   - image_streamer_deployment_plan
 
 ## 3.3.0
