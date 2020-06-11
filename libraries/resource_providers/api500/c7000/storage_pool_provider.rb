@@ -1,4 +1,4 @@
-# (c) Copyright 2017 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2020 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -61,6 +61,7 @@ module OneviewCookbook
         def update
           load_storage_system
           desired_state = Marshal.load(Marshal.dump(@item.data))
+          desired_state.delete('type')
           @item.retrieve! || raise("Resource not found: The #{@resource_name} '#{@name}' could not be found")
           update_manage_state(desired_state['isManaged']) unless desired_state['isManaged'].nil?
           return Chef::Log.info("#{@resource_name} '#{@name}' has no need to update") if @item.like? desired_state

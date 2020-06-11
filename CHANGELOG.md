@@ -1,5 +1,40 @@
-## 3.3.1(unreleased)
+## 3.4.1(unreleased)
+### Notes
 This release provides support for versioning docker images according to release version.
+
+## 3.4.0
+### Notes
+- This release extends support of the SDK to OneView REST API version 1600 (OneView v5.20).
+
+### Oneview Features supported
+- oneview_connection_template
+- oneview_enclosure
+- oneview_enclosure_group
+- oneview_ethernet_network
+- oneview_fc_network
+- oneview_fcoe_network
+- oneview_hypervisor_cluster_profile
+- oneview_hypervisor_manager
+- oneview_interconnect
+- oneview_logical_enclosure
+- oneview_logical_interconnect
+- oneview_logical_interconnect_group
+- oneview_network_set
+- oneview_scope
+- oneview_server_certificate
+- oneview_server_hardware
+- oneview_server_hardware_type
+- oneview_server_profile
+- oneview_server_profile_template
+- oneview_storage_pool
+- oneview_storage_system
+- oneview_storage_volume
+- oneview_uplink_set
+- oneview_volume_template
+
+Adds API1600 support to HPE Synergy Image Streamer resources:
+  - image_streamer_artifact_bundle
+  - image_streamer_deployment_plan
 
 ## 3.3.0
 ### Notes

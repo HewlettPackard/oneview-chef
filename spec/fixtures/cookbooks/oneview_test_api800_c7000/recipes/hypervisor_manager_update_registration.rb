@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: oneview_test_api800_c7000
-# Recipe:: server_certificate_update_registration
+# Recipe:: hypervisor_manager_update_registration
 #
 # (c) Copyright 2020 Hewlett Packard Enterprise Development LP
 #
@@ -15,7 +15,7 @@
 #
 
 oneview_hypervisor_manager '172.18.13.11' do
-  client my_client
+  client node['oneview_test']['client']
   new_name '172.18.13.12'
   data(
     username: 'dcs',
