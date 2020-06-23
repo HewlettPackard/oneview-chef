@@ -8,6 +8,21 @@
 
 Chef cookbook that provides resources for managing HPE OneView.
 
+## Docker Setup for oneview-chef
+We also provide a lightweight and easy way to test and execute `oneview-chef`. The `hpe-oneview-sdk-for-chef:<tag>` docker image contains
+an installation of oneview-chef and you can use it by just pulling down the Docker Image:
+The Docker Store image tag consist of two sections: <sdk_version-OV_version>
+
+```bash
+# Download and store a local copy of oneview-chef and
+# use it as a Docker image.
+$ docker pull hewlettpackardenterprise/hpe-oneview-sdk-foref:v3.4.0-OV5.2
+# Run docker commands below given, which  will in turn create
+# a sh session where you can create files, issue commands and execute the recipes.
+$ docker run -it hewlettpackardenterprise/hpe-oneview-sdk-for-chef:v3.4.0-OV5.2 /bin/sh
+```
+
+
 ## Requirements
  - Ruby 2.3.1 or higher (We recommend using Ruby 2.4.1 or higher)
  - Chef 12.0 or higher (We recommend using Chef 13.12 or higher if possible)
