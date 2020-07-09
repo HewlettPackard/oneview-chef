@@ -13,7 +13,7 @@ module OneviewCookbook
   module API1800
     module Synergy
       # Scope API1800 Synergy provider
-      class ScopeProvider < OneviewCookbook::API1600::C7000::ScopeProvider
+      class ScopeProvider < OneviewCookbook::API1800::C7000::ScopeProvider
       end
     end
   end
