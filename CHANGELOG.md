@@ -1,3 +1,10 @@
+## 3.5.0(unreleased)
+### Notes
+- This release extends support of the SDK to OneView REST API version 1800 (OneView v5.30).
+
+### Oneview Features supported
+- oneview_scope
+
 ## 3.4.0
 ### Notes
 - This release extends support of the SDK to OneView REST API version 1600 (OneView v5.20).
