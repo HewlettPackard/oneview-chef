@@ -1,3 +1,7 @@
+#
+# Cookbook Name:: oneview_test_api1800_c7000
+# Recipe:: ethernet_network_bulk_delete
+#
 # (c) Copyright 2020 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -8,18 +12,15 @@
 # under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
+#
 
-module OneviewCookbook
-  module API1800
-    module C7000
-      # EthernetNetworkProvider API1800 C7000 provider
-      class EthernetNetworkProvider < API1600::C7000::EthernetNetworkProvider
-        def delete_bulk
-          ['type', 'ethernetNetworkType', 'name'].each { |k| @item.data.delete(k) }
-	  resource_named(:EthernetNetwork).bulk_delete(@item.client, @item.data)
-          Chef::Log.info 'BULK DELETED ETHERNET NETWORKS SUCCESSFULLY'
-        end
-      end
-    end
-  end
+oneview_ethernet_network 'Eth1' do
+  client node['oneview_test']['client']
+  data(
+    networkUris: [
+      '/rest/ethernet-networks/nw1',
+      '/rest/ethernet-networks/nw2'
+    ]
+  )
+  action :delete_bulk
 end

@@ -3,6 +3,7 @@
 - This release extends support of the SDK to OneView REST API version 1800 (OneView v5.30).
 
 ### Oneview Features supported
+- oneview_ethernet_network
 - oneview_scope
 
 ## 3.4.0

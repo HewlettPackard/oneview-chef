@@ -12,17 +12,10 @@
 # NOTE 1: This example requires two Scopes named "Scope1" and "Scope2" to be present in the appliance.
 # NOTE 2: The api_version client should be 300 or greater if you run the examples using Scopes
 
-# my_client = {
-#   url: ENV['ONEVIEWSDK_URL'],
-#   user: ENV['ONEVIEWSDK_USER'],
-#   password: ENV['ONEVIEWSDK_PASSWORD'],
-#   api_version: 1800
-# }
-
 my_client = {
-  url: 'https://10.50.9.28',
-  user: 'Administrator',
-  password: 'admin123',
+  url: ENV['ONEVIEWSDK_URL'],
+  user: ENV['ONEVIEWSDK_USER'],
+  password: ENV['ONEVIEWSDK_PASSWORD'],
   api_version: 1800
 }
 

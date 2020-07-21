@@ -47,6 +47,6 @@ action :patch do
   OneviewCookbook::Helper.do_resource_action(self, :EthernetNetwork, :patch)
 end
 
-action :bulk_delete do
-  OneviewCookbook::Helper.do_resource_action(self, :EthernetNetwork, :bulk_delete)
+action :delete_bulk do
+  OneviewCookbook::Helper.do_resource_action(self, :EthernetNetwork, :delete_bulk)
 end
