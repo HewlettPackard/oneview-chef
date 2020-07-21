@@ -48,7 +48,7 @@ oneview_ethernet_network 'Eth1' do
 end
 
 # Example: Bulk deletes ethernet networks.
-oneview_ethernet_network 'Eth1' do
+oneview_ethernet_network 'None' do
   client my_client
   data(
     networkUris: [
@@ -56,7 +56,7 @@ oneview_ethernet_network 'Eth1' do
       '/rest/ethernet-networks/e3021a50-3d6f-4fb0-a013-f0023ef84deb'
     ]
   )
-  action :bulk_delete
+  action :delete_bulk
 end
 
 # Only for V300 and V500
