@@ -16,7 +16,7 @@ module OneviewCookbook
       class EthernetNetworkProvider < API1600::C7000::EthernetNetworkProvider
         def delete_bulk
           ['type', 'ethernetNetworkType', 'name'].each { |k| @item.data.delete(k) }
-	  resource_named(:EthernetNetwork).bulk_delete(@item.client, @item.data)
+          resource_named(:EthernetNetwork).bulk_delete(@item.client, @item.data)
           Chef::Log.info 'BULK DELETED ETHERNET NETWORKS SUCCESSFULLY'
         end
       end
