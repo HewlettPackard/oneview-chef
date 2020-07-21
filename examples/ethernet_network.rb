@@ -12,11 +12,18 @@
 # NOTE 1: This example requires two Scopes named "Scope1" and "Scope2" to be present in the appliance.
 # NOTE 2: The api_version client should be 300 or greater if you run the examples using Scopes
 
+# my_client = {
+#   url: ENV['ONEVIEWSDK_URL'],
+#   user: ENV['ONEVIEWSDK_USER'],
+#   password: ENV['ONEVIEWSDK_PASSWORD'],
+#   api_version: 1800
+# }
+
 my_client = {
-  url: ENV['ONEVIEWSDK_URL'],
-  user: ENV['ONEVIEWSDK_USER'],
-  password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 1600
+  url: 'https://10.50.9.28',
+  user: 'Administrator',
+  password: 'admin123',
+  api_version: 1800
 }
 
 # Example: Create and manage a new ethernet network
@@ -45,6 +52,18 @@ oneview_ethernet_network 'Eth1' do
     }
   )
   action :create_if_missing
+end
+
+# Example: Bulk deletes ethernet networks.
+oneview_ethernet_network 'Eth1' do
+  client my_client
+  data(
+    networkUris: [
+      '/rest/ethernet-networks/9bbde590-2994-4aa4-988a-6a58f7ba26b8',
+      '/rest/ethernet-networks/e3021a50-3d6f-4fb0-a013-f0023ef84deb'
+    ]
+  )
+  action :bulk_delete
 end
 
 # Only for V300 and V500
