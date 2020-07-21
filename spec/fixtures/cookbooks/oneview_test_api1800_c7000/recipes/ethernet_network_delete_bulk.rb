@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: oneview_test_api1800_c7000
-# Recipe:: ethernet_network_bulk_delete
+# Recipe:: ethernet_network_delete_bulk
 #
 # (c) Copyright 2020 Hewlett Packard Enterprise Development LP
 #
