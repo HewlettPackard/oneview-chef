@@ -1,4 +1,4 @@
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2020 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -46,4 +46,8 @@ end
 
 action :reset_connection_template do
   OneviewCookbook::Helper.do_resource_action(self, :FCoENetwork, :reset_connection_template)
+end
+
+action :delete_bulk do
+  OneviewCookbook::Helper.do_resource_action(self, :FCoENetwork, :delete_bulk)
 end

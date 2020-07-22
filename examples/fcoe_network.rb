@@ -19,7 +19,7 @@ my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 1600
+  api_version: 1800
 }
 
 oneview_fcoe_network 'FCoE1' do
@@ -33,6 +33,18 @@ oneview_fcoe_network 'FCoE1' do
   associated_san 'VSAN10'
   client my_client
   action :create
+end
+
+# Example: Bulk deletes fcoe networks.
+oneview_fcoe_network 'None' do
+  client my_client
+  data(
+    networkUris: [
+      '/rest/fcoe-networks/449f4836-62c3-40de-969d-85259a60c146',
+      '/rest/fcoe-networks/393b2caa-9e8c-4e07-9262-27ebbf0c9cca'
+    ]
+  )
+  action :delete_bulk
 end
 
 # Adds 'FCoE1' to 'Scope1' and 'Scope2'

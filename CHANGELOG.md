@@ -4,6 +4,8 @@
 
 ### Oneview Features supported
 - oneview_ethernet_network
+- oneview_fc_network
+- oneview_fcoe_network
 - oneview_scope
 
 ## 3.4.0
