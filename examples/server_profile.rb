@@ -22,7 +22,8 @@
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
-  password: ENV['ONEVIEWSDK_PASSWORD']
+  password: ENV['ONEVIEWSDK_PASSWORD'],
+  api_version: 1800
 }
 
 my_server_hardware_type = 'BL660c Gen9 1'

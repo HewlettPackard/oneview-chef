@@ -5,6 +5,8 @@
 ### Oneview Features supported
 - oneview_ethernet_network
 - oneview_scope
+- oneview_server_profile
+- oneview_server_profile_template
 
 ## 3.4.0
 ### Notes
