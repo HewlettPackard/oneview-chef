@@ -9,23 +9,12 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-my_client = {
-  url: ENV['ONEVIEWSDK_URL'],
-  user: ENV['ONEVIEWSDK_USER'],
-  password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 1800
-}
-
-# Example: Update server hardware type properties
-oneview_server_hardware_type 'DL360 Gen9 1' do
-  client my_client
-  data(
-    description: 'Server hardware type description'
-  )
-end
-
-# Example: Remove server hardware type
-oneview_server_hardware_type 'DL360 Gen9 1' do
-  client my_client
-  action :remove
+module OneviewCookbook
+  module API1800
+    module Synergy
+      # ServerHardware API1800 Synergy provider
+      class ServerHardwareProvider < API1600::Synergy::ServerHardwareProvider
+      end
+    end
+  end
 end

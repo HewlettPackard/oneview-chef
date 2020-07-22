@@ -5,6 +5,8 @@
 ### Oneview Features supported
 - oneview_ethernet_network
 - oneview_scope
+- oneview_server_hardware
+- oneview_server_hardware_type
 
 ## 3.4.0
 ### Notes
