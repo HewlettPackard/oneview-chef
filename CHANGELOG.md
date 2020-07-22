@@ -5,6 +5,7 @@
 ### Oneview Features supported
 - oneview_enclosure
 - oneview_enclosure_group
+- oneview_ethernet_network
 - oneview_scope
 
 ## 3.4.0

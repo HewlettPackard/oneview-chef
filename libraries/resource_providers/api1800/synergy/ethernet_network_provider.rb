@@ -12,8 +12,8 @@
 module OneviewCookbook
   module API1800
     module Synergy
-      # Scope API1800 Synergy provider
-      class ScopeProvider < OneviewCookbook::API1800::C7000::ScopeProvider
+      # EthernetNetworkProvider API1800 Synergy provider
+      class EthernetNetworkProvider < API1800::C7000::EthernetNetworkProvider
       end
     end
   end
