@@ -45,6 +45,10 @@ action :update_ethernet_settings do
   OneviewCookbook::Helper.do_resource_action(self, :LogicalInterconnect, :update_ethernet_settings)
 end
 
+action :update_igmp_settings do
+  OneviewCookbook::Helper.do_resource_action(self, :LogicalInterconnect, :update_igmp_settings)
+end
+
 action :update_port_monitor do
   OneviewCookbook::Helper.do_resource_action(self, :LogicalInterconnect, :update_port_monitor)
 end

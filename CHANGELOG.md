@@ -4,6 +4,7 @@
 
 ### Oneview Features supported
 - oneview_ethernet_network
+- oneview_logical_interconnect
 - oneview_scope
 
 ## 3.4.0

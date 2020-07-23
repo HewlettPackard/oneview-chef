@@ -11,12 +11,9 @@
 
 module OneviewCookbook
   module API1800
-    module C7000
-      # LogicalInterconnect API1800 C7000 provider
-      class LogicalInterconnectProvider < API1600::C7000::LogicalInterconnectProvider
-	def update_igmp_settings
-          update_handler(:update_igmp_settings, 'igmpSettings')
-        end
+    module Synergy
+      # LogicalInterconnect API1800 Synergy provider
+      class LogicalInterconnectProvider < API1800::C7000::LogicalInterconnectProvider
       end
     end
   end
