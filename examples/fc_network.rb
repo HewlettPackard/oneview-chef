@@ -16,7 +16,7 @@ my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 1600
+  api_version: 1800
 }
 
 # Example: Create and manage a new fc network
@@ -42,6 +42,18 @@ oneview_fc_network 'Fc1' do
   associated_san 'SAN1_0'
   client my_client
   action :create_if_missing
+end
+
+# Example: Bulk deletes fc networks.
+oneview_fc_network 'None' do
+  client my_client
+  data(
+    networkUris: [
+      '/rest/fc-networks/e067bd1e-708d-43cd-974e-27f55115acb9',
+      '/rest/fc-networks/44a2cc61-570f-4edb-9b01-e8044ec6cf4e'
+    ]
+  )
+  action :delete_bulk
 end
 
 # Example: Adds 'Fc1' to 'Scope1' and 'Scope2'
