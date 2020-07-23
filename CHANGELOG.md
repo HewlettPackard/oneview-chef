@@ -9,6 +9,8 @@
 - oneview_fcoe_network
 - oneview_network_set
 - oneview_scope
+- oneview_server_hardware
+- oneview_server_hardware_type
 - oneview_server_profile
 - oneview_server_profile_template
 - oneview_uplink_set

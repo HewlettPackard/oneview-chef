@@ -15,8 +15,8 @@
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
-  password: ENV['ONEVIEWSDK_PASSWORD']
-  api_version: 600
+  password: ENV['ONEVIEWSDK_PASSWORD'],
+  api_version: 1800
 }
 
 # Example: Add server hardware to OneView for management
