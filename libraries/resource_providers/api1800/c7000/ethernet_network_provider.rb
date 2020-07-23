@@ -11,9 +11,14 @@
 
 module OneviewCookbook
   module API1800
-    module Synergy
-      # Scope API1800 Synergy provider
-      class ScopeProvider < OneviewCookbook::API1800::C7000::ScopeProvider
+    module C7000
+      # EthernetNetworkProvider API1800 C7000 provider
+      class EthernetNetworkProvider < API1600::C7000::EthernetNetworkProvider
+        def delete_bulk
+          ['type', 'ethernetNetworkType', 'name'].each { |k| @item.data.delete(k) }
+          resource_named(:EthernetNetwork).bulk_delete(@item.client, @item.data)
+          Chef::Log.info 'BULK DELETED ETHERNET NETWORKS SUCCESSFULLY'
+        end
       end
     end
   end
