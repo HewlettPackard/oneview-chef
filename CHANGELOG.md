@@ -7,6 +7,7 @@
 - oneview_ethernet_network
 - oneview_fc_network
 - oneview_fcoe_network
+- oneview_interconnect
 - oneview_network_set
 - oneview_scope
 - oneview_server_hardware
