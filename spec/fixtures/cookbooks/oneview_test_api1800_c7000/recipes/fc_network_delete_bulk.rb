@@ -1,3 +1,7 @@
+#
+# Cookbook Name:: oneview_test_api1800_c7000
+# Recipe:: fc_network_delete_bulk
+#
 # (c) Copyright 2020 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -8,24 +12,15 @@
 # under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
+#
 
-my_client = {
-  url: ENV['ONEVIEWSDK_URL'],
-  user: ENV['ONEVIEWSDK_USER'],
-  password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 1800
-}
-
-# Example: Update server hardware type properties
-oneview_server_hardware_type 'DL360 Gen9 1' do
-  client my_client
+oneview_fc_network 'FC1' do
+  client node['oneview_test']['client']
   data(
-    description: 'Server hardware type description'
+    networkUris: [
+      '/rest/fc-networks/nw1',
+      '/rest/fc-networks/nw2'
+    ]
   )
-end
-
-# Example: Remove server hardware type
-oneview_server_hardware_type 'DL360 Gen9 1' do
-  client my_client
-  action :remove
+  action :delete_bulk
 end
