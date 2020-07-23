@@ -9,23 +9,17 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-my_client = {
-  url: ENV['ONEVIEWSDK_URL'],
-  user: ENV['ONEVIEWSDK_USER'],
-  password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 1800
-}
-
-# Example: Update server hardware type properties
-oneview_server_hardware_type 'DL360 Gen9 1' do
-  client my_client
-  data(
-    description: 'Server hardware type description'
-  )
-end
-
-# Example: Remove server hardware type
-oneview_server_hardware_type 'DL360 Gen9 1' do
-  client my_client
-  action :remove
+module OneviewCookbook
+  module API1800
+    module C7000
+      # FCoENetwork API1800 C7000 provider
+      class FCoENetworkProvider < API1600::C7000::FCoENetworkProvider
+        def delete_bulk
+          ['connectionTemplateUri', 'type', 'name'].each { |k| @item.data.delete(k) }
+          resource_named(:FCoENetwork).bulk_delete(@item.client, @item.data)
+          Chef::Log.info 'BULK DELETED FCOE NETWORKS SUCCESSFULLY'
+        end
+      end
+    end
+  end
 end

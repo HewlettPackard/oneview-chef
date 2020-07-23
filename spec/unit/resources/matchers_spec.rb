@@ -79,6 +79,7 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not replace_oneview_fc_network_scopes('')
     expect(chef_run).to_not patch_oneview_fc_network('')
     expect(chef_run).to_not reset_oneview_fc_network_connection_template('')
+    expect(chef_run).to_not delete_bulk_oneview_fc_network('')
 
     # oneview_fcoe_network
     expect(chef_run).to_not create_oneview_fcoe_network('')
@@ -88,6 +89,7 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not remove_oneview_fcoe_network_from_scopes('')
     expect(chef_run).to_not replace_oneview_fcoe_network_scopes('')
     expect(chef_run).to_not patch_oneview_fcoe_network('')
+    expect(chef_run).to_not delete_bulk_oneview_fcoe_network('')
 
     # oneview_firmware
     expect(chef_run).to_not add_oneview_firmware('')
