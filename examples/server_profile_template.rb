@@ -18,11 +18,12 @@
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
-  password: ENV['ONEVIEWSDK_PASSWORD']
+  password: ENV['ONEVIEWSDK_PASSWORD'],
+  api_version: 1800
 }
 
-enclosure_group = 'EnclosureGroup1'
-server_hardware_type = 'BL660c Gen9 1'
+enclosure_group = 'EG'
+server_hardware_type = 'SY 480 Gen9 1'
 sp_name = 'ServerProfile1'
 
 # Creates on server profile template with the desired Enclosure group and Server hardware type
