@@ -16,7 +16,7 @@ my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 1600
+  api_version: 1800
 }
 
 # Example: Create and manage a new ethernet network
@@ -45,6 +45,18 @@ oneview_ethernet_network 'Eth1' do
     }
   )
   action :create_if_missing
+end
+
+# Example: Bulk deletes ethernet networks.
+oneview_ethernet_network 'None' do
+  client my_client
+  data(
+    networkUris: [
+      '/rest/ethernet-networks/9bbde590-2994-4aa4-988a-6a58f7ba26b8',
+      '/rest/ethernet-networks/e3021a50-3d6f-4fb0-a013-f0023ef84deb'
+    ]
+  )
+  action :delete_bulk
 end
 
 # Only for V300 and V500
