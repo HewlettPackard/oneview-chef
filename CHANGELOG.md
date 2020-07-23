@@ -5,6 +5,8 @@
 ### Oneview Features supported
 - oneview_ethernet_network
 - oneview_scope
+- oneview_storage_system
+- oneview_storage_pool
 
 ## 3.4.0
 ### Notes
