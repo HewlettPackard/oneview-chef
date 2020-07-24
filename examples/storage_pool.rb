@@ -9,13 +9,13 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-node.default['oneview']['api_version'] = 500
+node.default['oneview']['api_version'] = 1800
 
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 500
+  api_version: 1800
 }
 
 # Ensures the Storage Pool is managed by the HPE OneView appliance
