@@ -9,6 +9,7 @@
 - oneview_ethernet_network
 - oneview_fc_network
 - oneview_fcoe_network
+- oneview_interconnect
 - oneview_hypervisor_cluster_profile
 - oneview_hypervisor_manager
 - oneview_logical_enclosure
