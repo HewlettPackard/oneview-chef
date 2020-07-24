@@ -38,9 +38,9 @@ if defined?(ChefSpec)
     oneview_logical_enclosure:          %i[create_if_missing create update_from_group reconfigure set_script delete create_support_dump],
     oneview_logical_interconnect_group: standard_actions + scope_actions,
     oneview_logical_interconnect:       %i[none add_interconnect remove_interconnect update_internal_networks update_settings
-                                           update_ethernet_settings update_igmp_settings update_port_monitor update_qos_configuration 
-					   update_telemetry_configuration update_snmp_configuration update_firmware stage_firmware 
-					   activate_firmware update_from_group reapply_configuration] + scope_actions,
+                                           update_ethernet_settings update_igmp_settings update_port_monitor update_qos_configuration
+                                           update_telemetry_configuration update_snmp_configuration update_firmware stage_firmware
+                                           activate_firmware update_from_group reapply_configuration] + scope_actions,
     oneview_logical_switch_group:       standard_actions + scope_actions,
     oneview_logical_switch:             standard_actions + scope_actions + %i[refresh],
     oneview_managed_san:                %i[refresh set_policy set_public_attributes],
