@@ -11,7 +11,7 @@
 
 require_relative './../../../spec_helper'
 
-describe 'oneview_test::logical_interconnect_update_igmp_settings' do
+describe 'oneview_test_api1800_c7000::logical_interconnect_update_igmp_settings' do
   let(:resource_name) { 'logical_interconnect' }
   include_context 'chef context'
 
