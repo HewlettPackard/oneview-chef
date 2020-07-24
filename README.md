@@ -16,7 +16,7 @@ The Docker Store image tag consist of two sections: <sdk_version-OV_version>
 ```bash
 # Download and store a local copy of oneview-chef and
 # use it as a Docker image.
-$ docker pull hewlettpackardenterprise/hpe-oneview-sdk-for-chef:v3.4.0-OV5.2
+$ docker pull hewlettpackardenterprise/hpe-oneview-sdk-for-chef:v3.4.0-OV5.3
 # Run docker commands below given, which  will in turn create
 # a sh session where you can create files, issue commands and execute the recipes.
 $ docker run -it hewlettpackardenterprise/hpe-oneview-sdk-for-chef:v3.4.0-OV5.2 /bin/sh
