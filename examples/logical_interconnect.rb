@@ -62,6 +62,17 @@ oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
   action :update_ethernet_settings
 end
 
+# Update igmp  settings refresh and timeout intervals
+oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
+  client my_client
+  data(
+    igmpSettings: {
+      igmpIdleTimeoutInterval: 230,
+    }
+  )
+  action :update_igmp_settings
+end
+
 # Activate the port monitor service
 oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
   client my_client

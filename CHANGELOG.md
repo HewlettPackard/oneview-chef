@@ -13,6 +13,7 @@
 - oneview_hypervisor_cluster_profile
 - oneview_hypervisor_manager
 - oneview_logical_enclosure
+- oneview_logical_interconnect
 - oneview_logical_interconnect_group
 - oneview_network_set
 - oneview_scope
