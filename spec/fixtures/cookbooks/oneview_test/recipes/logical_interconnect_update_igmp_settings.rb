@@ -16,7 +16,7 @@
 oneview_logical_interconnect 'LogicalInterconnect-update_igmp_settings' do
   client node['oneview_test']['client']
   data(
-    'ethernetSettings' => {
+    'igmpSettings' => {
       'unit' => 'Test'
     }
   )
