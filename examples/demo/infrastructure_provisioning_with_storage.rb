@@ -25,11 +25,11 @@ my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 1200
+  api_version: 1800
 }
 
-my_server_hardware_type = 'DL380p Gen8 1'
-my_enclosure_group = 'SYN03_EC'
+my_server_hardware_type = 'SY 480 Gen9 2'
+my_enclosure_group = 'EG'
 my_fc_network_data = [
   {
     FC01: {
