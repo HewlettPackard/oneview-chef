@@ -1,4 +1,4 @@
-# (c) Copyright 2018 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2020 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -9,13 +9,13 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-node.default['oneview']['api_version'] = 500
+node.default['oneview']['api_version'] = 1800
 
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 500
+  api_version: 1800
 }
 
 # Example: add storage system or update if it already exists

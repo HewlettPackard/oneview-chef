@@ -1,4 +1,4 @@
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2020 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,13 +12,21 @@
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
-  password: ENV['ONEVIEWSDK_PASSWORD']
+  password: ENV['ONEVIEWSDK_PASSWORD'],
+  api_version: 1800
 }
+
+interconnect_bay_mapping = [
+       { interconnectBay: 1, logicalInterconnectGroupUri: '/rest/logical-interconnect-groups/a6ac18fa-c0a6-4937-96ea-3d0da4fe7e21' },
+       { interconnectBay: 4, logicalInterconnectGroupUri: '/rest/logical-interconnect-groups/a6ac18fa-c0a6-4937-96ea-3d0da4fe7e21' }
+]
 
 oneview_enclosure_group 'Eg2' do
   data(
     stackingMode: 'Enclosure',
-    interconnectBayMappingCount: 8
+    interconnectBayMappingCount: 2,
+    ipAddressingMode: 'External',
+    interconnectBayMappings: interconnect_bay_mapping
   )
   logical_interconnect_groups ['lig1']
   client my_client
