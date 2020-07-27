@@ -1,4 +1,4 @@
-## 3.5.0(unreleased)
+## 3.5.0
 ### Notes
 - This release extends support of the SDK to OneView REST API version 1800 (OneView v5.30).
 
@@ -9,9 +9,9 @@
 - oneview_ethernet_network
 - oneview_fc_network
 - oneview_fcoe_network
-- oneview_interconnect
 - oneview_hypervisor_cluster_profile
 - oneview_hypervisor_manager
+- oneview_interconnect
 - oneview_logical_enclosure
 - oneview_logical_interconnect
 - oneview_logical_interconnect_group
