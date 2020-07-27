@@ -125,7 +125,7 @@ oneview_ethernet_network 'Eth1' do
   path <path>          # String. Used in patch option only. e.g., '/name'
   value <val>          # String, Array. Used in patch option only. e.g., 'New Name'
   scopes <scope_names> # Array - Optional. Array of scope names. Used in add_to_scopes, remove_from_scopes or replace_scopes options only. e.g., ['Scope1', 'Scope2']
-  action [:create, :create_if_missing, :delete, :reset_connection_template, :patch, :add_to_scopes, :remove_from_scopes, :replace_scopes]
+  action [:create, :create_if_missing, :delete, :delete_bulk, :reset_connection_template, :patch, :add_to_scopes, :remove_from_scopes, :replace_scopes]
 end
 ```
 
@@ -172,7 +172,7 @@ oneview_fc_network 'Fc1' do
   path <path>               # String. Used in patch option only. e.g., '/scopeUris/-'
   value <val>               # String. Used in patch option only. e.g., 'scope uri'
   scopes <scope_names>      # Array - Optional. Array of scope names. Used in add_to_scopes, remove_from_scopes or replace_scopes options only. e.g., ['Scope1', 'Scope2']
-  action [:create, :create_if_missing, :delete, :reset_connection_template, :patch, :add_to_scopes, :remove_from_scopes, :replace_scopes]
+  action [:create, :create_if_missing, :delete, :delete_bulk, :reset_connection_template, :patch, :add_to_scopes, :remove_from_scopes, :replace_scopes]
 end
 ```
 
@@ -187,7 +187,7 @@ oneview_fcoe_network 'FCoE1' do
   path <path>               # String. Used in patch option only. e.g., '/scopeUris/-'
   value <val>               # String. Used in patch option only. e.g., 'scope uri'
   scopes <scope_names>      # Array - Optional. Array of scope names. Used in add_to_scopes, remove_from_scopes or replace_scopes options only. e.g., ['Scope1', 'Scope2']
-  action [:create, :create_if_missing, :delete, :reset_connection_template, :patch, :add_to_scopes, :remove_from_scopes, :replace_scopes]
+  action [:create, :create_if_missing, :delete, :delete_bulk, :reset_connection_template, :patch, :add_to_scopes, :remove_from_scopes, :replace_scopes]
 end
 ```
 
@@ -313,7 +313,7 @@ oneview_logical_interconnect 'LogicalInterconnect1' do
   value <val>                         # String. Used in patch option only. e.g., 'scope uri'
   scopes <scope_names>                # Array - Optional. Array of scope names. Used in add_to_scopes, remove_from_scopes or replace_scopes options only. e.g., ['Scope1', 'Scope2']
   action [:none, :add_interconnect, :remove_interconnect, :update_internal_networks,
-          :update_settings,:update_ethernet_settings, :update_port_monitor, :update_qos_configuration,
+          :update_settings,:update_ethernet_settings, :update_igmp_settings, :update_port_monitor, :update_qos_configuration,
           :update_telemetry_configuration, :update_snmp_configuration, :update_firmware, :stage_firmware,
           :activate_firmware, :update_from_group, :reapply_configuration, :patch, :add_to_scopes,
           :remove_from_scopes, :replace_scopes]
