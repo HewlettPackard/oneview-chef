@@ -26,7 +26,7 @@ default['oneview']['save_resource_info'] = ['uri']
 # A resource provider must be defined for this version. For example, when set to 200, it will look
 # for the resource in OneviewCookbook::API200. When 300, it will look in OneviewCookbook::API300
 # See the libraries/resources directory for more info on supported API versions
-default['oneview']['api_version'] = 200
+default['oneview']['api_version'] = 600
 
 # When looking for a matching Chef resource provider class, this variant will be used by default
 # For example, when the api_version attribute described above is set to 300 and the api_variant
