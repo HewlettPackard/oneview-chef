@@ -1,3 +1,8 @@
+## 3.6.0(unreleased)
+
+## Enhancements:
+- Default API version set to 1000.
+
 ## 3.5.0
 ### Notes
 - This release extends support of the SDK to OneView REST API version 1800 (OneView v5.30).
