@@ -29,6 +29,15 @@ module OneviewCookbook
       @resource_name = context.new_resource.resource_name
       @name = context.new_resource.name
       klass = parse_namespace
+      client_api_version = if context.property_is_set?(:client)
+                             if context.new_resource.client.is_a?(Hash)
+                               convert_keys(context.new_resource.client, :to_sym)[:api_version]
+                             elsif context.new_resource.client.is_a?(OneviewSDK::Client) # It works for both Image Streamer and OneView
+                               context.new_resource.client.api_version
+                             end
+                           end
+      # If client.api_verion is not set, it sets appliance's max api version
+      @new_resource.client.delete(:api_version) unless client_api_version
       c = if @sdk_base_module == OneviewSDK::ImageStreamer
             OneviewCookbook::Helper.build_image_streamer_client(@new_resource.client)
           else
@@ -36,6 +45,7 @@ module OneviewCookbook
           end
       new_data = JSON.parse(@new_resource.data.to_json) rescue @new_resource.data
       @item = context.property_is_set?(:api_header_version) ? klass.new(c, new_data, @new_resource.api_header_version) : klass.new(c, new_data)
+      Chef::Log.info("#{@item.api_version} API VERSION")
       @item['name'] ||= @new_resource.name
     end
 

@@ -1,7 +1,7 @@
 ## 3.6.0(unreleased)
 
 ## Enhancements:
-- Default API version set to 1000.
+- Enahanced the method to set the default API version to appliance's max API version instead of hardcoded 200.
 
 ## 3.5.0
 ### Notes
