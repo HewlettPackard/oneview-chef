@@ -4,12 +4,12 @@ require_relative './../../fixtures/fake_resource'
 RSpec.describe OneviewCookbook::ResourceProvider do
   include_context 'shared context'
 
-  let(:res) { described_class.new(FakeResource.new.(api_version: 200)) }
+  let(:res) { described_class.new(FakeResource.new) }
 
   before :each do
-    allow(OneviewCookbook::Helper).to receive(:build_client).and_return @client
+    allow(OneviewCookbook::Helper).to receive(:build_client).and_return @client_200
     allow(OneviewCookbook::Helper).to receive(:build_image_streamer_client).and_return @i3s_client
-    @context = FakeResource.new(api_version: 200)
+    @context = FakeResource.new(client: { api_version: 300 })
   end
 
   describe '#initialize' do
