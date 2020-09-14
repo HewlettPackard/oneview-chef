@@ -45,7 +45,7 @@ RSpec.shared_context 'shared context', a: :b do
     @client = OneviewSDK::Client.new(@ov_options)
     @resource = OneviewSDK::Resource.new(@client)
 
-    @i3s_options = { url: 'https://i3s.example.com', token: 'token123' }
+    @i3s_options = { url: 'https://i3s.example.com', token: 'token123', api_version: 200 }
     @i3s_client = OneviewSDK::ImageStreamer::Client.new(@i3s_options)
     @i3s_resource = OneviewSDK::ImageStreamer::Resource.new(@i3s_client)
   end
