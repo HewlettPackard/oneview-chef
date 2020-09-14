@@ -7,9 +7,9 @@ RSpec.describe OneviewCookbook::ResourceProvider do
   let(:res) { described_class.new(FakeResource.new) }
 
   before :each do
-    allow(OneviewCookbook::Helper).to receive(:build_client).and_return @client_200
+    allow(OneviewCookbook::Helper).to receive(:build_client).and_return @client
     allow(OneviewCookbook::Helper).to receive(:build_image_streamer_client).and_return @i3s_client
-    @context = FakeResource.new(client: { api_version: 300 })
+    @context = FakeResource.new(client: { api_version: 200 })
   end
 
   describe '#initialize' do
@@ -27,12 +27,12 @@ RSpec.describe OneviewCookbook::ResourceProvider do
     end
 
     it "respects the resource's api_header_version property" do
-      r = described_class.new(FakeResource.new(api_version: 200))
+      r = described_class.new(FakeResource.new(client: { api_version: 200 }))
       expect(r.item.api_version).to eq(200)
     end
 
     it "respects the resource's data property" do
-      data = { 'name' => 'myname', 'key' => 'val' }
+      data = { 'name' => 'myname', 'key' => 'val', client: { api_version: 200 } }
       r = described_class.new(FakeResource.new(data: data))
       expect(r.item.data).to eq(data)
     end
