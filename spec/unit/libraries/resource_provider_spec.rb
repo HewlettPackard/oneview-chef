@@ -27,7 +27,7 @@ RSpec.describe OneviewCookbook::ResourceProvider do
     end
 
     it "respects the resource's api_header_version property" do
-      r = described_class.new(FakeResource.new(api_header_version: 2, api_version: 1800))
+      r = described_class.new(FakeResource.new(api_header_version: 2, api_version: 200))
       expect(r.item.api_version).to eq(2)
     end
 

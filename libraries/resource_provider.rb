@@ -37,9 +37,7 @@ module OneviewCookbook
                              end
                            end
       # If client.api_verion is not set, it sets appliance's max api version
-      if @new_resource.client.key?(:api_version)
-        @new_resource.client.delete(:api_version) unless client_api_version
-      end
+      @new_resource.client.delete(:api_version) unless client_api_version
       c = if @sdk_base_module == OneviewSDK::ImageStreamer
             OneviewCookbook::Helper.build_image_streamer_client(@new_resource.client)
           else
