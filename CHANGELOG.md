@@ -1,3 +1,10 @@
+## 3.6.0(unreleased)
+### Notes
+- This release extends support of the SDK to OneView REST API version 2000 (OneView v5.40).
+
+### Oneview Features supported
+- oneview_storage_system
+
 ## 3.5.0
 ### Notes
 - This release extends support of the SDK to OneView REST API version 1800 (OneView v5.30).
