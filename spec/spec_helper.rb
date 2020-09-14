@@ -26,7 +26,11 @@ RSpec.configure do |config|
 
   config.before(:each) do
     # Mock appliance version and login api requests, as well as loading trusted certs
+<<<<<<< HEAD
     allow_any_instance_of(OneviewSDK::Client).to receive(:appliance_api_version).and_return(2200)
+=======
+    allow_any_instance_of(OneviewSDK::Client).to receive(:appliance_api_version).and_return(2000)
+>>>>>>> 109c12a41562b290e88273d4edf5aff784184c31
     allow_any_instance_of(OneviewSDK::Client).to receive(:login).and_return('secretToken')
     allow(OneviewSDK::SSLHelper).to receive(:load_trusted_certs).and_return(nil)
 
@@ -104,6 +108,10 @@ RSpec.shared_context 'chef context', a: :b do
 
   let(:client1800) do
     OneviewSDK::Client.new(url: 'https://oneview.example.com', user: 'Administrator', password: 'secret123', api_version: 1800)
+  end
+
+  let(:client2000) do
+    OneviewSDK::Client.new(url: 'https://oneview.example.com', user: 'Administrator', password: 'secret123', api_version: 2000)
   end
 
   let(:i3s_client300) do

@@ -15,7 +15,7 @@ my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 1800
+  api_version: 2000
 }
 
 # Example: add storage system or update if it already exists
@@ -39,7 +39,7 @@ end
 oneview_storage_system 'StorageSystem1' do
   client my_client
   data(
-    hostname: '172.18.11.11'
+    hostname: @storage_system_ip
   )
   action :refresh
 end
