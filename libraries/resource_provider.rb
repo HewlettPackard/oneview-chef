@@ -45,7 +45,7 @@ module OneviewCookbook
           end
       new_data = JSON.parse(@new_resource.data.to_json) rescue @new_resource.data
       @item = context.property_is_set?(:api_header_version) ? klass.new(c, new_data, @new_resource.api_header_version) : klass.new(c, new_data)
-      Chef::Log.info("#{@item.api_version} API VERSION")
+      Chef::Log.info("API Version #{@item.api_version}")
       @item['name'] ||= @new_resource.name
     end
 

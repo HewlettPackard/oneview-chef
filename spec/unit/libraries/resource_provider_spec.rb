@@ -498,8 +498,8 @@ RSpec.describe OneviewCookbook::ResourceProvider do
   describe '#convert_keys' do
     it 'calls the Helper method' do
       expect(OneviewCookbook::Helper).to receive(:convert_keys)
-        .with(:info, :conversion_method).and_return(:value)
-      expect(res.send(:convert_keys, :info, :conversion_method)).to eq(:value)
+        .with(res.item.api_version, :to_sym).and_return(:value)
+      expect(res.send(:convert_keys, res.item.api_version, :to_sym)).to eq(:value)
     end
   end
 
