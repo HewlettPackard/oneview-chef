@@ -4,7 +4,7 @@ require_relative './../../fixtures/fake_resource'
 RSpec.describe OneviewCookbook::ResourceProvider do
   include_context 'shared context'
 
-  let(:res) { described_class.new(FakeResource.new) }
+  let(:res) { described_class.new(FakeResource.new.(api_version: 200)) }
 
   before :each do
     allow(OneviewCookbook::Helper).to receive(:build_client).and_return @client
@@ -19,7 +19,7 @@ RSpec.describe OneviewCookbook::ResourceProvider do
       expect(r.resource_name).to eq(@context.resource_name)
       expect(r.name).to eq(@context.name)
       expect(r.sdk_resource_type).to eq('Resource')
-      expect(r.sdk_api_version).to eq(nil)
+      expect(r.sdk_api_version).to eq(200)
       expect(r.sdk_variant).to eq(nil)
       expect(r.sdk_base_module).to eq(OneviewSDK)
       expect(r.item.client).to eq(@client)
