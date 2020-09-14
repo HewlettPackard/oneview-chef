@@ -9,8 +9,8 @@
 
 module OneviewCookbook
   module API2000
-    module C7000
-      # StorageSystem API2000 C7000 provider
+    module Synergy
+      # StorageSystem API2000 Synergy provider
       class StorageSystemProvider < API2000::C7000::StorageSystemProvider
         include OneviewCookbook::RefreshActions::RequestRefresh
       end
