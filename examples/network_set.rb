@@ -16,7 +16,7 @@ my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 1800
+  api_version: 2000
 }
 
 # Create a few networks for the next examples
@@ -66,6 +66,7 @@ oneview_network_set 'ChefNetworkSet_1' do
   client my_client
   scopes ['Scope1', 'Scope2']
   action :add_to_scopes
+  only_if { client[:api_version] == 300 && client[:api_version] == 500 }
 end
 
 # Example: Removes 'ChefNetworkSet_1' from 'Scope1'
@@ -74,6 +75,7 @@ oneview_network_set 'ChefNetworkSet_1' do
   client my_client
   scopes ['Scope1']
   action :remove_from_scopes
+  only_if { client[:api_version] == 300 && client[:api_version] == 500 }
 end
 
 # Example: Replaces 'Scope1' and 'Scope2' for 'ChefNetworkSet_1'
@@ -82,6 +84,7 @@ oneview_network_set 'ChefNetworkSet_1' do
   client my_client
   scopes ['Scope1', 'Scope2']
   action :replace_scopes
+  only_if { client[:api_version] == 300 && client[:api_version] == 500 }
 end
 
 # Example: Replaces all scopes to empty list of scopes
@@ -92,6 +95,7 @@ oneview_network_set 'ChefNetworkSet_1' do
   path '/scopeUris'
   value []
   action :patch
+  only_if { client[:api_version] == 300 && client[:api_version] == 500 }
 end
 
 # Example: Reset the connection template for a network
