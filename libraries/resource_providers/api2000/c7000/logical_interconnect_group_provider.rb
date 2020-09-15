@@ -13,7 +13,7 @@ module OneviewCookbook
   module API2000
     module C7000
       # LogicalInterconnectGroup API2000 C7000 provider
-      class LogicalInterconnectGroupProvider < API1800::C7000::LogicalInterconnectGroupProvider
+      class LogicalInterconnectGroupProvider < OneviewCookbook::API1800::C7000::LogicalInterconnectGroupProvider
       end
     end
   end

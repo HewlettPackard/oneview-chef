@@ -13,7 +13,7 @@ module OneviewCookbook
   module API2000
     module C7000
       # UplinkSet API2000 C7000 provider
-      class UplinkSetProvider < API1800::C7000::UplinkSetProvider
+      class UplinkSetProvider < OneviewCookbook::API1800::C7000::UplinkSetProvider
       end
     end
   end

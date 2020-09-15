@@ -13,7 +13,7 @@ module OneviewCookbook
   module API2000
     module Synergy
       # UplinkSet API2000 Synergy provider
-      class UplinkSetProvider < API1800::Synergy::UplinkSetProvider
+      class UplinkSetProvider < OneviewCookbook::API1800::Synergy::UplinkSetProvider
       end
     end
   end
