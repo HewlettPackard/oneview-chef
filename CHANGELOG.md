@@ -4,6 +4,10 @@
 
 ### Oneview Features supported
 - oneview_storage_system
+- oneview_storage_pool
+- oneview_volume
+- oneview_volume_attachment
+- oneview_volume_template
 
 ## 3.5.0
 ### Notes

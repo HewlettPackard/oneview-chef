@@ -13,7 +13,7 @@ my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 1800
+  api_version: 2000
 }
 
 # Example: Create a volume
@@ -29,13 +29,22 @@ oneview_volume 'CHEF_VOL_01' do
   client my_client
   data(
     description: 'Created by Chef',
-    shareable: true,
-    provisionType: 'Thin', # Or 'Full'
-    provisionedCapacity: 1024 * 1024 * 1024 # 1GB
+    isShareable: true,
+    provisioningType: 'Thin', # Or 'Full'
+    size: 1024 * 1024 * 1024 # 1GB
   )
-  storage_system 'ThreePAR7200-3167' # Name of the storage system
+  storage_system 'ThreePAR-1' # Name of the storage system
   storage_pool 'CPG_FC-AO' # Name of the storage pool
   snapshot_pool 'CPG_FC-AO' # Name of the storage pool used for snapshots
+  action :create_if_missing
+end
+
+# Example: Update a volume
+oneview_volume 'CHEF_VOL_01' do
+  client my_client
+  data(description: 'Volume store serv Updated')
+  storage_pool 'CPG-SSD-AO'
+  storage_system 'ThreePAR-1'
 end
 
 # Example: Create a volume (using the storage system IP)
@@ -45,13 +54,14 @@ oneview_volume 'CHEF_VOL_02' do
   client my_client
   data(
     description: 'Created by Chef',
-    shareable: true,
-    provisionType: 'Thin', # Or 'Full'
-    provisionedCapacity: 1024 * 1024 * 1024 # 1GB
+    isShareable: true,
+    provisioningType: 'Thin', # Or 'Full'
+    size: 1024 * 1024 * 1024 # 1GB
   )
   storage_system '172.18.11.11' # IP of the storage system
   storage_pool 'CPG_FC-AO' # Name of the storage pool
   snapshot_pool 'CPG_FC-AO' # Name of the storage pool used for snapshots
+  action :create_if_missing
 end
 
 # Example: Create a volume using a VolumeTemplate
@@ -61,9 +71,12 @@ oneview_volume 'CHEF_VOL_03' do
   client my_client
   data(
     description: 'Created by Chef using template', # Override the template's description
-    provisionedCapacity: 1024 * 1024 * 1024 * 2 # Override the template and provision 2GB
+    isShareable: true,
+    provisioningType: 'Thin', # Or 'Full'
+    size: 1024 * 1024 * 1024 # 1GB
   )
-  volume_template 'Template1' # Name of the VolumeTemplate
+  volume_template 'VT1' # Name of the VolumeTemplate
+  action :create_if_missing
 end
 
 # Example: Create a snapshot from the volume created by this recipe
