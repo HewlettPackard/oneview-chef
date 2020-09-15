@@ -8,7 +8,8 @@
 # under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
-# NOTE:  Hypervisor Cluster Profile resource works for client version  API800 and greater.
+# NOTE: Hypervisor Cluster Profile resource works for client version  API800 and greater.
+# NOTE: Hypervisor manager and Server profile template should be created as a pre-requisite
 
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
