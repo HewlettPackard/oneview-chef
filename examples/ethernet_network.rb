@@ -16,7 +16,7 @@ my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 1800
+  api_version: 2000
 }
 
 # Example: Create and manage a new ethernet network
@@ -47,16 +47,18 @@ oneview_ethernet_network 'Eth1' do
   action :create_if_missing
 end
 
+# Only for API1800 or greater
 # Example: Bulk deletes ethernet networks.
 oneview_ethernet_network 'None' do
   client my_client
   data(
     networkUris: [
-      '/rest/ethernet-networks/9bbde590-2994-4aa4-988a-6a58f7ba26b8',
-      '/rest/ethernet-networks/e3021a50-3d6f-4fb0-a013-f0023ef84deb'
+      '/rest/ethernet-networks/8ae63676-eb46-4fb8-8e76-5f31a71d85b3',
+      '/rest/ethernet-networks/9b198fb1-a1ee-4bc1-9ebc-f6c9f8de7344'
     ]
   )
   action :delete_bulk
+  only_if { client[:api_version] >= 1800 }
 end
 
 # Only for V300 and V500
@@ -65,6 +67,7 @@ oneview_ethernet_network 'Eth1' do
   client my_client
   scopes ['Scope1', 'Scope2']
   action :add_to_scopes
+  only_if { client[:api_version] == 300 && client[:api_version] == 500 }
 end
 
 # Only for V300 and V500
@@ -73,6 +76,7 @@ oneview_ethernet_network 'Eth1' do
   client my_client
   scopes ['Scope1']
   action :remove_from_scopes
+  only_if { client[:api_version] == 300 && client[:api_version] == 500 }
 end
 
 # Only for V300 and V500
@@ -81,6 +85,7 @@ oneview_ethernet_network 'Eth1' do
   client my_client
   scopes ['Scope1', 'Scope2']
   action :replace_scopes
+  only_if { client[:api_version] == 300 && client[:api_version] == 500 }
 end
 
 # Only for V300 and V500
@@ -90,6 +95,7 @@ oneview_ethernet_network 'Eth1' do
   operation 'replace'
   path '/scopeUris'
   value []
+  only_if { client[:api_version] == 300 && client[:api_version] == 500 }
   action :patch
 end
 
