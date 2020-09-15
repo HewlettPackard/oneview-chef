@@ -15,7 +15,7 @@
 #  - FCoE Network: 'FCoENetwork1'
 #  - Ethernet Network: 'EthernetNetwork1'
 #  - Server Profile Template: 'ServerProfileTemplate1'
-#  - Server Hardware Type: 'BL660c Gen9 1'
+#  - Server Hardware Type: 'SY 480 Gen9 1'
 #  - Server Hardware: 'Encl1, bay 2'
 #  - Enclosure Group: 'EnclosureGroup1'
 
@@ -23,10 +23,10 @@ my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 1800
+  api_version: 2000
 }
 
-my_server_hardware_type = 'BL660c Gen9 1'
+my_server_hardware_type = 'SY 480 Gen9 1'
 my_enclosure_group = 'EnclosureGroup1'
 
 # Creates a server profile with the desired Enclosure group and Server hardware type
