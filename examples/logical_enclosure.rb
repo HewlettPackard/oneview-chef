@@ -13,7 +13,7 @@ my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 1800
+  api_version: 2000
 }
 
 # Example: Create a logical enclosure if it's missing
@@ -51,6 +51,7 @@ oneview_logical_enclosure 'LE1' do
   client my_client
   script '# My script commands here'
   action :set_script
+  only_if { client[:api_variant] == 'C7000' }
 end
 
 # Example: Creates a support dump for the logical enclosure
