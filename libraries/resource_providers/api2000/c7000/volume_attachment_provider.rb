@@ -13,7 +13,7 @@ module OneviewCookbook
   module API2000
     module C7000
       # VolumeAttachment API2000 C7000 provider
-      class VolumeAttachmentProvider < API1800::C7000::VolumeAttachmentProvider
+      class VolumeAttachmentProvider < OneviewCookbook::API1800::C7000::VolumeAttachmentProvider
       end
     end
   end

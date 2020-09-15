@@ -13,7 +13,7 @@ module OneviewCookbook
   module API2000
     module C7000
       # Volume API2000 C7000 provider
-      class VolumeProvider < API1800::C7000::VolumeProvider
+      class VolumeProvider < OneviewCookbook::API1800::C7000::VolumeProvider
       end
     end
   end
