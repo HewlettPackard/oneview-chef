@@ -13,7 +13,7 @@ module OneviewCookbook
   module API2000
     module Synergy
       # VolumeTemplate API2000 Synergy provider
-      class VolumeTemplateProvider < API2000::C7000::VolumeTemplateProvider
+      class VolumeTemplateProvider < OneviewCookbook::API2000::C7000::VolumeTemplateProvider
       end
     end
   end

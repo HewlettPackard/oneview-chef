@@ -13,7 +13,7 @@ module OneviewCookbook
   module API2000
     module Synergy
       # VolumeAttachment API2000 Synergy provider
-      class VolumeAttachmentProvider < API2000::C7000::VolumeAttachmentProvider
+      class VolumeAttachmentProvider < OneviewCookbook::API2000::C7000::VolumeAttachmentProvider
       end
     end
   end
