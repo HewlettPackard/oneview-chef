@@ -20,7 +20,7 @@ my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD']
-  api_version: 1800
+  api_version: 2000
 }
 
 # Example: creates or updates an uplink set
@@ -46,9 +46,9 @@ oneview_uplink_set 'UplinkSet1' do
       {
         locationEntries:
         [
-          {value: 'bay_number', type: 'Bay'},
-          { value: 'MyEnclosure', type: 'Enclosure' },
-          { value: 'port_number', type: 'Port'}
+	  { value: '3', type: 'Bay'},
+          { value: '/rest/enclosures/0000000000A66101', type: 'Enclosure' },
+          { value: 'Q3:1', type: 'Port'}
         ]
       }
     ]

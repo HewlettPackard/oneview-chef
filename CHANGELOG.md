@@ -11,11 +11,13 @@
 - oneview_ethernet_network
 - oneview_fc_network
 - oneview_fcoe_network
+- oneview_logical_interconnect_group
 - oneview_network_set
 - oneview_server_profile
 - oneview_server_profile_template
 - oneview_storage_pool
 - oneview_storage_system
+- oneview_uplink_set
 - oneview_volume
 - oneview_volume_attachment
 - oneview_volume_template
