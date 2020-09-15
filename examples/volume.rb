@@ -36,7 +36,6 @@ oneview_volume 'CHEF_VOL_01' do
   storage_system 'ThreePAR-1' # Name of the storage system
   storage_pool 'CPG_FC-AO' # Name of the storage pool
   snapshot_pool 'CPG_FC-AO' # Name of the storage pool used for snapshots
-  action :create_if_missing
 end
 
 # Example: Update a volume
@@ -61,7 +60,6 @@ oneview_volume 'CHEF_VOL_02' do
   storage_system '172.18.11.11' # IP of the storage system
   storage_pool 'CPG_FC-AO' # Name of the storage pool
   snapshot_pool 'CPG_FC-AO' # Name of the storage pool used for snapshots
-  action :create_if_missing
 end
 
 # Example: Create a volume using a VolumeTemplate
@@ -76,7 +74,6 @@ oneview_volume 'CHEF_VOL_03' do
     size: 1024 * 1024 * 1024 # 1GB
   )
   volume_template 'VT1' # Name of the VolumeTemplate
-  action :create_if_missing
 end
 
 # Example: Create a snapshot from the volume created by this recipe

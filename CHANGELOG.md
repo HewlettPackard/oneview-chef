@@ -3,8 +3,8 @@
 - This release extends support of the SDK to OneView REST API version 2000 (OneView v5.40).
 
 ### Oneview Features supported
-- oneview_storage_system
 - oneview_storage_pool
+- oneview_storage_system
 - oneview_volume
 - oneview_volume_attachment
 - oneview_volume_template
