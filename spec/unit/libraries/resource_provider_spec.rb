@@ -4,12 +4,12 @@ require_relative './../../fixtures/fake_resource'
 RSpec.describe OneviewCookbook::ResourceProvider do
   include_context 'shared context'
 
-  let(:res) { described_class.new(FakeResource.new) }
+  let(:res) { described_class.new(FakeResource.new(client: { api_version: 200 })) }
 
   before :each do
     allow(OneviewCookbook::Helper).to receive(:build_client).and_return @client
     allow(OneviewCookbook::Helper).to receive(:build_image_streamer_client).and_return @i3s_client
-    @context = FakeResource.new
+    @context = FakeResource.new(client: { api_version: 200 })
   end
 
   describe '#initialize' do
@@ -27,13 +27,13 @@ RSpec.describe OneviewCookbook::ResourceProvider do
     end
 
     it "respects the resource's api_header_version property" do
-      r = described_class.new(FakeResource.new(api_header_version: 2))
+      r = described_class.new(FakeResource.new(client: { api_version: 200 }, api_header_version: 2))
       expect(r.item.api_version).to eq(2)
     end
 
     it "respects the resource's data property" do
       data = { 'name' => 'myname', 'key' => 'val' }
-      r = described_class.new(FakeResource.new(data: data))
+      r = described_class.new(FakeResource.new(data: data, client: { api_version: 200 }))
       expect(r.item.data).to eq(data)
     end
 
@@ -498,8 +498,8 @@ RSpec.describe OneviewCookbook::ResourceProvider do
   describe '#convert_keys' do
     it 'calls the Helper method' do
       expect(OneviewCookbook::Helper).to receive(:convert_keys)
-        .with(:info, :conversion_method).and_return(:value)
-      expect(res.send(:convert_keys, :info, :conversion_method)).to eq(:value)
+        .with(res.item.api_version, :to_sym).and_return(:value)
+      expect(res.send(:convert_keys, res.item.api_version, :to_sym)).to eq(:value)
     end
   end
 
