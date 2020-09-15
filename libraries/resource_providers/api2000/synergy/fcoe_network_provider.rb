@@ -13,7 +13,7 @@ module OneviewCookbook
   module API2000
     module Synergy
       # FCoENetwork API2000 Synergy provider
-      class FCoENetworkProvider < API1800::Synergy::FCoENetworkProvider
+      class FCoENetworkProvider < OneviewCookbook::API1800::Synergy::FCoENetworkProvider
       end
     end
   end

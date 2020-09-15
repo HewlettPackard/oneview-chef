@@ -13,7 +13,7 @@ module OneviewCookbook
   module API2000
     module C7000
       # EthernetNetworkProvider API2000 C7000 provider
-      class EthernetNetworkProvider < API1800::C7000::EthernetNetworkProvider
+      class EthernetNetworkProvider < OneviewCookbook::API1800::C7000::EthernetNetworkProvider
       end
     end
   end

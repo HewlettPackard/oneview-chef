@@ -13,7 +13,7 @@ module OneviewCookbook
   module API2000
     module C7000
       # ConnectionTemplate API2000 C7000 provider
-      class ConnectionTemplateProvider < API1800::C7000::ConnectionTemplateProvider
+      class ConnectionTemplateProvider < OneviewCookbook::API1800::C7000::ConnectionTemplateProvider
       end
     end
   end

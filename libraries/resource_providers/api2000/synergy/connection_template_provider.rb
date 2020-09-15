@@ -13,7 +13,7 @@ module OneviewCookbook
   module API2000
     module Synergy
       # ConnectionTemplate API2000 Synergy provider
-      class ConnectionTemplateProvider < API1800::Synergy::ConnectionTemplateProvider
+      class ConnectionTemplateProvider < OneviewCookbook::API1800::Synergy::ConnectionTemplateProvider
       end
     end
   end

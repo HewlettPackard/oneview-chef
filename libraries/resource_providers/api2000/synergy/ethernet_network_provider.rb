@@ -13,7 +13,7 @@ module OneviewCookbook
   module API2000
     module Synergy
       # EthernetNetworkProvider API2000 Synergy provider
-      class EthernetNetworkProvider < API1800::Synergy::EthernetNetworkProvider
+      class EthernetNetworkProvider < OneviewCookbook::API1800::Synergy::EthernetNetworkProvider
       end
     end
   end
