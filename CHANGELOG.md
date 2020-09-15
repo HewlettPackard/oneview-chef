@@ -14,7 +14,11 @@
 - oneview_network_set
 - oneview_server_profile
 - oneview_server_profile_template
+- oneview_storage_pool
 - oneview_storage_system
+- oneview_volume
+- oneview_volume_attachment
+- oneview_volume_template
 
 ## 3.5.0
 ### Notes
