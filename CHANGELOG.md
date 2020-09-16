@@ -11,10 +11,20 @@
 - oneview_ethernet_network
 - oneview_fc_network
 - oneview_fcoe_network
+- oneview_hypervisor_cluster_profile
+- oneview_hypervisor_manager
 - oneview_interconnect
 - oneview_logical_enclosure
 - oneview_network_set
+- oneview_scope
+- oneview_server_certificate
+- oneview_server_profile
+- oneview_server_profile_template
+- oneview_storage_pool
 - oneview_storage_system
+- oneview_volume
+- oneview_volume_attachment
+- oneview_volume_template
 
 ## 3.5.0
 ### Notes
