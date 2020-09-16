@@ -8,6 +8,8 @@
 
 ### Oneview Features supported
 - oneview_connection_template
+- oneview_enclosure
+- oneview_enclosure_group
 - oneview_ethernet_network
 - oneview_fc_network
 - oneview_fcoe_network
@@ -19,6 +21,8 @@
 - oneview_network_set
 - oneview_scope
 - oneview_server_certificate
+- oneview_server_hardware
+- oneview_server_hardware_type
 - oneview_server_profile
 - oneview_server_profile_template
 - oneview_storage_pool

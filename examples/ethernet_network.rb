@@ -67,7 +67,7 @@ oneview_ethernet_network 'Eth1' do
   client my_client
   scopes ['Scope1', 'Scope2']
   action :add_to_scopes
-  only_if { client[:api_version] == 300 && client[:api_version] == 500 }
+  only_if { client[:api_version] == 300 || client[:api_version] == 500 }
 end
 
 # Only for V300 and V500
@@ -76,7 +76,7 @@ oneview_ethernet_network 'Eth1' do
   client my_client
   scopes ['Scope1']
   action :remove_from_scopes
-  only_if { client[:api_version] == 300 && client[:api_version] == 500 }
+  only_if { client[:api_version] == 300 || client[:api_version] == 500 }
 end
 
 # Only for V300 and V500
@@ -85,7 +85,7 @@ oneview_ethernet_network 'Eth1' do
   client my_client
   scopes ['Scope1', 'Scope2']
   action :replace_scopes
-  only_if { client[:api_version] == 300 && client[:api_version] == 500 }
+  only_if { client[:api_version] == 300 || client[:api_version] == 500 }
 end
 
 # Only for V300 and V500
@@ -95,7 +95,7 @@ oneview_ethernet_network 'Eth1' do
   operation 'replace'
   path '/scopeUris'
   value []
-  only_if { client[:api_version] == 300 && client[:api_version] == 500 }
+  only_if { client[:api_version] == 300 || client[:api_version] == 500 }
   action :patch
 end
 

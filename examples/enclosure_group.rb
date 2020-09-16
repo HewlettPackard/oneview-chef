@@ -13,12 +13,13 @@ my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 1800
+  api_version: 2000,
+  api_variant: 'Synergy'
 }
 
 interconnect_bay_mapping = [
-       { interconnectBay: 1, logicalInterconnectGroupUri: '/rest/logical-interconnect-groups/a6ac18fa-c0a6-4937-96ea-3d0da4fe7e21' },
-       { interconnectBay: 4, logicalInterconnectGroupUri: '/rest/logical-interconnect-groups/a6ac18fa-c0a6-4937-96ea-3d0da4fe7e21' }
+       { interconnectBay: 3, logicalInterconnectGroupUri: '/rest/logical-interconnect-groups/a6ac18fa-c0a6-4937-96ea-3d0da4fe7e21' },
+       { interconnectBay: 6, logicalInterconnectGroupUri: '/rest/logical-interconnect-groups/a6ac18fa-c0a6-4937-96ea-3d0da4fe7e21' }
 ]
 
 oneview_enclosure_group 'Eg2' do
@@ -39,6 +40,7 @@ oneview_enclosure_group 'Eg2' do
   api_variant 'C7000'
   script '#TEST COMMAND'
   action :set_script
+  only_if { client[:api_variant] == 'C7000' }
 end
 
 oneview_enclosure_group 'Eg2' do

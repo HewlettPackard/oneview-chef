@@ -65,7 +65,7 @@ oneview_fc_network 'Fc1' do
   client my_client
   scopes ['Scope1', 'Scope2']
   action :add_to_scopes
-  only_if { client[:api_version] == 300 && client[:api_version] == 500 }
+  only_if { client[:api_version] == 300 || client[:api_version] == 500 }
 end
 
 # Example: Removes 'Fc1' from 'Scope1'
@@ -74,7 +74,7 @@ oneview_fc_network 'Fc1' do
   client my_client
   scopes ['Scope1']
   action :remove_from_scopes
-  only_if { client[:api_version] == 300 && client[:api_version] == 500 }
+  only_if { client[:api_version] == 300 || client[:api_version] == 500 }
 end
 
 # Example: Replaces 'Scope1' and 'Scope2' for 'Fc1'
@@ -83,7 +83,7 @@ oneview_fc_network 'Fc1' do
   client my_client
   scopes ['Scope1', 'Scope2']
   action :replace_scopes
-  only_if { client[:api_version] == 300 && client[:api_version] == 500 }
+  only_if { client[:api_version] == 300 || client[:api_version] == 500 }
 end
 
 # Example: Replaces all scopes to empty list of scopes
@@ -94,7 +94,7 @@ oneview_fc_network 'Fc1' do
   path '/scopeUris'
   value []
   action :patch
-  only_if { client[:api_version] == 300 && client[:api_version] == 500 }
+  only_if { client[:api_version] == 300 || client[:api_version] == 500 }
 end
 
 # Example: Reset the connection template for a fc network
