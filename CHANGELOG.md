@@ -15,6 +15,7 @@
 - oneview_hypervisor_manager
 - oneview_interconnect
 - oneview_logical_enclosure
+- oneview_logical_interconnect_group
 - oneview_network_set
 - oneview_scope
 - oneview_server_certificate
@@ -22,6 +23,7 @@
 - oneview_server_profile_template
 - oneview_storage_pool
 - oneview_storage_system
+- oneview_uplink_set
 - oneview_volume
 - oneview_volume_attachment
 - oneview_volume_template
