@@ -25,11 +25,13 @@ my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 1800
+  api_version: 2000
 }
 
 my_server_hardware_type = 'SY 480 Gen9 2'
+my_server_hardware = 'SYN03_Frame1, bay 3'
 my_enclosure_group = 'EG'
+my_spt = 'SPT-102'
 my_fc_network_data = [
   {
     FC01: {
@@ -62,7 +64,7 @@ volume_attachment_data = [
 ]
 
 # To create server profile template
-oneview_server_profile_template 'SPT-102' do
+oneview_server_profile_template my_spt do
   client my_client
   enclosure_group my_enclosure_group
   server_hardware_type my_server_hardware_type
@@ -81,13 +83,12 @@ oneview_server_profile 'SP' do
   client my_client
   enclosure_group my_enclosure_group
   server_hardware_type my_server_hardware_type
-  server_profile_template 'SPT-102'
-  server_hardware 'SYN03_Frame1, bay 3'
+  server_profile_template my_spt
+  server_hardware my_server_hardware
 end
 
 # Power on the server
-
-oneview_server_hardware 'SYN03_Frame1, bay 3' do
+oneview_server_hardware my_server_hardware do
   client my_client
   power_state 'on'
   action :set_power_state

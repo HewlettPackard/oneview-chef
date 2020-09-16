@@ -19,10 +19,13 @@ my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 1800
+  api_version: 2000,
+  api_variant: 'Synergy'
 }
 
-oneview_enclosure 'Encl1' do
+enc_name = '0000A66102'
+
+oneview_enclosure enc_name do
   data(
     hostname: '172.18.1.11',
     username: 'dcs',
@@ -32,12 +35,13 @@ oneview_enclosure 'Encl1' do
   enclosure_group 'Eg1'
   client my_client
   action :add
+  only_if { client[:api_variant] == 'C7000' }
 end
 
 #Generate certificate Signing Request
-oneview_enclosure 'e10' do
+oneview_enclosure enc_name do
   client my_client
-  bay_number 1
+  bay_number 1 # bay number is required only for C7000
   csr_file_path 'file_path_of_csr_file'
   csr_data(
     type: 'CertificateDtoV2',
@@ -53,9 +57,9 @@ oneview_enclosure 'e10' do
 end
 
 #Import a signed server certtificate into 'Encl1'
-oneview_enclosure 'e10' do
+oneview_enclosure enc_name do
   client my_client
-  bay_number 1
+  bay_number 1 # bay number is required only for C7000
   csr_file_path 'file_path_of_csr_file'
   csr_type 'CertificateDataV2'
   action :import_certificate
@@ -63,7 +67,7 @@ end
 
 # Rename enclosure
 # Warning: Operation persists in hardware
-oneview_enclosure 'Encl1' do
+oneview_enclosure enc_name do
   client my_client
   operation 'replace'
   path '/name'
@@ -76,42 +80,47 @@ oneview_enclosure 'ChefEncl1' do
   client my_client
   operation 'replace'
   path '/name'
-  value 'Encl1'
+  value enc_name
   action :patch
 end
 
 # Refreshes the enclosure
-oneview_enclosure 'Encl1' do
+oneview_enclosure enc_name do
   client my_client
   action :refresh
 end
 
 # Supported for API 300 till 500
 # Adds 'Encl1' to 'Scope1' and 'Scope2'
-oneview_enclosure 'Encl1' do
+oneview_enclosure enc_name do
   client my_client
   scopes ['Scope1', 'Scope2']
   action :add_to_scopes
+  only_if { client[:api_version] == 300 || client[:api_version] == 500 }
 end
 
 # Supported for API 300 till 500
 # Removes 'Encl1' from 'Scope1'
-oneview_enclosure 'Encl1' do
+oneview_enclosure enc_name do
   client my_client
   scopes ['Scope1']
   action :remove_from_scopes
+  only_if { client[:api_version] == 300 || client[:api_version] == 500 }
 end
 
 # Supported for API 300 till 500
 # Replaces 'Scope1' and 'Scope2' for 'Encl1'
-oneview_enclosure 'Encl1' do
+oneview_enclosure enc_name do
   client my_client
   scopes ['Scope1', 'Scope2']
   action :replace_scopes
+  only_if { client[:api_version] == 300 || client[:api_version] == 500 }
 end
 
+# Remove operation will work only for C7000
 # Removes it from the appliance
-oneview_enclosure 'Encl1' do
+oneview_enclosure enc_name do
   client my_client
   action :remove
+  only_if { client[:api_variant] == 'C7000' }
 end
