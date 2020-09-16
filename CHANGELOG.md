@@ -1,7 +1,7 @@
 ## 3.6.0(unreleased)
 
 ## Enhancements:
-- Enahanced the method to set the default API version to appliance's max API version instead of hardcoded 200.
+- Enhanced the method to set the default API version to appliance's max API version instead of hardcoded 200.
 
 ### Notes
 - This release extends support of the SDK to OneView REST API version 2000 (OneView v5.40).
@@ -11,7 +11,11 @@
 - oneview_ethernet_network
 - oneview_fc_network
 - oneview_fcoe_network
+- oneview_hypervisor_cluster_profile
+- oneview_hypervisor_manager
 - oneview_network_set
+- oneview_scope
+- oneview_server_certificate
 - oneview_server_profile
 - oneview_server_profile_template
 - oneview_storage_pool
