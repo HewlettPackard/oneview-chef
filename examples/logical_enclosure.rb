@@ -13,7 +13,7 @@ my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
-  variant: 'Synergy',
+  api_variant: 'Synergy',
   api_version: 2000
 }
 
@@ -27,7 +27,7 @@ oneview_logical_enclosure 'LE' do
   enclosures ['EN1', 'EN2', 'EN3'] # List of enclosure names, serial numbers or OA IPs
   enclosure_group 'EG1'
   action :create_if_missing # This is the default action, so you don't need to specify it
-  only_if { client[:variant] == 'Synergy' }
+  only_if { client[:api_variant] == 'Synergy' }
 end
 
 # Example: Make a logical enclosure consistent with the enclosure group
@@ -52,7 +52,7 @@ oneview_logical_enclosure 'LE1' do
   client my_client
   script '# My script commands here'
   action :set_script
-  only_if { client[:variant] == 'C7000' }
+  only_if { client[:api_variant] == 'C7000' }
 end
 
 # Example: Creates a support dump for the logical enclosure
@@ -69,5 +69,5 @@ end
 oneview_logical_enclosure 'LE1' do
   client my_client
   action :delete
-  only_if { client[:variant] == 'Synergy' }
+  only_if { client[:api_variant] == 'Synergy' }
 end
