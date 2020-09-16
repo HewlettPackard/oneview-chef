@@ -13,7 +13,7 @@ module OneviewCookbook
   module API2000
     module Synergy
       # EnclosureGroup API2000 Synergy provider
-      class EnclosureGroupProvider < API1800::Synergy::EnclosureGroupProvider
+      class EnclosureGroupProvider < OneviewCookbook::API1800::Synergy::EnclosureGroupProvider
       end
     end
   end

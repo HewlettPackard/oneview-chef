@@ -13,7 +13,7 @@ module OneviewCookbook
   module API2000
     module C7000
       # EnclosureGroup API2000 C7000 provider
-      class EnclosureGroupProvider < API1800::C7000::EnclosureGroupProvider
+      class EnclosureGroupProvider < OneviewCookbook::API1800::C7000::EnclosureGroupProvider
       end
     end
   end

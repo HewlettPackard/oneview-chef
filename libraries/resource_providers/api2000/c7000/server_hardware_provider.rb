@@ -13,7 +13,7 @@ module OneviewCookbook
   module API2000
     module C7000
       # ServerHardware API2000 C7000 provider
-      class ServerHardwareProvider < API1800::C7000::ServerHardwareProvider
+      class ServerHardwareProvider < OneviewCookbook::API1800::C7000::ServerHardwareProvider
       end
     end
   end

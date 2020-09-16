@@ -13,7 +13,7 @@ module OneviewCookbook
   module API2000
     module Synergy
       # ServerHardware API2000 Synergy provider
-      class ServerHardwareProvider < API1800::Synergy::ServerHardwareProvider
+      class ServerHardwareProvider < OneviewCookbook::API1800::Synergy::ServerHardwareProvider
       end
     end
   end
