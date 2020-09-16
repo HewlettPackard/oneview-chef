@@ -20,13 +20,13 @@ my_client = {
 # Available only for Synergy
 oneview_logical_enclosure 'LE1' do
   client my_client
-  api_variant 'Synergy'
   data(
     firmwareBaselineUri: nil
   )
   enclosures ['EN1', 'EN2', 'EN3'] # List of enclosure names, serial numbers or OA IPs
   enclosure_group 'EG1'
   action :create_if_missing # This is the default action, so you don't need to specify it
+  only_if { client[:api_variant] == 'Synergy' }
 end
 
 # Example: Make a logical enclosure consistent with the enclosure group
@@ -67,6 +67,6 @@ end
 # Available only for Synergy
 oneview_logical_enclosure 'LE1' do
   client my_client
-  api_variant 'Synergy'
   action :delete
+  only_if { client[:api_variant] == 'Synergy' }
 end
