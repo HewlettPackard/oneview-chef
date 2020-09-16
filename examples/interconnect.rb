@@ -13,49 +13,51 @@ my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 1800
+  api_version: 2000
 }
 
+interconnect = 'Encl1, interconnect 1'
+
 # It will not do anything if no action is selected
-oneview_interconnect 'Encl1, interconnect 1' do
+oneview_interconnect interconnect do
   client my_client
 end
 
-oneview_interconnect 'Encl1, interconnect 1' do
+oneview_interconnect interconnect do
   client my_client
   action :reset_port_protection
 end
 
-oneview_interconnect 'Encl1, interconnect 1' do
+oneview_interconnect interconnect do
   client my_client
   uid_light_state 'On'
   action :set_uid_light
 end
 
-oneview_interconnect 'Encl1, interconnect 1' do
+oneview_interconnect interconnect do
   client my_client
   power_state 'On'
   action :set_power_state
 end
 
-oneview_interconnect 'Encl1, interconnect 1' do
+oneview_interconnect interconnect do
   client my_client
   port_options(
-    name: 'X4',
-    portName: 'X4',
+    name: 'Q3:1',
+    portName: 'Q3:1',
     enabled: true
   )
   action :update_port
 end
 
-oneview_interconnect 'Encl1, interconnect 1' do
+oneview_interconnect interconnect do
   client my_client
   action :reset
 end
 
 # for Api greater than Api500
-oneview_interconnect 'Encl1, interconnect 1' do
+oneview_interconnect interconnect do
   client my_client
-  api_version 1800
   action :reapply_configuration
+  only_if { client[:api_version] >= 500 }
 end
