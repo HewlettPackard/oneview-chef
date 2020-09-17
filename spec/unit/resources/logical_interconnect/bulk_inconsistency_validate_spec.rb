@@ -1,6 +1,6 @@
 require_relative './../../../spec_helper'
 
-describe 'oneview_test_api2000_synergy::logical_interconnect_bulk_inconsistency_validate' do
+describe 'oneview_test_api2000_c7000::logical_interconnect_bulk_inconsistency_validate' do
   let(:resource_name) { 'logical_interconnect' }
   include_context 'chef context'
 
