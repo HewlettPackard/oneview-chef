@@ -52,6 +52,7 @@ oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
   client my_client
   logicalInterconnectUris ['/rest/logical-interconnects/1d2be484-6d4c-46f4-8f6a-8a34080030a6']
   action :bulk_inconsistency_validate
+  only_if { client[:api_version] >= 2000 && client[:api_variant] == 'Synergy' }
 end
 
 # Set the EthernetNetwork1 and EthernetNetwork2 as internal networks for the logical interconnect

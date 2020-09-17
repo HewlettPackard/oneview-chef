@@ -13,7 +13,7 @@ module OneviewCookbook
   module API2000
     module Synergy
       # LogicalInterconnect API2000 Synergy provider
-      class LogicalInterconnectProvider < API2000::C7000::LogicalInterconnectProvider
+      class LogicalInterconnectProvider < OneviewCookbook::API2000::C7000::LogicalInterconnectProvider
       end
     end
   end

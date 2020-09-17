@@ -1,5 +1,5 @@
-# Cookbook Name:: oneview_test
-# Recipe:: logical_interconnect_update_bulk_inconsistency_validate
+# Cookbook Name:: oneview_test_api2000_c7000
+# Recipe:: logical_interconnect_bulk_inconsistency_validate
 #
 # (c) Copyright 2020 Hewlett Packard Enterprise Development LP
 #
