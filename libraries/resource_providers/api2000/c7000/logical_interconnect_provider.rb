@@ -13,7 +13,7 @@ module OneviewCookbook
   module API2000
     module C7000
       # LogicalInterconnect API2000 C7000 provider
-      class LogicalInterconnectProvider < API1800::C7000::LogicalInterconnectProvider
+      class LogicalInterconnectProvider < OneviewCookbook::API1800::C7000::LogicalInterconnectProvider
         def bulk_inconsistency_validate
           @item['uri'] = @new_resource.logicalInterconnectUris[0]
           @item['logicalInterconnectUris'] = @new_resource.logicalInterconnectUris
