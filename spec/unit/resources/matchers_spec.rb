@@ -135,6 +135,7 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not update_oneview_logical_interconnect_settings('')
     expect(chef_run).to_not update_oneview_logical_interconnect_snmp_configuration('')
     expect(chef_run).to_not update_oneview_logical_interconnect_telemetry_configuration('')
+    expect(chef_run).to_not get_oneview_logical_interconnect_bulk_inconsistency_report('')
     expect(chef_run).to_not add_oneview_logical_interconnect_to_scopes('')
     expect(chef_run).to_not remove_oneview_logical_interconnect_from_scopes('')
     expect(chef_run).to_not replace_oneview_logical_interconnect_scopes('')

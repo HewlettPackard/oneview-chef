@@ -17,7 +17,9 @@
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
-  password: ENV['ONEVIEWSDK_PASSWORD']
+  password: ENV['ONEVIEWSDK_PASSWORD'],
+  api_variant: 'Synergy',
+  api_version: 2000
 }
 
 # No action
@@ -32,6 +34,7 @@ oneview_logical_interconnect 'Remove Encl 1, interconnect 1' do
   enclosure 'Encl1'
   bay_number 1
   action :remove_interconnect
+  only_if { client[:api_version] == 200 }
 end
 
 # Add the interconnect in the enclosure 'Encl1' in bay 1 for management in HPE OneView
@@ -41,24 +44,42 @@ oneview_logical_interconnect 'Add Encl 1, interconnect 1' do
   enclosure 'Encl1'
   bay_number 1
   action :add_interconnect
+  only_if { client[:api_version] == 200 }
+end
+
+# Get the inconsistency report for bulk update from group
+oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
+  client my_client
+  logicalInterconnectUris ['/rest/logical-interconnects/1d2be484-6d4c-46f4-8f6a-8a34080030a6']
+  action :bulk_inconsistency_validate
 end
 
 # Set the EthernetNetwork1 and EthernetNetwork2 as internal networks for the logical interconnect
 oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
   client my_client
-  internal_networks ['EthernetNetwork1', 'EthernetNetwork2']
+  internal_networks ['TestNetwork_5', 'test']
   action :update_internal_networks
 end
 
 # Increase the ethernet settings refresh and timeout intervals
 oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
   client my_client
-  data(
-    ethernetSettings: {
-      igmpIdleTimeoutInterval: 230,
-      macRefreshInterval: 15
-    }
-  )
+  if client[:api_variant] == 'C7000'
+    data(
+    	ethernetSettings: {
+      	igmpIdleTimeoutInterval: 230,
+      	macRefreshInterval: 30
+    	}
+    )
+  end
+  if client[:api_variant] == 'Synergy'
+	  data(
+        ethernetSettings: {
+        igmpIdleTimeoutInterval: 230,
+        stormControlPollingInterval: 20
+        }
+    )
+  end
   action :update_ethernet_settings
 end
 
@@ -279,6 +300,7 @@ oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
   client my_client
   scopes ['Scope1', 'Scope2']
   action :add_to_scopes
+  only_if { client[:api_version] == 300 || client[:api_version] == 500 }
 end
 
 # Example: Removes 'Encl1-LogicalInterconnectGroup1' from 'Scope1'
@@ -287,6 +309,7 @@ oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
   client my_client
   scopes ['Scope1']
   action :remove_from_scopes
+  only_if { client[:api_version] == 300 || client[:api_version] == 500 }
 end
 
 # Example: Replaces 'Scope1' and 'Scope2' for 'Encl1-LogicalInterconnectGroup1'
@@ -295,6 +318,7 @@ oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
   client my_client
   scopes ['Scope1', 'Scope2']
   action :replace_scopes
+  only_if { client[:api_version] == 300 || client[:api_version] == 500 }
 end
 
 # Example: Replaces all scopes to empty list of scopes
@@ -305,4 +329,5 @@ oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
   path '/scopeUris'
   value []
   action :patch
+  only_if { client[:api_version] == 300 || client[:api_version] == 500 }
 end
