@@ -16,10 +16,10 @@ The Docker Store image tag consist of two sections: <sdk_version-OV_version>
 ```bash
 # Download and store a local copy of oneview-chef and
 # use it as a Docker image.
-$ docker pull hewlettpackardenterprise/hpe-oneview-sdk-for-chef:v3.5.0-OV5.3
+$ docker pull hewlettpackardenterprise/hpe-oneview-sdk-for-chef:v3.6.0-OV5.4
 # Run docker commands below given, which  will in turn create
 # a sh session where you can create files, issue commands and execute the recipes.
-$ docker run -it hewlettpackardenterprise/hpe-oneview-sdk-for-chef:v3.5.0-OV5.3 /bin/sh
+$ docker run -it hewlettpackardenterprise/hpe-oneview-sdk-for-chef:v3.6.0-OV5.4 /bin/sh
 ```
 
 
@@ -316,7 +316,7 @@ oneview_logical_interconnect 'LogicalInterconnect1' do
           :update_settings,:update_ethernet_settings, :update_igmp_settings, :update_port_monitor, :update_qos_configuration,
           :update_telemetry_configuration, :update_snmp_configuration, :update_firmware, :stage_firmware,
           :activate_firmware, :update_from_group, :reapply_configuration, :patch, :add_to_scopes,
-          :remove_from_scopes, :replace_scopes]
+          :remove_from_scopes, :replace_scopes, :bulk_inconsistency_validate]
 end
 ```
 
