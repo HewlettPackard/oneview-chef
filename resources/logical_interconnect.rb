@@ -19,6 +19,7 @@ property :firmware, String
 property :firmware_data, Hash, default: {}
 property :scopes, Array
 property :port_monitor, Hash, default: {}
+property :logicalInterconnectUris, Array, default: []
 
 default_action :none
 
@@ -47,6 +48,10 @@ end
 
 action :update_igmp_settings do
   OneviewCookbook::Helper.do_resource_action(self, :LogicalInterconnect, :update_igmp_settings)
+end
+
+action :validate_bulk_inconsistency do
+  OneviewCookbook::Helper.do_resource_action(self, :LogicalInterconnect, :validate_bulk_inconsistency)
 end
 
 action :update_port_monitor do

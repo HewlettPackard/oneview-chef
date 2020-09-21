@@ -1,4 +1,4 @@
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2020 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,11 +17,20 @@
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
-  password: ENV['ONEVIEWSDK_PASSWORD']
+  password: ENV['ONEVIEWSDK_PASSWORD'],
+  api_variant: 'Synergy',
+  api_version: 2000
 }
 
+# Variable declaration
+li_name = 'LE-LIG'
+network1 = 'Test-Network-1'
+network2 = 'Test-Network-2'
+scope1 = 'Scope1'
+scope2 = 'Scope2'
+
 # No action
-oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
+oneview_logical_interconnect li_name do
   client my_client
 end
 
@@ -32,6 +41,7 @@ oneview_logical_interconnect 'Remove Encl 1, interconnect 1' do
   enclosure 'Encl1'
   bay_number 1
   action :remove_interconnect
+  only_if { client[:api_version] == 200 }
 end
 
 # Add the interconnect in the enclosure 'Encl1' in bay 1 for management in HPE OneView
@@ -41,29 +51,48 @@ oneview_logical_interconnect 'Add Encl 1, interconnect 1' do
   enclosure 'Encl1'
   bay_number 1
   action :add_interconnect
+  only_if { client[:api_version] == 200 }
+end
+
+# Get the inconsistency report for bulk update from group
+oneview_logical_interconnect li_name do
+  client my_client
+  logicalInterconnectUris ['/rest/logical-interconnects/1d2be484-6d4c-46f4-8f6a-8a34080030a6']
+  action :validate_bulk_inconsistency
+  only_if { client[:api_version] >= 200 && client[:api_variant] == 'Synergy' }
 end
 
 # Set the EthernetNetwork1 and EthernetNetwork2 as internal networks for the logical interconnect
-oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
+oneview_logical_interconnect li_name do
   client my_client
-  internal_networks ['EthernetNetwork1', 'EthernetNetwork2']
+  internal_networks [network1, network2]
   action :update_internal_networks
 end
 
 # Increase the ethernet settings refresh and timeout intervals
-oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
+oneview_logical_interconnect li_name do
   client my_client
-  data(
-    ethernetSettings: {
-      igmpIdleTimeoutInterval: 230,
-      macRefreshInterval: 15
-    }
-  )
+  if client[:api_variant] == 'C7000'
+    data(
+    	ethernetSettings: {
+      	igmpIdleTimeoutInterval: 230,
+      	macRefreshInterval: 30
+    	}
+    )
+  end
+  if client[:api_variant] == 'Synergy'
+	  data(
+        ethernetSettings: {
+        igmpIdleTimeoutInterval: 230,
+        stormControlPollingInterval: 20
+        }
+    )
+  end
   action :update_ethernet_settings
 end
 
 # Update igmp  settings refresh and timeout intervals
-oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
+oneview_logical_interconnect li_name do
   client my_client
   data(
     igmpSettings: {
@@ -74,7 +103,7 @@ oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
 end
 
 # Activate the port monitor service
-oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
+oneview_logical_interconnect li_name do
   client my_client
   port_monitor(
     analyzerPort: {
@@ -94,7 +123,7 @@ oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
 end
 
 # Disable the port monitor service
-oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
+oneview_logical_interconnect li_name do
   client my_client
   port_monitor(
     analyzerPort: nil,
@@ -106,7 +135,7 @@ oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
 end
 
 # Activate the port monitor service with data
-oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup_1' do
+oneview_logical_interconnect li_name do
   client my_client
   data(
     portMonitor: {
@@ -128,7 +157,7 @@ oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup_1' do
 end
 
 # Disable the port monitor service with data
-oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup_1' do
+oneview_logical_interconnect li_name do
   client my_client
   data(
     portMonitor: {
@@ -142,7 +171,7 @@ oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup_1' do
 end
 
 # Activate the port monitor service with data and port_monitor property
-oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup_1' do
+oneview_logical_interconnect li_name do
   client my_client
   data(
     portMonitor: {
@@ -166,7 +195,7 @@ oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup_1' do
 end
 
 # Update quality of service configuration
-oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
+oneview_logical_interconnect li_name do
   client my_client
   data(
     qosConfiguration: {
@@ -180,7 +209,7 @@ oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
 end
 
 # Update telemetry configuration
-oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
+oneview_logical_interconnect li_name do
   client my_client
   data(
     telemetryConfiguration: {
@@ -192,7 +221,7 @@ oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
 end
 
 # Add one SNMP Trap configuration
-oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
+oneview_logical_interconnect li_name do
   client my_client
   data(
     snmpConfiguration: {
@@ -213,7 +242,7 @@ oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
 end
 
 # Clean the SNMP Traps
-oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
+oneview_logical_interconnect li_name do
   client my_client
   data(
     snmpConfiguration: {
@@ -224,7 +253,7 @@ oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
 end
 
 # Stage one firmware bundle in the Logical Interconnect with sme flahsing options
-oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
+oneview_logical_interconnect li_name do
   client my_client
   firmware 'ROM Flash - SPP'
   firmware_data(
@@ -238,7 +267,7 @@ oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
 end
 
 # Update the staged firmware driver flahsing options
-oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
+oneview_logical_interconnect li_name do
   client my_client
   firmware 'ROM Flash - SPP'
   firmware_data(
@@ -251,7 +280,7 @@ end
 
 # Activate the staged firmware in the logical interconnect
 # It starts the flashing process in each managed interconnect
-oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
+oneview_logical_interconnect li_name do
   client my_client
   firmware 'ROM Flash - SPP'
   firmware_data(
@@ -261,48 +290,52 @@ oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
 end
 
 # Start to reapply the configuration in each managed interconnect
-oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
+oneview_logical_interconnect li_name do
   client my_client
   action :reapply_configuration
 end
 
 # Compliance update
 # Update the logical interconnect according to its associated logical interconnect group
-oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
+oneview_logical_interconnect li_name do
   client my_client
   action :update_from_group
 end
 
 # Example: Adds 'Encl1-LogicalInterconnectGroup1' to 'Scope1' and 'Scope2'
 # Available only in Api300 and Api500
-oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
+oneview_logical_interconnect li_name do
   client my_client
-  scopes ['Scope1', 'Scope2']
+  scopes [scope1, scope2]
   action :add_to_scopes
+  only_if { client[:api_version] == 300 || client[:api_version] == 500 }
 end
 
 # Example: Removes 'Encl1-LogicalInterconnectGroup1' from 'Scope1'
 # Available only in Api300 and Api500
-oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
+oneview_logical_interconnect li_name do
   client my_client
-  scopes ['Scope1']
+  scopes [scope1]
   action :remove_from_scopes
+  only_if { client[:api_version] == 300 || client[:api_version] == 500 }
 end
 
 # Example: Replaces 'Scope1' and 'Scope2' for 'Encl1-LogicalInterconnectGroup1'
 # Available only in Api300 and Api500
-oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
+oneview_logical_interconnect li_name do
   client my_client
-  scopes ['Scope1', 'Scope2']
+  scopes [scope1, scope2]
   action :replace_scopes
+  only_if { client[:api_version] == 300 || client[:api_version] == 500 }
 end
 
 # Example: Replaces all scopes to empty list of scopes
 # Available only in Api300 and Api500
-oneview_logical_interconnect 'Encl1-LogicalInterconnectGroup1' do
+oneview_logical_interconnect li_name do
   client my_client
   operation 'replace'
   path '/scopeUris'
   value []
   action :patch
+  only_if { client[:api_version] == 300 || client[:api_version] == 500 }
 end
