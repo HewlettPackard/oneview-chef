@@ -24,8 +24,8 @@ my_client = {
 
 # Variable declaration
 li_name = 'LE-LIG'
-network1 = ''
-network2 = ''
+network1 = 'Test-Network-1'
+network2 = 'Test-Network-2'
 scope1 = 'Scope1'
 scope2 = 'Scope2'
 
