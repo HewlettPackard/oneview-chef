@@ -16,7 +16,7 @@ if defined?(ChefSpec)
   scope_actions = %i[add_to_scopes remove_from_scopes replace_scopes patch]
   # Lists all the possible action verbs
   action_list = %w[create add delete remove set reset refresh update configure reconfigure edit none discover apply reapply activate
-                   stage new patch replace change load download upload extract backup allocate collect repair import modify]
+                   stage new patch replace change load download upload extract backup allocate collect repair import modify validate]
 
   oneview_resources = {
     oneview_resource:                   standard_actions,
@@ -40,7 +40,7 @@ if defined?(ChefSpec)
     oneview_logical_interconnect:       %i[none add_interconnect remove_interconnect update_internal_networks update_settings
                                            update_ethernet_settings update_igmp_settings update_port_monitor update_qos_configuration
                                            update_telemetry_configuration update_snmp_configuration update_firmware stage_firmware
-                                           activate_firmware update_from_group reapply_configuration] + scope_actions,
+                                           validate_bulk_inconsistency activate_firmware update_from_group reapply_configuration] + scope_actions,
     oneview_logical_switch_group:       standard_actions + scope_actions,
     oneview_logical_switch:             standard_actions + scope_actions + %i[refresh],
     oneview_managed_san:                %i[refresh set_policy set_public_attributes],
