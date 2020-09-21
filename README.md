@@ -16,17 +16,17 @@ The Docker Store image tag consist of two sections: <sdk_version-OV_version>
 ```bash
 # Download and store a local copy of oneview-chef and
 # use it as a Docker image.
-$ docker pull hewlettpackardenterprise/hpe-oneview-sdk-for-chef:v3.5.0-OV5.3
+$ docker pull hewlettpackardenterprise/hpe-oneview-sdk-for-chef:v3.6.0-OV5.4
 # Run docker commands below given, which  will in turn create
 # a sh session where you can create files, issue commands and execute the recipes.
-$ docker run -it hewlettpackardenterprise/hpe-oneview-sdk-for-chef:v3.5.0-OV5.3 /bin/sh
+$ docker run -it hewlettpackardenterprise/hpe-oneview-sdk-for-chef:v3.6.0-OV5.4 /bin/sh
 ```
 
 
 ## Requirements
  - Ruby 2.3.1 or higher (We recommend using Ruby 2.4.1 or higher)
  - Chef 12.0 or higher (We recommend using Chef 13.12 or higher if possible)
- - For oneview resources: HPE OneView 2.0, 3.0, 3.10, 4.0, 4.10, 5.0, 5.2 or 5.3 (API versions 200, 300, 500, 600, 800, 1000, 1200, 1600 and 1800). May work with other versions too, but no guarantees
+ - For oneview resources: HPE OneView 2.0, 3.0, 3.10, 4.0, 4.10, 5.0, 5.2, 5.3 or 5.4(API versions 200, 300, 500, 600, 800, 1000, 1200, 1600, 1800 and 2000). May work with other versions too, but no guarantees
  - For image_streamer resources: HPE Synergy Image Streamer appliance (API version 300, 500 or 600, 800, 1000, 1020 and 1600)
 
 ## Usage
@@ -316,7 +316,7 @@ oneview_logical_interconnect 'LogicalInterconnect1' do
           :update_settings,:update_ethernet_settings, :update_igmp_settings, :update_port_monitor, :update_qos_configuration,
           :update_telemetry_configuration, :update_snmp_configuration, :update_firmware, :stage_firmware,
           :activate_firmware, :update_from_group, :reapply_configuration, :patch, :add_to_scopes,
-          :remove_from_scopes, :replace_scopes]
+          :remove_from_scopes, :replace_scopes, :validate_bulk_inconsistency]
 end
 ```
 
