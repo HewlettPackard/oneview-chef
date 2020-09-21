@@ -316,7 +316,7 @@ oneview_logical_interconnect 'LogicalInterconnect1' do
           :update_settings,:update_ethernet_settings, :update_igmp_settings, :update_port_monitor, :update_qos_configuration,
           :update_telemetry_configuration, :update_snmp_configuration, :update_firmware, :stage_firmware,
           :activate_firmware, :update_from_group, :reapply_configuration, :patch, :add_to_scopes,
-          :remove_from_scopes, :replace_scopes, :bulk_inconsistency_validate]
+          :remove_from_scopes, :replace_scopes, :validate_bulk_inconsistency]
 end
 ```
 
