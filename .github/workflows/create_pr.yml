@@ -22,7 +22,3 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         args: .head_commit.message .*#pr.*
-  add-reviews:
-      runs-on: ubuntu-latest
-      steps:
-      - uses: kentaro-m/auto-assign-action@v1.1.2
