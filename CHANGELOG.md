@@ -1,3 +1,16 @@
+## 3.7.0(Unreleased)
+### Notes
+- This release extends support of the SDK to OneView REST API version 2200 (OneView v5.50).
+
+### Oneview Features supported
+- oneview_connection_template
+- oneview_ethernet_network
+- oneview_fc_network
+- oneview_fcoe_network
+- oneview_network_set
+- oneview_scope
+- oneview_uplink_set
+
 ## 3.6.0
 
 ## Enhancements:
