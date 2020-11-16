@@ -9,20 +9,12 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-my_client = {
-  url: ENV['ONEVIEWSDK_URL'],
-  user: ENV['ONEVIEWSDK_USER'],
-  password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 2200
-}
-
-# No action
-oneview_volume_attachment 'VolumeAttachment1' do
-  client my_client
-end
-
-# Example: Repair a volumeAttachment
-oneview_volume_attachment 'VolumeAttachment1' do
-  client my_client
-  action :repair
+module OneviewCookbook
+  module API2200
+    module C7000
+      # VolumeTemplate API2200 C7000 provider
+      class VolumeTemplateProvider < OneviewCookbook::API2000::C7000::VolumeTemplateProvider
+      end
+    end
+  end
 end

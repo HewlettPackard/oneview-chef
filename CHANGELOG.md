@@ -9,7 +9,12 @@
 - oneview_fcoe_network
 - oneview_network_set
 - oneview_scope
+- oneview_storage_pool
+- oneview_storage_system
 - oneview_uplink_set
+- oneview_volume
+- oneview_volume_attachment
+- oneview_volume_template
 
 ## 3.6.0
 
