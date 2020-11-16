@@ -111,6 +111,11 @@ RSpec.shared_context 'chef context', a: :b do
     OneviewSDK::Client.new(url: 'https://oneview.example.com', user: 'Administrator', password: 'secret123', api_version: 2000)
   end
 
+  let(:client2200) do
+    OneviewSDK::Client.new(url: 'https://oneview.example.com', user: 'Administrator', password: 'secret123', api_version: 2200)
+  end
+
+
   let(:i3s_client300) do
     OneviewSDK::ImageStreamer::Client.new(url: 'https://i3s.example.com', token: 'token123', api_version: 300)
   end
@@ -137,5 +142,9 @@ RSpec.shared_context 'chef context', a: :b do
 
   let(:i3s_client1600) do
     OneviewSDK::ImageStreamer::Client.new(url: 'https://i3s.example.com', token: 'token123', api_version: 1600)
+  end
+
+  let(:i3s_client2000) do
+    OneviewSDK::ImageStreamer::Client.new(url: 'https://i3s.example.com', token: 'token123', api_version: 2000)
   end
 end
