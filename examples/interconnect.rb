@@ -13,10 +13,10 @@ my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 2000
+  api_version: 2200
 }
 
-interconnect = 'Encl1, interconnect 1'
+interconnect = '0000A66101, interconnect 1'
 
 # It will not do anything if no action is selected
 oneview_interconnect interconnect do

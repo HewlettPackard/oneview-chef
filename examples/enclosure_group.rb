@@ -13,7 +13,7 @@ my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 2000,
+  api_version: 2200,
   api_variant: 'Synergy'
 }
 

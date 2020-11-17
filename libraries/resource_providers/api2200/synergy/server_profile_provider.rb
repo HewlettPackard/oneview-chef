@@ -1,4 +1,4 @@
-# (c) Copyright 2020 Hewlett Packard Enterprise Development LP
+# Copyright 2020 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -9,20 +9,12 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-my_client = {
-  url: ENV['ONEVIEWSDK_URL'],
-  user: ENV['ONEVIEWSDK_USER'],
-  password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 2200
-}
-
-# No action
-oneview_volume_attachment 'VolumeAttachment1' do
-  client my_client
-end
-
-# Example: Repair a volumeAttachment
-oneview_volume_attachment 'VolumeAttachment1' do
-  client my_client
-  action :repair
+module OneviewCookbook
+  module API2200
+    module Synergy
+      # Server Profile API2200 Synergy provider
+      class ServerProfileProvider < OneviewCookbook::API2200::C7000::ServerProfileProvider
+      end
+    end
+  end
 end

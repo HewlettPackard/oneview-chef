@@ -19,7 +19,7 @@ my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 2000,
+  api_version: 2200,
   api_variant: 'Synergy'
 }
 
@@ -28,8 +28,8 @@ enc_name = '0000A66102'
 oneview_enclosure enc_name do
   data(
     hostname: '172.18.1.11',
-    username: 'dcs',
-    password: 'dcs',
+    username: '<username>',
+    password: '<password>',
     licensingIntent: 'OneView'
   )
   enclosure_group 'Eg1'
