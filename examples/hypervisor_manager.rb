@@ -15,7 +15,7 @@ my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 2000
+  api_version: 2200
 }
 
 # No action will be performed
@@ -29,8 +29,8 @@ end
 oneview_hypervisor_manager '172.18.13.11' do
   client my_client
   data(
-       username: 'dcs',
-       password: 'dcs')
+       username: '<username>',
+       password: '<password>')
   action :create
 end
 
@@ -38,8 +38,8 @@ end
 oneview_hypervisor_manager '172.18.13.11' do
   client my_client
   data(
-    username: 'dcs',
-    password: 'dcs',
+    username: '<username>',
+    password: '<password>',
     displayName: 'vcenter'
   )
   action :update_registration
