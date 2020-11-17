@@ -30,8 +30,8 @@
 - oneview_volume_template
 
 ### Image Streamer Features supported
+- image_streamer_artifact_bundle
 - image_streamer_deployment_plan
-- image_streamer_golden_image
 
 
 ## 3.6.0
