@@ -23,7 +23,7 @@ my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 2000
+  api_version: 2200
 }
 
 my_server_hardware_type = 'SY 480 Gen9 1'
