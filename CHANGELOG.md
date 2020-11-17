@@ -11,6 +11,10 @@
 - oneview_fcoe_network
 - oneview_hypervisor_cluster_profile
 - oneview_hypervisor_manager
+- oneview_interconnect
+- oneview_logical_enclosure
+- oneview_logical_interconnect
+- oneview_logical_interconnect_group
 - oneview_network_set
 - oneview_scope
 - oneview_server_certificate
