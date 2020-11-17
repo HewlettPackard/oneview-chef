@@ -7,8 +7,11 @@
 - oneview_ethernet_network
 - oneview_fc_network
 - oneview_fcoe_network
+- oneview_hypervisor_cluster_profile
+- oneview_hypervisor_manager
 - oneview_network_set
 - oneview_scope
+- oneview_server_certificate
 - oneview_uplink_set
 
 ## 3.6.0
