@@ -16,18 +16,18 @@ The Docker Store image tag consist of two sections: <sdk_version-OV_version>
 ```bash
 # Download and store a local copy of oneview-chef and
 # use it as a Docker image.
-$ docker pull hewlettpackardenterprise/hpe-oneview-sdk-for-chef:v3.6.0-OV5.4
+$ docker pull hewlettpackardenterprise/hpe-oneview-sdk-for-chef:v3.7.0-OV5.5
 # Run docker commands below given, which  will in turn create
 # a sh session where you can create files, issue commands and execute the recipes.
-$ docker run -it hewlettpackardenterprise/hpe-oneview-sdk-for-chef:v3.6.0-OV5.4 /bin/sh
+$ docker run -it hewlettpackardenterprise/hpe-oneview-sdk-for-chef:v3.7.0-OV5.5 /bin/sh
 ```
 
 
 ## Requirements
  - Ruby 2.3.1 or higher (We recommend using Ruby 2.4.1 or higher)
  - Chef 12.0 or higher (We recommend using Chef 13.12 or higher if possible)
- - For oneview resources: HPE OneView 2.0, 3.0, 3.10, 4.0, 4.10, 5.0, 5.2, 5.3 or 5.4(API versions 200, 300, 500, 600, 800, 1000, 1200, 1600, 1800 and 2000). May work with other versions too, but no guarantees
- - For image_streamer resources: HPE Synergy Image Streamer appliance (API version 300, 500 or 600, 800, 1000, 1020 and 1600)
+ - For oneview resources: HPE OneView 2.0, 3.0, 3.10, 4.0, 4.10, 5.0, 5.2, 5.3, 5.4 or 5.5(API versions 200, 300, 500, 600, 800, 1000, 1200, 1600, 1800, 2000 and 2200). May work with other versions too, but no guarantees
+ - For image_streamer resources: HPE Synergy Image Streamer appliance (API version 300, 500 or 600, 800, 1000, 1020, 1600 and 2000)
 
 ## Usage
 This cookbook is not intended to include any recipes.
@@ -37,7 +37,7 @@ Then use any of the resources provided by this cookbook.
 ```ruby
 # my_cookbook/metadata.rb
 ...
-depends 'oneview', '~> 3.2.0'
+depends 'oneview', '~> 3.7.0'
 ```
 
 ### Credentials
