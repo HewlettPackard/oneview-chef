@@ -1,15 +1,38 @@
 ## 3.7.0(Unreleased)
 ### Notes
-- This release extends support of the SDK to OneView REST API version 2200 (OneView v5.50).
+- This release extends support of the SDK to OneView REST API version 2200 (OneView v5.50) and ImageStreamer REST API version 2000 (I3S v5.40).
 
 ### Oneview Features supported
 - oneview_connection_template
+- oneview_enclosure
+- oneview_enclosure_group
 - oneview_ethernet_network
 - oneview_fc_network
 - oneview_fcoe_network
+- oneview_hypervisor_cluster_profile
+- oneview_hypervisor_manager
+- oneview_interconnect
+- oneview_logical_enclosure
+- oneview_logical_interconnect
+- oneview_logical_interconnect_group
 - oneview_network_set
 - oneview_scope
+- oneview_server_certificate
+- oneview_server_hardware
+- oneview_server_hardware_type
+- oneview_server_profile
+- oneview_server_profile_template
+- oneview_storage_pool
+- oneview_storage_system
 - oneview_uplink_set
+- oneview_volume
+- oneview_volume_attachment
+- oneview_volume_template
+
+### Image Streamer Features supported
+- image_streamer_deployment_plan
+- image_streamer_golden_image
+
 
 ## 3.6.0
 
