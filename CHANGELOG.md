@@ -16,6 +16,8 @@
 - oneview_server_certificate
 - oneview_server_hardware
 - oneview_server_hardware_type
+- oneview_server_profile
+- oneview_server_profile_template
 - oneview_storage_pool
 - oneview_storage_system
 - oneview_uplink_set
