@@ -14,12 +14,6 @@ module OneviewCookbook
     module C7000
       # LogicalInterconnect API2200 C7000 provider
       class LogicalInterconnectProvider < API2000::C7000::LogicalInterconnectProvider
-        def validate_bulk_inconsistency
-          @item.retrieve! || raise("#{@resource_name} '#{@name}' not found!")
-          @item['logicalInterconnectUris'] = @new_resource.logicalInterconnectUris
-          @item.bulk_inconsistency_validate
-          Chef::Log.info("Report: #{@item['logicalInterconnectsReport']}")
-        end
       end
     end
   end
