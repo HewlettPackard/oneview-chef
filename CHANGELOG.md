@@ -4,14 +4,26 @@
 
 ### Oneview Features supported
 - oneview_connection_template
+- oneview_enclosure
+- oneview_enclosure_group
 - oneview_ethernet_network
 - oneview_fc_network
 - oneview_fcoe_network
+- oneview_hypervisor_cluster_profile
+- oneview_hypervisor_manager
 - oneview_network_set
 - oneview_scope
+- oneview_server_certificate
+- oneview_server_hardware
+- oneview_server_hardware_type
 - oneview_server_profile
 - oneview_server_profile_template
+- oneview_storage_pool
+- oneview_storage_system
 - oneview_uplink_set
+- oneview_volume
+- oneview_volume_attachment
+- oneview_volume_template
 
 ## 3.6.0
 
