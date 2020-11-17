@@ -15,14 +15,14 @@ my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 2000
+  api_version: 2200
 }
 
 # Example: Creates hypervisor cluster profile with attributes set in data.
 oneview_hypervisor_cluster_profile 'Cluster5' do
   client my_client
   data(
-  type: 'HypervisorClusterProfileV3',
+  type: 'HypervisorClusterProfileV4',
   hypervisorManagerUri: '/rest/hypervisor-managers/96ba2244-53d3-4f63-b556-806d771785b5',
   path: 'DC2',
   hypervisorType: 'Vmware',
@@ -30,7 +30,7 @@ oneview_hypervisor_cluster_profile 'Cluster5' do
     serverProfileTemplateUri: '/rest/server-profile-templates/edc7ee03-eb09-42ea-9d81-3887b8ebad38',
     deploymentPlan: {
     deploymentPlanUri: '/rest/os-deployment-plans/c7957678-8a8d-4493-ae60-7e508be548ca',
-      serverPassword: 'dcs'},
+      serverPassword: '<password>'},
     hostprefix: 'Test-Cluster-Host'})
   action :create
 end
@@ -39,7 +39,7 @@ end
 oneview_hypervisor_cluster_profile 'Cluster5' do
   client my_client
   data(
-   type: 'HypervisorClusterProfileV3',
+   type: 'HypervisorClusterProfileV4',
    description: 'This is updated description',
   )
   action :update
