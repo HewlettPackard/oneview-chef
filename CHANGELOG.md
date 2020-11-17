@@ -33,7 +33,6 @@
 - image_streamer_artifact_bundle
 - image_streamer_deployment_plan
 
-
 ## 3.6.0
 
 ## Enhancements:
