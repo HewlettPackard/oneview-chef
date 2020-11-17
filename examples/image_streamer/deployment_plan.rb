@@ -21,7 +21,7 @@ oneview_client = {
 i3s_client = {
   url: ENV['I3S_URL'],
   oneview_client: oneview_client,
-  api_version: 1020
+  api_version: 2000
 }
 
 # Create or update the Deployment Plan named 'DeploymentPlan1'
