@@ -16,7 +16,12 @@
 - oneview_server_certificate
 - oneview_server_hardware
 - oneview_server_hardware_type
+- oneview_storage_pool
+- oneview_storage_system
 - oneview_uplink_set
+- oneview_volume
+- oneview_volume_attachment
+- oneview_volume_template
 
 ## 3.6.0
 
