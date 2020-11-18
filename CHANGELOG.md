@@ -1,4 +1,4 @@
-## 3.7.0(Unreleased)
+## 3.7.0
 ### Notes
 - This release extends support of the SDK to OneView REST API version 2200 (OneView v5.50) and ImageStreamer REST API version 2000 (I3S v5.40).
 
