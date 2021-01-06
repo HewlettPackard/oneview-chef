@@ -49,8 +49,8 @@ oneview_ethernet_network 'Eth1' do
   action :create_if_missing
 end
 
+# Only for API1800 or greater
 # Example: Bulk deletes ethernet networks.
-# Provide networks names as id values
 oneview_ethernet_network 'None' do
   client my_client
   test1 = OneviewCookbook::Helper.load_resource(my_client, type: 'EthernetNetwork', id: 'Test1')
@@ -59,6 +59,45 @@ oneview_ethernet_network 'None' do
      networkUris: [ test1['uri'], test2['uri'] ]
   )
   action :delete_bulk
+  only_if { client[:api_version] >= 1800 }
+end
+
+# Only for V300 and V500
+# Example: Adds 'Eth1' to 'Scope1' and 'Scope2'
+oneview_ethernet_network 'Eth1' do
+  client my_client
+  scopes ['Scope1', 'Scope2']
+  action :add_to_scopes
+  only_if { client[:api_version] == 300 || client[:api_version] == 500 }
+end
+
+# Only for V300 and V500
+# Example: Removes 'Eth1' from 'Scope1'
+oneview_ethernet_network 'Eth1' do
+  client my_client
+  scopes ['Scope1']
+  action :remove_from_scopes
+  only_if { client[:api_version] == 300 || client[:api_version] == 500 }
+end
+
+# Only for V300 and V500
+# Example: Replaces 'Scope1' and 'Scope2' for 'Eth1'
+oneview_ethernet_network 'Eth1' do
+  client my_client
+  scopes ['Scope1', 'Scope2']
+  action :replace_scopes
+  only_if { client[:api_version] == 300 || client[:api_version] == 500 }
+end
+
+# Only for V300 and V500
+# Example: Replaces all scopes to empty list of scopes
+oneview_ethernet_network 'Eth1' do
+  client my_client
+  operation 'replace'
+  path '/scopeUris'
+  value []
+  only_if { client[:api_version] == 300 || client[:api_version] == 500 }
+  action :patch
 end
 
 # Example: Reset the connection template for a network
