@@ -19,7 +19,7 @@
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
-  password: ENV['ONEVIEWSDK_PASSWORD']
+  password: ENV['ONEVIEWSDK_PASSWORD'],
   api_version: 2200
 }
 
@@ -46,17 +46,17 @@ oneview_uplink_set 'UplinkSet1' do
       {
         locationEntries:
         [
-	  { value: '3', type: 'Bay'},
+          { value: '3', type: 'Bay'},
           { value: '/rest/enclosures/0000000000A66101', type: 'Enclosure' },
           { value: 'Q3:1', type: 'Port'}
         ]
       }
     ]
   )
-  logical_interconnect 'LogicalInterconnect1' # Name of the associated logical interconnect
-  networks ['Ethernet1', 'Ethernet2'] # Array of strings containing the name of the associated ethernet networks (can be empty - [])
-  fc_networks ['FCNetwork1'] # Array of strings containing the name of the associated fc networks (can be empty - [])
-  fcoe_networks ['FCoENetwork1'] # Array of strings containing the name of the associated fcoe networks (can be empty - [])
+  logical_interconnect 'LE-LIG' # Name of the associated logical interconnect
+  networks ['Eth1_uplink', 'Eth2_uplink'] # Array of strings containing the name of the associated ethernet networks (can be empty - [])
+  #fc_networks ['FC_FA'] # Array of strings containing the name of the associated fc networks (can be empty - [])
+  #fcoe_networks ['FCoENetwork1'] # Array of strings containing the name of the associated fcoe networks (can be empty - [])
   native_network nil # Name of the native network (can be nil)
 end
 

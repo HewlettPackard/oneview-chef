@@ -12,6 +12,8 @@
 # NOTE 1: This example requires two Scopes named "Scope1" and "Scope2" to be present in the appliance.
 # NOTE 2: The api_version client should be 300 or greater if you run the examples using Scopes
 
+OneviewCookbook::Helper.load_sdk(self)
+
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
@@ -47,56 +49,16 @@ oneview_ethernet_network 'Eth1' do
   action :create_if_missing
 end
 
-# Only for API1800 or greater
 # Example: Bulk deletes ethernet networks.
+# Provide networks names as id values
 oneview_ethernet_network 'None' do
   client my_client
+  test1 = OneviewCookbook::Helper.load_resource(my_client, type: 'EthernetNetwork', id: 'Test1')
+  test2 = OneviewCookbook::Helper.load_resource(my_client, type: 'EthernetNetwork', id: 'Test2')
   data(
-    networkUris: [
-      '/rest/ethernet-networks/8ae63676-eb46-4fb8-8e76-5f31a71d85b3',
-      '/rest/ethernet-networks/9b198fb1-a1ee-4bc1-9ebc-f6c9f8de7344'
-    ]
+     networkUris: [ test1['uri'], test2['uri'] ]
   )
   action :delete_bulk
-  only_if { client[:api_version] >= 1800 }
-end
-
-# Only for V300 and V500
-# Example: Adds 'Eth1' to 'Scope1' and 'Scope2'
-oneview_ethernet_network 'Eth1' do
-  client my_client
-  scopes ['Scope1', 'Scope2']
-  action :add_to_scopes
-  only_if { client[:api_version] == 300 || client[:api_version] == 500 }
-end
-
-# Only for V300 and V500
-# Example: Removes 'Eth1' from 'Scope1'
-oneview_ethernet_network 'Eth1' do
-  client my_client
-  scopes ['Scope1']
-  action :remove_from_scopes
-  only_if { client[:api_version] == 300 || client[:api_version] == 500 }
-end
-
-# Only for V300 and V500
-# Example: Replaces 'Scope1' and 'Scope2' for 'Eth1'
-oneview_ethernet_network 'Eth1' do
-  client my_client
-  scopes ['Scope1', 'Scope2']
-  action :replace_scopes
-  only_if { client[:api_version] == 300 || client[:api_version] == 500 }
-end
-
-# Only for V300 and V500
-# Example: Replaces all scopes to empty list of scopes
-oneview_ethernet_network 'Eth1' do
-  client my_client
-  operation 'replace'
-  path '/scopeUris'
-  value []
-  only_if { client[:api_version] == 300 || client[:api_version] == 500 }
-  action :patch
 end
 
 # Example: Reset the connection template for a network

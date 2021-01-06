@@ -14,7 +14,8 @@
 # Scopes: Scope1, Scope2
 
 # NOTE 2: The api_version client should be 300 or greater if you run the examples using Scopes
-# NOTE 3: As a pre-requisite, VSAN10 should be added to oneview
+
+OneviewCookbook::Helper.load_sdk(self)
 
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
@@ -31,61 +32,18 @@ oneview_fcoe_network 'FCoE1' do
       maximumBandwidth: 9000
     }
   )
-  associated_san 'VSAN10'
   client my_client
   action :create
 end
 
-# Only from API1800
 # Example: Bulk deletes fcoe networks.
 oneview_fcoe_network 'None' do
   client my_client
+  test1 = OneviewCookbook::Helper.load_resource(my_client, type: 'FCoENetwork', id: 'FcoeTest1')
   data(
-    networkUris: [
-      '/rest/fcoe-networks/a3534c47-ae3b-490d-aa0d-7615b66b8756',
-      '/rest/fcoe-networks/89c89197-6228-4757-9f1b-2117ad24831d'
-    ]
+    networkUris: [ test1['uri'] ]
   )
   action :delete_bulk
-  only_if { client[:api_version] >= 1800 }
-end
-
-# Adds 'FCoE1' to 'Scope1' and 'Scope2'
-# Available only in Api300 and Api500
-oneview_fcoe_network 'FCoE1' do
-  client my_client
-  scopes ['Scope1', 'Scope2']
-  action :add_to_scopes
-  only_if { client[:api_version] == 300 || client[:api_version] == 500 }
-end
-
-# Removes 'FCoE1' from 'Scope1'
-# Available only in Api300 and Api500
-oneview_fcoe_network 'FCoE1' do
-  client my_client
-  scopes ['Scope1']
-  action :remove_from_scopes
-  only_if { client[:api_version] == 300 || client[:api_version] == 500 }
-end
-
-# Replaces scopes to 'Scope1' and 'Scope2'
-# Available only in Api300 and Api500
-oneview_fcoe_network 'FCoE1' do
-  client my_client
-  scopes ['Scope1', 'Scope2']
-  action :replace_scopes
-  only_if { client[:api_version] == 300 || client[:api_version] == 500 }
-end
-
-# Replaces all scopes to empty list of scopes
-# Available only in Api300 and Api500
-oneview_fcoe_network 'FCoE1' do
-  client my_client
-  operation 'replace'
-  path '/scopeUris'
-  value []
-  action :patch
-  only_if { client[:api_version] == 300 || client[:api_version] == 500 }
 end
 
 # Reset the connection template for 'FCoE1'

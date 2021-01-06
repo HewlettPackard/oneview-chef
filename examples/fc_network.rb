@@ -11,7 +11,8 @@
 
 # NOTE 1: This example requires two Scopes named "Scope1" and "Scope2" to be present in the appliance.
 # NOTE 2: The api_version client should be 300 or greater if you run the examples using Scopes
-# NOTE 3: As a pre-requisite, create SAN1_0
+
+OneviewCookbook::Helper.load_sdk(self)
 
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
@@ -40,61 +41,18 @@ oneview_fc_network 'Fc1' do
       maximumBandwidth: 9000
     }
   )
-  associated_san 'SAN1_0'
   client my_client
   action :create_if_missing
 end
 
-# This examples works only from API1800
 # Example: Bulk deletes fc networks.
 oneview_fc_network 'None' do
   client my_client
+  test1 = OneviewCookbook::Helper.load_resource(my_client, type: 'FCNetwork', id: 'FcTest1')
   data(
-    networkUris: [
-      '/rest/fc-networks/af98dc4a-0982-4324-9700-5aed3245615b',
-      '/rest/fc-networks/40e9e41d-31c2-40dc-878c-7a7f0720ea8a'
-    ]
+     networkUris: [ test1['uri'] ]
   )
   action :delete_bulk
-  only_if { client[:api_version] >= 1800 }
-end
-
-# Example: Adds 'Fc1' to 'Scope1' and 'Scope2'
-# Available only in Api300 and Api500
-oneview_fc_network 'Fc1' do
-  client my_client
-  scopes ['Scope1', 'Scope2']
-  action :add_to_scopes
-  only_if { client[:api_version] == 300 || client[:api_version] == 500 }
-end
-
-# Example: Removes 'Fc1' from 'Scope1'
-# Available only in Api300 and Api500
-oneview_fc_network 'Fc1' do
-  client my_client
-  scopes ['Scope1']
-  action :remove_from_scopes
-  only_if { client[:api_version] == 300 || client[:api_version] == 500 }
-end
-
-# Example: Replaces 'Scope1' and 'Scope2' for 'Fc1'
-# Available only in Api300 and Api500
-oneview_fc_network 'Fc1' do
-  client my_client
-  scopes ['Scope1', 'Scope2']
-  action :replace_scopes
-  only_if { client[:api_version] == 300 || client[:api_version] == 500 }
-end
-
-# Example: Replaces all scopes to empty list of scopes
-# Available only in Api300 and Api500
-oneview_fc_network 'Fc1' do
-  client my_client
-  operation 'replace'
-  path '/scopeUris'
-  value []
-  action :patch
-  only_if { client[:api_version] == 300 || client[:api_version] == 500 }
 end
 
 # Example: Reset the connection template for a fc network
