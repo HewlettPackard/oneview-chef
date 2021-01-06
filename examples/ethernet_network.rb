@@ -54,9 +54,9 @@ end
 oneview_ethernet_network 'None' do
   client my_client
   test1 = OneviewCookbook::Helper.load_resource(my_client, type: 'EthernetNetwork', id: 'Test1')
-  test2 = OneviewCookbook::Helper.load_resource(my_client, type: 'EthernetNetwork', id: 'Test2')
+  test = OneviewCookbook::Helper.load_resource(my_client, type: 'EthernetNetwork', id: 'Test2')
   data(
-     networkUris: [ test1['uri'], test2['uri'] ]
+     networkUris: [ test1['uri'], test['uri'] ]
   )
   action :delete_bulk
   only_if { client[:api_version] >= 1800 }
