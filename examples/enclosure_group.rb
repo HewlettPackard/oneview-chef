@@ -17,9 +17,12 @@ my_client = {
   api_variant: 'Synergy'
 }
 
+OneviewCookbook::Helper.load_sdk(self)
+lig = OneviewCookbook::Helper.load_resource(my_client, type: 'LogicalInterconnectGroup', id: 'LIG-EG')
+
 interconnect_bay_mapping = [
-       { interconnectBay: 3, logicalInterconnectGroupUri: '/rest/logical-interconnect-groups/a6ac18fa-c0a6-4937-96ea-3d0da4fe7e21' },
-       { interconnectBay: 6, logicalInterconnectGroupUri: '/rest/logical-interconnect-groups/a6ac18fa-c0a6-4937-96ea-3d0da4fe7e21' }
+       { interconnectBay: 3, logicalInterconnectGroupUri: lig['uri'] },
+       { interconnectBay: 6, logicalInterconnectGroupUri: lig['uri'] }
 ]
 
 oneview_enclosure_group 'Eg2' do
@@ -27,9 +30,10 @@ oneview_enclosure_group 'Eg2' do
     stackingMode: 'Enclosure',
     interconnectBayMappingCount: 2,
     ipAddressingMode: 'External',
+    enclosureCount: 2,
     interconnectBayMappings: interconnect_bay_mapping
   )
-  logical_interconnect_groups ['lig1']
+  logical_interconnect_groups ['LIG-EG']
   client my_client
   action :create
 end
