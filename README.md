@@ -55,11 +55,11 @@ $ git clone https://github.com/HewlettPackard/oneview-chef oneview
 $ cd oneview
 ```
 
-# Local installation requires the gem in your Gemfile:
+### Local installation requires the gem in your Gemfile:
   ```ruby
   gem 'oneview-sdk', '~> 5.17.0'
   ```
-# Install dependencies from Gemfile
+### Install Chef Sdk dependencies from Gemfile
 
 ```bash
 $ bundle install
@@ -74,10 +74,10 @@ The cookbook 'metadata' is not intended to include any recipes instead specifies
 depends 'oneview', '~> 3.7.0'
 ```
 
-### Credentials
+## Credentials
 In order to manage HPE OneView and HPE Synergy Image Streamer resources, you will need to provide authentication credentials. There are 2 ways to do this:
 
-## Environment variables:
+### Environment variables:
   - For HPE OneView: 
     ```bash
     $export ONEVIEWSDK_URL=<ov-endpoint>
@@ -91,7 +91,7 @@ In order to manage HPE OneView and HPE Synergy Image Streamer resources, you wil
     $export I3S_URL=<i3s-endpoint>
     ```
 
-## Client Property
+### Client Property
 Explicitly pass in the `client` property to each resource (see the [Resource Properties](#resource-properties) section below). This takes precedence over environment variables and allows you to set more client properties. This also allows you to get these credentials from other sources like encrypted databags, Vault, etc.
 
 HPE Synergy Image Streamer access token is the same as the HPE OneView associated appliance, so most of its credentials you may get from the HPE OneView.
