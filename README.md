@@ -1,17 +1,37 @@
-# Cookbook for HPE OneView
+# HPE OneView SDK for Chef
 
-[![Cookbook Version](https://img.shields.io/cookbook/v/oneview.svg)](https://supermarket.chef.io/cookbooks/oneview)
-[![Yard Docs](https://img.shields.io/badge/yard-docs-yellow.svg)](http://www.rubydoc.info/github/HewlettPackard/oneview-chef)
-[![Travis Build Status](https://travis-ci.org/HewlettPackard/oneview-chef.svg?branch=master)](https://travis-ci.org/HewlettPackard/oneview-chef)
-[![Code Climate](https://codeclimate.com/github/HewlettPackard/oneview-chef/badges/gpa.svg)](https://codeclimate.com/github/HewlettPackard/oneview-chef)
-[![Test Coverage](https://codeclimate.com/github/HewlettPackard/oneview-chef/badges/coverage.svg)](https://codeclimate.com/github/HewlettPackard/oneview-chef/coverage)
+## Build Status 
 
-Chef cookbook that provides resources for managing HPE OneView.
+| 5.50 Branch   | 5.40 Branch   | 5.30 Branch   | 5.20 Branch   | 5.00 Branch   |
+| ------------- |:-------------:| -------------:| -------------:| -------------:|
+| ![Build status](https://ci.appveyor.com/api/projects/status/u84505l6syp70013?svg=true)| ![Build status](https://ci.appveyor.com/api/projects/status/u84505l6syp70013?svg=true)| ![Build status](https://ci.appveyor.com/api/projects/status/u84505l6syp70013?svg=true)| ![Build status](https://ci.appveyor.com/api/projects/status/u84505l6syp70013?svg=true)| ![Build status](https://ci.appveyor.com/api/projects/status/u84505l6syp70013?svg=true)
+
+
+## Introduction
+
+HPE OneView makes it simple to deploy and manage today’s complex hybrid cloud infrastructure. HPE OneView can help you transform your data center to software-defined, and it supports HPE’s broad portfolio of servers, storage, and networking solutions, ensuring the simple and automated management of your hybrid infrastructure. Software-defined intelligence enables a template-driven approach for deploying, provisioning, updating, and integrating compute, storage, and networking infrastructure.
+
+The HPE OneView Chef SDK enables developers to easily build integrations and scalable solutions with HPE OneView and HPE Image Streamer. You can find the latest supported HPE OneView Chef SDK [here](https://github.com/HewlettPackard/oneview-chef/releases/latest)
+
+## What's New
+
+HPE OneView Chef library extends support of the SDK to OneView REST API version 2200 (OneView v5.50)
+
+Please refer to [notes](https://github.com/HewlettPackard/oneview-chef/blob/master/CHANGELOG.md) for more information on the changes , features supported and issues fixed in this version
+
+## Getting Started 
+
+## Requirements
+ - Ruby >= 2.3.1 (We recommend using Ruby >= 2.4.1)
+ - Chef >= 12.0  (We recommend using Chef >= 13.12 if possible)
+
+## Installation and Configuration
+HPE OneView SDK for Chef can be installed from Source and Docker container installation methods. You can either use a docker container which will have the HPE OneView SDK for Chef installed or perform local installation manually.
+	
+## Installation
 
 ## Docker Setup for oneview-chef
-We also provide a lightweight and easy way to test and execute `oneview-chef`. The `hpe-oneview-sdk-for-chef:<tag>` docker image contains
-an installation of oneview-chef and you can use it by just pulling down the Docker Image:
-The Docker Store image tag consist of two sections: <sdk_version-OV_version>
+The light weight containerized version of the HPE OneView SDK for Chef is available in the [Docker Store](https://hub.docker.com/r/hewlettpackardenterprise/hpe-oneview-sdk-for-chef). The Docker Store image tag consist of two sections: <sdk_version-OV_version>
 
 ```bash
 # Download and store a local copy of oneview-chef and
@@ -22,17 +42,31 @@ $ docker pull hewlettpackardenterprise/hpe-oneview-sdk-for-chef:v3.7.0-OV5.5
 $ docker run -it hewlettpackardenterprise/hpe-oneview-sdk-for-chef:v3.7.0-OV5.5 /bin/sh
 ```
 
+## Local Setup for oneview-chef
+Chef SDK dependencies can be installed by bundler.
 
-## Requirements
- - Ruby 2.3.1 or higher (We recommend using Ruby 2.4.1 or higher)
- - Chef 12.0 or higher (We recommend using Chef 13.12 or higher if possible)
- - For oneview resources: HPE OneView 2.0, 3.0, 3.10, 4.0, 4.10, 5.0, 5.2, 5.3, 5.4 or 5.5(API versions 200, 300, 500, 600, 800, 1000, 1200, 1600, 1800, 2000 and 2200). May work with other versions too, but no guarantees
- - For image_streamer resources: HPE Synergy Image Streamer appliance (API version 300, 500 or 600, 800, 1000, 1020, 1600 and 2000)
+```bash
+# Create a folder cookbooks and clone the chef repo
+$ mkdir cookbooks
+$ cd cookbooks
+$ git clone https://github.com/chef-boneyard/compat_resource
+# Clone Chef repo as oneview
+$ git clone https://github.com/HewlettPackard/oneview-chef oneview
+$ cd oneview
+```
+
+# Local installation requires the gem in your Gemfile:
+  ```ruby
+  gem 'oneview-sdk', '~> 5.17.0'
+  ```
+# Install dependencies from Gemfile
+
+```bash
+$ bundle install
+```
 
 ## Usage
-This cookbook is not intended to include any recipes.
-Use it by creating a new cookbook and specifying a dependency on this cookbook in your metadata.
-Then use any of the resources provided by this cookbook.
+The cookbook 'metadata' is not intended to include any recipes instead specifies a dependency which is used by another cookbooks.
 
 ```ruby
 # my_cookbook/metadata.rb
@@ -43,11 +77,22 @@ depends 'oneview', '~> 3.7.0'
 ### Credentials
 In order to manage HPE OneView and HPE Synergy Image Streamer resources, you will need to provide authentication credentials. There are 2 ways to do this:
 
-1. Set the environment variables:
-  - For HPE OneView: ONEVIEWSDK_URL, ONEVIEWSDK_USER, ONEVIEWSDK_PASSWORD, and/or ONEVIEWSDK_TOKEN.
-  - For HPE Synergy Image Streamer: I3S_URL and ONEVIEWSDK_TOKEN, or ONEVIEWSDK_URL, ONEVIEWSDK_USER and ONEVIEWSDK_PASSWORD.
-  See [this](https://github.com/HewlettPackard/oneview-sdk-ruby#environment-variables) for more info.
-2. Explicitly pass in the `client` property to each resource (see the [Resource Properties](#resource-properties) section below). This takes precedence over environment variables and allows you to set more client properties. This also allows you to get these credentials from other sources like encrypted databags, Vault, etc.
+## Environment variables:
+  - For HPE OneView: 
+    ```bash
+    $export ONEVIEWSDK_URL=<ov-endpoint>
+    $export ONEVIEWSDK_USER=<ov-user>
+    $export ONEVIEWSDK_PASSWORD=<ov-password>
+    $export ONEVIEWSDK_SSL_EANBLED=false
+    ```
+
+  - For HPE Synergy Image Streamer: 
+    ```bash
+    $export I3S_URL=<i3s-endpoint>
+    ```
+
+## Client Property
+Explicitly pass in the `client` property to each resource (see the [Resource Properties](#resource-properties) section below). This takes precedence over environment variables and allows you to set more client properties. This also allows you to get these credentials from other sources like encrypted databags, Vault, etc.
 
 HPE Synergy Image Streamer access token is the same as the HPE OneView associated appliance, so most of its credentials you may get from the HPE OneView.
 
