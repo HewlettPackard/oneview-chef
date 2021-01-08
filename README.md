@@ -141,7 +141,7 @@ The following are the standard properties available for all resources. Some reso
  - **value**: (String, Array<String>) Specify the value for the `:patch` action. Optional for some operations.
 
 ## Examples
-You can find the examples for reference [here](https://github.com/HewlettPackard/oneview-chef/blob/ReadMeUpdate/README.md)
+You can find the examples for reference [here](https://github.com/HewlettPackard/oneview-chef/blob/ReadMeUpdate/EXAMPLES.md)
 
 ## License
 This project is licensed under the Apache 2.0 license. Please see [LICENSE](LICENSE) for more info.
