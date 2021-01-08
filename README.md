@@ -141,7 +141,17 @@ The following are the standard properties available for all resources. Some reso
  - **value**: (String, Array<String>) Specify the value for the `:patch` action. Optional for some operations.
 
 ## Examples
-You can find the examples for reference [here](https://github.com/HewlettPackard/oneview-chef/blob/ReadMeUpdate/EXAMPLES.md)
+The examples provided here will help you to understand the detailed usage of each resource in Chef Sdk. It allows users to easily create, update, query and delete resources.
+
+You can find the resource examples [here](https://github.com/HewlettPackard/oneview-chef/blob/ReadMeUpdate/EXAMPLES.md). This document provides the list of attributes and the methods being used in each resource to perform CRUD operations on the oneview appliance.
+ - attributes: client, data, scopes, etc.
+ - methods: :create, :delete, :delete_bulk
+
+## Getting Help 
+
+Are you running into a road block? Have an issue with unexpected bahriov? Feel free to open a new issue on the [issue tracker](https://github.com/HewlettPackard/oneview-chef/issues)
+
+For more information on how to open a new issue refer to [How can I get help & support](https://github.com/HewlettPackard/oneview-chef/wiki#getting-help---how-can-i-get-help—support)
 
 ## License
 This project is licensed under the Apache 2.0 license. Please see [LICENSE](LICENSE) for more info.
@@ -168,3 +178,30 @@ This feedback is crucial for us to deliver a useful product. Do not assume we ha
  - Jared Smartt - [@jsmartt](https://github.com/jsmartt)
  - Henrique Diomede - [@hdiomede](https://github.com/hdiomede)
  - Thiago Miotto - [@tmiotto](https://github.com/tmiotto)
+
+## Additional Resources 
+
+**HPE OneView Documentation**
+
+[HPE OneView Release Notes](http://hpe.com/info/OneView/docs)
+
+[HPE OneView Support Matrix](http://hpe.com/info/OneView/docs)
+
+[HPE OneView Installation Guide](http://hpe.com/info/OneView/docs)
+
+[HPE OneView User Guide](http://hpe.com/info/OneView/docs)
+
+[HPE OneView Online Help](http://hpe.com/info/OneView/docs)
+
+[HPE OneView REST API Reference](http://hpe.com/info/OneView/docs)
+
+[HPE OneView Firmware Management White Paper](http://hpe.com/info/OneView/docs)
+
+[HPE OneView Deployment and Management White Paper](http://hpe.com/info/OneView/docs)
+
+
+**HPE OneView Community**
+
+[HPE OneView Community Forums](http://hpe.com/info/oneviewcommunity)
+
+Learn more about HPE OneView at [hpe.com/info/oneview](https://hpe.com/info/oneview)
