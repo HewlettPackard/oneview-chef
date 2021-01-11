@@ -80,7 +80,7 @@ oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
   api_variant 'Synergy'
   scopes ['Scope1', 'Scope2']
   action :add_to_scopes
-  only_if { client[:api_version] == 300 && client[:api_version] == 500 }
+  only_if { client[:api_version] == 300 || client[:api_version] == 500 }
 end
 
 # Removes 'LogicalInterconnectGroup1' from 'Scope1'
@@ -90,7 +90,7 @@ oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
   api_variant 'Synergy'
   scopes ['Scope1']
   action :remove_from_scopes
-  only_if { client[:api_version] == 300 && client[:api_version] == 500 }
+  only_if { client[:api_version] == 300 || client[:api_version] == 500 }
 end
 
 # Replaces scopes to 'Scope1' and 'Scope2'
@@ -100,7 +100,7 @@ oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
   api_variant 'Synergy'
   scopes ['Scope1', 'Scope2']
   action :replace_scopes
-  only_if { client[:api_version] == 300 && client[:api_version] == 500 }
+  only_if { client[:api_version] == 300 || client[:api_version] == 500 }
 end
 
 # Replaces all scopes to empty list of scopes
@@ -112,7 +112,7 @@ oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
   path '/scopeUris'
   value []
   action :patch
-  only_if { client[:api_version] == 300 && client[:api_version] == 500 }
+  only_if { client[:api_version] == 300 || client[:api_version] == 500 }
 end
 
 

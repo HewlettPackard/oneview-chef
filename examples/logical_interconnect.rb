@@ -146,16 +146,6 @@ oneview_logical_interconnect 'LE-LIG' do
   action :update_port_monitor
 end
 
-interconnect = OneviewCookbook::Helper.load_resource(my_client, type: 'Interconnect', id: '0000A66101, interconnect 3')
-ports = interconnect['ports']
-uplink_port = nil
-downlink_port = nil
-ports.each do |port|
-   uplink_port = port['uri'] if port['portType'] == 'Uplink'
-   downlink_port = port['uri'] if port['portType'] == 'Downlink'
-end
-
-
 # Activate the port monitor service with data
 oneview_logical_interconnect 'LE-LIG' do
   client my_client
