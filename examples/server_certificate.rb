@@ -25,19 +25,19 @@ oneview_server_certificate "None" do
 end
 
 # Example: It will get the certificate from the IP and imports it to oneview.
-oneview_server_certificate "172.18.13.11" do
+oneview_server_certificate "<serverIp>" do
   client my_client
   action :import_certificate
 end
 
 # Example: it will remove the certificate from oneview
-oneview_server_certificate "172.18.13.11" do
+oneview_server_certificate "<serverIp>" do
   client my_client
   action :remove_certificate
 end
 
 # Example: It will get the new certificate from IP mention and will update it certificate on the oneview appliance only if old certificate with same IP exist.
-oneview_server_certificate "172.18.13.11" do
+oneview_server_certificate "<serverIp>" do
   client my_client
   action :update_certificate
 end

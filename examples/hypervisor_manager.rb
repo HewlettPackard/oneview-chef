@@ -9,7 +9,7 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 # NOTE: This resources will work for client version greater than API800.
-# NOTE: Server Certificate for '172.18.13.11' should be added as a pre-requisite
+# NOTE: Server Certificate for '<serverIp>' should be added as a pre-requisite
 
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
@@ -19,14 +19,14 @@ my_client = {
 }
 
 # No action will be performed
-oneview_hypervisor_manager '172.18.13.11' do
+oneview_hypervisor_manager '<serverIp>' do
   client my_client
   action :none
 end
 
 
 # Create Hypervisor Manager
-oneview_hypervisor_manager '172.18.13.11' do
+oneview_hypervisor_manager '<serverIp>' do
   client my_client
   data(
        username: '<username>',
@@ -35,7 +35,7 @@ oneview_hypervisor_manager '172.18.13.11' do
 end
 
 # Updates Hypervisor Manager Registration, If doesn't exist then it will create.
-oneview_hypervisor_manager '172.18.13.11' do
+oneview_hypervisor_manager '<serverIp>' do
   client my_client
   data(
     username: '<username>',
@@ -46,7 +46,7 @@ oneview_hypervisor_manager '172.18.13.11' do
 end
 
 # Deletes the existing Hypervisor Manager
-oneview_hypervisor_manager '172.18.13.11' do 
+oneview_hypervisor_manager '<serverIp>' do 
   client my_client
   action :delete
 end
