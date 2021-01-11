@@ -52,7 +52,7 @@ oneview_volume_template 'VolumeTemplate1' do
     description: 'VolumeTemplate1 description',
     properties: properties
   )
-  storage_system '172.18.11.11'
+  storage_system '<storage_system>'
   storage_pool 'CPG-SSD'
 end
 
@@ -74,7 +74,7 @@ oneview_volume_template 'VolumeTemplate3' do
     description: 'VolumeTemplate3 description',
     properties: properties
   )
-  storage_system '172.18.11.11'
+  storage_system '<storage_system>'
   storage_pool 'CPG-SSD'
   action :create_if_missing
 end
@@ -82,7 +82,7 @@ end
 # Example: updates a volume template
 oneview_volume_template 'VolumeTemplate1' do
   client my_client
-  storage_system '172.18.11.11'
+  storage_system '<storage_system>'
   storage_pool 'CPG-SSD'
   snapshot_pool 'CPG-SSD'
 end

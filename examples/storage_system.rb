@@ -23,10 +23,10 @@ oneview_storage_system 'StorageSystem1' do
   client my_client
   data(
     credentials: {
-      username: @storage_system_username,
-      password: @storage_system_password
+      username: '<username>',
+      password: '<password>'
     },
-    hostname: @storage_system_ip,
+    hostname: '<hostname>',
     family: 'StoreServ',
     deviceSpecificAttributes: {
       managedDomain: 'TestDomain'
@@ -39,7 +39,7 @@ end
 oneview_storage_system 'StorageSystem1' do
   client my_client
   data(
-    hostname: @storage_system_ip
+	  hostname: '<hostname>'
   )
   action :refresh
 end
