@@ -22,7 +22,7 @@ Please refer to [notes](https://github.com/HewlettPackard/oneview-chef/blob/mast
 ## Getting Started 
 
 ## Requirements
- - Ruby >= 2.3.1 (We recommend using Ruby >= 2.4.1)
+ - Ruby >= 2.4.1 (We recommend using Ruby >= 2.4.1)
  - Chef >= 12.0  (We recommend using Chef >= 13.12 if possible)
 
 ## Installation and Configuration
