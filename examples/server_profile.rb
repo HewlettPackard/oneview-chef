@@ -120,7 +120,7 @@ oneview_server_profile 'ServerProfile3' do
   )
   ethernet_network_connections [
     {
-      mgmt_untagged: {
+      iscsi_nw: {
         name: 'PrimaryBoot',
         boot: {
           priority: "Primary"
