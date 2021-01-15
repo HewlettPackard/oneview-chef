@@ -21,14 +21,14 @@ my_client = {
 # Ensures the Storage Pool is managed by the HPE OneView appliance
 oneview_storage_pool 'CPG-SSD' do
   client my_client
-  storage_system @storage_system_ip
+  storage_system '<storage_system>'
   action :add_for_management
 end
 
 # Updates the storage pool description
 oneview_storage_pool 'CPG-SSD' do
   client my_client
-  storage_system @storage_system_ip
+  storage_system '<storage_system>'
   data(
     description: "SSD Storage pool - CHEF",
     isManaged: false,
@@ -40,13 +40,13 @@ end
 # Refreshes the storage pool
 oneview_storage_pool 'CPG-SSD' do
   client my_client
-  storage_system @storage_system_ip
+  storage_system '<storage_system>'
   action :refresh
 end
 
 # Ensures the Storage Pool is not managed by the HPE OneView appliance i.e. it is only discovered
 oneview_storage_pool 'CPG-SSD' do
   client my_client
-  storage_system @storage_system_ip
+  storage_system '<storage_system>'
   action :remove_from_management
 end

@@ -8,8 +8,9 @@
 # under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
-# NOTE: Hypervisor Cluster Profile resource works for client version  API800 and greater.
-# NOTE: Hypervisor manager and Server profile template should be created as a pre-requisite
+# NOTE:  Hypervisor Cluster Profile resource works for client version  API800 and greater.
+
+OneviewCookbook::Helper.load_sdk(self)
 
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
@@ -18,19 +19,23 @@ my_client = {
   api_version: 2200
 }
 
+hcm = OneviewCookbook::Helper.load_resource(my_client, type: 'HypervisorManager', id: 'HCM')
+dp = OneviewCookbook::Helper.load_resource(my_client, type: 'OSDeploymentPlan', id: 'Esxi-6.2-U2-Deployment-Test')
+spt = OneviewCookbook::Helper.load_resource(my_client, type: 'ServerProfileTemplate', id: 'SPT-Test')
+
 # Example: Creates hypervisor cluster profile with attributes set in data.
 oneview_hypervisor_cluster_profile 'Cluster5' do
   client my_client
   data(
   type: 'HypervisorClusterProfileV4',
-  hypervisorManagerUri: '/rest/hypervisor-managers/96ba2244-53d3-4f63-b556-806d771785b5',
+  hypervisorManagerUri: hcm['uri'],
   path: 'DC2',
   hypervisorType: 'Vmware',
   hypervisorHostProfileTemplate: {
-    serverProfileTemplateUri: '/rest/server-profile-templates/edc7ee03-eb09-42ea-9d81-3887b8ebad38',
+    serverProfileTemplateUri: spt['uri'],
     deploymentPlan: {
-    deploymentPlanUri: '/rest/os-deployment-plans/c7957678-8a8d-4493-ae60-7e508be548ca',
-      serverPassword: '<password>'},
+      deploymentPlanUri: dp['uri'],
+      serverPassword: '<serverPassword>'},
     hostprefix: 'Test-Cluster-Host'})
   action :create
 end

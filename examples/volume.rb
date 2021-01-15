@@ -57,7 +57,7 @@ oneview_volume 'CHEF_VOL_02' do
     provisioningType: 'Thin', # Or 'Full'
     size: 1024 * 1024 * 1024 # 1GB
   )
-  storage_system '172.18.11.11' # IP of the storage system
+  storage_system '<storage_system>' # IP of the storage system
   storage_pool 'CPG_FC-AO' # Name of the storage pool
   snapshot_pool 'CPG_FC-AO' # Name of the storage pool used for snapshots
 end
