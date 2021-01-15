@@ -45,8 +45,8 @@ end
 # Note: Only for api 500 or api600, comment this recipe if you are not using api500 or api600.
 oneview_server_profile_template 'ServerProfileTemplate2' do
   client my_client
-  api_version 500
   server_profile_name sp_name
+  only_if { client[:api_version] == 500 || client[:api_version] == 600 }
 end
 
 # Deletes server profile 'ServerProfileTemplate1'
@@ -59,4 +59,5 @@ end
 oneview_server_profile_template 'ServerProfileTemplate2' do
   client my_client
   action :delete
+  only_if { client[:api_version] == 500 || client[:api_version] == 600 }
 end

@@ -19,6 +19,8 @@
 #  - Server Hardware: 'Encl1, bay 2'
 #  - Enclosure Group: 'EnclosureGroup1'
 
+
+
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
@@ -27,13 +29,20 @@ my_client = {
 }
 
 my_server_hardware_type = 'SY 480 Gen9 1'
-my_enclosure_group = 'EnclosureGroup1'
+my_enclosure_group = 'EG'
+server_hardware_name = '0000A66101, bay 5'
 
 # Creates a server profile with the desired Enclosure group and Server hardware type
 oneview_server_profile 'ServerProfile1' do
   client my_client
   enclosure_group my_enclosure_group
   server_hardware_type my_server_hardware_type
+end
+
+oneview_server_hardware server_hardware_name do
+  client my_client
+  power_state 'off'
+  action :set_power_state
 end
 
 # Creates a server profile using a template
@@ -50,8 +59,8 @@ oneview_server_profile 'ServerProfile2' do
       manageBoot: true
     }
   )
-  server_profile_template 'ServerProfileTemplate1'
-  server_hardware 'Encl1, bay 2'
+  server_profile_template 'SPT-Test'
+  server_hardware server_hardware_name
 end
 
 # If a profile does get in an inconsistent state, you can update it from it's template. Note that this action
@@ -74,19 +83,19 @@ oneview_server_profile 'ServerProfile3' do
     wwnType: 'Virtual'
   )
   ethernet_network_connections(
-    EthernetNetwork1: {
+    mgmt_untagged: {
       name: 'Connection1'
     }
   )
   fc_network_connections(
-    FCNetwork1: {
+    FC_FA: {
       name: 'Connection2',
       functionType: 'FibreChannel',
       portId: 'Auto'
     }
   )
   fcoe_network_connections(
-    FCoENetwork1: {
+    FcoeTest1: {
       name: 'c1',
       functionType: 'FibreChannel',
       portId: 'None'
@@ -111,7 +120,7 @@ oneview_server_profile 'ServerProfile3' do
   )
   ethernet_network_connections [
     {
-      EthernetNetwork1: {
+      iscsi_nw: {
         name: 'PrimaryBoot',
         boot: {
           priority: "Primary"
@@ -119,7 +128,7 @@ oneview_server_profile 'ServerProfile3' do
       }
     },
     {
-      EthernetNetwork1: {
+      iscsi_nw: {
         name: 'SecondaryBoot',
         boot: {
           priority: "Secondary"
