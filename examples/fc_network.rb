@@ -11,7 +11,8 @@
 
 # NOTE 1: This example requires two Scopes named "Scope1" and "Scope2" to be present in the appliance.
 # NOTE 2: The api_version client should be 300 or greater if you run the examples using Scopes
-# NOTE 3: As a pre-requisite, create SAN1_0
+
+OneviewCookbook::Helper.load_sdk(self)
 
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
@@ -49,11 +50,9 @@ end
 # Example: Bulk deletes fc networks.
 oneview_fc_network 'None' do
   client my_client
+  test1 = OneviewCookbook::Helper.load_resource(my_client, type: 'FCNetwork', id: 'FcTest1')
   data(
-    networkUris: [
-      '/rest/fc-networks/af98dc4a-0982-4324-9700-5aed3245615b',
-      '/rest/fc-networks/40e9e41d-31c2-40dc-878c-7a7f0720ea8a'
-    ]
+     networkUris: [ test1['uri'] ]
   )
   action :delete_bulk
   only_if { client[:api_version] >= 1800 }

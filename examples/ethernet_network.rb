@@ -12,6 +12,8 @@
 # NOTE 1: This example requires two Scopes named "Scope1" and "Scope2" to be present in the appliance.
 # NOTE 2: The api_version client should be 300 or greater if you run the examples using Scopes
 
+OneviewCookbook::Helper.load_sdk(self)
+
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
@@ -51,11 +53,10 @@ end
 # Example: Bulk deletes ethernet networks.
 oneview_ethernet_network 'None' do
   client my_client
+  test1 = OneviewCookbook::Helper.load_resource(my_client, type: 'EthernetNetwork', id: 'Test1')
+  test = OneviewCookbook::Helper.load_resource(my_client, type: 'EthernetNetwork', id: 'Test2')
   data(
-    networkUris: [
-      '/rest/ethernet-networks/8ae63676-eb46-4fb8-8e76-5f31a71d85b3',
-      '/rest/ethernet-networks/9b198fb1-a1ee-4bc1-9ebc-f6c9f8de7344'
-    ]
+     networkUris: [ test1['uri'], test['uri'] ]
   )
   action :delete_bulk
   only_if { client[:api_version] >= 1800 }

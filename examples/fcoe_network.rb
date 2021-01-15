@@ -14,7 +14,8 @@
 # Scopes: Scope1, Scope2
 
 # NOTE 2: The api_version client should be 300 or greater if you run the examples using Scopes
-# NOTE 3: As a pre-requisite, VSAN10 should be added to oneview
+
+OneviewCookbook::Helper.load_sdk(self)
 
 my_client = {
   url: ENV['ONEVIEWSDK_URL'],
@@ -40,11 +41,9 @@ end
 # Example: Bulk deletes fcoe networks.
 oneview_fcoe_network 'None' do
   client my_client
+  test1 = OneviewCookbook::Helper.load_resource(my_client, type: 'FCoENetwork', id: 'FcoeTest1')
   data(
-    networkUris: [
-      '/rest/fcoe-networks/a3534c47-ae3b-490d-aa0d-7615b66b8756',
-      '/rest/fcoe-networks/89c89197-6228-4757-9f1b-2117ad24831d'
-    ]
+    networkUris: [ test1['uri'] ]
   )
   action :delete_bulk
   only_if { client[:api_version] >= 1800 }
