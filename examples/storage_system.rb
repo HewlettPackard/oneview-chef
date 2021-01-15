@@ -39,7 +39,7 @@ end
 oneview_storage_system 'StorageSystem1' do
   client my_client
   data(
-	  hostname: '<hostname>'
+    hostname: '<hostname>'
   )
   action :refresh
 end
