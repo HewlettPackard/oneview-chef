@@ -34,7 +34,7 @@ oneview_hypervisor_cluster_profile 'Cluster5' do
   hypervisorHostProfileTemplate: {
     serverProfileTemplateUri: spt['uri'],
     deploymentPlan: {
-    deploymentPlanUri: dp['uri'],
+      deploymentPlanUri: dp['uri'],
       serverPassword: '<serverPassword>'},
     hostprefix: 'Test-Cluster-Host'})
   action :create
