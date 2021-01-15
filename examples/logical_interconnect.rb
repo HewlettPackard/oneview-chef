@@ -152,7 +152,7 @@ oneview_logical_interconnect 'LE-LIG' do
   data(
     portMonitor: {
       analyzerPort: {
-	      portUri: uplink_port,
+	portUri: uplink_port,
         portMonitorConfigInfo: 'AnalyzerPort'
       },
       enablePortMonitor: true,
