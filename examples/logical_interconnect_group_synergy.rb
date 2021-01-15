@@ -37,7 +37,7 @@ lig_01_uplink_01_data = {
   networkType: 'Ethernet',
   ethernetNetworkType: 'Tagged'
 }
-networks_01 = ['EthernetNetwork1','EthernetNetwork2']
+networks_01 = ['Test1','Test2']
 
 # DATA FOR THE SECOND UPLINK SET
 connections_02 = [
@@ -48,7 +48,7 @@ lig_01_uplink_02_data = {
   name: 'LogicalInterconnectGroup3 - UplinkSet2',
   networkType: 'FibreChannel'
 }
-networks_02 = ['FCNetwork1']
+networks_02 = ['FcTest1']
 
 # Logical Interconnect Group 1
 oneview_logical_interconnect_group 'LogicalInterconnectGroup1' do
