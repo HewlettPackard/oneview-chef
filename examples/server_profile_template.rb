@@ -46,7 +46,7 @@ end
 oneview_server_profile_template 'ServerProfileTemplate2' do
   client my_client
   server_profile_name sp_name
-  only_if { client[:api_version] == 500 && client[:api_version] == 600 }
+  only_if { client[:api_version] == 500 || client[:api_version] == 600 }
 end
 
 # Deletes server profile 'ServerProfileTemplate1'
@@ -59,5 +59,5 @@ end
 oneview_server_profile_template 'ServerProfileTemplate2' do
   client my_client
   action :delete
-  only_if { client[:api_version] == 500 && client[:api_version] == 600 }
+  only_if { client[:api_version] == 500 || client[:api_version] == 600 }
 end
