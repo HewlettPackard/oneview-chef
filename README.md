@@ -111,12 +111,14 @@ Be aware of the precedence of these methods! The higher priority goes to setting
 ### Client Property
 Explicitly pass in the `client` property to each resource. This takes precedence over environment variables and allows you to set more client properties. This also allows you to get these credentials from other sources like encrypted databags, Vault, etc.
 
+```ruby
 my_client = {
   url: 'https://example.com',
   user: 'username',
   password: 'password',
   api_version: 2400
 }
+```
 
 HPE Synergy Image Streamer access token is the same as the HPE OneView associated appliance, so most of its credentials you may get from the HPE OneView.
 
@@ -125,6 +127,7 @@ HPE Synergy Image Streamer access token is the same as the HPE OneView associate
 ### Resource Properties
 The following are the standard properties available for all resources. Some resources have additional properties or small differences.
 
+```ruby
 oneview_ethernet_network 'Eth1' do
   client my_client
   api_version 2400
@@ -141,6 +144,7 @@ oneview_ethernet_network 'Eth1' do
   )
   action :create_if_missing
 end
+```
 
 ## Examples
 The examples provided here will help you to understand the detailed usage of each resource in Chef Sdk. It allows users to easily create, update, query and delete resources.
