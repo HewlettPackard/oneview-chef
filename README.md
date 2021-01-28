@@ -2,10 +2,10 @@
 
 ## Build Status 
 
-| 5.50 Branch   | 5.40 Branch   | 5.30 Branch   | 5.20 Branch   | 5.00 Branch   |
+OV Version | 5.60 | 5.50 | 5.40 | 5.30 |
 | ------------- |:-------------:| -------------:| -------------:| -------------:|
-| ![Build status](https://ci.appveyor.com/api/projects/status/u84505l6syp70013?svg=true)| ![Build status](https://ci.appveyor.com/api/projects/status/u84505l6syp70013?svg=true)| ![Build status](https://ci.appveyor.com/api/projects/status/u84505l6syp70013?svg=true)| ![Build status](https://ci.appveyor.com/api/projects/status/u84505l6syp70013?svg=true)| ![Build status](https://ci.appveyor.com/api/projects/status/u84505l6syp70013?svg=true)
-
+SDK Version/Tag | [Master](https://github.com/HewlettPackard/oneview-chef/tree/master) | [v3.7.0](https://github.com/HewlettPackard/oneview-chef/releases/tag/v3.7.0) | [v3.6.0](https://github.com/HewlettPackard/oneview-chef/releases/tag/v3.6.0) | [v3.5.0](https://github.com/HewlettPackard/oneview-chef/releases/tag/v3.5.0) |
+Build Status | ![Build status](https://ci.appveyor.com/api/projects/status/u84505l6syp70013?svg=true)| ![Build status](https://ci.appveyor.com/api/projects/status/u84505l6syp70013?svg=true)| ![Build status](https://ci.appveyor.com/api/projects/status/u84505l6syp70013?svg=true)| ![Build status](https://ci.appveyor.com/api/projects/status/u84505l6syp70013?svg=true)|
 
 ## Introduction
 
@@ -70,7 +70,6 @@ The cookbook 'metadata' is not intended to include any recipes instead specifies
 
 ```ruby
 # my_cookbook/metadata.rb
-...
 depends 'oneview', '~> 3.7.0'
 ```
 
@@ -91,11 +90,6 @@ In order to manage HPE OneView and HPE Synergy Image Streamer resources, you wil
     $export I3S_URL=<i3s-endpoint>
     ```
 
-### Client Property
-Explicitly pass in the `client` property to each resource (see the [Resource Properties](#resource-properties) section below). This takes precedence over environment variables and allows you to set more client properties. This also allows you to get these credentials from other sources like encrypted databags, Vault, etc.
-
-HPE Synergy Image Streamer access token is the same as the HPE OneView associated appliance, so most of its credentials you may get from the HPE OneView.
-
 ### API version
 When using the resources a API version will be selected to interact with the resources in each HPE OneView correct API versions. To select the desired one, you may use one of the following methods:
 
@@ -114,31 +108,39 @@ Be aware of the precedence of these methods! The higher priority goes to setting
  - `node['oneview']['api_version']` - When looking for a matching Chef resource provider class, this version will be used as default. Defaults to `200`.
  - `node['oneview']['api_variant']` - When looking for a matching Chef resource provider class, this variant will be used as default. Defaults to `C7000`.
 
-See [attributes/default.rb](attributes/default.rb) for more info.
+### Client Property
+Explicitly pass in the `client` property to each resource. This takes precedence over environment variables and allows you to set more client properties. This also allows you to get these credentials from other sources like encrypted databags, Vault, etc.
+
+my_client = {
+  url: 'https://example.com',
+  user: 'username',
+  password: 'password',
+  api_version: 2400
+}
+
+HPE Synergy Image Streamer access token is the same as the HPE OneView associated appliance, so most of its credentials you may get from the HPE OneView.
 
 ## Resources
 
 ### Resource Properties
-The following are the standard properties available for all resources. Some resources have additional properties or small differences; see their doc sections below for more details.
+The following are the standard properties available for all resources. Some resources have additional properties or small differences.
 
- - **client**: Hash, OneviewSDK::Client or OneviewSDK::ImageStreamer::Client object that contains information about how to connect to the HPE OneView or HPE Synergy Image Streamer instances.
-   - For HPE OneView required attributes are: `url` and `token` or `user` and `password`.
-   - For HPE Synergy Image Streamer required attributes are: `url` and, `token` or `oneview_client`.
- See [this](https://github.com/HewlettPackard/oneview-sdk-ruby#configuration) for more options.
- - **data**: Hash specifying options for this resource. Refer to the OneView API docs for what's available and/or required. If no name attribute is given, it will use the name given to the Chef resource.
-   - :information_source: Tip: In addition to the API docs, you can use the [oneview-sdk gem's CLI](https://github.com/HewlettPackard/oneview-sdk-ruby#cli) to quickly show information about resources. If you're wanting to know which data properties exist for a resource, it might make sense to create a resource on the Web UI, then view the data. For example, after creating a new ethernet network named `eth1`, run `$ oneview-sdk-ruby show EthernetNetwork eth1`
- - **action**: Symbol specifying what to do with this resource. Options for most resources (**some may differ**):
-   - `:create` - (Default) Ensure this resource exists and matches the data given.
-   - `:create_if_missing` - Ensure this resource exists, but don't ensure it is up to date on subsequent chef-client runs.
-   - `:delete` - Delete this resource from OneView. For this, you only need to specify the resource name or uri in the data section.
- - **save_resource_info**: Defaults to `node['oneview']['save_resource_info']` (see the attribute above). Doesn't apply to the `:delete` action
-   - Once the resource is created, you can access this data at `node['oneview'][<oneview_url>][<resource_name>]`. This can be useful to extract URIs from other resources, etc.
- - **api_version**: (Integer) Specify the version of the [API module](libraries/resource_providers/) to use.
- - **api_variant**: (String) When looking for resources in the specified API module, this version will be used. Defaults to `node['oneview']['api_variant']`
- - **api_header_version**: (Integer) This will override the version used in API request headers. Only set this if you know what you're doing.
- - **operation**: (String) Specify the operation to be performed by a `:patch` action.
- - **path**: (String) Specify the path where the `:patch` action will be sent to.
- - **value**: (String, Array<String>) Specify the value for the `:patch` action. Optional for some operations.
+oneview_ethernet_network 'Eth1' do
+  client my_client
+  api_version 2400
+  api_variant 'Synergy'
+  data(
+    vlanId: 1001,
+    purpose: 'General',
+    smartLink: false,
+    privateNetwork: false,
+    bandwidth: {
+      typicalBandwidth: 2000,
+      maximumBandwidth: 9000
+    }
+  )
+  action :create_if_missing
+end
 
 ## Examples
 The examples provided here will help you to understand the detailed usage of each resource in Chef Sdk. It allows users to easily create, update, query and delete resources.
@@ -174,10 +176,9 @@ This feedback is crucial for us to deliver a useful product. Do not assume we ha
 
  For more information please refer to the [Testing guidelines](TESTING.md).
 
-## Authors
- - Jared Smartt - [@jsmartt](https://github.com/jsmartt)
- - Henrique Diomede - [@hdiomede](https://github.com/hdiomede)
- - Thiago Miotto - [@tmiotto](https://github.com/tmiotto)
+## Contributors
+
+You can find the list of contributors [here](https://github.com/HewlettPackard/oneview-chef/graphs/contributors)
 
 ## Additional Resources 
 
