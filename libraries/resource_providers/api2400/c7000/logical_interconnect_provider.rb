@@ -1,4 +1,4 @@
-# (c) Copyright 2020 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2021 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,6 +14,7 @@ module OneviewCookbook
     module C7000
       # LogicalInterconnect API2400 C7000 provider
       class LogicalInterconnectProvider < API2200::C7000::LogicalInterconnectProvider
+        # Update port flap settings
         def update_port_flap_settings
           update_handler(:update_port_flap_settings, 'portFlapProtection')
         end
