@@ -22,6 +22,8 @@ group :test do
   cookbook 'oneview_test_api1600_c7000', path: './spec/fixtures/cookbooks/oneview_test_api1600_c7000'
   cookbook 'oneview_test_api1800_c7000', path: './spec/fixtures/cookbooks/oneview_test_api1800_c7000'
   cookbook 'oneview_test_api2000_c7000', path: './spec/fixtures/cookbooks/oneview_test_api2000_c7000'
+  cookbook 'oneview_test_api2400_c7000', path: './spec/fixtures/cookbooks/oneview_test_api2400_c7000'
+  cookbook 'image_streamer_test_api300', path: './spec/fixtures/cookbooks/image_streamer_test_api300'
   cookbook 'image_streamer_test_api300', path: './spec/fixtures/cookbooks/image_streamer_test_api300'
   cookbook 'image_streamer_test_api500', path: './spec/fixtures/cookbooks/image_streamer_test_api500'
   cookbook 'image_streamer_test_api600', path: './spec/fixtures/cookbooks/image_streamer_test_api600'
