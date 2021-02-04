@@ -18,7 +18,7 @@ my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 2200
+  api_version: 2400
 }
 
 # Example: Create and manage a new ethernet network
@@ -49,7 +49,7 @@ oneview_ethernet_network 'Eth1' do
   action :create_if_missing
 end
 
-# Only for API1800 or greater
+# Only for API2400 or greater
 # Example: Bulk deletes ethernet networks.
 oneview_ethernet_network 'None' do
   client my_client
@@ -59,7 +59,7 @@ oneview_ethernet_network 'None' do
      networkUris: [ test1['uri'], test['uri'] ]
   )
   action :delete_bulk
-  only_if { client[:api_version] >= 1800 }
+  only_if { client[:api_version] >= 2400 }
 end
 
 # Only for V300 and V500

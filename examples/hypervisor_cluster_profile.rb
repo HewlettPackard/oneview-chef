@@ -16,7 +16,7 @@ my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 2200
+  api_version: 2400
 }
 
 hcm = OneviewCookbook::Helper.load_resource(my_client, type: 'HypervisorManager', id: 'HCM')
