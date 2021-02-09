@@ -21,7 +21,7 @@ my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 2200
+  api_version: 2400
 }
 
 oneview_fcoe_network 'FCoE1' do
@@ -37,7 +37,7 @@ oneview_fcoe_network 'FCoE1' do
   action :create
 end
 
-# Only from API1800
+# Only from API2400
 # Example: Bulk deletes fcoe networks.
 oneview_fcoe_network 'None' do
   client my_client
@@ -46,7 +46,7 @@ oneview_fcoe_network 'None' do
     networkUris: [ test1['uri'] ]
   )
   action :delete_bulk
-  only_if { client[:api_version] >= 1800 }
+  only_if { client[:api_version] >= 2400 }
 end
 
 # Adds 'FCoE1' to 'Scope1' and 'Scope2'

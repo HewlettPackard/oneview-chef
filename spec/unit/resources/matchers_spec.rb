@@ -128,6 +128,7 @@ describe 'oneview_test::default' do
     expect(chef_run).to_not stage_oneview_logical_interconnect_firmware('')
     expect(chef_run).to_not update_oneview_logical_interconnect_ethernet_settings('')
     expect(chef_run).to_not update_oneview_logical_interconnect_igmp_settings('')
+    expect(chef_run).to_not update_oneview_logical_interconnect_port_flap_settings('')
     expect(chef_run).to_not update_oneview_logical_interconnect_firmware('')
     expect(chef_run).to_not update_oneview_logical_interconnect_internal_networks('')
     expect(chef_run).to_not validate_oneview_logical_interconnect_bulk_inconsistency('')

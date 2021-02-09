@@ -27,7 +27,7 @@ RSpec.configure do |config|
   config.before(:each) do
     # Mock appliance version and login api requests, as well as loading trusted certs
 
-    allow_any_instance_of(OneviewSDK::Client).to receive(:appliance_api_version).and_return(2400)
+    allow_any_instance_of(OneviewSDK::Client).to receive(:appliance_api_version).and_return(2600)
     allow_any_instance_of(OneviewSDK::Client).to receive(:login).and_return('secretToken')
     allow(OneviewSDK::SSLHelper).to receive(:load_trusted_certs).and_return(nil)
 
@@ -42,7 +42,7 @@ end
 # General context for unit testing:
 RSpec.shared_context 'shared context', a: :b do
   before :each do
-    @ov_options = { url: 'https://oneview.example.com', user: 'Administrator', password: 'secret123', api_verison: 200 }
+    @ov_options = { url: 'https://oneview.example.com', user: 'Administrator', password: 'secret123', api_verison: 200, no_proxy: 'oneview.example.com' }
     @client = OneviewSDK::Client.new(@ov_options)
     @resource = OneviewSDK::Resource.new(@client)
 
@@ -113,6 +113,10 @@ RSpec.shared_context 'chef context', a: :b do
 
   let(:client2200) do
     OneviewSDK::Client.new(url: 'https://oneview.example.com', user: 'Administrator', password: 'secret123', api_version: 2200)
+  end
+
+  let(:client2400) do
+    OneviewSDK::Client.new(url: 'https://oneview.example.com', user: 'Administrator', password: 'secret123', api_version: 2400)
   end
 
   let(:i3s_client300) do

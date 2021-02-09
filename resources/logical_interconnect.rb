@@ -50,6 +50,10 @@ action :update_igmp_settings do
   OneviewCookbook::Helper.do_resource_action(self, :LogicalInterconnect, :update_igmp_settings)
 end
 
+action :update_port_flap_settings do
+  OneviewCookbook::Helper.do_resource_action(self, :LogicalInterconnect, :update_port_flap_settings)
+end
+
 action :validate_bulk_inconsistency do
   OneviewCookbook::Helper.do_resource_action(self, :LogicalInterconnect, :validate_bulk_inconsistency)
 end

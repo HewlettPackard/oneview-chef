@@ -13,7 +13,7 @@ my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 2200
+  api_version: 2400
 }
 
 # Ethernet network that will be used for the examples below
@@ -53,7 +53,7 @@ oneview_connection_template 'Update connection template for ChefEthernet_3001' d
   data(
     bandwidth: {
       maximumBandwidth: 13500,
-      typicalBandwidth: 2200
+      typicalBandwidth: 2400
     }
   )
 end
@@ -91,7 +91,7 @@ oneview_connection_template 'Update connection template for NetworkSet_3001' do
   data(
     bandwidth: {
       maximumBandwidth: 13500,
-      typicalBandwidth: 2200
+      typicalBandwidth: 2400
     }
   )
 end
