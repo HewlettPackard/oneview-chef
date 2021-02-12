@@ -70,7 +70,7 @@ The cookbook 'metadata' is not intended to include any recipes instead specifies
 
 ```ruby
 # my_cookbook/metadata.rb
-depends 'oneview', '~> 3.7.0'
+depends 'oneview', '~> 3.8.0'
 ```
 
 ## Credentials

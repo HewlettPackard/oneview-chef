@@ -97,7 +97,7 @@ oneview_logical_interconnect 'LE-LIG' do
   action :update_igmp_settings
 end
 
-# Update igmp  settings refresh and timeout intervals
+# Update port flap protection settings
 oneview_logical_interconnect 'LE-LIG' do
   client my_client
   data(
