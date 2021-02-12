@@ -4,7 +4,7 @@
 
 OV Version | 5.60 | 5.50 | 5.40 | 5.30 |
 | ------------- |:-------------:| -------------:| -------------:| -------------:|
-SDK Version/Tag | [Master](https://github.com/HewlettPackard/oneview-chef/tree/master) | [v3.7.0](https://github.com/HewlettPackard/oneview-chef/releases/tag/v3.7.0) | [v3.6.0](https://github.com/HewlettPackard/oneview-chef/releases/tag/v3.6.0) | [v3.5.0](https://github.com/HewlettPackard/oneview-chef/releases/tag/v3.5.0) |
+SDK Version/Tag | [v3.8.0](https://github.com/HewlettPackard/oneview-chef/releases/tag/v3.8.0) | [v3.7.0](https://github.com/HewlettPackard/oneview-chef/releases/tag/v3.7.0) | [v3.6.0](https://github.com/HewlettPackard/oneview-chef/releases/tag/v3.6.0) | [v3.5.0](https://github.com/HewlettPackard/oneview-chef/releases/tag/v3.5.0) |
 Build Status | ![Build status](https://ci.appveyor.com/api/projects/status/u84505l6syp70013?svg=true)| ![Build status](https://ci.appveyor.com/api/projects/status/u84505l6syp70013?svg=true)| ![Build status](https://ci.appveyor.com/api/projects/status/u84505l6syp70013?svg=true)| ![Build status](https://ci.appveyor.com/api/projects/status/u84505l6syp70013?svg=true)|
 
 ## Introduction
@@ -36,10 +36,10 @@ The light weight containerized version of the HPE OneView SDK for Chef is availa
 ```bash
 # Download and store a local copy of oneview-chef and
 # use it as a Docker image.
-$ docker pull hewlettpackardenterprise/hpe-oneview-sdk-for-chef:v3.7.0-OV5.5
+$ docker pull hewlettpackardenterprise/hpe-oneview-sdk-for-chef:v3.8.0-OV5.6
 # Run docker commands below given, which  will in turn create
 # a sh session where you can create files, issue commands and execute the recipes.
-$ docker run -it hewlettpackardenterprise/hpe-oneview-sdk-for-chef:v3.7.0-OV5.5 /bin/sh
+$ docker run -it hewlettpackardenterprise/hpe-oneview-sdk-for-chef:v3.8.0-OV5.6 /bin/sh
 ```
 
 ## Local Setup for oneview-chef
@@ -57,7 +57,7 @@ $ cd oneview
 
 ### Local installation requires the gem in your Gemfile:
   ```ruby
-  gem 'oneview-sdk', '~> 5.17.0'
+  gem 'oneview-sdk', '~> 5.18.0'
   ```
 ### Install Chef Sdk dependencies from Gemfile
 
@@ -149,7 +149,7 @@ end
 ## Examples
 The examples provided here will help you to understand the detailed usage of each resource in Chef Sdk. It allows users to easily create, update, query and delete resources.
 
-You can find the resource examples [here](https://github.com/HewlettPackard/oneview-chef/blob/ReadMeUpdate/EXAMPLES.md). This document provides the list of attributes and the methods being used in each resource to perform CRUD operations on the oneview appliance.
+You can find the resource examples [here](https://github.com/HewlettPackard/oneview-chef/blob/master/EXAMPLES.md). This document provides the list of attributes and the methods being used in each resource to perform CRUD operations on the oneview appliance.
  - attributes: client, data, scopes, etc.
  - methods: :create, :delete, :delete_bulk
 
