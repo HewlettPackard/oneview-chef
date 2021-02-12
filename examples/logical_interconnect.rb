@@ -97,6 +97,17 @@ oneview_logical_interconnect 'LE-LIG' do
   action :update_igmp_settings
 end
 
+# Update igmp  settings refresh and timeout intervals
+oneview_logical_interconnect 'LE-LIG' do
+  client my_client
+  data(
+    portFlapProtection: {
+      portFlapThresholdPerInterval: 10,
+    }
+  )
+  action :update_port_flap_settings
+end
+
 interconnect = OneviewCookbook::Helper.load_resource(my_client, type: 'Interconnect', id: '0000A66101, interconnect 3')
 ports = interconnect['ports']
 uplink_port = nil
