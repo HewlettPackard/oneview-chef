@@ -14,4 +14,4 @@
 [What do you *expect* to happen after taking the steps above?]
 
 ### Actual Result
-[What *actually* happens after the steps above? Include error output or a link to a gist.]
+[What *actually* happens after the steps above? Include error output or a link to a gist]

@@ -1,4 +1,5 @@
 ## Examples of Chef Resources
+
 ### [oneview_resource](examples/oneview_resource.rb)
 This is a generic provider for managing any OneView resource.
 This really exists only for resources that exist in the SDK but don't have a Chef resource provider. If a specific resource exists, please use it instead.
