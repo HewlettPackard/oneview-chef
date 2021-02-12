@@ -1,4 +1,4 @@
-# (c) Copyright 2016-2017 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2016-2021 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@ license          'Apache-2.0'
 description      'Provides HPE OneView & Image Streamer resources'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 
-version          '3.7.0'
+version          '3.8.0'
 
 source_url       'https://github.com/HewlettPackard/oneview-chef'
 issues_url       'https://github.com/HewlettPackard/oneview-chef/issues'

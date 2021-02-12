@@ -1,4 +1,4 @@
-# (c) Copyright 2020 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2021 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -95,6 +95,17 @@ oneview_logical_interconnect 'LE-LIG' do
     }
   )
   action :update_igmp_settings
+end
+
+# Update port flap protection settings
+oneview_logical_interconnect 'LE-LIG' do
+  client my_client
+  data(
+    portFlapProtection: {
+      portFlapThresholdPerInterval: 10,
+    }
+  )
+  action :update_port_flap_settings
 end
 
 interconnect = OneviewCookbook::Helper.load_resource(my_client, type: 'Interconnect', id: '0000A66101, interconnect 3')
