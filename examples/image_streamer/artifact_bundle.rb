@@ -1,4 +1,4 @@
-# (c) Copyright 2020 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2021 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ oneview_client = {
 i3s_client = {
   url: ENV['I3S_URL'],
   oneview_client: oneview_client,
-  api_version: 2000
+  api_version: 2010
 }
 
 # Creates the artifact bundle and assigns resources to it.
