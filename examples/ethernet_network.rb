@@ -1,4 +1,4 @@
-# (c) Copyright 2020 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2021 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 2400
+  api_version: 2600
 }
 
 # Example: Create and manage a new ethernet network
@@ -49,7 +49,7 @@ oneview_ethernet_network 'Eth1' do
   action :create_if_missing
 end
 
-# Only for API2400 or greater
+# Only for API2600 or greater
 # Example: Bulk deletes ethernet networks.
 oneview_ethernet_network 'None' do
   client my_client
@@ -59,7 +59,7 @@ oneview_ethernet_network 'None' do
      networkUris: [ test1['uri'], test['uri'] ]
   )
   action :delete_bulk
-  only_if { client[:api_version] >= 2400 }
+  only_if { client[:api_version] >= 2600 }
 end
 
 # Only for V300 and V500
