@@ -40,7 +40,8 @@ oneview_hypervisor_manager '<serverIp>' do
   data(
     username: '<username>',
     password: '<password>',
-    displayName: 'vcenter'
+    displayName: 'vcenter',
+    force: true
   )
   action :update_registration
 end
