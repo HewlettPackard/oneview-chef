@@ -2,9 +2,9 @@
 
 ## Build Status 
 
-OV Version | 5.60 | 5.50 | 5.40 | 5.30 |
+OV Version | 6.00 | 5.60 | 5.50 | 5.40 |
 | ------------- |:-------------:| -------------:| -------------:| -------------:|
-SDK Version/Tag | [v3.8.0](https://github.com/HewlettPackard/oneview-chef/releases/tag/v3.8.0) | [v3.7.0](https://github.com/HewlettPackard/oneview-chef/releases/tag/v3.7.0) | [v3.6.0](https://github.com/HewlettPackard/oneview-chef/releases/tag/v3.6.0) | [v3.5.0](https://github.com/HewlettPackard/oneview-chef/releases/tag/v3.5.0) |
+SDK Version/Tag | [v6.0.0](https://github.com/HewlettPackard/oneview-chef/releases/tag/v6.0.0) | [v3.8.0](https://github.com/HewlettPackard/oneview-chef/releases/tag/v3.8.0) | [v3.7.0](https://github.com/HewlettPackard/oneview-chef/releases/tag/v3.7.0) | [v3.6.0](https://github.com/HewlettPackard/oneview-chef/releases/tag/v3.6.0) |
 Build Status | ![Build status](https://ci.appveyor.com/api/projects/status/u84505l6syp70013?svg=true)| ![Build status](https://ci.appveyor.com/api/projects/status/u84505l6syp70013?svg=true)| ![Build status](https://ci.appveyor.com/api/projects/status/u84505l6syp70013?svg=true)| ![Build status](https://ci.appveyor.com/api/projects/status/u84505l6syp70013?svg=true)|
 
 ## Introduction
@@ -15,7 +15,7 @@ The HPE OneView Chef SDK enables developers to easily build integrations and sca
 
 ## What's New
 
-HPE OneView Chef library extends support of the SDK to OneView REST API version 2200 (OneView v5.50)
+HPE OneView Chef library extends support of the SDK to OneView REST API version 2600 (OneView v6.00)
 
 Please refer to [notes](https://github.com/HewlettPackard/oneview-chef/blob/master/CHANGELOG.md) for more information on the changes , features supported and issues fixed in this version
 
@@ -36,10 +36,10 @@ The light weight containerized version of the HPE OneView SDK for Chef is availa
 ```bash
 # Download and store a local copy of oneview-chef and
 # use it as a Docker image.
-$ docker pull hewlettpackardenterprise/hpe-oneview-sdk-for-chef:v3.8.0-OV5.6
+$ docker pull hewlettpackardenterprise/hpe-oneview-sdk-for-chef:v6.0.0-OV6.0
 # Run docker commands below given, which  will in turn create
 # a sh session where you can create files, issue commands and execute the recipes.
-$ docker run -it hewlettpackardenterprise/hpe-oneview-sdk-for-chef:v3.8.0-OV5.6 /bin/sh
+$ docker run -it hewlettpackardenterprise/hpe-oneview-sdk-for-chef:v6.0.0-OV6.0 /bin/sh
 ```
 
 ## Local Setup for oneview-chef
@@ -57,7 +57,7 @@ $ cd oneview
 
 ### Local installation requires the gem in your Gemfile:
   ```ruby
-  gem 'oneview-sdk', '~> 5.18.0'
+  gem 'oneview-sdk', '~> 6.0.0'
   ```
 ### Install Chef Sdk dependencies from Gemfile
 
@@ -70,7 +70,7 @@ The cookbook 'metadata' is not intended to include any recipes instead specifies
 
 ```ruby
 # my_cookbook/metadata.rb
-depends 'oneview', '~> 3.8.0'
+depends 'oneview', '~> 6.0.0'
 ```
 
 ## Credentials
