@@ -116,7 +116,7 @@ my_client = {
   url: 'https://example.com',
   user: 'username',
   password: 'password',
-  api_version: 2400
+  api_version: 2600
 }
 ```
 
@@ -130,7 +130,7 @@ The following are the standard properties available for all resources. Some reso
 ```ruby
 oneview_ethernet_network 'Eth1' do
   client my_client
-  api_version 2400
+  api_version 2600
   api_variant 'Synergy'
   data(
     vlanId: 1001,
