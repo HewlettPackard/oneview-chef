@@ -1,4 +1,4 @@
-# (c) Copyright 2020 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2021 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@ my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 2400
+  api_version: 2600
 }
 
 # Ethernet network that will be used for the examples below
@@ -53,7 +53,7 @@ oneview_connection_template 'Update connection template for ChefEthernet_3001' d
   data(
     bandwidth: {
       maximumBandwidth: 13500,
-      typicalBandwidth: 2400
+      typicalBandwidth: 2600
     }
   )
 end
@@ -91,7 +91,7 @@ oneview_connection_template 'Update connection template for NetworkSet_3001' do
   data(
     bandwidth: {
       maximumBandwidth: 13500,
-      typicalBandwidth: 2400
+      typicalBandwidth: 2600
     }
   )
 end

@@ -1,4 +1,4 @@
-# (c) Copyright 2020 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2021 Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@ my_client = {
   url: ENV['ONEVIEWSDK_URL'],
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
-  api_version: 2400
+  api_version: 2600
 }
 
 # No action will be performed
@@ -40,7 +40,8 @@ oneview_hypervisor_manager '<serverIp>' do
   data(
     username: '<username>',
     password: '<password>',
-    displayName: 'vcenter'
+    displayName: 'vcenter',
+    force: true
   )
   action :update_registration
 end
