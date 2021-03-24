@@ -19,5 +19,5 @@ jobs:
       run: |
         gem install bundler
         bundle install --jobs 4 --retry 3
-        rake test
+        bundle exec rake test
         bundle exec codeclimate-test-reporter
