@@ -20,4 +20,9 @@ jobs:
         gem install bundler
         bundle install --jobs 4 --retry 3
         bundle exec rake
-        bundle exec codeclimate-test-reporter
+#        bundle exec codeclimate-test-reporter
+#
+#ruby --version
+#gem update bundler
+#bundle install --jobs=3 --retry=3
+#rake test
