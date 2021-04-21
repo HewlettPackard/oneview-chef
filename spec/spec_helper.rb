@@ -27,7 +27,7 @@ RSpec.configure do |config|
   config.before(:each) do
     # Mock appliance version and login api requests, as well as loading trusted certs
 
-    allow_any_instance_of(OneviewSDK::Client).to receive(:appliance_api_version).and_return(2800)
+    allow_any_instance_of(OneviewSDK::Client).to receive(:appliance_api_version).and_return(3000)
     allow_any_instance_of(OneviewSDK::Client).to receive(:login).and_return('secretToken')
     allow(OneviewSDK::SSLHelper).to receive(:load_trusted_certs).and_return(nil)
 
@@ -123,6 +123,10 @@ RSpec.shared_context 'chef context', a: :b do
     OneviewSDK::Client.new(url: 'https://oneview.example.com', user: 'Administrator', password: 'secret123', api_version: 2600)
   end
 
+  let(:client2800) do
+    OneviewSDK::Client.new(url: 'https://oneview.example.com', user: 'Administrator', password: 'secret123', api_version: 2800)
+  end
+
   let(:i3s_client300) do
     OneviewSDK::ImageStreamer::Client.new(url: 'https://i3s.example.com', token: 'token123', api_version: 300)
   end
@@ -157,5 +161,9 @@ RSpec.shared_context 'chef context', a: :b do
 
   let(:i3s_client2010) do
     OneviewSDK::ImageStreamer::Client.new(url: 'https://i3s.example.com', token: 'token123', api_version: 2010)
+  end
+
+  let(:i3s_client2020) do
+    OneviewSDK::ImageStreamer::Client.new(url: 'https://i3s.example.com', token: 'token123', api_version: 2020)
   end
 end
