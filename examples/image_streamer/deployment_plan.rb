@@ -21,6 +21,7 @@ oneview_client = {
 i3s_client = {
   url: ENV['I3S_URL'],
   oneview_client: oneview_client,
+  ssl_enabled: false,
   api_version: 2020
 }
 
