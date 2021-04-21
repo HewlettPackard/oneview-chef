@@ -21,7 +21,7 @@ oneview_client = {
 i3s_client = {
   url: ENV['I3S_URL'],
   oneview_client: oneview_client,
-  api_version: 2010
+  api_version: 2020
 }
 
 # Creates the artifact bundle and assigns resources to it.
