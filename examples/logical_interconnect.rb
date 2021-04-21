@@ -21,7 +21,7 @@ my_client = {
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
   api_variant: 'Synergy',
-  api_version: 2600
+  api_version: 2800
 }
 
 # No action
