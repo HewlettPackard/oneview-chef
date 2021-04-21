@@ -46,7 +46,7 @@ oneview_fc_network 'Fc1' do
   action :create_if_missing
 end
 
-# This examples works only from API2800
+# This examples works only from API1800
 # Example: Bulk deletes fc networks.
 oneview_fc_network 'None' do
   client my_client
@@ -55,7 +55,7 @@ oneview_fc_network 'None' do
      networkUris: [ test1['uri'] ]
   )
   action :delete_bulk
-  only_if { client[:api_version] >= 2800 }
+  only_if { client[:api_version] >= 1800 }
 end
 
 # Example: Adds 'Fc1' to 'Scope1' and 'Scope2'

@@ -49,7 +49,7 @@ oneview_ethernet_network 'Eth1' do
   action :create_if_missing
 end
 
-# Only for API2800 or greater
+# Only for API1800 or greater
 # Example: Bulk deletes ethernet networks.
 oneview_ethernet_network 'None' do
   client my_client
@@ -59,7 +59,7 @@ oneview_ethernet_network 'None' do
      networkUris: [ test1['uri'], test['uri'] ]
   )
   action :delete_bulk
-  only_if { client[:api_version] >= 2800 }
+  only_if { client[:api_version] >= 1800 }
 end
 
 # Only for V300 and V500
