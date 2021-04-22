@@ -5,7 +5,7 @@
 OV Version | 6.10 | 6.00 | 5.60 | 5.50 |
 | ------------- |:-------------:| -------------:| -------------:| -------------:|
 SDK Version/Tag | [v6.1.0](https://github.com/HewlettPackard/oneview-chef/releases/tag/v6.0.0) | [v6.0.0](https://github.com/HewlettPackard/oneview-chef/releases/tag/v6.0.0) | [v3.8.0](https://github.com/HewlettPackard/oneview-chef/releases/tag/v3.8.0) | [v3.7.0](https://github.com/HewlettPackard/oneview-chef/releases/tag/v3.7.0) |
-Build Status | [![Build status](https://ci.appveyor.com/api/projects/status/u84505l6syp70013?svg=true)](https://travis-ci.org/github/HewlettPackard/oneview-chef/builds/767953861)| [![Build status] (https://ci.appveyor.com/api/projects/status/u84505l6syp70013?svg=true)](https://travis-ci.org/github/HewlettPackard/oneview-chef/builds/762275325)| [![Build status](https://ci.appveyor.com/api/projects/status/u84505l6syp70013?svg=true)](https://travis-ci.org/github/HewlettPackard/oneview-chef/builds/758660240)| ![Build status](https://ci.appveyor.com/api/projects/status/u84505l6syp70013?svg=true)|
+Build Status | [![Build status](https://api.travis-ci.org/HewlettPackard/oneview-chef.svg?branch=master&status=passed)](https://travis-ci.org/github/HewlettPackard/oneview-chef/builds/767953861)| [![Build status](https://api.travis-ci.org/HewlettPackard/oneview-chef.svg?branch=master&status=passed)](https://travis-ci.org/github/HewlettPackard/oneview-chef/builds/762275325)| [![Build status](https://api.travis-ci.org/HewlettPackard/oneview-chef.svg?branch=master&status=passed)](https://travis-ci.org/github/HewlettPackard/oneview-chef/builds/758660240)| ![Build status](https://api.travis-ci.org/HewlettPackard/oneview-chef.svg?branch=master&status=passed)|
 
 ## Introduction
 
