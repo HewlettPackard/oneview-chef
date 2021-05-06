@@ -2,10 +2,10 @@
 
 ## Build Status 
 
-OV Version | 6.00 | 5.60 | 5.50 | 5.40 |
+OV Version | 6.10 | 6.00 | 5.60 | 5.50 |
 | ------------- |:-------------:| -------------:| -------------:| -------------:|
-SDK Version/Tag | [v6.0.0](https://github.com/HewlettPackard/oneview-chef/releases/tag/v6.0.0) | [v3.8.0](https://github.com/HewlettPackard/oneview-chef/releases/tag/v3.8.0) | [v3.7.0](https://github.com/HewlettPackard/oneview-chef/releases/tag/v3.7.0) | [v3.6.0](https://github.com/HewlettPackard/oneview-chef/releases/tag/v3.6.0) |
-Build Status | ![Build status](https://ci.appveyor.com/api/projects/status/u84505l6syp70013?svg=true)| ![Build status](https://ci.appveyor.com/api/projects/status/u84505l6syp70013?svg=true)| ![Build status](https://ci.appveyor.com/api/projects/status/u84505l6syp70013?svg=true)| ![Build status](https://ci.appveyor.com/api/projects/status/u84505l6syp70013?svg=true)|
+SDK Version/Tag | [v6.1.0](https://github.com/HewlettPackard/oneview-chef/releases/tag/v6.1.0) | [v6.0.0](https://github.com/HewlettPackard/oneview-chef/releases/tag/v6.0.0) | [v3.8.0](https://github.com/HewlettPackard/oneview-chef/releases/tag/v3.8.0) | [v3.7.0](https://github.com/HewlettPackard/oneview-chef/releases/tag/v3.7.0) |
+Build Status | [![Build status](https://api.travis-ci.org/HewlettPackard/oneview-chef.svg?branch=master&status=passed)](https://travis-ci.org/github/HewlettPackard/oneview-chef/builds/767953861)| [![Build status](https://api.travis-ci.org/HewlettPackard/oneview-chef.svg?branch=master&status=passed)](https://travis-ci.org/github/HewlettPackard/oneview-chef/builds/762275325)| [![Build status](https://api.travis-ci.org/HewlettPackard/oneview-chef.svg?branch=master&status=passed)](https://travis-ci.org/github/HewlettPackard/oneview-chef/builds/758660240)| ![Build status](https://api.travis-ci.org/HewlettPackard/oneview-chef.svg?branch=master&status=passed)|
 
 ## Introduction
 
@@ -15,7 +15,7 @@ The HPE OneView Chef SDK enables developers to easily build integrations and sca
 
 ## What's New
 
-HPE OneView Chef library extends support of the SDK to OneView REST API version 2600 (OneView v6.00)
+HPE OneView Chef library extends support of the SDK to OneView REST API version 2800 (OneView v6.10)
 
 Please refer to [notes](https://github.com/HewlettPackard/oneview-chef/blob/master/CHANGELOG.md) for more information on the changes , features supported and issues fixed in this version
 
@@ -36,10 +36,10 @@ The light weight containerized version of the HPE OneView SDK for Chef is availa
 ```bash
 # Download and store a local copy of oneview-chef and
 # use it as a Docker image.
-$ docker pull hewlettpackardenterprise/hpe-oneview-sdk-for-chef:v6.0.0-OV6.0
+$ docker pull hewlettpackardenterprise/hpe-oneview-sdk-for-chef:v6.1.0-OV6.1
 # Run docker commands below given, which  will in turn create
 # a sh session where you can create files, issue commands and execute the recipes.
-$ docker run -it hewlettpackardenterprise/hpe-oneview-sdk-for-chef:v6.0.0-OV6.0 /bin/sh
+$ docker run -it hewlettpackardenterprise/hpe-oneview-sdk-for-chef:v6.1.0-OV6.1 /bin/sh
 ```
 
 ## Local Setup for oneview-chef
@@ -57,7 +57,7 @@ $ cd oneview
 
 ### Local installation requires the gem in your Gemfile:
   ```ruby
-  gem 'oneview-sdk', '~> 6.0.0'
+  gem 'oneview-sdk', '~> 6.1.0'
   ```
 ### Install Chef Sdk dependencies from Gemfile
 
@@ -70,7 +70,7 @@ The cookbook 'metadata' is not intended to include any recipes instead specifies
 
 ```ruby
 # my_cookbook/metadata.rb
-depends 'oneview', '~> 6.0.0'
+depends 'oneview', '~> 6.1.0'
 ```
 
 ## Credentials
@@ -116,7 +116,7 @@ my_client = {
   url: 'https://example.com',
   user: 'username',
   password: 'password',
-  api_version: 2600
+  api_version: 2800
 }
 ```
 
@@ -130,7 +130,7 @@ The following are the standard properties available for all resources. Some reso
 ```ruby
 oneview_ethernet_network 'Eth1' do
   client my_client
-  api_version 2600
+  api_version 2800
   api_variant 'Synergy'
   data(
     vlanId: 1001,
