@@ -16,7 +16,7 @@ license          'Apache-2.0'
 description      'Provides HPE OneView & Image Streamer resources'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 
-version          '6.1.0'
+version          '6.2.0'
 
 source_url       'https://github.com/HewlettPackard/oneview-chef'
 issues_url       'https://github.com/HewlettPackard/oneview-chef/issues'

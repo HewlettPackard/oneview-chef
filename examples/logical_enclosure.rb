@@ -14,7 +14,7 @@ my_client = {
   user: ENV['ONEVIEWSDK_USER'],
   password: ENV['ONEVIEWSDK_PASSWORD'],
   variant: 'Synergy',
-  api_version: 2800
+  api_version: 3000
 }
 
 # Example: Create a logical enclosure if it's missing
