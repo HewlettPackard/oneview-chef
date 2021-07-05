@@ -1,4 +1,4 @@
-## 6.2.0(unreleased)
+## 6.2.0
 ### Notes
 - This release extends support of the SDK to OneView REST API version 3000 (OneView v6.20).
 
